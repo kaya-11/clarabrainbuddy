@@ -1,0 +1,19 @@
+//
+//  Models/Todo.swift
+//  Clara - Your Buddy for your Brain Chaos
+//
+//  Created by Karen on 17.03.25.
+//
+import Foundation
+
+struct Todo: Identifiable, Codable, Hashable {
+    let id : UUID
+    var title: String
+    var details: String?
+    var dueDate: Date?
+    var estimatedTime: Int? // in minutes
+    var isSelectedForToday: Bool = false
+    var isDone: Bool = false
+    var createdAt = Date()
+    var updatedAt = Date()
+}
