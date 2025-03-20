@@ -1,0 +1,11 @@
+"navigation.alltodos" = "All Todos";
+"navigation.today" = "Today";
+"navigation.recurringtasks" = "Recurring Tasks";
+"title.alltodos" = "All Todos";
+"title.today" = "Today";
+"title.recurringtasks" = "Recurring Tasks";
+"message.no.todos.today" = "No todos for today";
+"message.todos.picked.today" = "Todos picked for today";
+"message.recurring.tasks.today" = "Recurring tasks today";
+"message.estimated.time" = "Estimated time";
+"message.estimated.time.unit" = "min";

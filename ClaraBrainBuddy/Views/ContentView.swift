@@ -8,23 +8,30 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var viewModel = TodoViewModel()
+    @StateObject private var todoViewModel = TodoViewModel()
     @StateObject private var taskViewModel = TaskViewModel()
+    
+    @State private var selectedTab: Int = 1 // Set the default tab to the middle one
+    
+    let allTodosNavString = NSLocalizedString("navigation.alltodos", comment: "Navigation All Todos")
+    let todayNavString = NSLocalizedString("navigation.today", comment: "Navigation Today")
+    let recurringTasksNavString = NSLocalizedString("navigation.recurringtasks", comment: "Navigation Recurring Tasks")
 
     var body: some View {
-        TabView {
-            TodoListView(todoViewModel: viewModel)
+        TabView(selection: $selectedTab) {
+            TodoListView(todoViewModel: todoViewModel)
                 .tabItem {
-                    Label("All Todos", systemImage: "list.bullet")
-                }
-            TodaysListView(todoViewModel: viewModel)
+                    Label(allTodosNavString, systemImage: "list.bullet")
+                }.tag(0)
+            TodaysListView(todoViewModel: todoViewModel, taskViewModel: taskViewModel)
                 .tabItem {
-                    Label("Today's Todos", systemImage: "calendar")
-                }
+                    Label(todayNavString, systemImage: "calendar")
+                }.tag(1)
             RecurringTaskListView(taskViewModel: taskViewModel)
                 .tabItem {
-                    Label("Recurring Tasks", systemImage: "checklist")
-                }
+                    Label(recurringTasksNavString, systemImage: "checklist")
+                }.tag(2)
         }
     }
+
 }

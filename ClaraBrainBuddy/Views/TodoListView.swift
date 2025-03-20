@@ -19,52 +19,59 @@ struct TodoListView: View {
     var body: some View {
       
         NavigationView {
-            List {
-                ForEach(todoViewModel.allTodos, id: \.self) { todo in
-                    Text(todo.title)
-                        .strikethrough(todo.isDone, color: .primary)
-                        .italic(todo.isSelectedForToday)
-                        .onTapGesture(count: 2) {
-                            selectedTodo = todo
-                            showingEditTodo = true
-                        }
-                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            Button(role: .destructive) {
-                                todoViewModel.deleteTodo(todo)
-                            } label: {
-                                Label("Delete", systemImage: "trash")
-                            }.tint(.red)
-                        }
-                        .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                            Button {
-                                todoViewModel.selectForToday(todo)
-                            } label: {
-                                Label("Today", systemImage: "calendar")
-                            }.tint(.blue)
-                            Button {
+            VStack {
+                List {
+                    ForEach(todoViewModel.allTodos, id: \.self) { todo in
+                        Text(todo.title)
+                            .strikethrough(todo.isDone, color: .primary)
+                            .italic(todo.isSelectedForToday)
+                            .onTapGesture(count: 2) {
                                 selectedTodo = todo
                                 showingEditTodo = true
-                            } label: {
-                                Label("Edit", systemImage: "pencil")
-                            }.tint(.green)
-                        }
+                            }
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                Button(role: .destructive) {
+                                    todoViewModel.deleteTodo(todo)
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }.tint(.red)
+                            }
+                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                                Button {
+                                    todoViewModel.selectForToday(todo)
+                                } label: {
+                                    Label("Today", systemImage: "calendar")
+                                }.tint(.blue)
+                                Button {
+                                    selectedTodo = todo
+                                    showingEditTodo = true
+                                } label: {
+                                    Label("Edit", systemImage: "pencil")
+                                }.tint(.green)
+                            }
+                            .foregroundColor(Colors.listText)
+                            .listRowBackground(Colors.listBackground)
+                    }
+                    .onMove(perform: move)
                 }
-                .onMove(perform: move)
+                .scrollContentBackground(.hidden) // Hide the default background
+                .backgroundStyle()                // Apply your custom background style
+                .navigationTitle("All Todos")
+                .navigationBarItems(
+                    leading: EditButton(),
+                    trailing: Button(action: {
+                        showingAddTodo = true
+                    }) {
+                        Image(systemName: "plus")
+                    })
+                .sheet(isPresented: $showingAddTodo) {
+                    TodoFormView(todoViewModel: todoViewModel, existingTodo: nil)
+                }
+                .sheet(isPresented: $showingEditTodo) {
+                    TodoFormView(todoViewModel: todoViewModel, existingTodo: selectedTodo)
+                }
             }
-            .navigationTitle("All Todos")
-            .navigationBarItems(
-                leading: EditButton(),
-                trailing: Button(action: {
-                    showingAddTodo = true
-                }) {
-                    Image(systemName: "plus")
-                })
-            .sheet(isPresented: $showingAddTodo) {
-                TodoFormView(todoViewModel: todoViewModel, existingTodo: nil)
-            }
-            .sheet(isPresented: $showingEditTodo) {
-                TodoFormView(todoViewModel: todoViewModel, existingTodo: selectedTodo)
-            }
+            .backgroundStyle()
         }
     }
     

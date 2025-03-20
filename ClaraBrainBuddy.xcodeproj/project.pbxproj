@@ -29,9 +29,30 @@
 		9C999B232D8A088B00ED77C4 /* ClaraBrainBuddyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClaraBrainBuddyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		9C92D19D2D8CB19C005AADB6 /* Exceptions for "ClaraBrainBuddy" folder in "ClaraBrainBuddyTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"/Localized: Localizable.strings",
+			);
+			target = 9CA28D652D88B307001245CF /* ClaraBrainBuddyTests */;
+		};
+		9C92D19E2D8CB19C005AADB6 /* Exceptions for "ClaraBrainBuddy" folder in "ClaraBrainBuddyUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"/Localized: Localizable.strings",
+			);
+			target = 9CA28D6F2D88B307001245CF /* ClaraBrainBuddyUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		9CA28D582D88B306001245CF /* ClaraBrainBuddy */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				9C92D19D2D8CB19C005AADB6 /* Exceptions for "ClaraBrainBuddy" folder in "ClaraBrainBuddyTests" target */,
+				9C92D19E2D8CB19C005AADB6 /* Exceptions for "ClaraBrainBuddy" folder in "ClaraBrainBuddyUITests" target */,
+			);
 			path = ClaraBrainBuddy;
 			sourceTree = "<group>";
 		};
@@ -183,7 +204,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
+				de,
 			);
 			mainGroup = 9CA28D4D2D88B306001245CF;
 			minimizedProjectReferenceProxies = 1;

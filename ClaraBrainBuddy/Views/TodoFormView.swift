@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct TodoFormView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -16,7 +17,7 @@ struct TodoFormView: View {
 
     @State private var title: String = ""
     @State private var details: String = ""
-    @State private var dueDate: Date = Date()
+    @State private var dueDate: Date = Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
     @State private var estimatedTime: Int?
 
 
@@ -70,7 +71,7 @@ struct TodoFormView: View {
                     details = todo.details ?? ""
                     dueDate = todo.dueDate ?? Date()
                     estimatedTime = todo.estimatedTime
-                }
+                } 
             }
             
         }

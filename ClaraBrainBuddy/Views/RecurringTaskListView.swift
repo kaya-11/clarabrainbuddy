@@ -18,45 +18,53 @@ struct RecurringTaskListView: View {
     var body: some View {
       
         NavigationView {
-            List {
-                ForEach(taskViewModel.allRecurringTasks, id: \.self) { task in
-                    Text(task.title)
-                        .onTapGesture(count: 2) {
-                            selectedTask = task
-                            showingEditTask = true
-                        }
-                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            Button(role: .destructive) {
-                                taskViewModel.deleteRecurringTask(task)
-                            } label: {
-                                Label("Delete", systemImage: "trash")
-                            }.tint(.red)
-                        }
-                        .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                            Button {
+            VStack {
+                List {
+                    ForEach(taskViewModel.allRecurringTasks, id: \.self) { task in
+                        Text(task.title)
+                            .onTapGesture(count: 2) {
                                 selectedTask = task
                                 showingEditTask = true
-                            } label: {
-                                Label("Edit", systemImage: "pencil")
-                            }.tint(.green)
-                        }
+                            }
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                Button(role: .destructive) {
+                                    taskViewModel.deleteRecurringTask(task)
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }.tint(.red)
+                            }
+                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                                Button {
+                                    selectedTask = task
+                                    showingEditTask = true
+                                } label: {
+                                    Label("Edit", systemImage: "pencil")
+                                }.tint(.green)
+                            }
+                            .foregroundColor(Colors.listText)
+                            .listRowBackground(Colors.listBackground)
+                    }
+                    .onMove(perform: move)
                 }
-                .onMove(perform: move)
+                .scrollContentBackground(.hidden) // Hide the default background
+                .backgroundStyle()
+                .navigationTitle("All Recurring Tasks")
+                .navigationBarItems(
+                    leading: EditButton(),
+                    trailing: Button(action: {
+                        showingAddTask = true
+                    }) {
+                        Image(systemName: "plus")
+                    })
+                .sheet(isPresented: $showingAddTask) {
+                    RecurringTaskFormView(taskViewModel: taskViewModel, existingTask: nil)
+                }
+                .sheet(isPresented: $showingEditTask) {
+                    RecurringTaskFormView(taskViewModel: taskViewModel, existingTask: selectedTask)
+                }
             }
-            .navigationTitle("All Recurring Tasks")
-            .navigationBarItems(
-                leading: EditButton(),
-                trailing: Button(action: {
-                    showingAddTask = true
-                }) {
-                    Image(systemName: "plus")
-                })
-            .sheet(isPresented: $showingAddTask) {
-                RecurringTaskFormView(taskViewModel: taskViewModel, existingTask: nil)
-            }
-            .sheet(isPresented: $showingEditTask) {
-                RecurringTaskFormView(taskViewModel: taskViewModel, existingTask: selectedTask)
-            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .backgroundStyle()
         }
     }
     

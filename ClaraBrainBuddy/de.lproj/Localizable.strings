@@ -1,0 +1,11 @@
+"navigation.alltodos" = "Alle ToDo's";
+"navigation.today" = "Heute";
+"navigation.recurringtasks" = "Wiederkehrende Ausgaben";
+"title.alltodos" = "Alle ToDo's";
+"title.today" = "Heute";
+"title.recurringtasks" = "Wiederkehrende Ausgaben";
+"message.no.todos.today" = "Keine Aufgaben für heute geplant";
+"message.todos.picked.today" = "Für heute geplante Aufgaben";
+"message.recurring.tasks.today" = "Wiederkehrende Aufgaben heute";
+"message.estimated.timer" = "Geschätzte Zeit";
+"message.estimated.time.unit" = " min";
