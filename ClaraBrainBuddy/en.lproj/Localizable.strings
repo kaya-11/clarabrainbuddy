@@ -21,3 +21,16 @@
 "add.todo.label" = "Add New Todo";
 "edit.todo.save.label" = "Add Todo";
 "add.todo.save.label" = "Save Changes";
+"random.todo.popup.title" = "What would you like to do?";
+"random.todo.popup.explanation.swipe.left" = "Swipe left to delete.";
+"random.todo.popup.explanation.swipe.right" = "Swipe right to keep, but prioritize lower.";
+"random.todo.popup.explanation.tab" = "Or tap to select for today.";
+"random.todo.popup.no.todo.available" = "No todos available...";
+"edit.label" = "Edit";
+"delete.label" = "Delete";
+"today.label" = "Today";
+
+
+
+
+

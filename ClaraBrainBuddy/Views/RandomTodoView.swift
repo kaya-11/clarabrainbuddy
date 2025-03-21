@@ -13,20 +13,26 @@ struct RandomTodoView: View {
     
     @Binding var isPresented: Bool
     
+    let title = NSLocalizedString("random.todo.popup.title", comment: "What would you like to do?")
+    let swipeLeftLabel = NSLocalizedString("random.todo.popup.explanation.swipe.left", comment: "Swipe left to delete.")
+    let swipeRightLabel = NSLocalizedString("random.todo.popup.explanation.swipe.right", comment: "Swipe right to keep, but prioritize lower.")
+    let tapToSelectLabel = NSLocalizedString("random.todo.popup.explanation.tab", comment: "Or tap to select for today.")
+    let noTodosLabel = NSLocalizedString("random.todo.popup.no.todo.available", comment: "No todos available...")
+    
     var body: some View {
         VStack {
-            Text("What would you like to do?")
+            Text(title)
                 .font(Font.app.title)
                 .foregroundColor(Color.theme.white)
                 .padding(.top)
             
             VStack {
                 
-                Text("Swipe left to delete.")
+                Text(swipeLeftLabel)
                 
-                Text("Swipe right to keep, but prioritize lower.")
+                Text(swipeRightLabel)
                 
-                Text("Or tap to select for today.")
+                Text(tapToSelectLabel)
 
                     
             }
@@ -46,7 +52,7 @@ struct RandomTodoView: View {
                     .shadow(radius: 10)
                     .padding()
                     .onTapGesture {
-                        todoViewModel.handleTap(randomTodo)
+                        todoViewModel.moveToTheTop(randomTodo)
                         isPresented = false
                     }
                     .gesture(
@@ -63,7 +69,7 @@ struct RandomTodoView: View {
                             }
                     )
             } else {
-                Text("No todos available")
+                Text(noTodosLabel)
                     .font(Font.app.title)
                     .foregroundColor(Color.theme.primary)
             }

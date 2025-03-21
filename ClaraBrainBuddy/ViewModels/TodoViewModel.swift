@@ -100,7 +100,7 @@ class TodoViewModel: ObservableObject {
         }
     }
 
-    func handleTap(_ todo: Todo) {
+    func moveToTheTop(_ todo: Todo) {
         selectForToday(todo)
         if let index = allTodos.firstIndex(of: todo) {
             allTodos.remove(at: index)

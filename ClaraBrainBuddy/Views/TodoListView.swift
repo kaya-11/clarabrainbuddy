@@ -17,6 +17,9 @@ struct TodoListView: View {
     @State private var selectedTodo: Todo? = nil
     
     let title = NSLocalizedString("title.alltodos", comment: "All Todos")
+    let editLabel = NSLocalizedString("edit.label", comment: "Edit")
+    let deleteLabel = NSLocalizedString("delete.label", comment: "Delete")
+    let todayLabel = NSLocalizedString("today.label", comment: "Today")
     
     var body: some View {
       
@@ -35,20 +38,20 @@ struct TodoListView: View {
                                 Button(role: .destructive) {
                                     todoViewModel.deleteTodo(todo)
                                 } label: {
-                                    Label("Delete", systemImage: "trash")
+                                    Label(deleteLabel, systemImage: "trash")
                                 }.tint(.red)
                             }
                             .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                 Button {
                                     todoViewModel.selectForToday(todo)
                                 } label: {
-                                    Label("Today", systemImage: "calendar")
+                                    Label(todayLabel, systemImage: "calendar")
                                 }.tint(.blue)
                                 Button {
                                     selectedTodo = todo
                                     showingEditTodo = true
                                 } label: {
-                                    Label("Edit", systemImage: "pencil")
+                                    Label(editLabel, systemImage: "pencil")
                                 }.tint(.green)
                             }
                             .foregroundColor(Color.theme.listText)
