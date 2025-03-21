@@ -11,7 +11,6 @@ class TodoViewModel: ObservableObject {
     private let todoManager = TodoManager()
     @Published var allTodos: [Todo] = []
     @Published var todayTodos: [TodayTodo] = []
-    @Published var randomTodo: Todo?
 
     init() {
         allTodos = todoManager.loadTodos()
@@ -86,9 +85,28 @@ class TodoViewModel: ObservableObject {
     func updateTodos() {
         todoManager.saveTodos(allTodos)
     }
+    
+    func randomTodo() -> Todo? {
+        return allTodos.randomElement()
+    }
 
-    func selectDailyTodo() {
-        randomTodo = allTodos.randomElement()
+    func moveTodoOneDown(_ todo: Todo) {
+        guard let currentIndex = allTodos.firstIndex(of: todo) else { return }
+
+        let newIndex = currentIndex + 1
+        if newIndex < allTodos.count {
+            allTodos.swapAt(currentIndex, newIndex)
+            updateTodos()
+        }
+    }
+
+    func handleTap(_ todo: Todo) {
+        selectForToday(todo)
+        if let index = allTodos.firstIndex(of: todo) {
+            allTodos.remove(at: index)
+            allTodos.insert(todo, at: 0)
+            updateTodos()
+        }
     }
 
 }
