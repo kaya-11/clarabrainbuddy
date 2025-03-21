@@ -1,5 +1,5 @@
 //
-//  Modifiers/BackgroundStyle.swift
+//  Extensions/BackgroundStyle.swift
 //  ClaraBrainBuddy
 //
 //  Created by Karen on 20.03.25.
@@ -10,7 +10,10 @@ import SwiftUI
 struct BackgroundStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .background(Colors.background)
+            .scrollContentBackground(.hidden)
+            .foregroundColor(Color.theme.primary)
+            .accentColor(Color.theme.accent)
+            .background(Color.theme.background)
     }
 }
 
@@ -19,3 +22,5 @@ extension View {
         self.modifier(BackgroundStyle())
     }
 }
+
+

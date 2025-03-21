@@ -63,9 +63,16 @@ struct RecurringTaskFormView: View {
                 }) {
                     Text(existingTask == nil ? "Add Todo" : "Save Changes")
                 }
-                .disabled(title.trimmingCharacters(in: .whitespaces).isEmpty)
+                .font(Font.app.button)
             }
-            .navigationTitle(existingTask == nil ? "Add New Recurring Task" : "Edit Recurring Task")
+            .backgroundStyle()
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(existingTask == nil ? "Add New Recurring Task" : "Edit Recurring Task")
+                        .foregroundColor(Color.theme.primary)
+                        .font(Font.app.title)
+                }
+            }
             .onAppear {
                 loadTask()
             }

@@ -9,3 +9,15 @@
 "message.recurring.tasks.today" = "Wiederkehrende Aufgaben heute";
 "message.estimated.timer" = "Geschätzte Zeit";
 "message.estimated.time.unit" = " min";
+"edit.todo.title.label" = "Titel *";
+"edit.todo.title.tooltip" = "Titel eingeben";
+"edit.todo.details.label" = "Details";
+"edit.todo.duedate.label" = "Fälligkeit";
+"edit.todo.duedate.tooltip" = "Fälligkeitsdatum auswählen";
+"edit.todo.estimatedtime.label" = "Geschätzte Zeit (in Minuten)";
+"edit.todo.estimatedtime.tooltip" = "z.B., 30";
+"edit.todo.isdone.label" = "Fertig";
+"edit.todo.label" = "Todo editieren";
+"add.todo.label" = "Neuen Todo hinzufügen";
+"edit.todo.save.label" = "Todo hinzufügen";
+"add.todo.save.label" = "Änderungen speichern";

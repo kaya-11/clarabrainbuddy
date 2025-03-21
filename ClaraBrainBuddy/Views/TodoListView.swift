@@ -16,6 +16,8 @@ struct TodoListView: View {
     @State private var showingEditTodo = false
     @State private var selectedTodo: Todo? = nil
     
+    let title = NSLocalizedString("title.alltodos", comment: "All Todos")
+    
     var body: some View {
       
         NavigationView {
@@ -49,21 +51,12 @@ struct TodoListView: View {
                                     Label("Edit", systemImage: "pencil")
                                 }.tint(.green)
                             }
-                            .foregroundColor(Colors.listText)
-                            .listRowBackground(Colors.listBackground)
+                            .foregroundColor(Color.theme.listText)
+                            .listRowBackground(Color.theme.listBackground)
+                            .font(Font.app.listItem)
                     }
                     .onMove(perform: move)
                 }
-                .scrollContentBackground(.hidden) // Hide the default background
-                .backgroundStyle()                // Apply your custom background style
-                .navigationTitle("All Todos")
-                .navigationBarItems(
-                    leading: EditButton(),
-                    trailing: Button(action: {
-                        showingAddTodo = true
-                    }) {
-                        Image(systemName: "plus")
-                    })
                 .sheet(isPresented: $showingAddTodo) {
                     TodoFormView(todoViewModel: todoViewModel, existingTodo: nil)
                 }
@@ -71,7 +64,31 @@ struct TodoListView: View {
                     TodoFormView(todoViewModel: todoViewModel, existingTodo: selectedTodo)
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .backgroundStyle()
+            .toolbar {
+                ToolbarItem(placement: .navigation) {
+                    Image("Clara")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 55, height: 55)
+                }
+                ToolbarItem(placement: .principal) {
+                    Text(title)
+                        .foregroundColor(Color.theme.primary)
+                        .font(Font.app.title)
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    EditButton()
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        showingAddTodo = true
+                    }) {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
         }
     }
     
