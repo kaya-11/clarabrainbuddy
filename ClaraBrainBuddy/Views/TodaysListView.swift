@@ -152,9 +152,6 @@ struct TodaysListView: View {
                         .foregroundColor(Color.theme.primary)
                         .font(Font.app.title)
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
             }
             .sheet(isPresented: $showingEditTodo) {
                            TodoFormView(todoViewModel: todoViewModel, existingTodo: selectedTodo)

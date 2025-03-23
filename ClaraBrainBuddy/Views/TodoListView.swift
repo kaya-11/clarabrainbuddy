@@ -82,9 +82,6 @@ struct TodoListView: View {
                         .font(Font.app.title)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         showingAddTodo = true
                     }) {
