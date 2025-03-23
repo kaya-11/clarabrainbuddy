@@ -28,13 +28,18 @@ struct RandomTodoView: View {
             
             VStack {
                 
-                Text(swipeLeftLabel)
+                Text("<< \(swipeLeftLabel)")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, 24)
                 
-                Text(swipeRightLabel)
-                
-                Text(tapToSelectLabel)
+                Text(">> \(swipeRightLabel)")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, 24)
 
-                    
+                Text(tapToSelectLabel)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, 24)
+                
             }
             .font(Font.app.normal)
             .foregroundColor(Color.theme.white)

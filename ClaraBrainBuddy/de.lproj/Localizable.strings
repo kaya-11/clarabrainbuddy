@@ -22,9 +22,9 @@
 "edit.todo.save.label" = "Todo hinzufügen";
 "add.todo.save.label" = "Änderungen speichern";
 "random.todo.popup.title" = "Was möchten Sie tun?";
-"random.todo.popup.explanation.swipe.left" = "Nach links wischen, um zu löschen.";
-"random.todo.popup.explanation.swipe.right" = "Nach rechts wischen, um zu behalten, aber weniger zu priorisieren.";
-"random.todo.popup.explanation.tab" = "Oder tippen, um für heute auszuwählen.";
+"random.todo.popup.explanation.swipe.left" = "Zum Löschen nach links wischen.";
+"random.todo.popup.explanation.swipe.right" = "Zum Behalten aber Runterpriosisieren nach rechts wischen.";
+"random.todo.popup.explanation.tab" = "Oder antippen, um für heute auszuwählen.";
 "random.todo.popup.no.todo.available" = "Keine Aufgaben verfügbar...";
 "edit.label" = "Bearbeiten";
 "delete.label" = "Löschen";
