@@ -19,6 +19,7 @@
 "edit.todo.isdone.label" = "Done";
 "edit.todo.label" = "Edit Todo";
 "add.todo.label" = "Add New Todo";
+"add.todo.for.today.label" = "Add New Todo For Today";
 "edit.todo.save.label" = "Add Todo";
 "add.todo.save.label" = "Save Changes";
 "random.todo.popup.title" = "What would you like to do?";

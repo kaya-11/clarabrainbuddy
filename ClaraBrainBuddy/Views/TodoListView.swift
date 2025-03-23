@@ -85,7 +85,7 @@ struct TodoListView: View {
                     Button(action: {
                         showingAddTodo = true
                     }) {
-                        Image(systemName: "plus")
+                        Image(systemName: "plus.circle")
                     }
                 }
             }

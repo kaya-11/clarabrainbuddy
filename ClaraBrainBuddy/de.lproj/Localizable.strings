@@ -19,6 +19,7 @@
 "edit.todo.isdone.label" = "Fertig";
 "edit.todo.label" = "Todo editieren";
 "add.todo.label" = "Neuen Todo hinzufügen";
+"add.todo.for.today.label" = "Neues Todo für Heute hinzufügen";
 "edit.todo.save.label" = "Todo hinzufügen";
 "add.todo.save.label" = "Änderungen speichern";
 "random.todo.popup.title" = "Was möchten Sie tun?";
@@ -29,3 +30,4 @@
 "edit.label" = "Bearbeiten";
 "delete.label" = "Löschen";
 "today.label" = "Heute";
+

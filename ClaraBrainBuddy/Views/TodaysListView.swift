@@ -11,7 +11,9 @@ struct TodaysListView: View {
     @ObservedObject var todoViewModel: TodoViewModel
     @ObservedObject var taskViewModel: TaskViewModel
 
-    @State private var showingEditTodo = false    
+    @State private var showingAddTodo = false
+    
+    @State private var showingEditTodo = false
     @State private var selectedTodo: Todo? = nil
     
     let title = NSLocalizedString("title.today", comment: "Today")
@@ -152,12 +154,21 @@ struct TodaysListView: View {
                         .foregroundColor(Color.theme.primary)
                         .font(Font.app.title)
                 }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        showingAddTodo = true
+                    }) {
+                        Image(systemName: "plus.circle")
+                    }
+            }
             }
             .sheet(isPresented: $showingEditTodo) {
-                           TodoFormView(todoViewModel: todoViewModel, existingTodo: selectedTodo)
+                TodoFormView(todoViewModel: todoViewModel, existingTodo: selectedTodo)
+            }
+            .sheet(isPresented: $showingAddTodo) {
+                TodoTodayFormView(todoViewModel: todoViewModel)
             }
         }
-        
     }
     
     func move(from source: IndexSet, to destination: Int) {

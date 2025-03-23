@@ -74,7 +74,7 @@ struct RecurringTaskListView: View {
                     Button(action: {
                         showingAddTask = true
                     }) {
-                        Image(systemName: "plus")
+                        Image(systemName: "plus.circle")
                     }
                 }
             }

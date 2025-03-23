@@ -25,6 +25,18 @@ class TodoViewModel: ObservableObject {
         todoManager.saveTodos(allTodos)
     }
     
+    func addNewTodoForToday(title: String, details: String, estimatedTime: Int?) {
+        let newTodo = Todo(
+            id: UUID(),
+            title: title,
+            details: details,
+            dueDate: Date(),
+            estimatedTime: estimatedTime
+        )
+        allTodos.insert(newTodo, at: 0)
+        selectForToday(newTodo)
+    }
+    
     func selectForToday(_ todo: Todo) {
         guard let index = allTodos.firstIndex(of: todo) else { return }
         
