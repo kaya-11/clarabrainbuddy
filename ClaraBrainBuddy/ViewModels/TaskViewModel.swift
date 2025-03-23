@@ -17,10 +17,10 @@ class TaskViewModel: ObservableObject {
     }
 
     func addRecurringTask(title: String, details: String, recurrenceRule: RecurrenceRule) {
-        
+    
         let newTask = RecurringTask(id: UUID(), title: title, details: details, recurrenceRule: recurrenceRule)
 
-        allRecurringTasks.append(newTask)
+        allRecurringTasks.insert(newTask, at: 0)
         taskManager.saveTasks(allRecurringTasks)
     }
     

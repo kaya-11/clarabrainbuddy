@@ -21,7 +21,7 @@ class TodoViewModel: ObservableObject {
         
         let newTodo = Todo(id: UUID(), title: title, details: details, dueDate: dueDate, estimatedTime: estimatedTime)
 
-        allTodos.append(newTodo)
+        allTodos.insert(newTodo, at: 0)
         todoManager.saveTodos(allTodos)
     }
     
