@@ -62,86 +62,90 @@ struct TodaysListView: View {
                         .padding()
                 } else {
                     
-                    List {
-                        Section (
-                            header:  Text("\(todosPickedForTodayMsg):")
-                                .foregroundColor(Color.theme.primary)
-                                .font(Font.app.listHeader)
-                                .textCase(.none)
-                                .padding(6)
-                        ) {
-                            ForEach(todoViewModel.todayTodos, id: \.id) { todayTodo in
-                                if let todo = todoViewModel.allTodos.first(where: { $0.id == todayTodo.todoId }) {
-                                    Text(todo.title)
-                                        .onTapGesture(count: 2) {
-                                            selectedTodo = todo
-                                            showingEditTodo = true
-                                        }
-                                        .strikethrough(todo.isDone, color: .gray)
-                                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                            Button(role: .destructive) {
-                                                todoViewModel.deselectForToday(todo)
-                                            } label: {
-                                                Label("Remove", systemImage: "minus.square")
-                                            }.tint(.orange)
-                                            Button(role: .destructive) {
-                                                todoViewModel.deleteTodo(todo)
-                                            } label: {
-                                                Label("Delete", systemImage: "trash")
-                                            }.tint(.red)
-                                        }
-                                        .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                                            Button {
-                                                todoViewModel.setToDone(todo)
-                                            } label: {
-                                                Label("Done", systemImage: "checkmark.square")
-                                            }.tint(.blue)
-                                            Button {
-                                                selectedTodo = todo
-                                                showingEditTodo = true
-                                            } label: {
-                                                Label("Done", systemImage: "pencil")
-                                            }.tint(.green)
-                                        }
-                                        .foregroundColor(Color.theme.listText)
-                                        .listRowBackground(Color.theme.listBackground)
-                                        .font(Font.app.listItem)
-                                }
-                            }
-                            .onMove(perform: move)
-                        }
-                    }
-                    .background(Color.background)
+                    Text("\(todosPickedForTodayMsg):")
+                            .foregroundColor(Color.theme.primary)
+                            .font(Font.app.listHeader)
+                            .textCase(.none)
+                            .padding(.top, 28)
+                            .padding(.bottom, -1)
                     
                     List {
-                        Section (
-                            header:  Text("\(recurringTasksTodayMsg):")
-                                .foregroundColor(Color.theme.primary)
-                                .font(Font.app.listHeader)
-                                .textCase(.none)
-                                .padding(6)
-                        ) {
-                            ForEach(recurringTasks, id: \.id) { todaysTask in
-                                Text(todaysTask.title)
+                        ForEach(todoViewModel.todayTodos, id: \.id) { todayTodo in
+                            if let todo = todoViewModel.allTodos.first(where: { $0.id == todayTodo.todoId }) {
+                                Text(todo.title)
+                                    .onTapGesture(count: 2) {
+                                        selectedTodo = todo
+                                        showingEditTodo = true
+                                    }
+                                    .strikethrough(todo.isDone, color: .gray)
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                        Button(role: .destructive) {
+                                            todoViewModel.deselectForToday(todo)
+                                        } label: {
+                                            Label("Remove", systemImage: "minus.square")
+                                        }.tint(.orange)
+                                        Button(role: .destructive) {
+                                            todoViewModel.deleteTodo(todo)
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }.tint(.red)
+                                    }
+                                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                                        Button {
+                                            todoViewModel.setToDone(todo)
+                                        } label: {
+                                            Label("Done", systemImage: "checkmark.square")
+                                        }.tint(.blue)
+                                        Button {
+                                            selectedTodo = todo
+                                            showingEditTodo = true
+                                        } label: {
+                                            Label("Done", systemImage: "pencil")
+                                        }.tint(.green)
+                                    }
                                     .foregroundColor(Color.theme.listText)
                                     .listRowBackground(Color.theme.listBackground)
                                     .font(Font.app.listItem)
                             }
                         }
+                        .onMove(perform: move)
                     }
                     .background(Color.background)
+                    .padding(.top, -1)
+                    .padding(.bottom, -1)
+                    
+                    Text("\(recurringTasksTodayMsg):")
+                        .foregroundColor(Color.theme.primary)
+                        .font(Font.app.listHeader)
+                        .textCase(.none)
+                        .padding(.top, 28)
+                        .padding(.bottom, -1)
+                    
+                    List {
+                        ForEach(recurringTasks, id: \.id) { todaysTask in
+                                Text(todaysTask.title)
+                                    .foregroundColor(Color.theme.listText)
+                                    .listRowBackground(Color.theme.listBackground)
+                                    .font(Font.app.listItem)
+                        }
+                    }
+                    .background(Color.background)
+                    .padding(.top, -1)
+                    .padding(.bottom, -1)
                     
                     if totalEstimatedTime > 0 {
                         Text("\(estimatedTimeMsg): \(totalEstimatedTime) \(estimatedTimeUnitMsg).")
                             .font(.title2)
                             .foregroundColor(totalEstimatedTime > 210 ? Color("RedColor") : Color("PrimaryColor"))
                             .fontWeight(totalEstimatedTime > 210 ? .bold : .regular)
+                            .padding(.top, 28)
                             .padding(.bottom, 28)
                     }
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .backgroundStyle()
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigation) {
                     Image("Clara")
@@ -160,7 +164,7 @@ struct TodaysListView: View {
                     }) {
                         Image(systemName: "plus.circle")
                     }
-            }
+                }
             }
             .sheet(isPresented: $showingEditTodo) {
                 TodoFormView(todoViewModel: todoViewModel, existingTodo: selectedTodo)

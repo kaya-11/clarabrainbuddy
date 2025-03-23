@@ -89,6 +89,8 @@ struct TodoListView: View {
                     }
                 }
             }
+            .toolbarBackground(Color.theme.background, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
         }
     }
     

@@ -78,6 +78,8 @@ struct RecurringTaskListView: View {
                     }
                 }
             }
+            .toolbarBackground(Color.theme.background, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
         }
     }
     
