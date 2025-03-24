@@ -25,6 +25,10 @@ class TodoViewModel: ObservableObject {
         todoManager.saveTodos(allTodos)
     }
     
+    func addRecurringTaskAsTodoForToday(_ recurringTask: RecurringTask) {
+        addNewTodoForToday(title: recurringTask.title, details: recurringTask.details ?? "", estimatedTime: nil)
+    }
+    
     func addNewTodoForToday(title: String, details: String, estimatedTime: Int?) {
         let newTodo = Todo(
             id: UUID(),

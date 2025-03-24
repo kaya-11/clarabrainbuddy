@@ -124,6 +124,13 @@ struct TodaysListView: View {
                     List {
                         ForEach(recurringTasks, id: \.id) { todaysTask in
                                 Text(todaysTask.title)
+                                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                                        Button {
+                                            todoViewModel.addRecurringTaskAsTodoForToday(todaysTask)
+                                        } label: {
+                                            Label("Add to Today", systemImage: "plus.square")
+                                        }.tint(.green)
+                                    }
                                     .foregroundColor(Color.theme.listText)
                                     .listRowBackground(Color.theme.listBackground)
                                     .font(Font.app.listItem)
