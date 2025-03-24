@@ -49,7 +49,7 @@ struct ContentView: View {
         }
         .onAppear {
             // Optionally, set a timer to hide the RandomTodoView after a certain duration
-            DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                 withAnimation {
                     showRandomTodoView = false
                 }
