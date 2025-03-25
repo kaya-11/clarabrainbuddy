@@ -111,6 +111,7 @@ struct TodaysListView: View {
                         .onMove(perform: move)
                     }
                     .background(Color.background)
+                    .frame(width: 400, height: 300)
                     .padding(.top, -1)
                     .padding(.bottom, -1)
                     
