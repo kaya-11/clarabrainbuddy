@@ -79,7 +79,8 @@ struct TodaysListView: View {
                                         selectedTodo = todo
                                         showingEditTodo = true
                                     }
-                                    .strikethrough(todo.isDone, color: .gray)
+                                    .strikethrough(todo.isDone, color: Color.theme.primary)
+                                    .italic(todo.isDone)
                                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                         Button(role: .destructive) {
                                             todoViewModel.deselectForToday(todo)

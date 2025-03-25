@@ -28,7 +28,7 @@ struct TodoListView: View {
                 List {
                     ForEach(todoViewModel.allTodos, id: \.self) { todo in
                         Text(todo.title)
-                            .strikethrough(todo.isDone, color: .primary)
+                            .strikethrough(todo.isDone, color: Color.theme.primary)
                             .italic(todo.isSelectedForToday)
                             .onTapGesture(count: 2) {
                                 selectedTodo = todo
