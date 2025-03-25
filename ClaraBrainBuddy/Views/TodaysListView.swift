@@ -44,11 +44,13 @@ struct TodaysListView: View {
             }
         }
     }
-    
-    
+        
     var totalEstimatedTime: Int {
         todoViewModel.todayTodos.compactMap { todayTodo in
-            todoViewModel.allTodos.first(where: { $0.id == todayTodo.todoId })?.estimatedTime
+            if let todo = todoViewModel.allTodos.first(where: { $0.id == todayTodo.todoId }) {
+                return todo.isDone ? nil : todo.estimatedTime
+            }
+            return nil
         }.reduce(0, +)
     }
 
