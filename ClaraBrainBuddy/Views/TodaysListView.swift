@@ -16,6 +16,8 @@ struct TodaysListView: View {
     @State private var showingEditTodo = false
     @State private var selectedTodo: Todo? = nil
     
+    @State private var energyLevel: Float = EnergyLevel.medium.rawValue
+    
     let title = NSLocalizedString("title.today", comment: "Today")
     
     let noTodosTodayMsg = NSLocalizedString("message.no.todos.today", comment: "No todo's today")
@@ -24,6 +26,12 @@ struct TodaysListView: View {
     
     let estimatedTimeMsg = NSLocalizedString("message.estimated.time", comment: "Estimeted time")
     let estimatedTimeUnitMsg = NSLocalizedString("message.estimated.time.unit", comment: "min.")
+    
+    let energyLevelMsg = NSLocalizedString("message.energy.level", comment: "Energy Level")
+    let energyLevelLowMsg = NSLocalizedString("message.energy.level.low", comment: "Energy Level")
+    let energyLevelMediumMsg = NSLocalizedString("message.energy.level.medium", comment: "Energy Level")
+    let energyLevelHighMsg = NSLocalizedString("message.energy.level.high", comment: "Energy Level")
+    
 
     var recurringTasks: [RecurringTask] {
         let now = Date()
@@ -45,6 +53,7 @@ struct TodaysListView: View {
         }
     }
         
+    
     var totalEstimatedTime: Int {
         todoViewModel.todayTodos.compactMap { todayTodo in
             if let todo = todoViewModel.allTodos.first(where: { $0.id == todayTodo.todoId }) {
@@ -54,6 +63,19 @@ struct TodaysListView: View {
         }.reduce(0, +)
     }
 
+    var maxEstimatedTime: Int {
+        switch energyLevel {
+            case EnergyLevel.low.rawValue:
+                    return 100
+            case EnergyLevel.medium.rawValue:
+                    return 150
+            case EnergyLevel.high.rawValue:
+                    return 200
+            default:
+                return 0
+        }
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -123,34 +145,55 @@ struct TodaysListView: View {
                         .font(Font.app.listHeader)
                         .textCase(.none)
                         .padding(.top, 28)
-                        .padding(.bottom, -1)
                     
                     List {
                         ForEach(recurringTasks, id: \.id) { todaysTask in
-                                Text(todaysTask.title)
-                                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                            Text(todaysTask.title)
+                                .foregroundColor(Color.theme.listText)
+                                .font(Font.app.listItem)
+                                .listRowBackground(Color.theme.listBackground)
+                                .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                         Button {
                                             todoViewModel.addRecurringTaskAsTodoForToday(todaysTask)
                                         } label: {
                                             Label("Add to Today", systemImage: "plus.square")
                                         }.tint(.green)
-                                    }
-                                    .foregroundColor(Color.theme.listText)
-                                    .listRowBackground(Color.theme.listBackground)
-                                    .font(Font.app.listItem)
+                                }
                         }
                     }
                     .background(Color.background)
-                    .padding(.top, -1)
-                    .padding(.bottom, -1)
                     
                     if totalEstimatedTime > 0 {
-                        Text("\(estimatedTimeMsg): \(totalEstimatedTime) \(estimatedTimeUnitMsg).")
-                            .font(.title2)
-                            .foregroundColor(totalEstimatedTime > 210 ? Color("RedColor") : Color("PrimaryColor"))
-                            .fontWeight(totalEstimatedTime > 210 ? .bold : .regular)
-                            .padding(.top, 28)
-                            .padding(.bottom, 28)
+                        Section {
+                            VStack {
+                                
+                                Text("\(estimatedTimeMsg): \(totalEstimatedTime)\(estimatedTimeUnitMsg).")
+                                    .font(Font.app.normal)
+                                    .foregroundColor(totalEstimatedTime > maxEstimatedTime ? Color.theme.red : Color.theme.primary)
+                                    .fontWeight(totalEstimatedTime > maxEstimatedTime ? .bold : .regular)
+                                    .padding(.top, 14)
+                                    .padding(.bottom, 14)
+                                HStack {
+                                    Text(energyLevelLowMsg)
+                                        .multilineTextAlignment(.leading)
+                                    
+                                    Spacer()
+                                    
+                                    Text(energyLevelMsg)
+                                    
+                                    Spacer()
+                                    
+                                    Text(energyLevelHighMsg)
+                                        .multilineTextAlignment(.trailing)
+                                }
+                                .font(Font.app.tiny)
+                                .padding(.horizontal,64)
+                                
+                                Slider(value: $energyLevel, in: 1...3, step: 1)
+                                    .padding(.horizontal,64)
+                            }
+                        }
+                        .padding(.bottom, 14)
                     }
                 }
             }

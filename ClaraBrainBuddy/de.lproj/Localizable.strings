@@ -30,4 +30,8 @@
 "edit.label" = "Bearbeiten";
 "delete.label" = "Löschen";
 "today.label" = "Heute";
+"message.energy.level" = "Energielevel";
+"message.energy.level.low" = "niedrig";
+"message.energy.level.medium" = "mittel";
+"message.energy.level.high" = "hoch";
 
