@@ -21,32 +21,31 @@ struct RandomTodoView: View {
     
     var body: some View {
         VStack {
-            Text(title)
-                .font(Font.app.title)
+            if let randomTodo = todoViewModel.randomTodo() {
+                Text(title)
+                    .font(Font.app.title)
+                    .foregroundColor(Color.theme.white)
+                    .padding(.top)
+                
+                VStack {
+                    
+                    Text("<< \(swipeLeftLabel)")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 24)
+                    
+                    Text(">> \(swipeRightLabel)")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 24)
+
+                    Text(tapToSelectLabel)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 24)
+                    
+                }
+                .font(Font.app.normal)
                 .foregroundColor(Color.theme.white)
                 .padding(.top)
-            
-            VStack {
-                
-                Text("<< \(swipeLeftLabel)")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 24)
-                
-                Text(">> \(swipeRightLabel)")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 24)
-
-                Text(tapToSelectLabel)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 24)
-                
-            }
-            .font(Font.app.normal)
-            .foregroundColor(Color.theme.white)
-            .padding(.top)
-            .padding(.bottom)
-                         
-            if let randomTodo = todoViewModel.randomTodo() {
+                .padding(.bottom)
                 
                 Text(randomTodo.title)
                     .frame(maxWidth: .infinity)
@@ -77,7 +76,7 @@ struct RandomTodoView: View {
             } else {
                 Text(noTodosLabel)
                     .font(Font.app.title)
-                    .foregroundColor(Color.theme.primary)
+                    .foregroundColor(Color.theme.white)
             }
         }
         .frame(maxWidth: 375, maxHeight: 375)

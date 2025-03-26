@@ -103,7 +103,8 @@ class TodoViewModel: ObservableObject {
     }
     
     func randomTodo() -> Todo? {
-        return allTodos.randomElement()
+        let availableTodos = allTodos.filter { !$0.isSelectedForToday }
+        return availableTodos.randomElement()
     }
 
     func moveTodoOneDown(_ todo: Todo) {
