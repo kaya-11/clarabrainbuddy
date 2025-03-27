@@ -9,4 +9,5 @@ import Foundation
 struct TodayTodo: Identifiable,  Codable  {
     let id: UUID
     var todoId: UUID?
+    var recurringTaskId: UUID?
 }

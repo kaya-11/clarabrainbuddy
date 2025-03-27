@@ -26,10 +26,10 @@ class TodoViewModel: ObservableObject {
     }
     
     func addRecurringTaskAsTodoForToday(_ recurringTask: RecurringTask) {
-        addNewTodoForToday(title: recurringTask.title, details: recurringTask.details ?? "", estimatedTime: nil)
+        addNewTodoForToday(title: recurringTask.title, details: recurringTask.details ?? "", estimatedTime: nil, recurringTaskId: recurringTask.id)
     }
     
-    func addNewTodoForToday(title: String, details: String, estimatedTime: Int?) {
+    func addNewTodoForToday(title: String, details: String, estimatedTime: Int?, recurringTaskId: UUID? = nil) {
         let newTodo = Todo(
             id: UUID(),
             title: title,
@@ -38,17 +38,17 @@ class TodoViewModel: ObservableObject {
             estimatedTime: estimatedTime
         )
         allTodos.insert(newTodo, at: 0)
-        selectForToday(newTodo)
+        selectForToday(newTodo, recurringTaskId)
     }
     
-    func selectForToday(_ todo: Todo) {
+    func selectForToday(_ todo: Todo, _ recurringTaskId: UUID? = nil) {
         guard let index = allTodos.firstIndex(of: todo) else { return }
         
         allTodos[index].isSelectedForToday = true
 
         let alreadyInToday = todayTodos.contains(where: { $0.todoId == todo.id })
         if !alreadyInToday {
-            let newTodayTodo = TodayTodo(id: UUID(), todoId: todo.id)
+            let newTodayTodo = TodayTodo(id: UUID(), todoId: todo.id, recurringTaskId: recurringTaskId)
             todayTodos.append(newTodayTodo)
         }
 
@@ -91,6 +91,10 @@ class TodoViewModel: ObservableObject {
             todayTodos.remove(at: todayIndex)
             todoManager.saveTodayTodos(todayTodos)
         }
+    }
+    
+    func isRecurringTaskInTodayTodos(_ recurringTaskId: UUID) -> Bool {        
+        return todayTodos.contains(where: { $0.recurringTaskId == recurringTaskId })
     }
     
     func reorderTodayTodos(from source: IndexSet, to destination: Int) {

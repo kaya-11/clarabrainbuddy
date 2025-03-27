@@ -14,6 +14,7 @@ struct TodaysListView: View {
     @State private var showingAddTodo = false
     
     @State private var showingEditTodo = false
+    
     @State private var selectedTodo: Todo? = nil
     
     @State private var energyLevel: Float = EnergyLevel.medium.rawValue
@@ -50,6 +51,8 @@ struct TodaysListView: View {
             case .monthly(let d):
                 return d == dayToCompare
             }
+        }.filter { task in
+            !todoViewModel.isRecurringTaskInTodayTodos(task.id)
         }
     }
         
@@ -91,7 +94,6 @@ struct TodaysListView: View {
                             .font(Font.app.listHeader)
                             .textCase(.none)
                             .padding(.top, 28)
-                            .padding(.bottom, -1)
                     
                     List {
                         ForEach(todoViewModel.todayTodos, id: \.id) { todayTodo in
@@ -137,31 +139,33 @@ struct TodaysListView: View {
                     }
                     .background(Color.background)
                     .frame(width: 400, height: 300)
-                    .padding(.top, -1)
-                    .padding(.bottom, -1)
                     
-                    Text("\(recurringTasksTodayMsg):")
-                        .foregroundColor(Color.theme.primary)
-                        .font(Font.app.listHeader)
-                        .textCase(.none)
-                        .padding(.top, 28)
-                    
-                    List {
-                        ForEach(recurringTasks, id: \.id) { todaysTask in
-                            Text(todaysTask.title)
-                                .foregroundColor(Color.theme.listText)
-                                .font(Font.app.listItem)
-                                .listRowBackground(Color.theme.listBackground)
-                                .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                    if (!recurringTasks.isEmpty) {
+                        Text("\(recurringTasksTodayMsg):")
+                            .foregroundColor(Color.theme.primary)
+                            .font(Font.app.listHeader)
+                            .textCase(.none)
+                            .padding(.top, 28)
+                        
+                        List {
+                            ForEach(recurringTasks, id: \.id) { todaysTask in
+                                Text(todaysTask.title)
+                                    .foregroundColor(Color.theme.listText)
+                                    .font(Font.app.listItem)
+                                    .listRowBackground(Color.theme.listBackground)
+                                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                         Button {
                                             todoViewModel.addRecurringTaskAsTodoForToday(todaysTask)
                                         } label: {
                                             Label("Add to Today", systemImage: "plus.square")
                                         }.tint(.green)
-                                }
+                                    }
+                            }
                         }
+                        .background(Color.background)
                     }
-                    .background(Color.background)
+                    
+                    Spacer()
                     
                     if totalEstimatedTime > 0 {
                         Section {
