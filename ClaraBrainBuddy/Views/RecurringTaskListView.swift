@@ -12,7 +12,6 @@ struct RecurringTaskListView: View {
     
     @State private var showingAddTask = false
     
-    @State private var showingEditTask = false
     @State private var selectedTask: RecurringTask? = nil
     
     let title = NSLocalizedString("title.recurringtasks", comment: "Recurring Tasks")
@@ -26,7 +25,6 @@ struct RecurringTaskListView: View {
                         Text(task.title)
                             .onTapGesture(count: 2) {
                                 selectedTask = task
-                                showingEditTask = true
                             }
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(role: .destructive) {
@@ -38,7 +36,6 @@ struct RecurringTaskListView: View {
                             .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                 Button {
                                     selectedTask = task
-                                    showingEditTask = true
                                 } label: {
                                     Label("Edit", systemImage: "pencil")
                                 }.tint(.green)
@@ -52,8 +49,8 @@ struct RecurringTaskListView: View {
                 .sheet(isPresented: $showingAddTask) {
                     RecurringTaskFormView(taskViewModel: taskViewModel, existingTask: nil)
                 }
-                .sheet(isPresented: $showingEditTask) {
-                    RecurringTaskFormView(taskViewModel: taskViewModel, existingTask: selectedTask)
+                .sheet(item: $selectedTask) { task in
+                    RecurringTaskFormView(taskViewModel: taskViewModel, existingTask: task)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

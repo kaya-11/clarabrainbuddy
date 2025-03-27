@@ -13,8 +13,6 @@ struct TodaysListView: View {
 
     @State private var showingAddTodo = false
     
-    @State private var showingEditTodo = false
-    
     @State private var selectedTodo: Todo? = nil
     
     @State private var energyLevel: Float = EnergyLevel.medium.rawValue
@@ -101,7 +99,6 @@ struct TodaysListView: View {
                                 Text(todo.title)
                                     .onTapGesture(count: 2) {
                                         selectedTodo = todo
-                                        showingEditTodo = true
                                     }
                                     .strikethrough(todo.isDone, color: Color.theme.primary)
                                     .italic(todo.isDone)
@@ -126,7 +123,6 @@ struct TodaysListView: View {
                                         }.tint(.blue)
                                         Button {
                                             selectedTodo = todo
-                                            showingEditTodo = true
                                         } label: {
                                             Label("Done", systemImage: "pencil")
                                         }.tint(.green)
@@ -225,8 +221,8 @@ struct TodaysListView: View {
                     }
                 }
             }
-            .sheet(isPresented: $showingEditTodo) {
-                TodoFormView(todoViewModel: todoViewModel, existingTodo: selectedTodo)
+            .sheet(item: $selectedTodo) { todo in
+                TodoFormView(todoViewModel: todoViewModel, existingTodo: todo)
             }
             .sheet(isPresented: $showingAddTodo) {
                 TodoTodayFormView(todoViewModel: todoViewModel)

@@ -13,7 +13,6 @@ struct TodoListView: View {
     
     @State private var showingAddTodo = false
     
-    @State private var showingEditTodo = false
     @State private var selectedTodo: Todo? = nil
     
     let title = NSLocalizedString("title.alltodos", comment: "All Todos")
@@ -34,7 +33,6 @@ struct TodoListView: View {
                             .bold(isSelectedForToday)
                             .onTapGesture(count: 2) {
                                 selectedTodo = todo
-                                showingEditTodo = true
                             }
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(role: .destructive) {
@@ -51,7 +49,6 @@ struct TodoListView: View {
                                 }.tint(.blue)
                                 Button {
                                     selectedTodo = todo
-                                    showingEditTodo = true
                                 } label: {
                                     Label(editLabel, systemImage: "pencil")
                                 }.tint(.green)
@@ -65,8 +62,8 @@ struct TodoListView: View {
                 .sheet(isPresented: $showingAddTodo) {
                     TodoFormView(todoViewModel: todoViewModel, existingTodo: nil)
                 }
-                .sheet(isPresented: $showingEditTodo) {
-                    TodoFormView(todoViewModel: todoViewModel, existingTodo: selectedTodo)
+                .sheet(item: $selectedTodo) { todo in
+                    TodoFormView(todoViewModel: todoViewModel, existingTodo: todo)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
