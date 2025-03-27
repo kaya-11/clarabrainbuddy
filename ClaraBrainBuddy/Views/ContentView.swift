@@ -37,19 +37,14 @@ struct ContentView: View {
                     }.tag(2)
             }
             
-            // RandomTodoView on top
             if showRandomTodoView {
                 RandomTodoView(todoViewModel: todoViewModel, isPresented: $showRandomTodoView)
                     .transition(.opacity)
                     .animation(.easeInOut, value: showRandomTodoView)
-                    .onDisappear {
-                        // Optionally, perform any actions when the view disappears
-                    }
             }
         }
         .onAppear {
-            // Optionally, set a timer to hide the RandomTodoView after a certain duration
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                 withAnimation {
                     showRandomTodoView = false
                 }

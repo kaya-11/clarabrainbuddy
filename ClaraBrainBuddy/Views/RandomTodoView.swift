@@ -77,6 +77,9 @@ struct RandomTodoView: View {
                 Text(noTodosLabel)
                     .font(Font.app.title)
                     .foregroundColor(Color.theme.white)
+                    .onTapGesture {
+                        isPresented = false
+                    }
             }
         }
         .frame(maxWidth: 375, maxHeight: 375)
