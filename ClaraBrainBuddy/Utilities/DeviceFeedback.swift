@@ -9,10 +9,14 @@ import AudioToolbox
 
 struct DeviceFeedback {
     static func vibrateTwice() {
-        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+        vibrate()
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+            vibrate()
         }
+    }
+    
+    static func vibrate() {
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
     }
 }
