@@ -101,8 +101,12 @@ struct TodoFormView: View {
         updatedTodo.dueDate = dueDate
         updatedTodo.estimatedTime = estimatedTime
         updatedTodo.updatedAt = Date()
+        let vibrate = isDone && !todo.isDone
         updatedTodo.isDone = isDone
         todoViewModel.updateTodo(updatedTodo)
+        if vibrate {
+            DeviceFeedback.vibrateTwice()
+        }
     }
     
     private func loadTodo() {

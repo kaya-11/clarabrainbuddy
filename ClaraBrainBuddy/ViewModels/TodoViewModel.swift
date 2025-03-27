@@ -91,6 +91,8 @@ class TodoViewModel: ObservableObject {
             todayTodos.remove(at: todayIndex)
             todoManager.saveTodayTodos(todayTodos)
         }
+        
+        DeviceFeedback.vibrateTwice()
     }
     
     func isRecurringTaskInTodayTodos(_ recurringTaskId: UUID) -> Bool {        
