@@ -64,6 +64,7 @@ struct RecurringTaskFormView: View {
                     Text(existingTask == nil ? "Add Todo" : "Save Changes")
                 }
                 .font(Font.app.button)
+                .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
             }
             .backgroundStyle()
             .toolbar {
@@ -90,6 +91,7 @@ struct RecurringTaskFormView: View {
         } else {
             taskViewModel.addRecurringTask(title: title, details: details, recurrenceRule: newRecurrenceRule)
         }
+            
     }
 
     private func updateRecurrenceRule() -> RecurrenceRule {

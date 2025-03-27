@@ -76,6 +76,7 @@ struct TodoFormView: View {
                     Text(existingTodo == nil ? saveAddTodoLabel : saveEditTodoLabel)
                 }
                 .font(Font.app.button)
+                .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     
             }
             .backgroundStyle()

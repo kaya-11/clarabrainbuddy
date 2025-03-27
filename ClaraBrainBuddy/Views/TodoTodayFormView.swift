@@ -55,6 +55,7 @@ struct TodoTodayFormView: View {
                     Text(saveAddTodoLabel)
                 }
                 .font(Font.app.button)
+                .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     
             }
             .backgroundStyle()
