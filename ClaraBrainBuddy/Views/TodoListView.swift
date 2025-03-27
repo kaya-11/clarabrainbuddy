@@ -27,9 +27,11 @@ struct TodoListView: View {
             VStack {
                 List {
                     ForEach(todoViewModel.allTodos, id: \.self) { todo in
+                        let isSelectedForToday = todo.isSelectedForToday
                         Text(todo.title)
                             .strikethrough(todo.isDone, color: Color.theme.primary)
-                            .italic(todo.isSelectedForToday)
+                            .italic(isSelectedForToday)
+                            .bold(isSelectedForToday)
                             .onTapGesture(count: 2) {
                                 selectedTodo = todo
                                 showingEditTodo = true
