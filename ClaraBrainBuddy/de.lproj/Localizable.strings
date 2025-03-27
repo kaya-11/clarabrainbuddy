@@ -1,6 +1,6 @@
 "navigation.alltodos" = "Alle ToDo's";
 "navigation.today" = "Heute";
-"navigation.recurringtasks" = "Wiederkehrende Ausgaben";
+"navigation.recurringtasks" = "Wiederkehrend";
 "title.alltodos" = "Alle ToDo's";
 "title.today" = "Heute";
 "title.recurringtasks" = "Wiederkehrende Ausgaben";
@@ -13,7 +13,7 @@
 "edit.todo.title.tooltip" = "Titel eingeben";
 "edit.todo.details.label" = "Details";
 "edit.todo.duedate.label" = "Fälligkeit";
-"edit.todo.duedate.tooltip" = "Fälligkeitsdatum auswählen";
+"edit.todo.duedate.tooltip" = "Datum auswählen";
 "edit.todo.estimatedtime.label" = "Geschätzte Zeit (in Minuten)";
 "edit.todo.estimatedtime.tooltip" = "z.B., 30";
 "edit.todo.isdone.label" = "Fertig";
