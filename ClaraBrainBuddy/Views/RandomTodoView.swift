@@ -13,31 +13,25 @@ struct RandomTodoView: View {
     
     @Binding var isPresented: Bool
     
-    let title = NSLocalizedString("random.todo.popup.title", comment: "What would you like to do?")
-    let swipeLeftLabel = NSLocalizedString("random.todo.popup.explanation.swipe.left", comment: "Swipe left to delete.")
-    let swipeRightLabel = NSLocalizedString("random.todo.popup.explanation.swipe.right", comment: "Swipe right to keep, but prioritize lower.")
-    let tapToSelectLabel = NSLocalizedString("random.todo.popup.explanation.tab", comment: "Or tap to select for today.")
-    let noTodosLabel = NSLocalizedString("random.todo.popup.no.todo.available", comment: "No todos available...")
-    
     var body: some View {
         VStack {
             if let randomTodo = todoViewModel.randomTodo() {
-                Text(title)
+                Text(Localization.labels.titleRandomTodoPopup)
                     .font(Font.app.title)
                     .foregroundColor(Color.theme.white)
                     .padding(.top)
                 
                 VStack {
                     
-                    Text("<< \(swipeLeftLabel)")
+                    Text("<< \(Localization.labels.swipeLeftRandomTodo)")
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, 24)
                     
-                    Text(">> \(swipeRightLabel)")
+                    Text(">> \(Localization.labels.swipeRightRandomTodo)")
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, 24)
 
-                    Text(tapToSelectLabel)
+                    Text(Localization.labels.tapToSelectRandomTodo)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, 24)
                     
@@ -74,7 +68,7 @@ struct RandomTodoView: View {
                             }
                     )
             } else {
-                Text(noTodosLabel)
+                Text(Localization.labels.noTodosRandomTodo)
                     .font(Font.app.title)
                     .foregroundColor(Color.theme.white)
                     .onTapGesture {

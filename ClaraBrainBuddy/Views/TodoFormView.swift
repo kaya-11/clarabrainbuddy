@@ -20,48 +20,35 @@ struct TodoFormView: View {
     @State private var dueDate: Date = Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
     @State private var estimatedTime: Int?
     @State private var isDone: Bool = false
-    
-    let titleLabel = NSLocalizedString("edit.todo.title.label", comment: "Title *")
-    let titleTooltip = NSLocalizedString("edit.todo.title.tooltip", comment: "Enter title")
-    let detailsLabel = NSLocalizedString("edit.todo.details.label", comment: "Details")
-    let dueDateLabel = NSLocalizedString("edit.todo.duedate.label", comment: "Due Date")
-    let dueDateTooltip = NSLocalizedString("edit.todo.duedate.tooltip", comment: "Select Due Date")
-    let estimatedtimeLabel = NSLocalizedString("edit.todo.estimatedtime.label", comment: "Estimated Time (minutes)")
-    let estimatedtimeTooltip = NSLocalizedString("edit.todo.estimatedtime.tooltip", comment: "e.g., 30")
-    let isDoneLabel = NSLocalizedString("edit.todo.isdone.label", comment: "Done")
-    let editTodoLabel = NSLocalizedString("edit.todo.label", comment: "Edit Todo")
-    let addTodoTodayLabel = NSLocalizedString("add.todo.label", comment: "Add New Todo")
-    let saveAddTodoLabel = NSLocalizedString("edit.todo.save.label", comment: "Add Todo")
-    let saveEditTodoLabel = NSLocalizedString("add.todo.save.label", comment: "Save Changes")
 
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text(titleLabel)) {
-                    TextField(titleTooltip, text: $title)
+                Section(header: Text(Localization.labels.titleForm)) {
+                    TextField(Localization.labels.titleFormTooltip, text: $title)
                         .foregroundColor(Color.theme.primary)
                 }
                 
-                Section(header: Text(detailsLabel)) {
+                Section(header: Text(Localization.labels.details)) {
                     TextEditor(text: $details)
                         .frame(height: 120)
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray.opacity(0.3)))
                 }
                 
-                Section(header: Text(dueDateLabel)) {
-                    DatePicker(dueDateTooltip, selection: $dueDate, displayedComponents: .date)
+                Section(header: Text(Localization.labels.dueDate)) {
+                    DatePicker(Localization.labels.dueDateTooltip, selection: $dueDate, displayedComponents: .date)
                         .foregroundColor(Color.theme.primary)
                 }
                 
-                Section(header: Text(estimatedtimeLabel)) {
-                    TextField(estimatedtimeTooltip, value: $estimatedTime, formatter: NumberFormatter())
+                Section(header: Text(Localization.labels.estimatedTimeForm)) {
+                    TextField(Localization.labels.estimatedTimeTooltip, value: $estimatedTime, formatter: NumberFormatter())
                         .keyboardType(.numberPad)
                         .foregroundColor(Color.theme.primary)
                 }
                 
                 if existingTodo != nil {
-                    Section(header: Text(isDoneLabel)) {
-                        Toggle(isDoneLabel, isOn: $isDone)
+                    Section(header: Text(Localization.labels.isDone)) {
+                        Toggle(Localization.labels.isDone, isOn: $isDone)
                     }
                 }
                 
@@ -73,7 +60,7 @@ struct TodoFormView: View {
                     }
                     presentationMode.wrappedValue.dismiss()
                 }) {
-                    Text(existingTodo == nil ? saveAddTodoLabel : saveEditTodoLabel)
+                    Text(existingTodo == nil ? Localization.labels.saveAddTodo : Localization.labels.saveEditTodo)
                 }
                 .font(Font.app.button)
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
@@ -82,7 +69,7 @@ struct TodoFormView: View {
             .backgroundStyle()
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text(existingTodo == nil ? addTodoTodayLabel : editTodoLabel)
+                    Text(existingTodo == nil ? Localization.labels.addTodo : Localization.labels.editTodo)
                         .foregroundColor(Color.theme.primary)
                         .font(Font.app.title)
                 }

@@ -14,8 +14,6 @@ struct RecurringTaskListView: View {
     
     @State private var selectedTask: RecurringTask? = nil
     
-    let title = NSLocalizedString("title.recurringtasks", comment: "Recurring Tasks")
-    
     var body: some View {
       
         NavigationView {
@@ -30,14 +28,14 @@ struct RecurringTaskListView: View {
                                 Button(role: .destructive) {
                                     taskViewModel.deleteRecurringTask(task)
                                 } label: {
-                                    Label("Delete", systemImage: "trash")
+                                    Label(Localization.labels.delete, systemImage: "trash")
                                 }.tint(.red)
                             }
                             .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                 Button {
                                     selectedTask = task
                                 } label: {
-                                    Label("Edit", systemImage: "pencil")
+                                    Label(Localization.labels.edit, systemImage: "pencil")
                                 }.tint(.green)
                             }
                             .foregroundColor(Color.theme.listText)
@@ -63,7 +61,7 @@ struct RecurringTaskListView: View {
                         .frame(width: 55, height: 55)
                 }
                 ToolbarItem(placement: .principal) {
-                    Text(title)
+                    Text(Localization.labels.titleRecurringTasks)
                         .foregroundColor(Color.theme.primary)
                         .font(Font.app.title)
                 }

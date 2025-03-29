@@ -15,11 +15,6 @@ struct TodoListView: View {
     
     @State private var selectedTodo: Todo? = nil
     
-    let title = NSLocalizedString("title.alltodos", comment: "All Todos")
-    let editLabel = NSLocalizedString("edit.label", comment: "Edit")
-    let deleteLabel = NSLocalizedString("delete.label", comment: "Delete")
-    let todayLabel = NSLocalizedString("today.label", comment: "Today")
-    
     var body: some View {
       
         NavigationView {
@@ -38,22 +33,22 @@ struct TodoListView: View {
                                 Button(role: .destructive) {
                                     todoViewModel.deleteTodo(todo)
                                 } label: {
-                                    Label(deleteLabel, systemImage: "trash")
+                                    Label(Localization.labels.delete, systemImage: "trash")
                                 }.tint(.red)
                             }
                             .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                 Button {
                                     todoViewModel.selectForToday(todo)
                                 } label: {
-                                    Label(todayLabel, systemImage: "calendar")
+                                    Label(Localization.labels.today, systemImage: "calendar")
                                 }.tint(.blue)
                                 Button {
                                     selectedTodo = todo
                                 } label: {
-                                    Label(editLabel, systemImage: "pencil")
+                                    Label(Localization.labels.edit, systemImage: "pencil")
                                 }.tint(.green)
                             }
-                            .foregroundColor(Color.theme.listText)
+                            .foregroundColor(StyleUtils.getTextColor(todo: todo, isSelectedForToday: isSelectedForToday))
                             .listRowBackground(Color.theme.listBackground)
                             .font(Font.app.listItem)
                     }
@@ -76,7 +71,7 @@ struct TodoListView: View {
                         .frame(width: 55, height: 55)
                 }
                 ToolbarItem(placement: .principal) {
-                    Text(title)
+                    Text(Localization.labels.titleAllTodos)
                         .foregroundColor(Color.theme.primary)
                         .font(Font.app.title)
                 }

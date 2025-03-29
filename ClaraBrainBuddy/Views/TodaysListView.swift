@@ -17,21 +17,6 @@ struct TodaysListView: View {
     
     @State private var energyLevel: Float = EnergyLevel.medium.rawValue
     
-    let title = NSLocalizedString("title.today", comment: "Today")
-    
-    let noTodosTodayMsg = NSLocalizedString("message.no.todos.today", comment: "No todo's today")
-    let todosPickedForTodayMsg = NSLocalizedString("message.todos.picked.today", comment: "Todo's for today")
-    let recurringTasksTodayMsg = NSLocalizedString("message.recurring.tasks.today", comment: "Recurring Task's today")
-    
-    let estimatedTimeMsg = NSLocalizedString("message.estimated.time", comment: "Estimeted time")
-    let estimatedTimeUnitMsg = NSLocalizedString("message.estimated.time.unit", comment: "min.")
-    
-    let energyLevelMsg = NSLocalizedString("message.energy.level", comment: "Energy Level")
-    let energyLevelLowMsg = NSLocalizedString("message.energy.level.low", comment: "Energy Level")
-    let energyLevelMediumMsg = NSLocalizedString("message.energy.level.medium", comment: "Energy Level")
-    let energyLevelHighMsg = NSLocalizedString("message.energy.level.high", comment: "Energy Level")
-    
-
     var recurringTasks: [RecurringTask] {
         let now = Date()
         let calendar = Calendar.current
@@ -67,11 +52,11 @@ struct TodaysListView: View {
     var maxEstimatedTime: Int {
         switch energyLevel {
             case EnergyLevel.low.rawValue:
-                    return 100
+                    return 90
             case EnergyLevel.medium.rawValue:
                     return 150
             case EnergyLevel.high.rawValue:
-                    return 200
+                    return 210
             default:
                 return 0
         }
@@ -81,13 +66,13 @@ struct TodaysListView: View {
         NavigationView {
             VStack {
                 if todoViewModel.todayTodos.isEmpty && recurringTasks.isEmpty {
-                    Text(noTodosTodayMsg)
+                    Text(Localization.labels.noTodosToday)
                         .foregroundColor(Color.theme.primary)
                         .font(.title)
                         .padding()
                 } else {
                     
-                    Text("\(todosPickedForTodayMsg):")
+                    Text("\(Localization.labels.todosPickedForToday):")
                             .foregroundColor(Color.theme.primary)
                             .font(Font.app.listHeader)
                             .textCase(.none)
@@ -127,7 +112,7 @@ struct TodaysListView: View {
                                             Label("Done", systemImage: "pencil")
                                         }.tint(.green)
                                     }
-                                    .foregroundColor(Color.theme.listText)
+                                    .foregroundColor(StyleUtils.getTextColor(todo: todo, isSelectedForToday: false))
                                     .listRowBackground(Color.theme.listBackground)
                                     .font(Font.app.listItem)
                             }
@@ -135,10 +120,10 @@ struct TodaysListView: View {
                         .onMove(perform: move)
                     }
                     .background(Color.background)
-                    .frame(width: 400, height: 300)
+                    .frame(width: 400, height: recurringTasks.isEmpty ? 450 : 300)
                     
                     if (!recurringTasks.isEmpty) {
-                        Text("\(recurringTasksTodayMsg):")
+                        Text("\(Localization.labels.recurringTasksToday):")
                             .foregroundColor(Color.theme.primary)
                             .font(Font.app.listHeader)
                             .textCase(.none)
@@ -168,23 +153,23 @@ struct TodaysListView: View {
                         Section {
                             VStack {
                                 
-                                Text("\(estimatedTimeMsg): \(totalEstimatedTime)\(estimatedTimeUnitMsg).")
+                                Text("\(Localization.labels.estimatedTime): \(totalEstimatedTime)\(Localization.labels.estimatedTimeUnit).")
                                     .font(Font.app.normal)
                                     .foregroundColor(totalEstimatedTime > maxEstimatedTime ? Color.theme.red : Color.theme.primary)
                                     .fontWeight(totalEstimatedTime > maxEstimatedTime ? .bold : .regular)
                                     .padding(.top, 14)
                                     .padding(.bottom, 14)
                                 HStack {
-                                    Text(energyLevelLowMsg)
+                                    Text(Localization.messages.energyLevelLow)
                                         .multilineTextAlignment(.leading)
                                     
                                     Spacer()
                                     
-                                    Text(energyLevelMsg)
+                                    Text(Localization.messages.energyLevel)
                                     
                                     Spacer()
                                     
-                                    Text(energyLevelHighMsg)
+                                    Text(Localization.messages.energyLevelHigh)
                                         .multilineTextAlignment(.trailing)
                                 }
                                 .font(Font.app.tiny)
@@ -209,7 +194,7 @@ struct TodaysListView: View {
                         .frame(width: 55, height: 55)
                 }
                 ToolbarItem(placement: .principal) {
-                    Text(title)
+                    Text(Localization.labels.titleToday)
                         .foregroundColor(Color.theme.primary)
                         .font(Font.app.title)
                 }

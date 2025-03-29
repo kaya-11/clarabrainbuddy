@@ -34,8 +34,23 @@
 "message.energy.level.low" = "low";
 "message.energy.level.medium" = "medium";
 "message.energy.level.high" = "high";
-
-
-
-
+"greeting.hello" = "Hello";
+"greeting.goodbye" = "Good Bye";
+"action.add.for.today" = "Add for today";
+"recurrence.rule.label" = "Recurrence Rule";
+"recurrence.picker.label" = "Recurrence";
+"recurrence.rule.daily.label" = "Daily";
+"recurrence.rule.weekly.label" = "Weekly";
+"recurrence.rule.monthly.label" = "Monthly";
+"edit.task.label" = "Edit Recurring Task";
+"add.task.label" = "Add New Recurring Task";
+"weekday.label" = "Weekday";
+"dayofmonth.label" = "Day Of Month";
+"weekday.sunday" = "Sunday";
+"weekday.monday" = "Monday";
+"weekday.tuesday" = "Tuesday";
+"weekday.wednesday" = "Wednesday";
+"weekday.thursday" = "Thursday";
+"weekday.friday" = "Friday";
+"weekday.saturday" = "Saturday";
 

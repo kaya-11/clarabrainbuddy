@@ -24,31 +24,31 @@ struct RecurringTaskFormView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Title *")) {
-                    TextField("Enter title", text: $title)
+                Section(header: Text(Localization.labels.titleForm)) {
+                    TextField(Localization.labels.titleFormTooltip, text: $title)
                 }
                 
-                Section(header: Text("Details")) {
+                Section(header: Text(Localization.labels.details)) {
                     TextEditor(text: $details)
                         .frame(height: 120)
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray.opacity(0.3)))
                 }
                 
-                Section(header: Text("Recurrence Rule")) {
-                    Picker("Recurrence", selection: $recurrenceRule) {
-                        Text("Daily").tag(RecurrenceRule.daily)
-                        Text("Weekly").tag(RecurrenceRule.weekly(weekday: -1))
-                        Text("Monthly").tag(RecurrenceRule.monthly(day: -1))
+                Section(header: Text(Localization.labels.recurrenceRule)) {
+                    Picker(Localization.labels.recurrencePicker, selection: $recurrenceRule) {
+                        Text(Localization.labels.recurrenceRuleDaily).tag(RecurrenceRule.daily)
+                        Text(Localization.labels.recurrenceRuleWeekly).tag(RecurrenceRule.weekly(weekday: -1))
+                        Text(Localization.labels.recurrenceRuleMontly).tag(RecurrenceRule.monthly(day: -1))
                     }
                     
                     if case .weekly = recurrenceRule {
-                        Picker("Weekday", selection: $selectedWeekday) {
+                        Picker(Localization.labels.weekday, selection: $selectedWeekday) {
                             ForEach(1..<8) { day in
-                                Text(weekdayName(day)).tag(day)
+                                Text(Localization.weekdays.getWeekdayName(day)).tag(day)
                             }
                         }
                     } else if case .monthly = recurrenceRule {
-                        Picker("Day of Month", selection: $selectedDay) {
+                        Picker(Localization.labels.dayOfMonth, selection: $selectedDay) {
                             ForEach(1..<32) { day in
                                 Text("\(day)").tag(day)
                             }
@@ -61,7 +61,7 @@ struct RecurringTaskFormView: View {
                     presentationMode.wrappedValue.dismiss()
                     
                 }) {
-                    Text(existingTask == nil ? "Add Todo" : "Save Changes")
+                    Text(existingTask == nil ? Localization.labels.saveAddTodo : Localization.labels.saveEditTodo)
                 }
                 .font(Font.app.button)
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
@@ -69,7 +69,7 @@ struct RecurringTaskFormView: View {
             .backgroundStyle()
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text(existingTask == nil ? "Add New Recurring Task" : "Edit Recurring Task")
+                    Text(existingTask == nil ? Localization.labels.addTask : Localization.labels.editTask)
                         .foregroundColor(Color.theme.primary)
                         .font(Font.app.title)
                 }
@@ -117,9 +117,5 @@ struct RecurringTaskFormView: View {
                 selectedDay = day
             }
         }
-    }
-
-    private func weekdayName(_ day: Int) -> String {
-        ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][day - 1]
     }
 }
