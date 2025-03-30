@@ -68,6 +68,16 @@ class TodoViewModel: ObservableObject {
         }
     }
     
+    
+    func getTotalEstimatedTime() -> Int {
+        return todayTodos.compactMap { todayTodo in
+            if let todo = allTodos.first(where: { $0.id == todayTodo.todoId }) {
+                return todo.isDone ? nil : todo.estimatedTime
+            }
+            return nil
+        }.reduce(0, +)
+    }
+    
     func setToDone(_ todo: Todo) {
         guard let index = allTodos.firstIndex(of: todo) else { return }
         allTodos[index].isDone = true

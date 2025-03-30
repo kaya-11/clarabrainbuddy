@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TodaysListView: View {
+    
     @ObservedObject var todoViewModel: TodoViewModel
     @ObservedObject var taskViewModel: TaskViewModel
 
@@ -15,7 +16,7 @@ struct TodaysListView: View {
     
     @State private var selectedTodo: Todo? = nil
     
-    @State private var energyLevel: Float = EnergyLevel.medium.rawValue
+    @State private var energyLevel: Float = EnergyManager.EnergyLevel.medium.rawValue
     
     var recurringTasks: [RecurringTask] {
         let now = Date()
@@ -36,29 +37,6 @@ struct TodaysListView: View {
             }
         }.filter { task in
             !todoViewModel.isRecurringTaskInTodayTodos(task.id)
-        }
-    }
-        
-    
-    var totalEstimatedTime: Int {
-        todoViewModel.todayTodos.compactMap { todayTodo in
-            if let todo = todoViewModel.allTodos.first(where: { $0.id == todayTodo.todoId }) {
-                return todo.isDone ? nil : todo.estimatedTime
-            }
-            return nil
-        }.reduce(0, +)
-    }
-
-    var maxEstimatedTime: Int {
-        switch energyLevel {
-            case EnergyLevel.low.rawValue:
-                    return 90
-            case EnergyLevel.medium.rawValue:
-                    return 150
-            case EnergyLevel.high.rawValue:
-                    return 210
-            default:
-                return 0
         }
     }
     
@@ -149,9 +127,12 @@ struct TodaysListView: View {
                     
                     Spacer()
                     
+                    let totalEstimatedTime = todoViewModel.getTotalEstimatedTime()
                     if totalEstimatedTime > 0 {
                         Section {
                             VStack {
+                                
+                                let maxEstimatedTime = EnergyManager.getMaxEstimatedTime(energyLevel: energyLevel)
                                 
                                 Text("\(Localization.labels.estimatedTime): \(totalEstimatedTime)\(Localization.labels.estimatedTimeUnit).")
                                     .font(Font.app.normal)
