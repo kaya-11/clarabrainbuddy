@@ -13,8 +13,8 @@ extension Color {
 }
 
 struct ColorTheme {
-    let primary: Color = Color("PrimaryColor")
-    let secondary: Color = Color("SecondaryColor")
+    let primary: Color = Color("AppPrimaryColor")
+    let secondary: Color = Color("AppSecondaryColor")
     let accent: Color = Color("AccentColor")
     let background: Color = Color("BackgroundColor")
     
@@ -24,10 +24,10 @@ struct ColorTheme {
     let buttonBackground: Color = Color("ListBackgroundColor")
     let buttonText: Color = Color("ListTextColor")
     
-    let green: Color = Color("GreenColor")
-    let red: Color = Color("RedColor")
-    let blue: Color = Color("BlueColor")
-    let yellow: Color = Color("YellowColor")
-    let white: Color = Color("WhiteColor")
+    let green: Color = Color("AppGreenColor")
+    let red: Color = Color("AppRedColor")
+    let blue: Color = Color("AppBlueColor")
+    let yellow: Color = Color("AppYellowColor")
+    let white: Color = Color("AppWhiteColor")
     
 }

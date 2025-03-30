@@ -158,6 +158,7 @@ struct TodaysListView: View {
                                 
                                 Slider(value: $energyLevel, in: 1...3, step: 1)
                                     .padding(.horizontal,64)
+                                    .accentColor(Color.theme.accent)
                             }
                         }
                         .padding(.bottom, 14)
