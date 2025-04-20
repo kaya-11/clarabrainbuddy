@@ -54,6 +54,7 @@ class TodoViewModel: ObservableObject {
 
         todoManager.saveTodos(allTodos)
         todoManager.saveTodayTodos(todayTodos)
+        saveMostRecentTodo()
     }
 
     func deselectForToday(_ todo: Todo) {
@@ -65,6 +66,7 @@ class TodoViewModel: ObservableObject {
         if let todayIndex = todayTodos.firstIndex(where: { $0.todoId == todo.id }) {
             todayTodos.remove(at: todayIndex)
             todoManager.saveTodayTodos(todayTodos)
+            saveMostRecentTodo()
         }
     }
     
@@ -100,6 +102,7 @@ class TodoViewModel: ObservableObject {
         if let todayIndex = todayTodos.firstIndex(where: { $0.todoId == todo.id }) {
             todayTodos.remove(at: todayIndex)
             todoManager.saveTodayTodos(todayTodos)
+            saveMostRecentTodo()
         }
         
         DeviceFeedback.vibrate()
@@ -109,9 +112,19 @@ class TodoViewModel: ObservableObject {
         return todayTodos.contains(where: { $0.recurringTaskId == recurringTaskId })
     }
     
+    func saveMostRecentTodo() {
+        if let firstTodayTodo = todayTodos.first {
+            if let mostRecentTodoIndex = allTodos.firstIndex(where: { $0.id == firstTodayTodo.todoId }) {
+                let mostRecentTodo = allTodos[mostRecentTodoIndex]
+                todoManager.saveMostRecentTodo(mostRecentTodo)
+            }
+        }
+    }
+    
     func reorderTodayTodos(from source: IndexSet, to destination: Int) {
         todayTodos.move(fromOffsets: source, toOffset: destination)
         todoManager.saveTodayTodos(todayTodos)
+        saveMostRecentTodo()
     }
     
     func updateTodos() {

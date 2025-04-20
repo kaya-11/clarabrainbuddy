@@ -39,6 +39,8 @@ struct RecurringTaskFormView: View {
                         Text(Localization.labels.recurrenceRuleDaily).tag(RecurrenceRule.daily)
                         Text(Localization.labels.recurrenceRuleWeekly).tag(RecurrenceRule.weekly(weekday: -1))
                         Text(Localization.labels.recurrenceRuleMontly).tag(RecurrenceRule.monthly(day: -1))
+                        Text(Localization.labels.recurrenceRuleEvenDays).tag(RecurrenceRule.evenDays)
+                        Text(Localization.labels.recurrenceRuleOddDays).tag(RecurrenceRule.oddDays)
                     }
                     
                     if case .weekly = recurrenceRule {
@@ -100,6 +102,10 @@ struct RecurringTaskFormView: View {
             return RecurrenceRule.weekly(weekday: selectedWeekday)
         case .monthly:
             return RecurrenceRule.monthly(day: selectedDay)
+        case .evenDays:
+            return RecurrenceRule.evenDays
+        case .oddDays:
+            return RecurrenceRule.oddDays
         default:
             return .daily
         }
@@ -115,6 +121,8 @@ struct RecurringTaskFormView: View {
             } else if case let .monthly(day) = task.recurrenceRule, day > 0 {
                 recurrenceRule = RecurrenceRule.monthly(day: -1)
                 selectedDay = day
+            } else {
+                recurrenceRule = task.recurrenceRule
             }
         }
     }

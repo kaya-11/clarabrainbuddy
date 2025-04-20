@@ -42,6 +42,8 @@
 "recurrence.rule.daily.label" = "Täglich";
 "recurrence.rule.weekly.label" = "Wöchentlich";
 "recurrence.rule.monthly.label" = "Monatlich";
+"recurrence.rule.evendays.label" = "Gerade Tage";
+"recurrence.rule.odddays.label" = "Ungerade Tage";
 "edit.task.label" = "Wiederkehrende Aufgabe editieren:";
 "add.task.label" = "Neue Wiederkehrende Aufgabe:";
 "weekday.label" = "Wochentag";

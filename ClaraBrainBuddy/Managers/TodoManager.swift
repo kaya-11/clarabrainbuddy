@@ -8,8 +8,13 @@
 import Foundation
 
 class TodoManager {
+    
+    let appGroup = UserDefaults(suiteName: "group.de.beeapp.brainbuddy")
+
     private let todosKey = "todos"
     private let todayTodosKey = "todays_todos"
+    private let mostRecentTodosKey = "mostrecent_todos"
+
 
     func saveTodos(_ todos: [Todo]) {
         let encoder = JSONEncoder()
@@ -26,6 +31,13 @@ class TodoManager {
             }
         }
         return []
+    }
+    
+    func saveMostRecentTodo(_ todo: Todo) {
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(todo) {
+            appGroup?.set(encoded, forKey: mostRecentTodosKey)
+        }
     }
     
     func saveTodayTodos(_ todayTodos: [TodayTodo]) {

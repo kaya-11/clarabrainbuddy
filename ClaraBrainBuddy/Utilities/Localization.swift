@@ -77,6 +77,8 @@ struct Localization {
         let recurrenceRuleDaily = NSLocalizedString("recurrence.rule.daily.label", comment: "Daily")
         let recurrenceRuleWeekly = NSLocalizedString("recurrence.rule.weekly.label", comment: "Weekly")
         let recurrenceRuleMontly = NSLocalizedString("recurrence.rule.monthly.label", comment: "Monthly")
+        let recurrenceRuleEvenDays = NSLocalizedString("recurrence.rule.evendays.label", comment: "Even Days")
+        let recurrenceRuleOddDays = NSLocalizedString("recurrence.rule.odddays.label", comment: "Odd Days")
         let editTask = NSLocalizedString("edit.task.label", comment: "Edit Recurring Task")
         let addTask = NSLocalizedString("add.task.label", comment: "Add New Recurring Task")
     }

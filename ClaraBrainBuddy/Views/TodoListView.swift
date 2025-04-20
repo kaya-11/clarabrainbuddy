@@ -92,6 +92,5 @@ struct TodoListView: View {
         todoViewModel.allTodos.move(fromOffsets: source, toOffset: destination)
         todoViewModel.updateTodos()
     }
+    
 }
-
-

@@ -42,6 +42,8 @@
 "recurrence.rule.daily.label" = "Daily";
 "recurrence.rule.weekly.label" = "Weekly";
 "recurrence.rule.monthly.label" = "Monthly";
+"recurrence.rule.evendays.label" = "Even Days";
+"recurrence.rule.odddays.label" = "Odd Days";
 "edit.task.label" = "Edit Recurring Task";
 "add.task.label" = "Add New Recurring Task";
 "weekday.label" = "Weekday";

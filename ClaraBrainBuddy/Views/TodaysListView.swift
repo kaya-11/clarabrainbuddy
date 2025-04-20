@@ -25,6 +25,8 @@ struct TodaysListView: View {
         let day = calendar.component(.day, from: now)
         let lastDay = (calendar.range(of: .day, in: .month, for: now)?.upperBound ?? 32) - 1
         let dayToCompare = min(day, lastDay)
+        let isEven = day.isMultiple(of: 2)
+        let isWeekend = (weekday == 1) || (weekday == 7)
         
         return taskViewModel.allRecurringTasks.filter {
             switch $0.recurrenceRule {
@@ -34,7 +36,12 @@ struct TodaysListView: View {
                 return wd == weekday
             case .monthly(let d):
                 return d == dayToCompare
+            case .evenDays:
+                return isEven && !isWeekend
+            case .oddDays:
+                return !isEven && !isWeekend
             }
+            
         }.filter { task in
             !todoViewModel.isRecurringTaskInTodayTodos(task.id)
         }
