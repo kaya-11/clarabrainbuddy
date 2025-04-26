@@ -74,7 +74,8 @@ class TodoViewModel: ObservableObject {
     func getTotalEstimatedTime() -> Int {
         return todayTodos.compactMap { todayTodo in
             if let todo = allTodos.first(where: { $0.id == todayTodo.todoId }) {
-                return todo.isDone ? nil : todo.estimatedTime
+                let estimatedTime = todo.estimatedTime ?? 15
+                return todo.isDone ? nil : estimatedTime
             }
             return nil
         }.reduce(0, +)
