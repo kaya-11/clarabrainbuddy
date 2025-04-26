@@ -19,6 +19,7 @@ struct RecurringTaskFormView: View {
     @State private var recurrenceRule: RecurrenceRule = .daily
     @State private var selectedWeekday: Int = 1 // Default to Sunday
     @State private var selectedDay: Int = 1
+    @State private var estimatedTime: Int?
     
     
     var body: some View {
@@ -58,6 +59,12 @@ struct RecurringTaskFormView: View {
                     }
                 }
                 
+                Section(header: Text(Localization.labels.estimatedTimeForm)) {
+                    TextField(Localization.labels.estimatedTimeTooltip, value: $estimatedTime, formatter: NumberFormatter())
+                        .keyboardType(.numberPad)
+                        .foregroundColor(Color.theme.primary)
+                }
+                
                 Button(action: {
                     saveTask()
                     presentationMode.wrappedValue.dismiss()
@@ -89,6 +96,7 @@ struct RecurringTaskFormView: View {
             updatedTask.title = title
             updatedTask.details = details
             updatedTask.recurrenceRule = newRecurrenceRule
+            updatedTask.estimatedTime = estimatedTime
             taskViewModel.updateRecurringTask(updatedTask)
         } else {
             taskViewModel.addRecurringTask(title: title, details: details, recurrenceRule: newRecurrenceRule)
@@ -115,6 +123,7 @@ struct RecurringTaskFormView: View {
         if let task = existingTask {
             title = task.title
             details = task.details ?? ""
+            estimatedTime = task.estimatedTime
             if case let .weekly(weekday) = task.recurrenceRule, (1...7).contains(weekday) {
                 recurrenceRule = RecurrenceRule.weekly(weekday: -1)
                 selectedWeekday = weekday

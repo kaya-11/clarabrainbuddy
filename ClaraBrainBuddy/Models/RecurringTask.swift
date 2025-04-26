@@ -18,6 +18,7 @@ struct RecurringTask: Identifiable, Codable, Hashable {
     let id: UUID
     var title: String
     var details: String?
+    var estimatedTime: Int? // in minutes
     var recurrenceRule: RecurrenceRule
 }
 
