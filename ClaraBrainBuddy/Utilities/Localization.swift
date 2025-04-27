@@ -81,6 +81,11 @@ struct Localization {
         let recurrenceRuleOddDays = NSLocalizedString("recurrence.rule.odddays.label", comment: "Odd Days")
         let editTask = NSLocalizedString("edit.task.label", comment: "Edit Recurring Task")
         let addTask = NSLocalizedString("add.task.label", comment: "Add New Recurring Task")
+        
+        let properties = NSLocalizedString("properties.label", comment: "Open properties")
+        
+        let back = NSLocalizedString("back.label", comment: "Back")
+        let save = NSLocalizedString("save.label", comment: "Save")
     }
     
     struct Weekdays {

@@ -54,11 +54,8 @@ struct RecurringTaskListView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .backgroundStyle()
             .toolbar {
-                ToolbarItem(placement: .navigation) {
-                    Image("Clara")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 55, height: 55)
+                ToolbarItem(placement: .navigationBarLeading) {
+                    ClaraMenuView()
                 }
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.titleRecurringTasks)

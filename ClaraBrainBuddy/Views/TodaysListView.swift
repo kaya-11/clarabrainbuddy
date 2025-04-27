@@ -177,10 +177,7 @@ struct TodaysListView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigation) {
-                    Image("Clara")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 55, height: 55)
+                    ClaraMenuView()
                 }
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.titleToday)

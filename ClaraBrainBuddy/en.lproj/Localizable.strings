@@ -55,4 +55,6 @@
 "weekday.thursday" = "Thursday";
 "weekday.friday" = "Friday";
 "weekday.saturday" = "Saturday";
-
+"properties.label" = "Settings";
+"back.label" = "Back";
+"save.label" = "Save";

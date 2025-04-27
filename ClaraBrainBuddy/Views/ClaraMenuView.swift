@@ -1,0 +1,28 @@
+//
+//  Views/ClaraIconSubmenu.swift
+//  ClaraBrainBuddy
+//
+//  Created by Karen on 27.04.25.
+//
+
+import SwiftUI
+
+struct ClaraMenuView: View {
+    @State private var isSettingsPresented = false
+    
+    var body: some View {
+        Menu {
+            Button(action: {
+                isSettingsPresented = true
+            }) {
+                Text(Localization.labels.properties)
+            }
+        } label: {
+            Image(systemName: "line.horizontal.3")
+                .foregroundColor(Color.theme.accent)
+        }
+        .fullScreenCover(isPresented: $isSettingsPresented) {
+            SettingsView()
+        }
+    }
+}
