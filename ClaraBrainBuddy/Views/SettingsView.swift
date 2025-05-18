@@ -11,6 +11,7 @@ import Foundation
 struct SettingsView: View {
 
     @Environment(\.presentationMode) var presentationMode
+    
     @StateObject private var viewModel = SettingsViewModel()
 
     var body: some View {

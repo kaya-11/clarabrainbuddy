@@ -11,7 +11,8 @@ struct TodaysListView: View {
     
     @ObservedObject var todoViewModel: TodoViewModel
     @ObservedObject var taskViewModel: TaskViewModel
-
+    @ObservedObject var settingsViewModel: SettingsViewModel
+    
     @State private var showingAddTodo = false
     
     @State private var selectedTodo: Todo? = nil
@@ -193,7 +194,7 @@ struct TodaysListView: View {
                 }
             }
             .sheet(item: $selectedTodo) { todo in
-                TodoFormView(todoViewModel: todoViewModel, existingTodo: todo)
+                TodoFormView(todoViewModel: todoViewModel, addDays: nil, existingTodo: todo)
             }
             .sheet(isPresented: $showingAddTodo) {
                 TodoTodayFormView(todoViewModel: todoViewModel)

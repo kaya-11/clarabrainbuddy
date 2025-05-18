@@ -10,16 +10,36 @@ import Foundation
 
 struct TodoFormView: View {
     @Environment(\.presentationMode) var presentationMode
+    
     @ObservedObject var todoViewModel: TodoViewModel
-
+    
+    var addDays : Int = 14
+    
     // If nil → Add Mode | If non-nil → Edit Mode
     var existingTodo: Todo?
 
     @State private var title: String = ""
     @State private var details: String = ""
-    @State private var dueDate: Date = Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
+    @State private var dueDate: Date = Date()
     @State private var estimatedTime: Int?
     @State private var isDone: Bool = false
+    
+    init(todoViewModel: TodoViewModel, addDays: Int?, existingTodo: Todo?) {
+        self.todoViewModel = todoViewModel
+        self.existingTodo = existingTodo
+
+        // Initialize the state variables
+        if let todo = existingTodo {
+            _title = State(initialValue: todo.title)
+            _details = State(initialValue: todo.details ?? "")
+            _dueDate = State(initialValue: todo.dueDate ?? Date())
+            _estimatedTime = State(initialValue: todo.estimatedTime)
+            _isDone = State(initialValue: todo.isDone)
+        } else {
+            let addDays = addDays ?? 14
+            _dueDate = State(initialValue: Calendar.current.date(byAdding: .day, value: addDays, to: Date()) ?? Date())
+        }
+    }
 
     var body: some View {
         NavigationView {
@@ -74,10 +94,6 @@ struct TodoFormView: View {
                         .font(Font.app.title)
                 }
             }
-            .onAppear {
-                loadTodo()
-            }
-            
         }
     }
     
@@ -93,16 +109,6 @@ struct TodoFormView: View {
         todoViewModel.updateTodo(updatedTodo)
         if vibrate {
             DeviceFeedback.vibrateTwice()
-        }
-    }
-    
-    private func loadTodo() {
-        if let todo = existingTodo {
-            title = todo.title
-            details = todo.details ?? ""
-            dueDate = todo.dueDate ?? Date()
-            estimatedTime = todo.estimatedTime
-            isDone = todo.isDone
         }
     }
 }

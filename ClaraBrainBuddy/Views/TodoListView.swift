@@ -10,6 +10,7 @@ import SwiftUI
 
 struct TodoListView: View {
     @ObservedObject var todoViewModel: TodoViewModel
+    @ObservedObject var settingsViewModel: SettingsViewModel
     
     @State private var showingAddTodo = false
     
@@ -55,10 +56,11 @@ struct TodoListView: View {
                     .onMove(perform: move)
                 }
                 .sheet(isPresented: $showingAddTodo) {
-                    TodoFormView(todoViewModel: todoViewModel, existingTodo: nil)
+                    TodoFormView(todoViewModel: todoViewModel, addDays: settingsViewModel.settings.daysAddedForDefaultDueDate,
+                                 existingTodo: nil)
                 }
                 .sheet(item: $selectedTodo) { todo in
-                    TodoFormView(todoViewModel: todoViewModel, existingTodo: todo)
+                    TodoFormView(todoViewModel: todoViewModel, addDays: nil, existingTodo: todo)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

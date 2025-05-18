@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var todoViewModel = TodoViewModel()
     @StateObject private var taskViewModel = TaskViewModel()
+    @StateObject private var settingsViewModel = SettingsViewModel()
     
     @State private var showRandomTodoView = true
     
@@ -19,11 +20,11 @@ struct ContentView: View {
         ZStack {
             
             TabView(selection: $selectedTab) {
-                TodoListView(todoViewModel: todoViewModel)
+                TodoListView(todoViewModel: todoViewModel, settingsViewModel: settingsViewModel)
                     .tabItem {
                         Label(Localization.labels.allTodosNav, systemImage: "list.bullet")
                     }.tag(0)
-                TodaysListView(todoViewModel: todoViewModel, taskViewModel: taskViewModel)
+                TodaysListView(todoViewModel: todoViewModel, taskViewModel: taskViewModel, settingsViewModel: settingsViewModel)
                     .tabItem {
                         Label(Localization.labels.todayNav, systemImage: "calendar")
                     }.tag(1)
