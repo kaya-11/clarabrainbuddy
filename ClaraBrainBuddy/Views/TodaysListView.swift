@@ -135,7 +135,8 @@ struct TodaysListView: View {
                     
                     Spacer()
                     
-                    let totalEstimatedTime = todoViewModel.getTotalEstimatedTime()
+                    let defaultEstimatedTime = settingsViewModel.settings.defaultTimeForEnergyLevelCalculation
+                    let totalEstimatedTime = todoViewModel.getTotalEstimatedTime(defaultEstimatedTime: defaultEstimatedTime)
                     if totalEstimatedTime > 0 {
                         Section {
                             VStack {
@@ -178,7 +179,7 @@ struct TodaysListView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigation) {
-                    ClaraMenuView()
+                    ClaraMenuView(settingsViewModel: settingsViewModel)
                 }
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.titleToday)

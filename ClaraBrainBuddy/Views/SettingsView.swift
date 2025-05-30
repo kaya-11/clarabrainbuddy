@@ -13,40 +13,41 @@ struct SettingsView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @StateObject private var viewModel = SettingsViewModel()
+    @ObservedObject var settingsViewModel: SettingsViewModel
 
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Max Todos for Today")) {
-                    Stepper(value: $viewModel.settings.maxTodosForToday, in: 1...100) {
-                        Text("\(viewModel.settings.maxTodosForToday)")
+                    Stepper(value: $settingsViewModel.settings.maxTodosForToday, in: 1...100) {
+                        Text("\(settingsViewModel.settings.maxTodosForToday)")
                             .foregroundColor(Color.theme.primary)
                     }
                 }
 
                 Section(header: Text("Default Estimated Time for Recurring Tasks (minutes)")) {
-                    Stepper(value: $viewModel.settings.defaultEstimatedTimeForRecurringTasks, in: 1...120) {
-                        Text("\(viewModel.settings.defaultEstimatedTimeForRecurringTasks)")
+                    Stepper(value: $settingsViewModel.settings.defaultEstimatedTimeForRecurringTasks, in: 1...120) {
+                        Text("\(settingsViewModel.settings.defaultEstimatedTimeForRecurringTasks)")
                             .foregroundColor(Color.theme.primary)
                     }
                 }
 
                 Section(header: Text("Default Time for Energy Level Calculation (minutes)")) {
-                    Stepper(value: $viewModel.settings.defaultTimeForEnergyLevelCalculation, in: 1...60) {
-                        Text("\(viewModel.settings.defaultTimeForEnergyLevelCalculation)")
+                    Stepper(value: $settingsViewModel.settings.defaultTimeForEnergyLevelCalculation, in: 1...60) {
+                        Text("\(settingsViewModel.settings.defaultTimeForEnergyLevelCalculation)")
                             .foregroundColor(Color.theme.primary)
                     }
                 }
 
                 Section(header: Text("Days Added for Default Due Date")) {
-                    Stepper(value: $viewModel.settings.daysAddedForDefaultDueDate, in: 1...30) {
-                        Text("\(viewModel.settings.daysAddedForDefaultDueDate)")
+                    Stepper(value: $settingsViewModel.settings.daysAddedForDefaultDueDate, in: 1...30) {
+                        Text("\(settingsViewModel.settings.daysAddedForDefaultDueDate)")
                             .foregroundColor(Color.theme.primary)
                     }
                 }
 
                 Button(action: {
-                    viewModel.saveSettings()
+                    settingsViewModel.saveSettings()
                     presentationMode.wrappedValue.dismiss()
                 }) {
                     Text("Save")

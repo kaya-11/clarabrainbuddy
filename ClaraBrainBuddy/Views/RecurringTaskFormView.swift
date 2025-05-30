@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecurringTaskFormView: View {
     @Environment(\.presentationMode) var presentationMode
+    
     @ObservedObject var taskViewModel: TaskViewModel
     
     // If nil → Add Mode | If non-nil → Edit Mode
@@ -21,6 +22,30 @@ struct RecurringTaskFormView: View {
     @State private var selectedDay: Int = 1
     @State private var estimatedTime: Int?
     
+    init(taskViewModel: TaskViewModel, defaultEstimatedTime: Int?, existingTask: RecurringTask? = nil) {
+        self.taskViewModel = taskViewModel
+        self.existingTask = existingTask
+        
+        // Initialize state variables
+        if let task = existingTask {
+            _title = State(initialValue: task.title)
+            _details = State(initialValue: task.details ?? "")
+            _estimatedTime = State(initialValue: task.estimatedTime)
+            if case let .weekly(weekday) = task.recurrenceRule, (1...7).contains(weekday) {
+                _recurrenceRule = State(initialValue: RecurrenceRule.weekly(weekday: -1))
+                _selectedWeekday = State(initialValue: weekday)
+            } else if case let .monthly(day) = task.recurrenceRule, day > 0 {
+                _recurrenceRule = State(initialValue: RecurrenceRule.monthly(day: -1))
+                _selectedDay = State(initialValue: day)
+            } else {
+                _recurrenceRule = State(initialValue: task.recurrenceRule)
+            }
+        } else {
+            let defaultEstimatedTime : Int = defaultEstimatedTime ?? 15
+            _estimatedTime = State(initialValue: defaultEstimatedTime)
+        }
+    }
+
     
     var body: some View {
         NavigationView {
@@ -83,9 +108,6 @@ struct RecurringTaskFormView: View {
                         .font(Font.app.title)
                 }
             }
-            .onAppear {
-                loadTask()
-            }
         }
     }
 
@@ -99,7 +121,7 @@ struct RecurringTaskFormView: View {
             updatedTask.estimatedTime = estimatedTime
             taskViewModel.updateRecurringTask(updatedTask)
         } else {
-            taskViewModel.addRecurringTask(title: title, details: details, recurrenceRule: newRecurrenceRule)
+            taskViewModel.addRecurringTask(title: title, details: details, estimatedTime: estimatedTime, recurrenceRule: newRecurrenceRule)
         }
             
     }
@@ -119,20 +141,4 @@ struct RecurringTaskFormView: View {
         }
     }
 
-    private func loadTask() {
-        if let task = existingTask {
-            title = task.title
-            details = task.details ?? ""
-            estimatedTime = task.estimatedTime
-            if case let .weekly(weekday) = task.recurrenceRule, (1...7).contains(weekday) {
-                recurrenceRule = RecurrenceRule.weekly(weekday: -1)
-                selectedWeekday = weekday
-            } else if case let .monthly(day) = task.recurrenceRule, day > 0 {
-                recurrenceRule = RecurrenceRule.monthly(day: -1)
-                selectedDay = day
-            } else {
-                recurrenceRule = task.recurrenceRule
-            }
-        }
-    }
 }

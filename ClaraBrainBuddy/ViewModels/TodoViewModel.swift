@@ -71,10 +71,10 @@ class TodoViewModel: ObservableObject {
     }
     
     
-    func getTotalEstimatedTime() -> Int {
+    func getTotalEstimatedTime(defaultEstimatedTime: Int = 15) -> Int {
         return todayTodos.compactMap { todayTodo in
             if let todo = allTodos.first(where: { $0.id == todayTodo.todoId }) {
-                let estimatedTime = todo.estimatedTime ?? 15
+                let estimatedTime = todo.estimatedTime ?? defaultEstimatedTime
                 return todo.isDone ? nil : estimatedTime
             }
             return nil

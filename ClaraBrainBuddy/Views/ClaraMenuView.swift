@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct ClaraMenuView: View {
+    
+    @ObservedObject var settingsViewModel: SettingsViewModel
+    
     @State private var isSettingsPresented = false
+
     
     var body: some View {
         Menu {
@@ -22,7 +26,7 @@ struct ClaraMenuView: View {
                 .foregroundColor(Color.theme.accent)
         }
         .fullScreenCover(isPresented: $isSettingsPresented) {
-            SettingsView()
+            SettingsView(settingsViewModel: settingsViewModel)
         }
     }
 }

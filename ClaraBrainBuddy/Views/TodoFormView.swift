@@ -13,7 +13,7 @@ struct TodoFormView: View {
     
     @ObservedObject var todoViewModel: TodoViewModel
     
-    var addDays : Int = 14
+    //var addDays : Int = 14
     
     // If nil → Add Mode | If non-nil → Edit Mode
     var existingTodo: Todo?

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecurringTaskListView: View {
     @ObservedObject var taskViewModel: TaskViewModel
+    @ObservedObject var settingsViewModel: SettingsViewModel
     
     @State private var showingAddTask = false
     
@@ -45,17 +46,17 @@ struct RecurringTaskListView: View {
                     .onMove(perform: move)
                 }
                 .sheet(isPresented: $showingAddTask) {
-                    RecurringTaskFormView(taskViewModel: taskViewModel, existingTask: nil)
+                    RecurringTaskFormView(taskViewModel: taskViewModel, defaultEstimatedTime : settingsViewModel.settings.defaultEstimatedTimeForRecurringTasks, existingTask: nil)
                 }
                 .sheet(item: $selectedTask) { task in
-                    RecurringTaskFormView(taskViewModel: taskViewModel, existingTask: task)
+                    RecurringTaskFormView(taskViewModel: taskViewModel, defaultEstimatedTime: nil, existingTask: task)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .backgroundStyle()
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    ClaraMenuView()
+                    ClaraMenuView(settingsViewModel: settingsViewModel)
                 }
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.titleRecurringTasks)
