@@ -100,29 +100,46 @@ struct TodaysListView: View {
                                 .strikethrough(todo.isDone, color: Color.theme.primary)
                                 .italic(todo.isDone)
                                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    
                                     Button(role: .destructive) {
                                         todoViewModel.deselectForToday(todo)
                                     } label: {
                                         Label("Remove", systemImage: "minus.square")
-                                    }.tint(.orange)
+                                    }
+                                    .tint(.orange)
+                                    
                                     Button(role: .destructive) {
                                         todoViewModel.deleteTodo(todo)
                                     } label: {
                                         Label("Delete", systemImage: "trash")
-                                    }.tint(.red)
+                                    }
+                                    .tint(.red)
+                                    
                                 }
                                 .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                                    
                                     Button {
                                         todoViewModel.setToDone(todo)
                                         DeviceFeedback.vibrateTwice()
                                     } label: {
                                         Label("Done", systemImage: "checkmark.square")
-                                    }.tint(.blue)
+                                    }
+                                    .tint(.blue)
+                                    
                                     Button {
                                         selectedTodo = todo
                                     } label: {
                                         Label("Done", systemImage: "pencil")
-                                    }.tint(.green)
+                                    }
+                                    .tint(.green)
+                                    
+                                    Button {
+                                        todoViewModel.cloneTodo(todo: todo)
+                                    } label: {
+                                        Label(Localization.labels.clone, systemImage: "doc.on.doc")
+                                    }
+                                    .tint(.gray)
+                                    
                                 }
                                 .foregroundColor(StyleUtils.getTextColor(todo: todo, isSelectedForToday: false))
                                 .listRowBackground(Color.theme.listBackground)

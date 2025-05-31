@@ -95,6 +95,12 @@ class TodoViewModel: ObservableObject {
         }
     }
     
+    func cloneTodo(todo: Todo) {
+        let clonedTodo = Todo(id: UUID(), title: "\(Localization.labels.clone) - \(todo.title)", details: todo.details, dueDate: todo.dueDate, estimatedTime: todo.estimatedTime, isDone: false)
+        allTodos.insert(clonedTodo, at: 0)
+        todoManager.saveTodos(allTodos)
+    }
+    
     func deleteTodo(_ todo: Todo) {
         if let index = allTodos.firstIndex(where: { $0.id == todo.id }) {
             allTodos.remove(at: index)

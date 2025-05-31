@@ -59,13 +59,16 @@ struct TodoListView: View {
                             selectedTodo = todo
                         }
                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        
                             Button(role: .destructive) {
                                 todoViewModel.deleteTodo(todo)
                             } label: {
                                 Label(Localization.labels.delete, systemImage: "trash")
                             }.tint(.red)
+                            
                         }
                         .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                            
                             Button {
                                 let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
                                 if todoViewModel.todayTodos.count >= maxCountOfTodosForToday && !todo.isSelectedForToday {
@@ -75,12 +78,23 @@ struct TodoListView: View {
                                 }
                             } label: {
                                 Label(Localization.labels.today, systemImage: "calendar")
-                            }.tint(.blue)
+                            }
+                            .tint(.blue)
+                            
                             Button {
                                 selectedTodo = todo
                             } label: {
                                 Label(Localization.labels.edit, systemImage: "pencil")
-                            }.tint(.green)
+                            }
+                            .tint(.green)
+                            
+                            Button {
+                                todoViewModel.cloneTodo(todo: todo)
+                            } label: {
+                                Label(Localization.labels.clone, systemImage: "doc.on.doc")
+                            }
+                            .tint(.gray)
+                            
                         }
                         .foregroundColor(StyleUtils.getTextColor(todo: todo, isSelectedForToday: isSelectedForToday))
                         .listRowBackground(Color.theme.listBackground)
