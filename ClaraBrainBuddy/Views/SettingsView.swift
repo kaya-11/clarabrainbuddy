@@ -18,29 +18,29 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Max Todos for Today")) {
+                Section(header: Text(Localization.labels.maxTodosForToday)) {
                     Stepper(value: $settingsViewModel.settings.maxTodosForToday, in: 1...100) {
                         Text("\(settingsViewModel.settings.maxTodosForToday)")
                             .foregroundColor(Color.theme.primary)
                     }
                 }
 
-                Section(header: Text("Default Estimated Time for Recurring Tasks (minutes)")) {
+                Section(header: Text(Localization.labels.defaultEstimatedTime)) {
                     Stepper(value: $settingsViewModel.settings.defaultEstimatedTimeForRecurringTasks, in: 1...120) {
                         Text("\(settingsViewModel.settings.defaultEstimatedTimeForRecurringTasks)")
                             .foregroundColor(Color.theme.primary)
                     }
                 }
 
-                Section(header: Text("Default Time for Energy Level Calculation (minutes)")) {
+                Section(header: Text(Localization.labels.defaultEnergyLevelCalculation)) {
                     Stepper(value: $settingsViewModel.settings.defaultTimeForEnergyLevelCalculation, in: 1...60) {
                         Text("\(settingsViewModel.settings.defaultTimeForEnergyLevelCalculation)")
                             .foregroundColor(Color.theme.primary)
                     }
                 }
 
-                Section(header: Text("Days Added for Default Due Date")) {
-                    Stepper(value: $settingsViewModel.settings.daysAddedForDefaultDueDate, in: 1...30) {
+                Section(header: Text(Localization.labels.daysAddedForDueDate)) {
+                    Stepper(value: $settingsViewModel.settings.daysAddedForDefaultDueDate, in: 1...90) {
                         Text("\(settingsViewModel.settings.daysAddedForDefaultDueDate)")
                             .foregroundColor(Color.theme.primary)
                     }
@@ -50,7 +50,7 @@ struct SettingsView: View {
                     settingsViewModel.saveSettings()
                     presentationMode.wrappedValue.dismiss()
                 }) {
-                    Text("Save")
+                    Text(Localization.labels.save)
                         .foregroundColor(Color.theme.primary)
                 }
                 .font(Font.app.button)

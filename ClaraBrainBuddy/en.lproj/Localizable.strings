@@ -62,3 +62,7 @@
 "save.label" = "Save";
 "ok.label" = "OK";
 "due.label" = "Due";
+"properties.max.todos.for.today" = "Max Todos for Today";
+"properties.default.estimated.time" = "Default Estimated Time for Recurring Tasks (minutes)";
+"properties.default.energylevel.calculation" = "Default Time for Energy Level Calculation (minutes)";
+"properties.days.added.for.duedate" = "Days to add for Default Due Date";
