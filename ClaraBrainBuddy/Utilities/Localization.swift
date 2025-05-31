@@ -71,6 +71,7 @@ struct Localization {
         let addTodoToday = NSLocalizedString("add.todo.for.today.label", comment: "Add New Todo For Today")
         let saveAddTodo = NSLocalizedString("edit.todo.save.label", comment: "Save Changes")
         let saveEditTodo = NSLocalizedString("add.todo.save.label", comment: "Add Todo")
+        let due = NSLocalizedString("due.label", comment: "Due")
         
         let recurrenceRule = NSLocalizedString("recurrence.rule.label", comment: "Recurrence Rule")
         let recurrencePicker = NSLocalizedString("recurrence.picker.label", comment: "Recurrence")
@@ -82,8 +83,10 @@ struct Localization {
         let editTask = NSLocalizedString("edit.task.label", comment: "Edit Recurring Task")
         let addTask = NSLocalizedString("add.task.label", comment: "Add New Recurring Task")
         
+        // Properties
         let properties = NSLocalizedString("properties.label", comment: "Open properties")
         
+        // Buttons
         let back = NSLocalizedString("back.label", comment: "Back")
         let save = NSLocalizedString("save.label", comment: "Save")
         let ok = NSLocalizedString("ok.label", comment: "Ok")

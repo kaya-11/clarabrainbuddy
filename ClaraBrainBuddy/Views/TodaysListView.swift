@@ -66,40 +66,67 @@ struct TodaysListView: View {
                     List {
                         ForEach(todoViewModel.todayTodos, id: \.id) { todayTodo in
                             if let todo = todoViewModel.allTodos.first(where: { $0.id == todayTodo.todoId }) {
-                                Text(todo.title)
-                                    .onTapGesture(count: 2) {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    HStack {
+                                        if todo.isDone {
+                                            Image(systemName: "checkmark.circle.fill")
+                                                .foregroundColor(Color.theme.green)
+                                        } else if todo.dueDate ?? Date() < StyleUtils.getDateThreeDaysFromNow() {
+                                            Image(systemName: "triangle.fill")
+                                                .foregroundColor(Color.theme.accent)
+                                        } else {
+                                            Image(systemName: "heart.fill")
+                                                .foregroundColor(Color.theme.blue)
+                                        }
+                                        Text(todo.title)
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    if let details = todo.details {
+                                        if !details.isEmpty {
+                                            Text(String(details.prefix(20)) + (details.count > 20 ? "..." : ""))
+                                                .font(Font.app.tiny)
+                                                .foregroundColor(Color.theme.secondary)
+                                        }
+                                    }
+                                    if let dueDate = todo.dueDate {
+                                        Text("\(Localization.labels.due): \(dueDate, formatter: StyleUtils.dateFormatter)")
+                                            .font(Font.app.tiny)
+                                            .foregroundColor(Color.theme.secondary)
+                                    }
+                                }
+                                .onTapGesture(count: 2) {
+                                    selectedTodo = todo
+                                }
+                                .strikethrough(todo.isDone, color: Color.theme.primary)
+                                .italic(todo.isDone)
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    Button(role: .destructive) {
+                                        todoViewModel.deselectForToday(todo)
+                                    } label: {
+                                        Label("Remove", systemImage: "minus.square")
+                                    }.tint(.orange)
+                                    Button(role: .destructive) {
+                                        todoViewModel.deleteTodo(todo)
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }.tint(.red)
+                                }
+                                .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                                    Button {
+                                        todoViewModel.setToDone(todo)
+                                        DeviceFeedback.vibrateTwice()
+                                    } label: {
+                                        Label("Done", systemImage: "checkmark.square")
+                                    }.tint(.blue)
+                                    Button {
                                         selectedTodo = todo
-                                    }
-                                    .strikethrough(todo.isDone, color: Color.theme.primary)
-                                    .italic(todo.isDone)
-                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                        Button(role: .destructive) {
-                                            todoViewModel.deselectForToday(todo)
-                                        } label: {
-                                            Label("Remove", systemImage: "minus.square")
-                                        }.tint(.orange)
-                                        Button(role: .destructive) {
-                                            todoViewModel.deleteTodo(todo)
-                                        } label: {
-                                            Label("Delete", systemImage: "trash")
-                                        }.tint(.red)
-                                    }
-                                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                                        Button {
-                                            todoViewModel.setToDone(todo)
-                                            DeviceFeedback.vibrateTwice()
-                                        } label: {
-                                            Label("Done", systemImage: "checkmark.square")
-                                        }.tint(.blue)
-                                        Button {
-                                            selectedTodo = todo
-                                        } label: {
-                                            Label("Done", systemImage: "pencil")
-                                        }.tint(.green)
-                                    }
-                                    .foregroundColor(StyleUtils.getTextColor(todo: todo, isSelectedForToday: false))
-                                    .listRowBackground(Color.theme.listBackground)
-                                    .font(Font.app.listItem)
+                                    } label: {
+                                        Label("Done", systemImage: "pencil")
+                                    }.tint(.green)
+                                }
+                                .foregroundColor(StyleUtils.getTextColor(todo: todo, isSelectedForToday: false))
+                                .listRowBackground(Color.theme.listBackground)
+                                .font(Font.app.listItem)
                             }
                         }
                         .onMove(perform: move)

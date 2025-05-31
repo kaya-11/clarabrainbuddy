@@ -8,17 +8,27 @@
 import SwiftUI
 
 struct StyleUtils {
-    static func getTextColor(todo: Todo, isSelectedForToday: Bool) -> Color {
-        let currentDate = Date()
-        let threeDaysFromNow = Calendar.current.date(byAdding: .day, value: 3, to: currentDate)!
 
+    static func getTextColor(todo: Todo, isSelectedForToday: Bool) -> Color {
         if todo.isDone {
             return Color.theme.green
         } else if isSelectedForToday {
             return Color.theme.blue
-        } else if todo.dueDate ?? Date() < threeDaysFromNow {
+        } else if todo.dueDate ?? Date() < getDateThreeDaysFromNow() {
             return Color.theme.accent
         }
         return Color.theme.listText
+    }
+    
+    static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter
+    }()
+    
+    static func getDateThreeDaysFromNow() -> Date {
+        let currentDate = Date()
+        return Calendar.current.date(byAdding: .day, value: 3, to: currentDate)!
     }
 }

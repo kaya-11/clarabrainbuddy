@@ -16,7 +16,7 @@ struct TodoListView: View {
     @State private var showingAddTodo = false
     @State private var selectedTodo: Todo? = nil
     @State private var showErrorMessage = false
-
+    
     var body: some View {
       
         NavigationView {
@@ -24,40 +24,67 @@ struct TodoListView: View {
                 List {
                     ForEach(todoViewModel.allTodos, id: \.self) { todo in
                         let isSelectedForToday = todo.isSelectedForToday
-                        Text(todo.title)
-                            .strikethrough(todo.isDone, color: Color.theme.primary)
-                            .italic(isSelectedForToday)
-                            .bold(isSelectedForToday)
-                            .onTapGesture(count: 2) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            HStack {
+                                if todo.isDone {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundColor(Color.theme.green)
+                                } else if isSelectedForToday {
+                                    Image(systemName: "heart.fill")
+                                        .foregroundColor(Color.theme.blue)
+                                } else if todo.dueDate ?? Date() < StyleUtils.getDateThreeDaysFromNow() {
+                                    Image(systemName: "triangle.fill")
+                                        .foregroundColor(Color.theme.accent)
+                                }
+                                Text(todo.title)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+
+                            if let details = todo.details {
+                                if !details.isEmpty {
+                                    Text(String(details.prefix(20)) + (details.count > 20 ? "..." : ""))
+                                        .font(Font.app.tiny)
+                                        .foregroundColor(Color.theme.secondary)
+                                }
+                            }
+                            if let dueDate = todo.dueDate {
+                                Text("\(Localization.labels.due): \(dueDate, formatter: StyleUtils.dateFormatter)")
+                                    .font(Font.app.tiny)
+                                    .foregroundColor(Color.theme.secondary)
+                            }
+                        }
+                        .strikethrough(todo.isDone, color: Color.theme.primary)
+                        .bold(isSelectedForToday)
+                        .onTapGesture(count: 2) {
+                            selectedTodo = todo
+                        }
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button(role: .destructive) {
+                                todoViewModel.deleteTodo(todo)
+                            } label: {
+                                Label(Localization.labels.delete, systemImage: "trash")
+                            }.tint(.red)
+                        }
+                        .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                            Button {
+                                let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
+                                if todoViewModel.todayTodos.count >= maxCountOfTodosForToday && !todo.isSelectedForToday {
+                                    showErrorMessage = true
+                                } else {
+                                    todoViewModel.selectForToday(todo)
+                                }
+                            } label: {
+                                Label(Localization.labels.today, systemImage: "calendar")
+                            }.tint(.blue)
+                            Button {
                                 selectedTodo = todo
-                            }
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                Button(role: .destructive) {
-                                    todoViewModel.deleteTodo(todo)
-                                } label: {
-                                    Label(Localization.labels.delete, systemImage: "trash")
-                                }.tint(.red)
-                            }
-                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                                Button {
-                                    let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
-                                    if todoViewModel.todayTodos.count >= maxCountOfTodosForToday && !todo.isSelectedForToday {
-                                        showErrorMessage = true
-                                    } else {
-                                        todoViewModel.selectForToday(todo)
-                                    }
-                                } label: {
-                                    Label(Localization.labels.today, systemImage: "calendar")
-                                }.tint(.blue)
-                                Button {
-                                    selectedTodo = todo
-                                } label: {
-                                    Label(Localization.labels.edit, systemImage: "pencil")
-                                }.tint(.green)
-                            }
-                            .foregroundColor(StyleUtils.getTextColor(todo: todo, isSelectedForToday: isSelectedForToday))
-                            .listRowBackground(Color.theme.listBackground)
-                            .font(Font.app.listItem)
+                            } label: {
+                                Label(Localization.labels.edit, systemImage: "pencil")
+                            }.tint(.green)
+                        }
+                        .foregroundColor(StyleUtils.getTextColor(todo: todo, isSelectedForToday: isSelectedForToday))
+                        .listRowBackground(Color.theme.listBackground)
+                        .font(Font.app.listItem)
                     }
                     .onMove(perform: move)
                 }
