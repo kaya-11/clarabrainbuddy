@@ -9,6 +9,8 @@
 "message.recurring.tasks.today" = "Recurring tasks today";
 "message.estimated.time" = "Estimated time";
 "message.estimated.time.unit" = "min";
+"message.limit.exeeded" = "Limit Exceeded";
+"message.limit.exeeded.message" = "You cannot add more than %@ todos for today.";
 "edit.todo.title.label" = "Title *";
 "edit.todo.title.tooltip" = "Enter Title";
 "edit.todo.details.label" = "Details";
@@ -58,3 +60,4 @@
 "properties.label" = "Settings";
 "back.label" = "Back";
 "save.label" = "Save";
+"ok.label" = "OK";

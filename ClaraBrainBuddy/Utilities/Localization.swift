@@ -86,6 +86,7 @@ struct Localization {
         
         let back = NSLocalizedString("back.label", comment: "Back")
         let save = NSLocalizedString("save.label", comment: "Save")
+        let ok = NSLocalizedString("ok.label", comment: "Ok")
     }
     
     struct Weekdays {
@@ -108,6 +109,8 @@ struct Localization {
         let energyLevelLow = NSLocalizedString("message.energy.level.low", comment: "low")
         let energyLevelMedium = NSLocalizedString("message.energy.level.medium", comment: "medium")
         let energyLevelHigh = NSLocalizedString("message.energy.level.high", comment: "high")
+        let limitExeeded = NSLocalizedString("message.limit.exeeded", comment: "Limit Exceeded")
+        let limitExeededMessage = NSLocalizedString("message.limit.exeeded.message", comment: "You cannot add more than %@ todos for today.")
     }
 
     struct Errors {

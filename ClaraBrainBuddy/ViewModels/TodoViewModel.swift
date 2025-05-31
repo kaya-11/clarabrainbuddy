@@ -11,16 +11,16 @@ class TodoViewModel: ObservableObject {
     private let todoManager = TodoManager()
     @Published var allTodos: [Todo] = []
     @Published var todayTodos: [TodayTodo] = []
-
+    
     init() {
         allTodos = todoManager.loadTodos()
         todayTodos = todoManager.loadTodayTodos()
     }
-
+    
     func addTodo(title: String, details: String, dueDate: Date?, estimatedTime: Int?) {
         
         let newTodo = Todo(id: UUID(), title: title, details: details, dueDate: dueDate, estimatedTime: estimatedTime)
-
+        
         allTodos.insert(newTodo, at: 0)
         todoManager.saveTodos(allTodos)
     }
@@ -42,21 +42,22 @@ class TodoViewModel: ObservableObject {
     }
     
     func selectForToday(_ todo: Todo, _ recurringTaskId: UUID? = nil) {
+        
         guard let index = allTodos.firstIndex(of: todo) else { return }
         
         allTodos[index].isSelectedForToday = true
-
+        
         let alreadyInToday = todayTodos.contains(where: { $0.todoId == todo.id })
         if !alreadyInToday {
             let newTodayTodo = TodayTodo(id: UUID(), todoId: todo.id, recurringTaskId: recurringTaskId)
             todayTodos.append(newTodayTodo)
         }
-
+        
         todoManager.saveTodos(allTodos)
         todoManager.saveTodayTodos(todayTodos)
         saveMostRecentTodo()
     }
-
+    
     func deselectForToday(_ todo: Todo) {
         if let todoIndex = allTodos.firstIndex(of: todo) {
             allTodos[todoIndex].isSelectedForToday = false
@@ -99,7 +100,7 @@ class TodoViewModel: ObservableObject {
             allTodos.remove(at: index)
             todoManager.saveTodos(allTodos)
         }
-
+        
         if let todayIndex = todayTodos.firstIndex(where: { $0.todoId == todo.id }) {
             todayTodos.remove(at: todayIndex)
             todoManager.saveTodayTodos(todayTodos)
@@ -109,7 +110,7 @@ class TodoViewModel: ObservableObject {
         DeviceFeedback.vibrate()
     }
     
-    func isRecurringTaskInTodayTodos(_ recurringTaskId: UUID) -> Bool {        
+    func isRecurringTaskInTodayTodos(_ recurringTaskId: UUID) -> Bool {
         return todayTodos.contains(where: { $0.recurringTaskId == recurringTaskId })
     }
     

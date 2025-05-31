@@ -9,13 +9,14 @@
 import SwiftUI
 
 struct TodoListView: View {
+    
     @ObservedObject var todoViewModel: TodoViewModel
     @ObservedObject var settingsViewModel: SettingsViewModel
     
     @State private var showingAddTodo = false
-    
     @State private var selectedTodo: Todo? = nil
-    
+    @State private var showErrorMessage = false
+
     var body: some View {
       
         NavigationView {
@@ -39,7 +40,12 @@ struct TodoListView: View {
                             }
                             .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                 Button {
-                                    todoViewModel.selectForToday(todo)
+                                    let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
+                                    if todoViewModel.todayTodos.count >= maxCountOfTodosForToday && !todo.isSelectedForToday {
+                                        showErrorMessage = true
+                                    } else {
+                                        todoViewModel.selectForToday(todo)
+                                    }
                                 } label: {
                                     Label(Localization.labels.today, systemImage: "calendar")
                                 }.tint(.blue)
@@ -61,6 +67,13 @@ struct TodoListView: View {
                 }
                 .sheet(item: $selectedTodo) { todo in
                     TodoFormView(todoViewModel: todoViewModel, addDays: nil, existingTodo: todo)
+                }
+                .alert(isPresented: $showErrorMessage) {
+                    Alert(
+                        title: Text(Localization.messages.limitExeeded),
+                        message: Text(String(format: Localization.messages.limitExeededMessage, "\(settingsViewModel.settings.maxTodosForToday)")),
+                        dismissButton: .default(Text(Localization.labels.ok))
+                    )
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

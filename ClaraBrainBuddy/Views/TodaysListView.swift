@@ -14,9 +14,8 @@ struct TodaysListView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
     
     @State private var showingAddTodo = false
-    
     @State private var selectedTodo: Todo? = nil
-    
+    @State private var showErrorMessage = false
     @State private var energyLevel: Float = EnergyManager.EnergyLevel.medium.rawValue
     
     var recurringTasks: [RecurringTask] {
@@ -123,7 +122,12 @@ struct TodaysListView: View {
                                     .listRowBackground(Color.theme.listBackground)
                                     .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                         Button {
-                                            todoViewModel.addRecurringTaskAsTodoForToday(todaysTask)
+                                            let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
+                                            if todoViewModel.todayTodos.count >= maxCountOfTodosForToday {
+                                                showErrorMessage = true
+                                            } else {
+                                                todoViewModel.addRecurringTaskAsTodoForToday(todaysTask)
+                                            }
                                         } label: {
                                             Label("Add to Today", systemImage: "plus.square")
                                         }.tint(.green)
@@ -188,7 +192,12 @@ struct TodaysListView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        showingAddTodo = true
+                        let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
+                        if todoViewModel.todayTodos.count >= maxCountOfTodosForToday {
+                            showErrorMessage = true
+                        } else {
+                            showingAddTodo = true
+                        }
                     }) {
                         Image(systemName: "plus.circle")
                     }
@@ -199,6 +208,13 @@ struct TodaysListView: View {
             }
             .sheet(isPresented: $showingAddTodo) {
                 TodoTodayFormView(todoViewModel: todoViewModel)
+            }
+            .alert(isPresented: $showErrorMessage) {
+                Alert(
+                    title: Text(Localization.messages.limitExeeded),
+                    message: Text(String(format: Localization.messages.limitExeededMessage, "\(settingsViewModel.settings.maxTodosForToday)")),
+                    dismissButton: .default(Text(Localization.labels.ok))
+                )
             }
         }
     }
