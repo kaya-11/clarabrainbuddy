@@ -66,3 +66,4 @@
 "properties.default.estimated.time" = "Standardgeschätzte Zeit für wiederkehrende Aufgaben (in Minuten)";
 "properties.default.energylevel.calculation" = "Standardzeit für die Berechnung des Energieniveaus (in Minuten)";
 "properties.days.added.for.duedate" = "Tage hinzufügen für das Standard-Fälligkeitsdatum";
+"open.calendar" = "Öffne Kalender";

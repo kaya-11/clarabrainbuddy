@@ -83,12 +83,13 @@ struct Localization {
         let editTask = NSLocalizedString("edit.task.label", comment: "Edit Recurring Task")
         let addTask = NSLocalizedString("add.task.label", comment: "Add New Recurring Task")
         
-        // Properties
+        // Properties and Clara Main Menu
         let properties = NSLocalizedString("properties.label", comment: "Open properties")
         let maxTodosForToday = NSLocalizedString("properties.max.todos.for.today", comment: "Max Todos for Today")
         let defaultEstimatedTime = NSLocalizedString("properties.default.estimated.time", comment: "Default Estimated Time for Recurring Tasks (minutes)")
         let defaultEnergyLevelCalculation = NSLocalizedString("properties.default.energylevel.calculation", comment: "Default Time for Energy Level Calculation (minutes)")
         let daysAddedForDueDate = NSLocalizedString("properties.days.added.for.duedate", comment: "Days to add for Default Due Date")
+        let openCalendar = NSLocalizedString("open.calendar", comment: "Open Calendar")
         
         // Buttons
         let back = NSLocalizedString("back.label", comment: "Back")

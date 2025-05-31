@@ -21,6 +21,13 @@ struct ClaraMenuView: View {
             }) {
                 Text(Localization.labels.properties)
             }
+            Button(action: {
+                if let url = URL(string: "calshow://") {
+                    UIApplication.shared.open(url)
+                }
+            }) {
+                Text(Localization.labels.openCalendar)
+            }
         } label: {
             Image(systemName: "line.horizontal.3")
                 .foregroundColor(Color.theme.accent)
