@@ -45,6 +45,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		9C436E6E2DEBC3E900B26C0A /* Exceptions for "ClaraBrainBuddy" folder in "ClaraBrainBuddy" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 9CA28D552D88B306001245CF /* ClaraBrainBuddy */;
+		};
 		9C92D19D2D8CB19C005AADB6 /* Exceptions for "ClaraBrainBuddy" folder in "ClaraBrainBuddyTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -65,6 +72,7 @@
 		9CA28D582D88B306001245CF /* ClaraBrainBuddy */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				9C436E6E2DEBC3E900B26C0A /* Exceptions for "ClaraBrainBuddy" folder in "ClaraBrainBuddy" target */,
 				9C92D19D2D8CB19C005AADB6 /* Exceptions for "ClaraBrainBuddy" folder in "ClaraBrainBuddyTests" target */,
 				9C92D19E2D8CB19C005AADB6 /* Exceptions for "ClaraBrainBuddy" folder in "ClaraBrainBuddyUITests" target */,
 			);
@@ -439,6 +447,7 @@
 				DEVELOPMENT_TEAM = 4H7L7A53NK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ClaraBrainBuddy/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -468,6 +477,7 @@
 				DEVELOPMENT_TEAM = 4H7L7A53NK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ClaraBrainBuddy/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
