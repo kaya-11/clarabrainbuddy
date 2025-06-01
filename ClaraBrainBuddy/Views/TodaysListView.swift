@@ -71,9 +71,6 @@ struct TodaysListView: View {
                                         if todo.isDone {
                                             Image(systemName: "checkmark.circle.fill")
                                                 .foregroundColor(Color.theme.green)
-                                        } else if todo.dueDate ?? Date() < StyleUtils.getDateThreeDaysFromNow() {
-                                            Image(systemName: "triangle.fill")
-                                                .foregroundColor(Color.theme.accent)
                                         } else {
                                             Image(systemName: "heart.fill")
                                                 .foregroundColor(Color.theme.blue)
