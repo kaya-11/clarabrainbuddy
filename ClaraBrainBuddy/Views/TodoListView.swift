@@ -32,6 +32,9 @@ struct TodoListView: View {
                                 } else if isSelectedForToday {
                                     Image(systemName: "heart.fill")
                                         .foregroundColor(Color.theme.blue)
+                                } else if todo.dueDate ?? Date() < StyleUtils.getDateSevenDaysBeforeNow() {
+                                    Image(systemName: "stop.fill")
+                                        .foregroundColor(Color.theme.red)
                                 } else if todo.dueDate ?? Date() < StyleUtils.getDateThreeDaysFromNow() {
                                     Image(systemName: "triangle.fill")
                                         .foregroundColor(Color.theme.accent)
