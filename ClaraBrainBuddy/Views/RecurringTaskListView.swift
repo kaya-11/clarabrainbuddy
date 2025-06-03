@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecurringTaskListView: View {
     @ObservedObject var taskViewModel: TaskViewModel
+    @ObservedObject var todoViewModel: TodoViewModel
     @ObservedObject var settingsViewModel: SettingsViewModel
     
     @State private var showingAddTask = false
@@ -56,7 +57,7 @@ struct RecurringTaskListView: View {
             .backgroundStyle()
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    ClaraMenuView(settingsViewModel: settingsViewModel)
+                    ClaraMenuView(settingsViewModel: settingsViewModel, todoViewModel: todoViewModel)
                 }
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.titleRecurringTasks)

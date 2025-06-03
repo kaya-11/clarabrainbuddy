@@ -124,7 +124,7 @@ struct TodoListView: View {
             .backgroundStyle()
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    ClaraMenuView(settingsViewModel: settingsViewModel)
+                    ClaraMenuView(settingsViewModel: settingsViewModel, todoViewModel: todoViewModel)
                 }
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.titleAllTodos)

@@ -28,7 +28,7 @@ struct ContentView: View {
                     .tabItem {
                         Label(Localization.labels.todayNav, systemImage: "calendar")
                     }.tag(1)
-                RecurringTaskListView(taskViewModel: taskViewModel, settingsViewModel: settingsViewModel)
+                RecurringTaskListView(taskViewModel: taskViewModel, todoViewModel: todoViewModel, settingsViewModel: settingsViewModel)
                     .tabItem {
                         Label(Localization.labels.recurringTasksNav, systemImage: "checklist")
                     }.tag(2)

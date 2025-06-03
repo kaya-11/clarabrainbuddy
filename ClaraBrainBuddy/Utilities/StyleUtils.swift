@@ -38,4 +38,11 @@ struct StyleUtils {
         let currentDate = Date()
         return Calendar.current.date(byAdding: .day, value: -7, to: currentDate)!
     }
+    
+    static func getTextColorForEvent(eventIsInTodos: Bool) -> Color {
+        if eventIsInTodos {
+            return Color.theme.blue
+        }
+        return Color.theme.listText
+    }
 }

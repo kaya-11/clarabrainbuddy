@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import EventKit
 
 class TodoViewModel: ObservableObject {
     private let todoManager = TodoManager()
@@ -27,6 +28,26 @@ class TodoViewModel: ObservableObject {
     
     func addRecurringTaskAsTodoForToday(_ recurringTask: RecurringTask) {
         addNewTodoForToday(title: recurringTask.title, details: recurringTask.details ?? "", estimatedTime: recurringTask.estimatedTime, recurringTaskId: recurringTask.id)
+    }
+    
+    func eventAlreadyExistsAsTodo(_ event: EKEvent) -> Bool {
+        let calendar = Calendar.current
+
+        // Extract day, month, and year from event.startDate
+        let startDateComponents = calendar.dateComponents([.day, .month, .year], from: event.startDate)
+        guard let startDateWithoutTime = calendar.date(from: startDateComponents) else {
+            return false
+        }
+
+        // Compare the title and the date without time
+        return allTodos.contains { todo in
+            let todoDueDateComponents = calendar.dateComponents([.day, .month, .year], from: todo.dueDate ?? Date())
+            guard let todoDueDateWithoutTime = calendar.date(from: todoDueDateComponents) else {
+                return false
+            }
+
+            return todo.title == event.title && todoDueDateWithoutTime == startDateWithoutTime
+        }
     }
     
     func addNewTodoForToday(title: String, details: String, estimatedTime: Int?, recurringTaskId: UUID? = nil) {

@@ -224,7 +224,7 @@ struct TodaysListView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigation) {
-                    ClaraMenuView(settingsViewModel: settingsViewModel)
+                    ClaraMenuView(settingsViewModel: settingsViewModel, todoViewModel: todoViewModel)
                 }
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.titleToday)
