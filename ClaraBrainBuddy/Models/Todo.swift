@@ -14,6 +14,7 @@ struct Todo: Identifiable, Codable, Hashable {
     var estimatedTime: Int? // in minutes
     var isSelectedForToday: Bool = false
     var isDone: Bool = false
+    var resistance: Int? = 0
     var createdAt = Date()
     var updatedAt = Date()
 }

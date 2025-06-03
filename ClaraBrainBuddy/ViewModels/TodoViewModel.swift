@@ -82,6 +82,7 @@ class TodoViewModel: ObservableObject {
     func deselectForToday(_ todo: Todo) {
         if let todoIndex = allTodos.firstIndex(of: todo) {
             allTodos[todoIndex].isSelectedForToday = false
+            allTodos[todoIndex].resistance = increaseResistance(resistance: todo.resistance)
             todoManager.saveTodos(allTodos)
         }
         
@@ -90,6 +91,14 @@ class TodoViewModel: ObservableObject {
             todoManager.saveTodayTodos(todayTodos)
             saveMostRecentTodo()
         }
+    }
+    
+    private func increaseResistance(resistance: Int?) -> Int {
+        var resistanceNew = resistance ?? 0
+        if resistanceNew <= 10 {
+            resistanceNew+=1
+        }
+        return resistanceNew
     }
     
     
@@ -168,6 +177,8 @@ class TodoViewModel: ObservableObject {
     func moveTodoOneDown(_ todo: Todo) {
         guard let currentIndex = allTodos.firstIndex(of: todo) else { return }
 
+        allTodos[currentIndex].resistance = increaseResistance(resistance: todo.resistance)
+        
         let newIndex = currentIndex + 1
         if newIndex < allTodos.count {
             allTodos.swapAt(currentIndex, newIndex)

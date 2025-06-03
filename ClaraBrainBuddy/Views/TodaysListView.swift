@@ -78,6 +78,7 @@ struct TodaysListView: View {
                                         Text(todo.title)
                                     }
                                     .frame(maxWidth: .infinity, alignment: .leading)
+                                    
                                     if let details = todo.details {
                                         if !details.isEmpty {
                                             Text(String(details.prefix(20)) + (details.count > 20 ? "..." : ""))
@@ -85,10 +86,23 @@ struct TodaysListView: View {
                                                 .foregroundColor(Color.theme.secondary)
                                         }
                                     }
+                                    
                                     if let dueDate = todo.dueDate {
                                         Text("\(Localization.labels.due): \(dueDate, formatter: StyleUtils.dateFormatter)")
                                             .font(Font.app.tiny)
                                             .foregroundColor(Color.theme.secondary)
+                                    }
+                                    
+                                    let resistance = todo.resistance != nil ? todo.resistance! : 0
+                                    if (1...10).contains(resistance) {
+                                        HStack {
+                                            ForEach(1...resistance, id: \.self) { value in
+                                                Image(systemName: "mountain.2")
+                                                    .foregroundColor(StyleUtils.iconFontColorForLevels(for: value))
+                                                    .imageScale(.small)
+                                                    .font(StyleUtils.iconFontSizeForLevels(for: value))
+                                            }
+                                        }
                                     }
                                 }
                                 .onTapGesture(count: 2) {
