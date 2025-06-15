@@ -246,15 +246,22 @@ struct TodaysListView: View {
                         .font(Font.app.title)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
-                        if todoViewModel.todayTodos.count >= maxCountOfTodosForToday {
-                            showErrorMessage = true
-                        } else {
-                            showingAddTodo = true
+                    HStack {
+                        Button(action: {
+                            todoViewModel.reorderTodayTodos()
+                        }) {
+                            Image(systemName: "arrow.clockwise")
                         }
-                    }) {
-                        Image(systemName: "plus.circle")
+                        Button(action: {
+                            let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
+                            if todoViewModel.todayTodos.count >= maxCountOfTodosForToday {
+                                showErrorMessage = true
+                            } else {
+                                showingAddTodo = true
+                            }
+                        }) {
+                            Image(systemName: "plus.circle")
+                        }
                     }
                 }
             }
@@ -275,7 +282,7 @@ struct TodaysListView: View {
     }
     
     func move(from source: IndexSet, to destination: Int) {
-        todoViewModel.reorderTodayTodos(from: source, to: destination)
+        todoViewModel.moveTodayTodos(from: source, to: destination)
     }
     
 }

@@ -159,7 +159,7 @@ class TodoViewModel: ObservableObject {
         }
     }
     
-    func reorderTodayTodos(from source: IndexSet, to destination: Int) {
+    func moveTodayTodos(from source: IndexSet, to destination: Int) {
         todayTodos.move(fromOffsets: source, toOffset: destination)
         todoManager.saveTodayTodos(todayTodos)
         saveMostRecentTodo()
@@ -193,6 +193,43 @@ class TodoViewModel: ObservableObject {
             allTodos.insert(todo, at: 0)
             updateTodos()
         }
+    }
+    
+    func reorderTodayTodos() {
+        todayTodos.sort { firstTodo, secondTodo in
+             guard let first = allTodos.first(where: { $0.id == firstTodo.todoId }),
+                   let second = allTodos.first(where: { $0.id == secondTodo.todoId }) else {
+                 return false
+             }
+
+            // The completed todos to the end.
+            if first.isDone && !second.isDone {
+                return false
+            } else if !first.isDone && second.isDone {
+                return true
+            } else if first.isDone && second.isDone {
+                return first.dueDate ?? first.createdAt < second.dueDate ?? second.createdAt
+            }
+            
+            // Todos with no estimated time to the top
+             if first.estimatedTime == nil && second.estimatedTime != nil {
+                 return true
+             } else if first.estimatedTime != nil && second.estimatedTime == nil {
+                 return false
+             } else if first.estimatedTime == nil && second.estimatedTime == nil {
+                 return first.dueDate ?? first.createdAt < second.dueDate ?? second.createdAt
+             }
+
+             if first.estimatedTime != second.estimatedTime {
+                 return first.estimatedTime! < second.estimatedTime!
+             } else {
+                 return first.dueDate ?? first.createdAt < second.dueDate ?? second.createdAt
+             }
+         }
+
+         todoManager.saveTodayTodos(todayTodos)
+         saveMostRecentTodo()
+        
     }
 
 }
