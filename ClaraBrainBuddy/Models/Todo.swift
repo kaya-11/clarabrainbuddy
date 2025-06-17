@@ -17,4 +17,15 @@ struct Todo: Identifiable, Codable, Hashable {
     var resistance: Int? = 0
     var createdAt = Date()
     var updatedAt = Date()
+    
+    func getDetails() -> String {
+        var taskDescription = title
+
+        // Append details if it is not nil or empty
+        if let details = details, !details.isEmpty {
+            taskDescription += "\n" + details
+        }
+
+        return taskDescription
+    }
 }

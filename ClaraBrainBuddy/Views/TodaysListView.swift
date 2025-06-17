@@ -16,6 +16,7 @@ struct TodaysListView: View {
     @State private var showingAddTodo = false
     @State private var selectedTodo: Todo? = nil
     @State private var showErrorMessage = false
+    @State private var sharedTodoDetails: SharedTodoDetailsWrapper? = nil
     @State private var energyLevel: Float = EnergyManager.EnergyLevel.medium.rawValue
     
     var recurringTasks: [RecurringTask] {
@@ -145,9 +146,16 @@ struct TodaysListView: View {
                                     .tint(.green)
                                     
                                     Button {
+                                        sharedTodoDetails = SharedTodoDetailsWrapper(todo: todo)
+                                    } label: {
+                                        Label(Localization.labels.shareDetails, systemImage: "doc.on.doc")
+                                    }
+                                    .tint(.cyan)
+                                    
+                                    Button {
                                         todoViewModel.cloneTodo(todo: todo)
                                     } label: {
-                                        Label(Localization.labels.clone, systemImage: "doc.on.doc")
+                                        Label(Localization.labels.clone, systemImage: "plus.square.on.square")
                                     }
                                     .tint(.gray)
                                     
@@ -264,6 +272,10 @@ struct TodaysListView: View {
                         }
                     }
                 }
+            }
+            .sheet(item: $sharedTodoDetails) { wrapper in
+                let text = wrapper.todo.getDetails()
+                ShareTextSheet(activityItems: [text])
             }
             .sheet(item: $selectedTodo) { todo in
                 TodoFormView(todoViewModel: todoViewModel, addDays: nil, existingTodo: todo)

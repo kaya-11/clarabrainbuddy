@@ -63,6 +63,7 @@
 "ok.label" = "Ok";
 "due.label" = "Bis";
 "clone.label" = "Kopie";
+"share.details.label" = "Teile Details";
 "properties.max.todos.for.today" = "Max Todos für Heute";
 "properties.default.estimated.time" = "Standardgeschätzte Zeit für wiederkehrende Aufgaben (in Minuten)";
 "properties.default.energylevel.calculation" = "Standardzeit für die Berechnung des Energieniveaus (in Minuten)";

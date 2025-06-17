@@ -16,6 +16,7 @@ struct TodoListView: View {
     @State private var showingAddTodo = false
     @State private var selectedTodo: Todo? = nil
     @State private var showErrorMessage = false
+    @State private var sharedTodoDetails: SharedTodoDetailsWrapper? = nil
     
     var body: some View {
       
@@ -104,9 +105,16 @@ struct TodoListView: View {
                             .tint(.green)
                             
                             Button {
+                                sharedTodoDetails = SharedTodoDetailsWrapper(todo: todo)
+                            } label: {
+                                Label(Localization.labels.shareDetails, systemImage: "doc.on.doc")
+                            }
+                            .tint(.cyan)
+                            
+                            Button {
                                 todoViewModel.cloneTodo(todo: todo)
                             } label: {
-                                Label(Localization.labels.clone, systemImage: "doc.on.doc")
+                                Label(Localization.labels.clone, systemImage: "plus.square.on.square")
                             }
                             .tint(.gray)
                             
@@ -120,6 +128,10 @@ struct TodoListView: View {
                 .sheet(isPresented: $showingAddTodo) {
                     TodoFormView(todoViewModel: todoViewModel, addDays: settingsViewModel.settings.daysAddedForDefaultDueDate,
                                  existingTodo: nil)
+                }
+                .sheet(item: $sharedTodoDetails) { wrapper in
+                    let text = wrapper.todo.getDetails()
+                    ShareTextSheet(activityItems: [text])
                 }
                 .sheet(item: $selectedTodo) { todo in
                     TodoFormView(todoViewModel: todoViewModel, addDays: nil, existingTodo: todo)

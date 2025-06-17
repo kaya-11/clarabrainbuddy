@@ -63,6 +63,7 @@
 "ok.label" = "OK";
 "due.label" = "Due";
 "clone.label" = "Clone";
+"share.details.label" = "Share details";
 "properties.max.todos.for.today" = "Max Todos for Today";
 "properties.default.estimated.time" = "Default Estimated Time for Recurring Tasks (minutes)";
 "properties.default.energylevel.calculation" = "Default Time for Energy Level Calculation (minutes)";

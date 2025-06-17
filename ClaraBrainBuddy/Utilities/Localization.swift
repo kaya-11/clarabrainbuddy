@@ -96,6 +96,8 @@ struct Localization {
         let save = NSLocalizedString("save.label", comment: "Save")
         let ok = NSLocalizedString("ok.label", comment: "Ok")
         let clone = NSLocalizedString("clone.label", comment: "Clone")
+        let shareDetails = NSLocalizedString("share.details.label", comment: "Share details")
+        
     }
     
     struct Weekdays {
