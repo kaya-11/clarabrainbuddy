@@ -32,6 +32,9 @@
 "edit.label" = "Edit";
 "delete.label" = "Delete";
 "today.label" = "Today";
+"done.label" = "Done";
+"copy.label" = "Copy";
+"remove.label" = "Remove";
 "message.energy.level" = "Energy Level";
 "message.energy.level.low" = "low";
 "message.energy.level.medium" = "medium";

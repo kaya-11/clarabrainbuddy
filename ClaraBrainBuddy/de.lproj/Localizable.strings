@@ -32,6 +32,9 @@
 "edit.label" = "Bearbeiten";
 "delete.label" = "Löschen";
 "today.label" = "Heute";
+"done.label" = "Erledigt";
+"copy.label" = "Kopieren";
+"remove.label" = "Entfernen";
 "message.energy.level" = "Energielevel";
 "message.energy.level.low" = "niedrig";
 "message.energy.level.medium" = "mittel";
@@ -62,7 +65,7 @@
 "save.label" = "Speichern";
 "ok.label" = "Ok";
 "due.label" = "Bis";
-"clone.label" = "Kopie";
+"clone.label" = "Duplizieren";
 "share.details.label" = "Teile Details";
 "properties.max.todos.for.today" = "Max Todos für Heute";
 "properties.default.estimated.time" = "Standardgeschätzte Zeit für wiederkehrende Aufgaben (in Minuten)";

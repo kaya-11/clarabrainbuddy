@@ -116,14 +116,14 @@ struct TodaysListView: View {
                                     Button(role: .destructive) {
                                         todoViewModel.deselectForToday(todo)
                                     } label: {
-                                        Label("Remove", systemImage: "minus.square")
+                                        Label(Localization.labels.remove, systemImage: "minus.square")
                                     }
                                     .tint(.orange)
                                     
                                     Button(role: .destructive) {
                                         todoViewModel.deleteTodo(todo)
                                     } label: {
-                                        Label("Delete", systemImage: "trash")
+                                        Label(Localization.labels.delete, systemImage: "trash")
                                     }
                                     .tint(.red)
                                     
@@ -134,14 +134,14 @@ struct TodaysListView: View {
                                         todoViewModel.setToDone(todo)
                                         DeviceFeedback.vibrateTwice()
                                     } label: {
-                                        Label("Done", systemImage: "checkmark.square")
+                                        Label(Localization.labels.done, systemImage: "checkmark.square")
                                     }
                                     .tint(.blue)
                                     
                                     Button {
                                         selectedTodo = todo
                                     } label: {
-                                        Label("Done", systemImage: "pencil")
+                                        Label(Localization.labels.edit, systemImage: "pencil")
                                     }
                                     .tint(.green)
                                     

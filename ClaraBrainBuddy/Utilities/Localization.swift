@@ -96,6 +96,10 @@ struct Localization {
         let save = NSLocalizedString("save.label", comment: "Save")
         let ok = NSLocalizedString("ok.label", comment: "Ok")
         let clone = NSLocalizedString("clone.label", comment: "Clone")
+        let done = NSLocalizedString("done.label", comment: "Done")
+        let copy = NSLocalizedString("copy.label", comment: "Copy")
+        let remove = NSLocalizedString("remove.label", comment: "Remove")
+        
         let shareDetails = NSLocalizedString("share.details.label", comment: "Share details")
         
     }
