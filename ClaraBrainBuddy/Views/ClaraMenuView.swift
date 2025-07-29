@@ -14,8 +14,10 @@ struct ClaraMenuView: View {
     
     @State private var isSettingsPresented = false
     @State private var isTodaysEventsPresented = false
-
     
+    @State private var showingShareSheet = false
+    @State private var urlToShare: URL?
+
     var body: some View {
         Menu {
             
@@ -38,6 +40,23 @@ struct ClaraMenuView: View {
             }) {
                 Text(Localization.labels.properties)
             }
+            
+            Button(action: {
+                let dateString = StyleUtils.dateTimeFormatter.string(from: Date())
+                let fileName = "Clara_All_Todos_\(dateString).json"
+                
+                let todos = todoViewModel.allTodos
+                
+                let url = ImportExportUtils.exportTodosToJSONFile(todos: todos, fileName: fileName)
+
+                if FileManager.default.fileExists(atPath: url.path) {
+                    urlToShare = url
+                    showingShareSheet = true
+                }
+                
+            }) {
+                Text(Localization.labels.exportAll)
+            }
 
         
         } label: {
@@ -49,6 +68,11 @@ struct ClaraMenuView: View {
         }
         .fullScreenCover(isPresented: $isTodaysEventsPresented) {
             CalendarView(todoViewModel: todoViewModel)
+        }
+        .sheet(isPresented: $showingShareSheet) {
+            if let url = urlToShare {
+                ShareSheet(activityItems: [url])
+            }
         }
     }
 }

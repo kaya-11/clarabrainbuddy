@@ -72,3 +72,4 @@
 "properties.default.energylevel.calculation" = "Standardzeit für die Berechnung des Energieniveaus (in Minuten)";
 "properties.days.added.for.duedate" = "Tage hinzufügen für das Standard-Fälligkeitsdatum";
 "open.calendar" = "Öffne Kalender";
+"export.all.label" = "Exportiere alle Todos";

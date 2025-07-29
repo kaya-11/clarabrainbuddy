@@ -72,3 +72,4 @@
 "properties.default.energylevel.calculation" = "Default Time for Energy Level Calculation (minutes)";
 "properties.days.added.for.duedate" = "Days to add for Default Due Date";
 "open.calendar" = "Open Calendar";
+"export.all.label" = "Export All Todos";

@@ -33,6 +33,12 @@ struct StyleUtils {
         return formatter
     }()
     
+    static let dateTimeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd_HHmmss"
+        return formatter
+    }()
+    
     static func getDateThreeDaysFromNow() -> Date {
         let currentDate = Date()
         return Calendar.current.date(byAdding: .day, value: 3, to: currentDate)!

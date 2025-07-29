@@ -101,6 +101,7 @@ struct Localization {
         let remove = NSLocalizedString("remove.label", comment: "Remove")
         
         let shareDetails = NSLocalizedString("share.details.label", comment: "Share details")
+        let exportAll = NSLocalizedString("export.all.label", comment: "Export All Todos")
         
     }
     
