@@ -17,6 +17,7 @@ struct TodoListView: View {
     @State private var selectedTodo: Todo? = nil
     @State private var showErrorMessage = false
     @State private var sharedTodoDetails: SharedTodoDetailsWrapper? = nil
+    @State private var sharedTodos: SharedTodosWrapper? = nil
     
     var body: some View {
       
@@ -103,6 +104,13 @@ struct TodoListView: View {
                                 Label(Localization.labels.edit, systemImage: "pencil")
                             }
                             .tint(.green)
+
+                            Button {
+                                sharedTodos = SharedTodosWrapper(todos: [todo])
+                            } label: {
+                                Label(Localization.labels.shareDetails, systemImage: "square.and.arrow.up")
+                            }
+                            .tint(.mint)
                             
                             Button {
                                 sharedTodoDetails = SharedTodoDetailsWrapper(todo: todo)
@@ -129,9 +137,16 @@ struct TodoListView: View {
                     TodoFormView(todoViewModel: todoViewModel, addDays: settingsViewModel.settings.daysAddedForDefaultDueDate,
                                  existingTodo: nil)
                 }
+                .sheet(item: $sharedTodos) { wrapper in
+                    let todos : [Todo] = wrapper.todos
+                    let url : URL = ImportExportUtils.exportTodosToJSONFile(todos: todos, fileName: "clara_todo.json")
+                    if (FileManager.default.fileExists(atPath: url.path)) {
+                        ShareSheet(activityItems: [url])
+                    }
+                }
                 .sheet(item: $sharedTodoDetails) { wrapper in
                     let text = wrapper.todo.getDetails()
-                    ShareTextSheet(activityItems: [text])
+                    ShareSheet(activityItems: [text])
                 }
                 .sheet(item: $selectedTodo) { todo in
                     TodoFormView(todoViewModel: todoViewModel, addDays: nil, existingTodo: todo)

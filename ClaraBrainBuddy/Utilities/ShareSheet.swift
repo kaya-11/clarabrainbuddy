@@ -8,7 +8,7 @@
 import SwiftUI
 import UIKit
 
-struct ShareTextSheet: UIViewControllerRepresentable {
+struct ShareSheet: UIViewControllerRepresentable {
     let activityItems: [Any]
     let applicationActivities: [UIActivity]? = nil
 

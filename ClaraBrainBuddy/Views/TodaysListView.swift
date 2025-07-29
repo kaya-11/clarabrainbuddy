@@ -275,7 +275,7 @@ struct TodaysListView: View {
             }
             .sheet(item: $sharedTodoDetails) { wrapper in
                 let text = wrapper.todo.getDetails()
-                ShareTextSheet(activityItems: [text])
+                ShareSheet(activityItems: [text])
             }
             .sheet(item: $selectedTodo) { todo in
                 TodoFormView(todoViewModel: todoViewModel, addDays: nil, existingTodo: todo)
