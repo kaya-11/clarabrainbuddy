@@ -115,7 +115,7 @@ struct TodoListView: View {
                             Button {
                                 sharedTodoDetails = SharedTodoDetailsWrapper(todo: todo)
                             } label: {
-                                Label(Localization.labels.shareDetails, systemImage: "doc.on.doc")
+                                Label(Localization.labels.copy, systemImage: "doc.on.doc")
                             }
                             .tint(.cyan)
                             
