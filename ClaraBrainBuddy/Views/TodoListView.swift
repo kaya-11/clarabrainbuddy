@@ -34,10 +34,10 @@ struct TodoListView: View {
                                 } else if isSelectedForToday {
                                     Image(systemName: "heart.fill")
                                         .foregroundColor(Color.theme.blue)
-                                } else if todo.dueDate ?? Date() < StyleUtils.getDateSevenDaysBeforeNow() {
+                                } else if todo.isOverdue {
                                     Image(systemName: "stop.fill")
                                         .foregroundColor(Color.theme.red)
-                                } else if todo.dueDate ?? Date() < StyleUtils.getDateThreeDaysFromNow() {
+                                } else if todo.isDueSoon {
                                     Image(systemName: "triangle.fill")
                                         .foregroundColor(Color.theme.accent)
                                 }

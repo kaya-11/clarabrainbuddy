@@ -72,10 +72,7 @@ struct TodaysListView: View {
                                         if todo.isDone {
                                             Image(systemName: "checkmark.circle.fill")
                                                 .foregroundColor(Color.theme.green)
-                                        } else {
-                                            Image(systemName: "heart.fill")
-                                                .foregroundColor(Color.theme.blue)
-                                        }
+                                        } 
                                         Text(todo.title)
                                     }
                                     .frame(maxWidth: .infinity, alignment: .leading)

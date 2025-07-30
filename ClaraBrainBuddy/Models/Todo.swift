@@ -18,6 +18,19 @@ struct Todo: Identifiable, Codable, Hashable {
     var createdAt = Date()
     var updatedAt = Date()
     
+    init(id: UUID = UUID(), title: String, details: String? = nil, dueDate: Date? = nil, estimatedTime: Int? = nil, isSelectedForToday: Bool = false, isDone: Bool = false, resistance: Int? = 0) {
+        self.id = id
+        self.title = title
+        self.details = details
+        self.dueDate = dueDate
+        self.estimatedTime = estimatedTime
+        self.isSelectedForToday = isSelectedForToday
+        self.isDone = isDone
+        self.resistance = resistance
+        self.createdAt = Date()
+        self.updatedAt = Date()
+    }
+    
     func getDetails() -> String {
         var taskDescription = title
 
@@ -27,5 +40,15 @@ struct Todo: Identifiable, Codable, Hashable {
         }
 
         return taskDescription
+    }
+    
+    var isOverdue: Bool {
+        guard let dueDate = dueDate else { return false }
+        return dueDate < DateUtils.getDateSevenDaysBeforeNow()
+    }
+    
+    var isDueSoon: Bool {
+        guard let dueDate = dueDate else { return false }
+        return dueDate < DateUtils.getDateThreeDaysFromNow()
     }
 }

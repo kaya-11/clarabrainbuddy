@@ -18,9 +18,9 @@ struct StyleUtils {
             return Color.theme.green
         } else if isSelectedForToday {
             return Color.theme.blue
-        } else if todo.dueDate ?? Date() < getDateSevenDaysBeforeNow() {
+        } else if todo.isOverdue {
             return Color.theme.red
-        } else if todo.dueDate ?? Date() < getDateThreeDaysFromNow() {
+        } else if todo.isDueSoon {
             return Color.theme.accent
         }
         return Color.theme.listText
@@ -39,15 +39,7 @@ struct StyleUtils {
         return formatter
     }()
     
-    static func getDateThreeDaysFromNow() -> Date {
-        let currentDate = Date()
-        return Calendar.current.date(byAdding: .day, value: 3, to: currentDate)!
-    }
-    
-    static func getDateSevenDaysBeforeNow() -> Date {
-        let currentDate = Date()
-        return Calendar.current.date(byAdding: .day, value: -7, to: currentDate)!
-    }
+
     
     static func getTextColorForEvent(eventIsInTodos: Bool) -> Color {
         if eventIsInTodos {
