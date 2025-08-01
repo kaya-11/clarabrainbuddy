@@ -12,8 +12,8 @@ struct ImportExportUtils {
     static func exportTodosToJSONFile(todos: [Todo], fileName: String) -> URL {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
-
-        // Use the provided fileName parameter to create the file URL
+        encoder.dateEncodingStrategy = .formatted(plainDateFormatter)
+        
         let jsonFileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
 
         do {
@@ -25,4 +25,33 @@ struct ImportExportUtils {
             return URL(fileURLWithPath: "")
         }
     }
+    
+    static func importTodosFromJSONFile(fileURL: URL) -> [Todo] {
+        guard FileManager.default.fileExists(atPath: fileURL.path) else {
+            print("File not found at path: \(fileURL.path)")
+            return []
+        }
+
+        do {
+            let jsonData = try Data(contentsOf: fileURL)
+            let decoder = JSONDecoder()
+
+            decoder.dateDecodingStrategy = .formatted(plainDateFormatter)
+
+            let todos = try decoder.decode([Todo].self, from: jsonData)
+
+            return Sanitizer.sanitizeTodos(todos)
+        } catch {
+            print("Error importing Todos: \(error)")
+            return []
+        }
+    }
+    
+    private static let plainDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.locale = Locale(identifier: "en_US_POSIX") // ensures consistent parsing
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)     // avoid time zone shifts
+        return formatter
+    }()
 }

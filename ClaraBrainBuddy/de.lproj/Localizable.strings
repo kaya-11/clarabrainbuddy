@@ -64,6 +64,10 @@
 "back.label" = "Zurück";
 "save.label" = "Speichern";
 "ok.label" = "Ok";
+"cancel.label" = "Abbrechen";
+"import.label" = "Importieren";
+"import.preview.label" = "Vorschau des Imports";
+"no.valid.todos" = "Keine gültigen Todos zum Importieren";
 "due.label" = "Bis";
 "clone.label" = "Duplizieren";
 "share.details.label" = "Teile Details";

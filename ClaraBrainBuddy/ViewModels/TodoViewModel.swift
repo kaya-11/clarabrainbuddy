@@ -26,6 +26,11 @@ class TodoViewModel: ObservableObject {
         todoManager.saveTodos(allTodos)
     }
     
+    func addTodos(_ todos: [Todo]) {
+        allTodos.insert(contentsOf: todos, at: 0)
+        todoManager.saveTodos(allTodos)
+    }
+    
     func addRecurringTaskAsTodoForToday(_ recurringTask: RecurringTask) {
         addNewTodoForToday(title: recurringTask.title, details: recurringTask.details ?? "", estimatedTime: recurringTask.estimatedTime, recurringTaskId: recurringTask.id)
     }

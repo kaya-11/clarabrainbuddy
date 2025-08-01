@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct ClaraMenuView: View {
     
@@ -17,6 +18,14 @@ struct ClaraMenuView: View {
     
     @State private var showingShareSheet = false
     @State private var urlToShare: URL?
+    
+    @State private var isImporting = false
+    @State private var importedFileURL: URL?
+    
+    @State private var isPreviewingImport = false
+    @State private var importedTodos: [Todo] = []
+    
+    @State private var showingAlert = false
 
     var body: some View {
         Menu {
@@ -24,7 +33,7 @@ struct ClaraMenuView: View {
             Button(action: {
                 isTodaysEventsPresented = true
             }) {
-                Text("Today's Events")
+                Text("Today's Event")
             }
             
             Button(action: {
@@ -57,6 +66,12 @@ struct ClaraMenuView: View {
             }) {
                 Text(Localization.labels.exportAll)
             }
+            
+            Button(action: {
+                isImporting = true
+            }) {
+                Text("Import Todos")
+            }
 
         
         } label: {
@@ -73,6 +88,48 @@ struct ClaraMenuView: View {
             if let url = urlToShare {
                 ShareSheet(activityItems: [url])
             }
+        }
+        .sheet(isPresented: $isPreviewingImport) {
+            ImportPreviewView(
+                todos: importedTodos,
+                onConfirm: {
+                    todoViewModel.addTodos(importedTodos)
+                    importedTodos = []
+                    isPreviewingImport = false
+                },
+                onCancel: {
+                    importedTodos = []
+                    isPreviewingImport = false
+                }
+            )
+        }
+        .fileImporter(isPresented: $isImporting, allowedContentTypes: [.json], allowsMultipleSelection: false) { result in
+            switch result {
+            case .success(let urls):
+                guard let selectedFileURL = urls.first else { return }
+                
+                if selectedFileURL.startAccessingSecurityScopedResource() {
+                    defer { selectedFileURL.stopAccessingSecurityScopedResource() }
+                    
+                    let todos = ImportExportUtils.importTodosFromJSONFile(fileURL: selectedFileURL)
+                    if !todos.isEmpty {
+                        importedTodos = todos
+                        isPreviewingImport = true
+                    } else {
+                        print("No valid todos found in the file.")
+                        showingAlert = true
+                    }
+                } else {
+                    showingAlert = true
+                    print("Failed to access the security-scoped resource.")
+                }
+            case .failure(let error):
+                showingAlert = true
+                print("Error importing file: \(error.localizedDescription)")
+            }
+        }
+        .alert(isPresented: $showingAlert) {
+            Alert(title: Text(Localization.labels.importing), message: Text(Localization.messages.noValidTodos))
         }
     }
 }

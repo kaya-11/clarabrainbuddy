@@ -64,6 +64,10 @@
 "back.label" = "Back";
 "save.label" = "Save";
 "ok.label" = "OK";
+"cancel.label" = "Cancel";
+"import.label" = "Import";
+"import.preview.label" = "Preview Import";
+"no.valid.todos" = "No valid todos found in the file.";
 "due.label" = "Due";
 "clone.label" = "Clone";
 "share.details.label" = "Share details";

@@ -99,6 +99,9 @@ struct Localization {
         let done = NSLocalizedString("done.label", comment: "Done")
         let copy = NSLocalizedString("copy.label", comment: "Copy")
         let remove = NSLocalizedString("remove.label", comment: "Remove")
+        let cancel = NSLocalizedString("cancel.label", comment: "Abbrechen")
+        let importing = NSLocalizedString("import.label", comment: "Importieren")
+        let previewImport = NSLocalizedString("import.preview.label", comment: "Vorschau des Imports")
         
         let shareDetails = NSLocalizedString("share.details.label", comment: "Share details")
         let exportAll = NSLocalizedString("export.all.label", comment: "Export All Todos")
@@ -127,6 +130,8 @@ struct Localization {
         let energyLevelHigh = NSLocalizedString("message.energy.level.high", comment: "high")
         let limitExeeded = NSLocalizedString("message.limit.exeeded", comment: "Limit Exceeded")
         let limitExeededMessage = NSLocalizedString("message.limit.exeeded.message", comment: "You cannot add more than %@ todos for today.")
+        let noValidTodos = NSLocalizedString("no.valid.todos", comment: "Keine gültigen Todos vorhanden...")
+        
     }
 
     struct Errors {
