@@ -1,0 +1,28 @@
+{
+  "configurations" : [
+    {
+      "id" : "EC5F4F4A-CEF8-449F-AE2A-C827D79D538F",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:ClaraBrainBuddy.xcodeproj",
+      "identifier" : "9CA28D552D88B306001245CF",
+      "name" : "ClaraBrainBuddy"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:ClaraBrainBuddy.xcodeproj",
+        "identifier" : "9CA28D652D88B307001245CF",
+        "name" : "ClaraBrainBuddyTests"
+      }
+    }
+  ],
+  "version" : 1
+}

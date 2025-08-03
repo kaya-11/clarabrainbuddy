@@ -20,6 +20,16 @@ struct RecurringTask: Identifiable, Codable, Hashable {
     var details: String?
     var estimatedTime: Int? // in minutes
     var recurrenceRule: RecurrenceRule
+    
+    init(id: UUID = UUID(),
+         title: String,
+         details: String? = nil,
+         estimatedTime: Int? = nil,
+         recurrenceRule: RecurrenceRule = RecurrenceRule.daily) {
+            self.id = id
+            self.title = title
+            self.details = details
+            self.estimatedTime = estimatedTime
+            self.recurrenceRule = recurrenceRule
+    }
 }
-
-

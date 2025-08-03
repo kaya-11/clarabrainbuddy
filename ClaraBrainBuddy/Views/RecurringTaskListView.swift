@@ -78,7 +78,7 @@ struct RecurringTaskListView: View {
     }
     
     func move(from source: IndexSet, to destination: Int) {
-        taskViewModel.reorderRecurringTasks(from: source, to: destination)
+        taskViewModel.moveRecurringTask(from: source, to: destination)
     }
     
 }

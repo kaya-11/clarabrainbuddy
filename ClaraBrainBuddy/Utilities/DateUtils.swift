@@ -9,12 +9,18 @@ import SwiftUI
 
 struct DateUtils {
     static func getDateThreeDaysFromNow() -> Date {
-        let currentDate = Date()
-        return Calendar.current.date(byAdding: .day, value: 3, to: currentDate)!
+        return getDateThreeDaysFrom(date: Date())
+    }
+    
+    static func getDateThreeDaysFrom(date: Date) -> Date {
+        Calendar.current.date(byAdding: .day, value: 3, to: date)!
     }
     
     static func getDateSevenDaysBeforeNow() -> Date {
-        let currentDate = Date()
-        return Calendar.current.date(byAdding: .day, value: -7, to: currentDate)!
+        return getDateSevenDaysBefore(date: Date())
+    }
+    
+    static func getDateSevenDaysBefore(date: Date) -> Date {
+        Calendar.current.date(byAdding: .day, value: -7, to: date)!
     }
 }

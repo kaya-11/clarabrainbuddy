@@ -42,6 +42,7 @@
 		9C999B212D8A088B00ED77C4 /* ClaraBrainBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClaraBrainBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C999B222D8A088B00ED77C4 /* ClaraBrainBuddyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClaraBrainBuddyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C999B232D8A088B00ED77C4 /* ClaraBrainBuddyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClaraBrainBuddyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CE8820E2E3E88B40039B0CB /* ClaraBrainBuddy.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ClaraBrainBuddy.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -128,6 +129,7 @@
 		9CA28D4D2D88B306001245CF = {
 			isa = PBXGroup;
 			children = (
+				9CE8820E2E3E88B40039B0CB /* ClaraBrainBuddy.xctestplan */,
 				9CA28D692D88B307001245CF /* ClaraBrainBuddyTests */,
 				9CA28D732D88B307001245CF /* ClaraBrainBuddyUITests */,
 				9CA28D582D88B306001245CF /* ClaraBrainBuddy */,

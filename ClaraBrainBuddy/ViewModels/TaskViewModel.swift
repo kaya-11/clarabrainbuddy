@@ -8,12 +8,12 @@
 import Foundation
 
 class TaskViewModel: ObservableObject {
-    private let taskManager = RecurringTaskManager()
+    private let taskManager : RecurringTaskManager
     @Published var allRecurringTasks: [RecurringTask] = []
 
-
-    init() {
-        allRecurringTasks = taskManager.loadTasks()
+    init(taskManager: RecurringTaskManager = RecurringTaskManager()) {
+        self.taskManager = taskManager
+        self.allRecurringTasks = taskManager.loadTasks()
     }
 
     func addRecurringTask(title: String, details: String, estimatedTime: Int?, recurrenceRule: RecurrenceRule) {
@@ -39,13 +39,8 @@ class TaskViewModel: ObservableObject {
 
     }
     
-    func reorderRecurringTasks(from source: IndexSet, to destination: Int) {
+    func moveRecurringTask(from source: IndexSet, to destination: Int) {
         allRecurringTasks.move(fromOffsets: source, toOffset: destination)
         taskManager.saveTasks(allRecurringTasks)
     }
-    
-    func updateRecurringTasks() {
-        taskManager.saveTasks(allRecurringTasks)
-    }
-
 }

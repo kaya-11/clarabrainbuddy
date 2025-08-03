@@ -9,13 +9,14 @@ import Foundation
 import EventKit
 
 class TodoViewModel: ObservableObject {
-    private let todoManager = TodoManager()
+    private let todoManager : TodoManager
     @Published var allTodos: [Todo] = []
     @Published var todayTodos: [TodayTodo] = []
     
-    init() {
-        allTodos = todoManager.loadTodos()
-        todayTodos = todoManager.loadTodayTodos()
+    init(todoManager: TodoManager = TodoManager()) {
+        self.todoManager = todoManager
+        self.allTodos = todoManager.loadTodos()
+        self.todayTodos = todoManager.loadTodayTodos()
     }
     
     func addTodo(title: String, details: String, dueDate: Date?, estimatedTime: Int?) {
@@ -192,12 +193,11 @@ class TodoViewModel: ObservableObject {
     }
 
     func moveToTheTop(_ todo: Todo) {
+        guard let currentIndex = allTodos.firstIndex(of: todo) else { return }
         selectForToday(todo)
-        if let index = allTodos.firstIndex(of: todo) {
-            allTodos.remove(at: index)
-            allTodos.insert(todo, at: 0)
-            updateTodos()
-        }
+        allTodos.remove(at: currentIndex)
+        allTodos.insert(todo, at: 0)
+        updateTodos()
     }
     
     func reorderTodayTodos() {
