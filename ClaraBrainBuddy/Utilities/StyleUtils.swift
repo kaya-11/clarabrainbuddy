@@ -12,7 +12,6 @@ struct StyleUtils {
     private static let LEVEL_1 = 1...3
     private static let LEVEL_2 = 4...6
     
-
     static func getTextColor(todo: Todo, isSelectedForToday: Bool) -> Color {
         if todo.isDone {
             return Color.theme.green
@@ -38,9 +37,7 @@ struct StyleUtils {
         formatter.dateFormat = "yyyyMMdd_HHmmss"
         return formatter
     }()
-    
-
-    
+        
     static func getTextColorForEvent(eventIsInTodos: Bool) -> Color {
         if eventIsInTodos {
             return Color.theme.blue
