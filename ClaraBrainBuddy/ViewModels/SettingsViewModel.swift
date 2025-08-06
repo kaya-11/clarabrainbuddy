@@ -9,12 +9,13 @@ import Foundation
 
 class SettingsViewModel: ObservableObject {
     
-    private let settingsManager = SettingsManager()
+    private let settingsManager : SettingsManager
     
     @Published var settings: AppSettings
 
-    init() {
-        settings = settingsManager.loadSetings()
+    init(settingsManager: SettingsManager = SettingsManager()) {
+        self.settingsManager = settingsManager
+        self.settings = settingsManager.loadSetings()
     }
 
     func saveSettings() {

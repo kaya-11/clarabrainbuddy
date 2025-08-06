@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AppSettings: Codable {
+struct AppSettings: Codable, Equatable {
     var maxTodosForToday: Int
     var defaultEstimatedTimeForRecurringTasks: Int
     var defaultTimeForEnergyLevelCalculation: Int
