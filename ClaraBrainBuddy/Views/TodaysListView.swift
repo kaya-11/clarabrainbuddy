@@ -74,6 +74,7 @@ struct TodaysListView: View {
                                                 .foregroundColor(Color.theme.green)
                                         } 
                                         Text(todo.title)
+                                            .accessibilityValue(todo.isDone ? "done" : "active")
                                     }
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     
@@ -116,6 +117,7 @@ struct TodaysListView: View {
                                         Label(Localization.labels.remove, systemImage: "minus.square")
                                     }
                                     .tint(.orange)
+                                    .accessibilityIdentifier("RemoveFromTodaysTodos")
                                     
                                     Button(role: .destructive) {
                                         todoViewModel.deleteTodo(todo)
@@ -123,6 +125,7 @@ struct TodaysListView: View {
                                         Label(Localization.labels.delete, systemImage: "trash")
                                     }
                                     .tint(.red)
+                                    .accessibilityIdentifier("TodaysTodosDeleteTodo")
                                     
                                 }
                                 .swipeActions(edge: .leading, allowsFullSwipe: true) {
@@ -134,6 +137,7 @@ struct TodaysListView: View {
                                         Label(Localization.labels.done, systemImage: "checkmark.square")
                                     }
                                     .tint(.blue)
+                                    .accessibilityIdentifier("MarkAsDoneButton")
                                     
                                     Button {
                                         selectedTodo = todo
@@ -257,6 +261,7 @@ struct TodaysListView: View {
                         }) {
                             Image(systemName: "arrow.clockwise")
                         }
+                        .accessibilityIdentifier("ReorderTodaysTodosButton")
                         Button(action: {
                             let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
                             if todoViewModel.todayTodos.count >= maxCountOfTodosForToday {
@@ -267,6 +272,7 @@ struct TodaysListView: View {
                         }) {
                             Image(systemName: "plus.circle")
                         }
+                        .accessibilityIdentifier("AddTodayTodoButton")
                     }
                 }
             }

@@ -81,7 +81,9 @@ struct TodoListView: View {
                                 todoViewModel.deleteTodo(todo)
                             } label: {
                                 Label(Localization.labels.delete, systemImage: "trash")
-                            }.tint(.red)
+                            }
+                            .tint(.red)
+                            .accessibilityIdentifier("TodoListDeleteTodo")
                             
                         }
                         .swipeActions(edge: .leading, allowsFullSwipe: true) {
@@ -97,6 +99,7 @@ struct TodoListView: View {
                                 Label(Localization.labels.today, systemImage: "calendar")
                             }
                             .tint(.blue)
+                            .accessibilityIdentifier("MarkForToday")
                             
                             Button {
                                 selectedTodo = todo
@@ -104,6 +107,7 @@ struct TodoListView: View {
                                 Label(Localization.labels.edit, systemImage: "pencil")
                             }
                             .tint(.green)
+                            .accessibilityIdentifier("TodoListViewEditTodo")
 
                             Button {
                                 sharedTodos = SharedTodosWrapper(todos: [todo])
@@ -149,7 +153,8 @@ struct TodoListView: View {
                     ShareSheet(activityItems: [text])
                 }
                 .sheet(item: $selectedTodo) { todo in
-                    TodoFormView(todoViewModel: todoViewModel, addDays: nil, existingTodo: todo)
+                    TodoFormView(todoViewModel: todoViewModel, addDays: nil, existingTodo: todo).accessibilityIdentifier("TodoFormView")
+                    
                 }
                 .alert(isPresented: $showErrorMessage) {
                     Alert(
@@ -175,7 +180,7 @@ struct TodoListView: View {
                         showingAddTodo = true
                     }) {
                         Image(systemName: "plus.circle")
-                    }
+                    }.accessibilityIdentifier("AddTodoButton")
                 }
             }
             .toolbarBackground(Color.theme.background, for: .navigationBar)

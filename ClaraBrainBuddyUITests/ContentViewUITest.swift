@@ -8,7 +8,6 @@
 
 import XCTest
 
-
 final class ContentViewUITest: XCTestCase {
 
     func testContentViewVisibilityAndTabSwitching() {
