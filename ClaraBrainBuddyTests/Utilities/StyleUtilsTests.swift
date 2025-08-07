@@ -38,7 +38,7 @@ final class StyleUtilsTests: XCTestCase {
     }
     
     func testDateFormatter() {
-        XCTAssertEqual(StyleUtils.dateFormatter.dateFormat, "d. MMM y")
+        XCTAssertEqual(StyleUtils.dateFormatter.dateFormat, "dd.MM.y")
     }
     
     func testDateTimeFormatter() {

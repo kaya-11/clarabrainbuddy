@@ -15,6 +15,13 @@ struct ContentView: View {
     @State private var showRandomTodoView = true
     
     @State private var selectedTab: Int = 1
+    
+    var randomTodoDisplayDuration: TimeInterval = {
+        if ProcessInfo.processInfo.arguments.contains("--UITestMode") {
+            return 5
+        }
+        return 3
+    }()
 
     var body: some View {
         ZStack {
@@ -24,14 +31,17 @@ struct ContentView: View {
                     .tabItem {
                         Label(Localization.labels.allTodosNav, systemImage: "list.bullet")
                     }.tag(0)
+                    .accessibilityIdentifier("AllTodosTab")
                 TodaysListView(todoViewModel: todoViewModel, taskViewModel: taskViewModel, settingsViewModel: settingsViewModel)
                     .tabItem {
                         Label(Localization.labels.todayNav, systemImage: "calendar")
                     }.tag(1)
+                    .accessibilityIdentifier("TodayTab")
                 RecurringTaskListView(taskViewModel: taskViewModel, todoViewModel: todoViewModel, settingsViewModel: settingsViewModel)
                     .tabItem {
                         Label(Localization.labels.recurringTasksNav, systemImage: "checklist")
                     }.tag(2)
+                    .accessibilityIdentifier("RecurringTaskTab")
             }
             
             if showRandomTodoView {
@@ -41,7 +51,7 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + randomTodoDisplayDuration) {
                 withAnimation {
                     showRandomTodoView = false
                 }

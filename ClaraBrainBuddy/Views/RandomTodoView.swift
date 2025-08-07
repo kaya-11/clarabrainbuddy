@@ -74,6 +74,7 @@ struct RandomTodoView: View {
                     .onTapGesture {
                         isPresented = false
                     }
+                    .accessibilityIdentifier("NoTodosText")
             }
         }
         .frame(maxWidth: 375, maxHeight: 375)

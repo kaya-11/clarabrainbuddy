@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "EC5F4F4A-CEF8-449F-AE2A-C827D79D538F",
+      "name" : "Test Scheme Action",
+      "options" : {
+        "language" : "de",
+        "locationScenario" : {
+          "identifier" : "Berlin, Germany",
+          "referenceType" : "built-in"
+        },
+        "region" : "DE"
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:ClaraBrainBuddy.xcodeproj",
+      "identifier" : "9CA28D552D88B306001245CF",
+      "name" : "ClaraBrainBuddy"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:ClaraBrainBuddy.xcodeproj",
+        "identifier" : "9CA28D6F2D88B307001245CF",
+        "name" : "ClaraBrainBuddyUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

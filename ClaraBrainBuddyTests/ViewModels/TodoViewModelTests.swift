@@ -208,7 +208,7 @@ final class TodoViewModelTests: XCTestCase {
         viewModel.cloneTodo(todo: todo)
 
         XCTAssertEqual(viewModel.allTodos.count, 2)
-        XCTAssertTrue(viewModel.allTodos[0].title.contains("Clone"))
+        XCTAssertTrue(viewModel.allTodos[0].title.contains("Duplizieren"))
         XCTAssertFalse(viewModel.allTodos[0].isDone)
     }
     
