@@ -22,28 +22,36 @@ struct SettingsView: View {
                     Stepper(value: $settingsViewModel.settings.maxTodosForToday, in: 1...100) {
                         Text("\(settingsViewModel.settings.maxTodosForToday)")
                             .foregroundColor(Color.theme.primary)
+                            .accessibilityIdentifier("MaxTodosStepperValue")
                     }
+                    .accessibilityIdentifier("MaxTodosStepper")
                 }
 
                 Section(header: Text(Localization.labels.defaultEstimatedTime)) {
                     Stepper(value: $settingsViewModel.settings.defaultEstimatedTimeForRecurringTasks, in: 1...120) {
                         Text("\(settingsViewModel.settings.defaultEstimatedTimeForRecurringTasks)")
                             .foregroundColor(Color.theme.primary)
+                            .accessibilityIdentifier("EstimatedTimeStepperValue")
                     }
+                    .accessibilityIdentifier("EstimatedTimeStepper")
                 }
 
                 Section(header: Text(Localization.labels.defaultEnergyLevelCalculation)) {
                     Stepper(value: $settingsViewModel.settings.defaultTimeForEnergyLevelCalculation, in: 1...60) {
                         Text("\(settingsViewModel.settings.defaultTimeForEnergyLevelCalculation)")
                             .foregroundColor(Color.theme.primary)
+                            .accessibilityIdentifier("EnergyCalcTimeStepperValue")
                     }
+                    .accessibilityIdentifier("EnergyCalcTimeStepper")
                 }
 
                 Section(header: Text(Localization.labels.daysAddedForDueDate)) {
                     Stepper(value: $settingsViewModel.settings.daysAddedForDefaultDueDate, in: 1...90) {
                         Text("\(settingsViewModel.settings.daysAddedForDefaultDueDate)")
                             .foregroundColor(Color.theme.primary)
+                            .accessibilityIdentifier("DueDateDaysStepperValue")
                     }
+                    .accessibilityIdentifier("DueDateDaysStepper")
                 }
 
                 Button(action: {
@@ -54,6 +62,7 @@ struct SettingsView: View {
                         .foregroundColor(Color.theme.primary)
                 }
                 .font(Font.app.button)
+                .accessibilityIdentifier("SaveSettingsButton")
             }
             .backgroundStyle()
             .toolbar {
@@ -64,6 +73,7 @@ struct SettingsView: View {
                         Text(Localization.labels.back)
                             .font(Font.app.button)
                     }
+                    .accessibilityIdentifier("SettingsBackButton")
                 }
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.properties)

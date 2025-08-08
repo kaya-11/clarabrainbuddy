@@ -49,6 +49,7 @@ struct ClaraMenuView: View {
             }) {
                 Text(Localization.labels.properties)
             }
+            .accessibilityIdentifier("SettingsButton")
             
             Button(action: {
                 let dateString = StyleUtils.dateTimeFormatter.string(from: Date())
@@ -75,8 +76,9 @@ struct ClaraMenuView: View {
 
         
         } label: {
-            Image(systemName: "line.horizontal.3")
+            Label("Menu", systemImage: "line.horizontal.3")
                 .foregroundColor(Color.theme.accent)
+                .accessibilityIdentifier("ClaraMenu")
         }
         .fullScreenCover(isPresented: $isSettingsPresented) {
             SettingsView(settingsViewModel: settingsViewModel)
