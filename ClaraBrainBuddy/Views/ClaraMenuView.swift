@@ -35,6 +35,7 @@ struct ClaraMenuView: View {
             }) {
                 Text("Today's Event")
             }
+            .accessibilityIdentifier("CalenderViewButton")
             
             Button(action: {
                 if let url = URL(string: "calshow://") {
@@ -84,7 +85,13 @@ struct ClaraMenuView: View {
             SettingsView(settingsViewModel: settingsViewModel)
         }
         .fullScreenCover(isPresented: $isTodaysEventsPresented) {
-            CalendarView(todoViewModel: todoViewModel)
+            if CommandLine.arguments.contains("UITestMode") {
+                CalendarView(todoViewModel: todoViewModel,
+                             eventProvider: FakeEventProvider())
+            } else {
+                CalendarView(todoViewModel: todoViewModel,
+                             eventProvider: RealEventProvider())
+            }
         }
         .sheet(isPresented: $showingShareSheet) {
             if let url = urlToShare {

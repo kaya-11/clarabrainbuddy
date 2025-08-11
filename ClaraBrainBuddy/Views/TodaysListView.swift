@@ -194,7 +194,9 @@ struct TodaysListView: View {
                                             }
                                         } label: {
                                             Label("Add to Today", systemImage: "plus.square")
-                                        }.tint(.green)
+                                        }
+                                        .tint(.green)
+                                        .accessibilityIdentifier("AddRecurringTaskAsTodayTodoButton")
                                     }
                             }
                         }

@@ -99,6 +99,7 @@ struct RecurringTaskFormView: View {
                 }
                 .font(Font.app.button)
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                .accessibilityIdentifier("TaskFormSaveButton")
             }
             .backgroundStyle()
             .toolbar {

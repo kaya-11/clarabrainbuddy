@@ -18,8 +18,11 @@ struct CalendarView: View {
    
     @State private var events: [EKEvent] = []
     
-    init(todoViewModel: TodoViewModel) {
+    private let eventProvider: EventProvider
+    
+    init(todoViewModel: TodoViewModel, eventProvider: EventProvider) {
         self.todoViewModel = todoViewModel
+        self.eventProvider = eventProvider
     }
 
     var body: some View {
@@ -57,6 +60,7 @@ struct CalendarView: View {
                                     Label(Localization.labels.addTodoToday, systemImage: "calendar")
                                 }
                                 .tint(.blue)
+                                .accessibilityIdentifier("AddEventAsTodayTodoButton")
                             }
                             
                         }
@@ -77,6 +81,7 @@ struct CalendarView: View {
                         Text(Localization.labels.back)
                             .font(Font.app.button)
                     }
+                    .accessibilityIdentifier("CancelTodaysEventsButton")
                 }
                 ToolbarItemGroup(placement: .principal) {
                     Text("Today's Events")
@@ -87,26 +92,14 @@ struct CalendarView: View {
             .toolbarBackground(Color.theme.background, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
         }
-        .onAppear() {
+        .onAppear () {
             fetchEvents()
         }
     }
     
     private func fetchEvents() {
-        let eventStore = EKEventStore()
-        eventStore.requestFullAccessToEvents { (granted, error) in
-            if granted {
-                let calendar = Calendar.current
-                let startDate = calendar.startOfDay(for: Date())
-                let endDate = calendar.date(byAdding: .day, value: 1, to: startDate)!
-
-                let predicate = eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: nil)
-                let todayEvents = eventStore.events(matching: predicate)
-
-                DispatchQueue.main.async {
-                    self.events = todayEvents
-                }
-            }
+        eventProvider.fetchTodayEvents { fetchedEvents in
+            self.events = fetchedEvents
         }
     }
 }

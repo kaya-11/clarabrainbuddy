@@ -31,14 +31,18 @@ struct RecurringTaskListView: View {
                                     taskViewModel.deleteRecurringTask(task)
                                 } label: {
                                     Label(Localization.labels.delete, systemImage: "trash")
-                                }.tint(.red)
+                                }
+                                .tint(.red)
+                                .accessibilityIdentifier("RecurringTaskListDeleteTask")
                             }
                             .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                 Button {
                                     selectedTask = task
                                 } label: {
                                     Label(Localization.labels.edit, systemImage: "pencil")
-                                }.tint(.green)
+                                }
+                                .tint(.green)
+                                .accessibilityIdentifier("RecurringTaskListViewEditTask")
                             }
                             .foregroundColor(Color.theme.listText)
                             .listRowBackground(Color.theme.listBackground)
@@ -70,6 +74,7 @@ struct RecurringTaskListView: View {
                     }) {
                         Image(systemName: "plus.circle")
                     }
+                    .accessibilityIdentifier("AddRecurringTaskButton")
                 }
             }
             .toolbarBackground(Color.theme.background, for: .navigationBar)
