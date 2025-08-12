@@ -16,6 +16,12 @@ struct RecurringTaskListView: View {
     
     @State private var selectedTask: RecurringTask? = nil
     
+    init(taskViewModel: TaskViewModel, todoViewModel: TodoViewModel, settingsViewModel: SettingsViewModel) {
+        self.taskViewModel = taskViewModel
+        self.todoViewModel = todoViewModel
+        self.settingsViewModel = settingsViewModel
+    }
+    
     var body: some View {
       
         NavigationView {
@@ -51,7 +57,7 @@ struct RecurringTaskListView: View {
                     .onMove(perform: move)
                 }
                 .sheet(isPresented: $showingAddTask) {
-                    RecurringTaskFormView(taskViewModel: taskViewModel, defaultEstimatedTime : settingsViewModel.settings.defaultEstimatedTimeForRecurringTasks, existingTask: nil)
+                    RecurringTaskFormView(taskViewModel: taskViewModel, defaultEstimatedTime : Int64(settingsViewModel.settings.defaultEstimatedTimeForRecurringTasks), existingTask: nil)
                 }
                 .sheet(item: $selectedTask) { task in
                     RecurringTaskFormView(taskViewModel: taskViewModel, defaultEstimatedTime: nil, existingTask: task)

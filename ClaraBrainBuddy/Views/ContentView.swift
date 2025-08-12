@@ -6,15 +6,21 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ContentView: View {
-    @StateObject private var todoViewModel = TodoViewModel()
-    @StateObject private var taskViewModel = TaskViewModel()
+    @StateObject private var todoViewModel: TodoViewModel
+    @StateObject private var taskViewModel: TaskViewModel
     @StateObject private var settingsViewModel = SettingsViewModel()
     
     @State private var showRandomTodoView = true
     
     @State private var selectedTab: Int = 1
+    
+    init(context: NSManagedObjectContext) {
+        _todoViewModel = StateObject(wrappedValue: TodoViewModel(context: context))
+        _taskViewModel = StateObject(wrappedValue: TaskViewModel(context: context))
+    }
     
     var randomTodoDisplayDuration: TimeInterval = {
         if ProcessInfo.processInfo.arguments.contains("--UITestMode") {

@@ -19,49 +19,58 @@ struct TodoListView: View {
     @State private var sharedTodoDetails: SharedTodoDetailsWrapper? = nil
     @State private var sharedTodos: SharedTodosWrapper? = nil
     
+    init(todoViewModel: TodoViewModel, settingsViewModel: SettingsViewModel) {
+        self.todoViewModel = todoViewModel
+        self.settingsViewModel = settingsViewModel
+    }
+    
     var body: some View {
       
         NavigationView {
             VStack {
                 List {
-                    ForEach(todoViewModel.allTodos, id: \.self) { todo in
-                        let isSelectedForToday = todo.isSelectedForToday
+                    ForEach(todoViewModel.allTodos, id: \.id) { (todo: Todo) in
+                        let isSelectedForToday: Bool = todo.selectedForToday
+                        let isDone: Bool = todo.isDone
+                        let title: String = todo.title
+                        let details: String = todo.details ?? ""
+                        let dueDate: Date = todo.dueDate
+                        let isOverdue: Bool = todo.isOverdue
+                        let isDueSoon: Bool = todo.isDueSoon
+                        let resistance: Int64 = todo.resistance
+                        
                         VStack(alignment: .leading, spacing: 4) {
                             HStack {
-                                if todo.isDone {
+                                if isDone {
                                     Image(systemName: "checkmark.circle.fill")
                                         .foregroundColor(Color.theme.green)
                                 } else if isSelectedForToday {
                                     Image(systemName: "heart.fill")
                                         .foregroundColor(Color.theme.blue)
-                                } else if todo.isOverdue {
+                                } else if isOverdue {
                                     Image(systemName: "stop.fill")
                                         .foregroundColor(Color.theme.red)
-                                } else if todo.isDueSoon {
+                                } else if isDueSoon {
                                     Image(systemName: "triangle.fill")
                                         .foregroundColor(Color.theme.accent)
                                 }
-                                Text(todo.title)
+                                Text(title)
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            if let details = todo.details {
-                                if !details.isEmpty {
-                                    Text(String(details.prefix(20)) + (details.count > 20 ? "..." : ""))
-                                        .font(Font.app.tiny)
-                                        .foregroundColor(Color.theme.secondary)
-                                }
-                            }
-                            if let dueDate = todo.dueDate {
-                                Text("\(Localization.labels.due): \(dueDate, formatter: StyleUtils.dateFormatter)")
+                           if !details.isEmpty {
+                                Text(String(details.prefix(20)) + (details.count > 20 ? "..." : ""))
                                     .font(Font.app.tiny)
                                     .foregroundColor(Color.theme.secondary)
                             }
                             
-                            let resistance = todo.resistance != nil ? todo.resistance! : 0
-                            if (1...10).contains(resistance) {
+                            Text("\(Localization.labels.due): \(dueDate, formatter: StyleUtils.dateFormatter)")
+                                .font(Font.app.tiny)
+                                .foregroundColor(Color.theme.secondary)
+                            
+                            if (1...10).contains(Int(resistance)) {
                                 HStack {
-                                    ForEach(1...resistance, id: \.self) { value in
+                                    ForEach(1...Int(resistance), id: \.self) { value in
                                         Image(systemName: "mountain.2")
                                             .foregroundColor(StyleUtils.iconFontColorForLevels(for: value))
                                             .imageScale(.small)
@@ -70,7 +79,7 @@ struct TodoListView: View {
                                 }
                             }
                         }
-                        .strikethrough(todo.isDone, color: Color.theme.primary)
+                        .strikethrough(isDone, color: Color.theme.primary)
                         .bold(isSelectedForToday)
                         .onTapGesture(count: 2) {
                             selectedTodo = todo
@@ -90,7 +99,7 @@ struct TodoListView: View {
                             
                             Button {
                                 let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
-                                if todoViewModel.todayTodos.count >= maxCountOfTodosForToday && !todo.isSelectedForToday {
+                                if todoViewModel.getTotalTodaysTodosCount() >= maxCountOfTodosForToday && !isSelectedForToday {
                                     showErrorMessage = true
                                 } else {
                                     todoViewModel.selectForToday(todo)
@@ -138,18 +147,17 @@ struct TodoListView: View {
                     .onMove(perform: move)
                 }
                 .sheet(isPresented: $showingAddTodo) {
-                    TodoFormView(todoViewModel: todoViewModel, addDays: settingsViewModel.settings.daysAddedForDefaultDueDate,
-                                 existingTodo: nil)
+                    TodoFormView(todoViewModel: todoViewModel, addDays: settingsViewModel.settings.daysAddedForDefaultDueDate, existingTodo: nil)
                 }
                 .sheet(item: $sharedTodos) { wrapper in
                     let todos : [Todo] = wrapper.todos
-                    let url : URL = ImportExportUtils.exportTodosToJSONFile(todos: todos, fileName: "clara_todo.json")
+                    let url : URL = ImportExportUtils.exportListOfTodosToJSONFile(todos: todos, fileName: "clara_todo.json")
                     if (FileManager.default.fileExists(atPath: url.path)) {
                         ShareSheet(activityItems: [url])
                     }
                 }
                 .sheet(item: $sharedTodoDetails) { wrapper in
-                    let text = wrapper.todo.getDetails()
+                    let text = wrapper.todo.fullTodoDescription
                     ShareSheet(activityItems: [text])
                 }
                 .sheet(item: $selectedTodo) { todo in
@@ -189,8 +197,7 @@ struct TodoListView: View {
     }
     
     func move(from source: IndexSet, to destination: Int) {
-        todoViewModel.allTodos.move(fromOffsets: source, toOffset: destination)
-        todoViewModel.updateTodos()
+        todoViewModel.moveTodo(from: source, to: destination)
     }
     
 }

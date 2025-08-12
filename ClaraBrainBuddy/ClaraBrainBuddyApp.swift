@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct ClaraBrainBuddyApp: App {
+    let context = DataManager.shared.context
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(context: context)
         }
     }
 }

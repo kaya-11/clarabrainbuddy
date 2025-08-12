@@ -21,16 +21,12 @@ struct ImportPreviewView: View {
                     if let details = todo.details {
                         Text(details)
                     }
-                    if let due = todo.dueDate {
-                        Text("\(Localization.labels.dueDate): \(due, formatter: StyleUtils.dateFormatter)")
-                            .font(Font.app.tiny)
-                            .foregroundColor(Color.theme.listText)
-                    }
-                    if let estimatedTime = todo.estimatedTime {
-                        Text("\(Localization.labels.estimatedTime): \(estimatedTime) \(Localization.labels.estimatedTimeUnit)")
-                            .font(Font.app.tiny)
-                            .foregroundColor(Color.theme.listText)
-                    }
+                    Text("\(Localization.labels.dueDate): \(todo.dueDate, formatter: StyleUtils.dateFormatter)")
+                        .font(Font.app.tiny)
+                        .foregroundColor(Color.theme.listText)
+                    Text("\(Localization.labels.estimatedTime): \(todo.estimatedTime) \(Localization.labels.estimatedTimeUnit)")
+                        .font(Font.app.tiny)
+                        .foregroundColor(Color.theme.listText)
                 }
                 .foregroundColor(Color.theme.listText)
                 .listRowBackground(Color.theme.listBackground)

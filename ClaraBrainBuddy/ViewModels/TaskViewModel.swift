@@ -6,41 +6,76 @@
 //
 
 import Foundation
+import CoreData
 
 class TaskViewModel: ObservableObject {
-    private let taskManager : RecurringTaskManager
+   
+    private let context: NSManagedObjectContext
+
     @Published var allRecurringTasks: [RecurringTask] = []
 
-    init(taskManager: RecurringTaskManager = RecurringTaskManager()) {
-        self.taskManager = taskManager
-        self.allRecurringTasks = taskManager.loadTasks()
+    init(context: NSManagedObjectContext) {
+        self.context = context
+        fetchTasks()
     }
 
-    func addRecurringTask(title: String, details: String, estimatedTime: Int?, recurrenceRule: RecurrenceRule) {
-    
-        let newTask = RecurringTask(id: UUID(), title: title, details: details, estimatedTime: estimatedTime, recurrenceRule: recurrenceRule)
+    func fetchTasks() {
+        let request: NSFetchRequest<RecurringTask> = RecurringTask.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \RecurringTask.sortOrder, ascending: true)]
+        
+        do {
+            allRecurringTasks = try context.fetch(request)
+        } catch {
+            print("Failed to fetch tasks: \(error)")
+            allRecurringTasks = []
+        }
+    }
 
-        allRecurringTasks.insert(newTask, at: 0)
-        taskManager.saveTasks(allRecurringTasks)
+    func addRecurringTask(title: String, details: String, estimatedTime: Int64, recurrenceRule: RecurrenceRule) {
+    
+        let newTask = RecurringTask(context: context)
+        newTask.id = UUID()
+        newTask.title = title
+        newTask.details = details
+        newTask.estimatedTime = estimatedTime
+        newTask.recurrenceRuleAsString = recurrenceRule.encoded()
+        newTask.createdAt = Date()
+        newTask.updatedAt = Date()
+        newTask.sortOrder = Int64(allRecurringTasks.count)
+
+        saveContext()
+        fetchTasks()
     }
     
     func updateRecurringTask(_ updatedTask: RecurringTask) {
-        if let index = allRecurringTasks.firstIndex(where: { $0.id == updatedTask.id }) {
-            allRecurringTasks[index] = updatedTask
-            taskManager.saveTasks(allRecurringTasks)
-        }
+        updatedTask.updatedAt = Date()
+        saveContext()
+        fetchTasks()
     }
-    
-    func deleteRecurringTask(_ task: RecurringTask) {
-        if let index = allRecurringTasks.firstIndex(where: { $0.id == task.id }) {
-            allRecurringTasks.remove(at: index)
-            taskManager.saveTasks(allRecurringTasks)
-        }
 
+    func deleteRecurringTask(_ task: RecurringTask) {
+        context.delete(task)
+        saveContext()
+        fetchTasks()
+    }
+
+    func moveRecurringTask(from source: IndexSet, to destination: Int) {
+        var reorderedTasks = allRecurringTasks
+        reorderedTasks.move(fromOffsets: source, toOffset: destination)
+        
+        for (index, task) in reorderedTasks.enumerated() {
+            task.sortOrder = Int64(index)
+        }
+        
+        saveContext()
+        fetchTasks()
     }
     
-    func moveRecurringTask(from source: IndexSet, to destination: Int) {
-        allRecurringTasks.move(fromOffsets: source, toOffset: destination)
-        taskManager.saveTasks(allRecurringTasks)
+    private func saveContext() {
+        do {
+            try context.save()
+        } catch {
+            print("Failed to save context: \(error)")
+        }
     }
 }

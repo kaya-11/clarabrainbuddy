@@ -21,7 +21,7 @@ struct TodoFormView: View {
     @State private var title: String = ""
     @State private var details: String = ""
     @State private var dueDate: Date = Date()
-    @State private var estimatedTime: Int?
+    @State private var estimatedTime: Int64?
     @State private var isDone: Bool = false
     
     init(todoViewModel: TodoViewModel, addDays: Int?, existingTodo: Todo?) {
@@ -32,7 +32,7 @@ struct TodoFormView: View {
         if let todo = existingTodo {
             _title = State(initialValue: todo.title)
             _details = State(initialValue: todo.details ?? "")
-            _dueDate = State(initialValue: todo.dueDate ?? Date())
+            _dueDate = State(initialValue: todo.dueDate)
             _estimatedTime = State(initialValue: todo.estimatedTime)
             _isDone = State(initialValue: todo.isDone)
         } else {
@@ -103,7 +103,7 @@ struct TodoFormView: View {
     }
     
     func updateTodo(_ todo: Todo) {
-        var updatedTodo = todo
+        let updatedTodo = todo
         updatedTodo.title = title
         updatedTodo.details = details
         updatedTodo.dueDate = dueDate

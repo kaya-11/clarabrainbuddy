@@ -7,9 +7,9 @@
 
 class EnergyManager {
     
-    static let MAX_ESTIMATED_TIME_LOW : Int = 90
-    static let MAX_ESTIMATED_TIME_MEDIUM : Int = 150
-    static let MAX_ESTIMATED_TIME_HIGH : Int = 210
+    static let MAX_ESTIMATED_TIME_LOW : Int64 = 90
+    static let MAX_ESTIMATED_TIME_MEDIUM : Int64 = 150
+    static let MAX_ESTIMATED_TIME_HIGH : Int64 = 210
 
     enum EnergyLevel: Float {
         case low = 1.0
@@ -17,7 +17,7 @@ class EnergyManager {
         case high = 3.0
     }
 
-    static func getMaxEstimatedTime(energyLevel: Float) -> Int {
+    static func getMaxEstimatedTime(energyLevel: Float) -> Int64 {
         switch energyLevel {
             case EnergyLevel.low.rawValue:
                 return MAX_ESTIMATED_TIME_LOW

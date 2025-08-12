@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct RecurringTaskFormView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -20,9 +21,10 @@ struct RecurringTaskFormView: View {
     @State private var recurrenceRule: RecurrenceRule = .daily
     @State private var selectedWeekday: Int = 1 // Default to Sunday
     @State private var selectedDay: Int = 1
-    @State private var estimatedTime: Int?
+    @State private var estimatedTime: Int64
     
-    init(taskViewModel: TaskViewModel, defaultEstimatedTime: Int?, existingTask: RecurringTask? = nil) {
+    init(taskViewModel: TaskViewModel, defaultEstimatedTime: Int64?, existingTask: RecurringTask? = nil) {
+        
         self.taskViewModel = taskViewModel
         self.existingTask = existingTask
         
@@ -40,8 +42,9 @@ struct RecurringTaskFormView: View {
             } else {
                 _recurrenceRule = State(initialValue: task.recurrenceRule)
             }
+            
         } else {
-            let defaultEstimatedTime : Int = defaultEstimatedTime ?? 15
+            let defaultEstimatedTime  = Int64(defaultEstimatedTime ?? 15)
             _estimatedTime = State(initialValue: defaultEstimatedTime)
         }
     }
@@ -118,7 +121,7 @@ struct RecurringTaskFormView: View {
             var updatedTask = task
             updatedTask.title = title
             updatedTask.details = details
-            updatedTask.recurrenceRule = newRecurrenceRule
+            updatedTask.recurrenceRuleAsString = newRecurrenceRule.encoded()
             updatedTask.estimatedTime = estimatedTime
             taskViewModel.updateRecurringTask(updatedTask)
         } else {

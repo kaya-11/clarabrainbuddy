@@ -10,6 +10,8 @@ import UniformTypeIdentifiers
 
 struct ClaraMenuView: View {
     
+    let context = DataManager.shared.context
+    
     @ObservedObject var settingsViewModel: SettingsViewModel
     @ObservedObject var todoViewModel: TodoViewModel
     
@@ -26,6 +28,11 @@ struct ClaraMenuView: View {
     @State private var importedTodos: [Todo] = []
     
     @State private var showingAlert = false
+    
+    init(settingsViewModel: SettingsViewModel,todoViewModel: TodoViewModel) {
+        self.settingsViewModel = settingsViewModel
+        self.todoViewModel = todoViewModel
+    }
 
     var body: some View {
         Menu {
@@ -56,9 +63,7 @@ struct ClaraMenuView: View {
                 let dateString = StyleUtils.dateTimeFormatter.string(from: Date())
                 let fileName = "Clara_All_Todos_\(dateString).json"
                 
-                let todos = todoViewModel.allTodos
-                
-                let url = ImportExportUtils.exportTodosToJSONFile(todos: todos, fileName: fileName)
+                let url = ImportExportUtils.exportAllTodosToJSONFile(context: context, fileName: fileName)
 
                 if FileManager.default.fileExists(atPath: url.path) {
                     urlToShare = url
@@ -120,7 +125,7 @@ struct ClaraMenuView: View {
                 if selectedFileURL.startAccessingSecurityScopedResource() {
                     defer { selectedFileURL.stopAccessingSecurityScopedResource() }
                     
-                    let todos = ImportExportUtils.importTodosFromJSONFile(fileURL: selectedFileURL)
+                    let todos = ImportExportUtils.importTodosFromJSONFile(context: context, fileURL: selectedFileURL)
                     if !todos.isEmpty {
                         importedTodos = todos
                         isPreviewingImport = true

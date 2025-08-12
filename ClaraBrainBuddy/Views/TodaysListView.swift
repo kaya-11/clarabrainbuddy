@@ -19,6 +19,12 @@ struct TodaysListView: View {
     @State private var sharedTodoDetails: SharedTodoDetailsWrapper? = nil
     @State private var energyLevel: Float = EnergyManager.EnergyLevel.medium.rawValue
     
+    init(todoViewModel: TodoViewModel, taskViewModel: TaskViewModel, settingsViewModel: SettingsViewModel) {
+        self.todoViewModel = todoViewModel
+        self.taskViewModel = taskViewModel
+        self.settingsViewModel = settingsViewModel
+    }
+    
     var recurringTasks: [RecurringTask] {
         let now = Date()
         let calendar = Calendar.current
@@ -29,28 +35,30 @@ struct TodaysListView: View {
         let isEven = day.isMultiple(of: 2)
         let isWeekend = (weekday == 1) || (weekday == 7)
         
-        return taskViewModel.allRecurringTasks.filter {
-            switch $0.recurrenceRule {
+        return taskViewModel.allRecurringTasks.filter { (task : RecurringTask) in
+            let matchesRecurrence: Bool
+            switch task.recurrenceRule {
             case .daily:
-                return true
+                matchesRecurrence = true
             case .weekly(let wd):
-                return wd == weekday
+                matchesRecurrence = wd == weekday
             case .monthly(let d):
-                return d == dayToCompare
+                matchesRecurrence = d == dayToCompare
             case .evenDays:
-                return isEven && !isWeekend
+                matchesRecurrence = isEven && !isWeekend
             case .oddDays:
-                return !isEven && !isWeekend
+                matchesRecurrence = !isEven && !isWeekend
             }
-            
-        }.filter { task in
-            !todoViewModel.isRecurringTaskInTodayTodos(task.id)
+            return matchesRecurrence //&& !todoViewModel.isRecurringTaskInTodayTodos(task)
         }
     }
+    
+    
     
     var body: some View {
         NavigationView {
             VStack {
+                
                 if todoViewModel.todayTodos.isEmpty && recurringTasks.isEmpty {
                     Text(Localization.labels.noTodosToday)
                         .foregroundColor(Color.theme.primary)
@@ -65,106 +73,108 @@ struct TodaysListView: View {
                             .padding(.top, 28)
                     
                     List {
-                        ForEach(todoViewModel.todayTodos, id: \.id) { todayTodo in
-                            if let todo = todoViewModel.allTodos.first(where: { $0.id == todayTodo.todoId }) {
-                                VStack(alignment: .leading, spacing: 4) {
+                        ForEach(todoViewModel.todayTodos, id: \.id) { (todayTodo: TodayTodo) in
+                            let todo: Todo = todayTodo.todo
+                                
+                            let isDone: Bool = todo.isDone
+                            let title: String = todo.title
+                            let details: String = todo.details ?? ""
+                            let dueDate: Date = todo.dueDate
+                            let resistance: Int64 = todo.resistance
+                               
+                            VStack(alignment: .leading, spacing: 4) {
+                            
+                                HStack {
+                                    if isDone {
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .foregroundColor(Color.theme.green)
+                                    }
+                                    Text(title)
+                                        .accessibilityValue(isDone ? "done" : "active")
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                
+                                if !details.isEmpty {
+                                    Text(String(details.prefix(20)) + (details.count > 20 ? "..." : ""))
+                                        .font(Font.app.tiny)
+                                        .foregroundColor(Color.theme.secondary)
+                                }
+                                
+                                Text("\(Localization.labels.due): \(dueDate, formatter: StyleUtils.dateFormatter)")
+                                    .font(Font.app.tiny)
+                                    .foregroundColor(Color.theme.secondary)
+                                
+                                if (1...10).contains(Int(resistance)) {
                                     HStack {
-                                        if todo.isDone {
-                                            Image(systemName: "checkmark.circle.fill")
-                                                .foregroundColor(Color.theme.green)
-                                        } 
-                                        Text(todo.title)
-                                            .accessibilityValue(todo.isDone ? "done" : "active")
-                                    }
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    
-                                    if let details = todo.details {
-                                        if !details.isEmpty {
-                                            Text(String(details.prefix(20)) + (details.count > 20 ? "..." : ""))
-                                                .font(Font.app.tiny)
-                                                .foregroundColor(Color.theme.secondary)
-                                        }
-                                    }
-                                    
-                                    if let dueDate = todo.dueDate {
-                                        Text("\(Localization.labels.due): \(dueDate, formatter: StyleUtils.dateFormatter)")
-                                            .font(Font.app.tiny)
-                                            .foregroundColor(Color.theme.secondary)
-                                    }
-                                    
-                                    let resistance = todo.resistance != nil ? todo.resistance! : 0
-                                    if (1...10).contains(resistance) {
-                                        HStack {
-                                            ForEach(1...resistance, id: \.self) { value in
-                                                Image(systemName: "mountain.2")
-                                                    .foregroundColor(StyleUtils.iconFontColorForLevels(for: value))
-                                                    .imageScale(.small)
-                                                    .font(StyleUtils.iconFontSizeForLevels(for: value))
-                                            }
+                                        ForEach(1...Int(resistance), id: \.self) { (value: Int) in
+                                            Image(systemName: "mountain.2")
+                                                .foregroundColor(StyleUtils.iconFontColorForLevels(for: value))
+                                                .imageScale(.small)
+                                                .font(StyleUtils.iconFontSizeForLevels(for: value))
                                         }
                                     }
                                 }
-                                .onTapGesture(count: 2) {
-                                    selectedTodo = todo
-                                }
-                                .strikethrough(todo.isDone, color: Color.theme.primary)
-                                .italic(todo.isDone)
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                    
-                                    Button(role: .destructive) {
-                                        todoViewModel.deselectForToday(todo)
-                                    } label: {
-                                        Label(Localization.labels.remove, systemImage: "minus.square")
-                                    }
-                                    .tint(.orange)
-                                    .accessibilityIdentifier("RemoveFromTodaysTodos")
-                                    
-                                    Button(role: .destructive) {
-                                        todoViewModel.deleteTodo(todo)
-                                    } label: {
-                                        Label(Localization.labels.delete, systemImage: "trash")
-                                    }
-                                    .tint(.red)
-                                    .accessibilityIdentifier("TodaysTodosDeleteTodo")
-                                    
-                                }
-                                .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                                    
-                                    Button {
-                                        todoViewModel.setToDone(todo)
-                                        DeviceFeedback.vibrateTwice()
-                                    } label: {
-                                        Label(Localization.labels.done, systemImage: "checkmark.square")
-                                    }
-                                    .tint(.blue)
-                                    .accessibilityIdentifier("MarkAsDoneButton")
-                                    
-                                    Button {
-                                        selectedTodo = todo
-                                    } label: {
-                                        Label(Localization.labels.edit, systemImage: "pencil")
-                                    }
-                                    .tint(.green)
-                                    
-                                    Button {
-                                        sharedTodoDetails = SharedTodoDetailsWrapper(todo: todo)
-                                    } label: {
-                                        Label(Localization.labels.copy, systemImage: "doc.on.doc")
-                                    }
-                                    .tint(.cyan)
-                                    
-                                    Button {
-                                        todoViewModel.cloneTodo(todo: todo)
-                                    } label: {
-                                        Label(Localization.labels.clone, systemImage: "plus.square.on.square")
-                                    }
-                                    .tint(.gray)
-                                    
-                                }
-                                .foregroundColor(StyleUtils.getTextColor(todo: todo, isSelectedForToday: false))
-                                .listRowBackground(Color.theme.listBackground)
-                                .font(Font.app.listItem)
                             }
+                            .onTapGesture(count: 2) {
+                                selectedTodo = todo
+                            }
+                            .strikethrough(isDone, color: Color.theme.primary)
+                            .italic(isDone)
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                
+                                Button(role: .destructive) {
+                                    todoViewModel.deselectForToday(todo)
+                                } label: {
+                                    Label(Localization.labels.remove, systemImage: "minus.square")
+                                }
+                                .tint(.orange)
+                                .accessibilityIdentifier("RemoveFromTodaysTodos")
+                                
+                                Button(role: .destructive) {
+                                    todoViewModel.deleteTodo(todo)
+                                } label: {
+                                    Label(Localization.labels.delete, systemImage: "trash")
+                                }
+                                .tint(.red)
+                                .accessibilityIdentifier("TodaysTodosDeleteTodo")
+                                
+                            }
+                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                                
+                                Button {
+                                    todoViewModel.setToDone(todo)
+                                    DeviceFeedback.vibrateTwice()
+                                } label: {
+                                    Label(Localization.labels.done, systemImage: "checkmark.square")
+                                }
+                                .tint(.blue)
+                                .accessibilityIdentifier("MarkAsDoneButton")
+                                
+                                Button {
+                                    selectedTodo = todo
+                                } label: {
+                                    Label(Localization.labels.edit, systemImage: "pencil")
+                                }
+                                .tint(.green)
+                                
+                                Button {
+                                    sharedTodoDetails = SharedTodoDetailsWrapper(todo: todo)
+                                } label: {
+                                    Label(Localization.labels.copy, systemImage: "doc.on.doc")
+                                }
+                                .tint(.cyan)
+                                
+                                Button {
+                                    todoViewModel.cloneTodo(todo: todo)
+                                } label: {
+                                    Label(Localization.labels.clone, systemImage: "plus.square.on.square")
+                                }
+                                .tint(.gray)
+                                
+                            }
+                            .foregroundColor(StyleUtils.getTextColor(todo: todo, isSelectedForToday: false))
+                            .listRowBackground(Color.theme.listBackground)
+                            .font(Font.app.listItem)
                         }
                         .onMove(perform: move)
                     }
@@ -179,16 +189,17 @@ struct TodaysListView: View {
                             .padding(.top, 28)
                         
                         List {
-                            ForEach(recurringTasks, id: \.id) { todaysTask in
-                                Text(todaysTask.title)
+                            ForEach(recurringTasks, id: \.id) { (todaysTask: RecurringTask) in
+                                let title = todaysTask.title
+                                Text(title)
                                     .foregroundColor(Color.theme.listText)
                                     .font(Font.app.listItem)
                                     .listRowBackground(Color.theme.listBackground)
                                     .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                         Button {
                                             let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
-                                            if todoViewModel.todayTodos.count >= maxCountOfTodosForToday {
-                                                showErrorMessage = true
+                                            if todoViewModel.getTotalTodaysTodosCount() >= maxCountOfTodosForToday {
+                                                    showErrorMessage = true
                                             } else {
                                                 todoViewModel.addRecurringTaskAsTodoForToday(todaysTask)
                                             }
@@ -205,13 +216,13 @@ struct TodaysListView: View {
                     
                     Spacer()
                     
-                    let defaultEstimatedTime = settingsViewModel.settings.defaultTimeForEnergyLevelCalculation
-                    let totalEstimatedTime = todoViewModel.getTotalEstimatedTime(defaultEstimatedTime: defaultEstimatedTime)
+                    let defaultEstimatedTime: Int64  = Int64(settingsViewModel.settings.defaultTimeForEnergyLevelCalculation)
+                    let totalEstimatedTime: Int64 = Int64(todoViewModel.getTotalEstimatedTime(defaultEstimatedTime: defaultEstimatedTime))
                     if totalEstimatedTime > 0 {
                         Section {
                             VStack {
                                 
-                                let maxEstimatedTime = EnergyManager.getMaxEstimatedTime(energyLevel: energyLevel)
+                                let maxEstimatedTime: Int64 = EnergyManager.getMaxEstimatedTime(energyLevel: energyLevel)
                                 
                                 Text("\(Localization.labels.estimatedTime): \(totalEstimatedTime)\(Localization.labels.estimatedTimeUnit).")
                                     .font(Font.app.normal)
@@ -266,7 +277,7 @@ struct TodaysListView: View {
                         .accessibilityIdentifier("ReorderTodaysTodosButton")
                         Button(action: {
                             let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
-                            if todoViewModel.todayTodos.count >= maxCountOfTodosForToday {
+                            if todoViewModel.getTotalTodaysTodosCount() >= maxCountOfTodosForToday {
                                 showErrorMessage = true
                             } else {
                                 showingAddTodo = true
@@ -279,7 +290,7 @@ struct TodaysListView: View {
                 }
             }
             .sheet(item: $sharedTodoDetails) { wrapper in
-                let text = wrapper.todo.getDetails()
+                let text = wrapper.todo.fullTodoDescription
                 ShareSheet(activityItems: [text])
             }
             .sheet(item: $selectedTodo) { todo in
