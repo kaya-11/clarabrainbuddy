@@ -7,33 +7,112 @@
 
 import Foundation
 import EventKit
+import CoreData
 
 class TodoViewModel: ObservableObject {
-    private let todoManager : TodoManager
+    private let context: NSManagedObjectContext
+    
     @Published var allTodos: [Todo] = []
     @Published var todayTodos: [TodayTodo] = []
-    
-    init(todoManager: TodoManager = TodoManager()) {
-        self.todoManager = todoManager
-        self.allTodos = todoManager.loadTodos()
-        self.todayTodos = todoManager.loadTodayTodos()
+
+    init(context: NSManagedObjectContext) {
+        self.context = context
+        fetchTodos()
+        fetchTodayTodos()
     }
     
-    func addTodo(title: String, details: String, dueDate: Date?, estimatedTime: Int?) {
+    func fetchTodos() {
+        let request: NSFetchRequest<Todo> = Todo.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \Todo.sortOrder, ascending: true)]
+        do {
+            allTodos = try context.fetch(request)
+        } catch {
+            print("❌ Failed to fetch todos: \(error)")
+        }
+    }
+    
+    func fetchTodayTodos() {
+        let request: NSFetchRequest<TodayTodo> = TodayTodo.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \TodayTodo.sortOrder, ascending: true)]
+        do {
+            todayTodos = try context.fetch(request)
+        } catch {
+            print("❌ Failed to fetch todayTodos: \(error)")
+        }
+    }
+    
+    func addTodo(title: String, details: String, dueDate: Date, estimatedTime: Int64?) {
+        // Shift existing sort orders
+        for todo in allTodos {
+            todo.sortOrder += 1
+        }
         
-        let newTodo = Todo(id: UUID(), title: title, details: details, dueDate: dueDate, estimatedTime: estimatedTime)
+        let newTodo = Todo(context: context)
+        newTodo.id = UUID()
+        newTodo.title = title
+        newTodo.details = details
+        newTodo.dueDate = dueDate
+        newTodo.estimatedTime = estimatedTime
+        newTodo.isDone = false
+        newTodo.createdAt = Date()
+        newTodo.sortOrder = 0
         
-        allTodos.insert(newTodo, at: 0)
-        todoManager.saveTodos(allTodos)
+        saveContext()
+        fetchTodos()
     }
     
     func addTodos(_ todos: [Todo]) {
-        allTodos.insert(contentsOf: todos, at: 0)
-        todoManager.saveTodos(allTodos)
+        
+        for todo in allTodos {
+            todo.sortOrder += Int64(todos.count)
+        }
+        
+        var sortOrder : Int64 = 0
+        for incoming in todos {
+            incoming.sortOrder = sortOrder
+            context.insert(incoming)
+            sortOrder += 1
+        }
+        
+        saveContext()
+        fetchTodos()
     }
     
     func addRecurringTaskAsTodoForToday(_ recurringTask: RecurringTask) {
-        addNewTodoForToday(title: recurringTask.title, details: recurringTask.details ?? "", estimatedTime: recurringTask.estimatedTime, recurringTaskId: recurringTask.id)
+        addNewTodoForToday(title: recurringTask.title, details: recurringTask.details ?? "", estimatedTime: recurringTask.estimatedTime, recurringTask: recurringTask)
+    }
+    
+    func selectForToday(_ todo: Todo, _ recurringTask: RecurringTask? = nil) {
+        guard !todayTodos.contains(where: { $0.todo.id == todo.id }) else { return }
+        
+        // Shift today sort orders
+        for today in todayTodos {
+            today.sortOrder += 1
+        }
+        
+        let todayTodo = TodayTodo(context: context)
+        todayTodo.id = UUID()
+        todayTodo.todo = todo
+        todayTodo.recurringTask = recurringTask
+        todayTodo.sortOrder = 0
+        
+        todo.selectedForToday = true
+        
+        saveContext()
+        fetchTodos()
+        fetchTodayTodos()
+    }
+    
+    func deselectForToday(_ todo: Todo) {
+        if let todayTodo = todayTodos.first(where: { $0.todo == todo }) {
+            context.delete(todayTodo)
+        }
+        todo.selectedForToday = false
+        todo.resistance = increaseResistance(resistance: todo.resistance)
+        
+        saveContext()
+        fetchTodos()
+        fetchTodayTodos()
     }
     
     func eventAlreadyExistsAsTodo(_ event: EKEvent) -> Bool {
@@ -47,7 +126,7 @@ class TodoViewModel: ObservableObject {
 
         // Compare the title and the date without time
         return allTodos.contains { todo in
-            let todoDueDateComponents = calendar.dateComponents([.day, .month, .year], from: todo.dueDate ?? Date())
+            let todoDueDateComponents = calendar.dateComponents([.day, .month, .year], from: todo.dueDate)
             guard let todoDueDateWithoutTime = calendar.date(from: todoDueDateComponents) else {
                 return false
             }
@@ -56,185 +135,194 @@ class TodoViewModel: ObservableObject {
         }
     }
     
-    func addNewTodoForToday(title: String, details: String, estimatedTime: Int?, recurringTaskId: UUID? = nil) {
-        let newTodo = Todo(
-            id: UUID(),
-            title: title,
-            details: details,
-            dueDate: Date(),
-            estimatedTime: estimatedTime
-        )
+    func addNewTodoForToday(title: String, details: String, estimatedTime: Int64?, recurringTask: RecurringTask? = nil) {
+        let newTodo = Todo(context: context)
+        newTodo.id = UUID()
+        newTodo.title = title
+        newTodo.details = details
+        newTodo.dueDate = Date()
+        newTodo.estimatedTime = estimatedTime
+        newTodo.sortOrder = 0
+
+        // Increment sortOrder of existing todos to push them down
+        for todo in allTodos {
+            todo.sortOrder += 1
+        }
+        
         allTodos.insert(newTodo, at: 0)
-        selectForToday(newTodo, recurringTaskId)
-    }
-    
-    func selectForToday(_ todo: Todo, _ recurringTaskId: UUID? = nil) {
         
-        guard let index = allTodos.firstIndex(of: todo) else { return }
-        
-        allTodos[index].isSelectedForToday = true
-        
-        let alreadyInToday = todayTodos.contains(where: { $0.todoId == todo.id })
-        if !alreadyInToday {
-            let newTodayTodo = TodayTodo(id: UUID(), todoId: todo.id, recurringTaskId: recurringTaskId)
-            todayTodos.append(newTodayTodo)
-        }
-        
-        todoManager.saveTodos(allTodos)
-        todoManager.saveTodayTodos(todayTodos)
-        saveMostRecentTodo()
-    }
-    
-    func deselectForToday(_ todo: Todo) {
-        if let todoIndex = allTodos.firstIndex(of: todo) {
-            allTodos[todoIndex].isSelectedForToday = false
-            allTodos[todoIndex].resistance = increaseResistance(resistance: todo.resistance)
-            todoManager.saveTodos(allTodos)
-        }
-        
-        if let todayIndex = todayTodos.firstIndex(where: { $0.todoId == todo.id }) {
-            todayTodos.remove(at: todayIndex)
-            todoManager.saveTodayTodos(todayTodos)
-            saveMostRecentTodo()
+        do {
+            try context.save()
+            selectForToday(newTodo, recurringTask)
+        } catch {
+            print("❌ Failed to save new todo: \(error)")
         }
     }
     
-    private func increaseResistance(resistance: Int?) -> Int {
-        var resistanceNew = resistance ?? 0
-        if resistanceNew <= 10 {
-            resistanceNew+=1
-        }
-        return resistanceNew
-    }
-    
-    
-    func getTotalEstimatedTime(defaultEstimatedTime: Int = 15) -> Int {
+    func getTotalEstimatedTime(defaultEstimatedTime: Int64 = 15) -> Int64 {
         return todayTodos.compactMap { todayTodo in
-            if let todo = allTodos.first(where: { $0.id == todayTodo.todoId }) {
-                let estimatedTime = todo.estimatedTime ?? defaultEstimatedTime
+            if let todo = allTodos.first(where: { $0 == todayTodo.todo }) {
+                let estimatedTime = todo.estimatedTime == nil ? defaultEstimatedTime : todo.estimatedTime
                 return todo.isDone ? nil : estimatedTime
             }
             return nil
         }.reduce(0, +)
     }
     
-    func setToDone(_ todo: Todo) {
-        guard let index = allTodos.firstIndex(of: todo) else { return }
-        allTodos[index].isDone = true
-        todoManager.saveTodos(allTodos)
-    }
-    
-    func updateTodo(_ updatedTodo: Todo) {
-        if let index = allTodos.firstIndex(where: { $0.id == updatedTodo.id }) {
-            allTodos[index] = updatedTodo
-            todoManager.saveTodos(allTodos)
-        }
-    }
-    
-    func cloneTodo(todo: Todo) {
-        let clonedTodo = Todo(id: UUID(), title: "\(Localization.labels.clone) - \(todo.title)", details: todo.details, dueDate: todo.dueDate, estimatedTime: todo.estimatedTime, isDone: false)
-        allTodos.insert(clonedTodo, at: 0)
-        todoManager.saveTodos(allTodos)
-    }
-    
     func deleteTodo(_ todo: Todo) {
-        if let index = allTodos.firstIndex(where: { $0.id == todo.id }) {
-            allTodos.remove(at: index)
-            todoManager.saveTodos(allTodos)
+        if let todayTodo = todayTodos.first(where: { $0.todo.id == todo.id }) {
+            context.delete(todayTodo)
         }
-        
-        if let todayIndex = todayTodos.firstIndex(where: { $0.todoId == todo.id }) {
-            todayTodos.remove(at: todayIndex)
-            todoManager.saveTodayTodos(todayTodos)
-            saveMostRecentTodo()
-        }
-        
+        context.delete(todo)
+        saveContext()
+        fetchTodos()
+        fetchTodayTodos()
         DeviceFeedback.vibrate()
     }
     
-    func isRecurringTaskInTodayTodos(_ recurringTaskId: UUID) -> Bool {
-        return todayTodos.contains(where: { $0.recurringTaskId == recurringTaskId })
+    func isRecurringTaskInTodayTodos(_ recurringTask: RecurringTask) -> Bool {
+        return todayTodos.contains(where: { $0.recurringTask == recurringTask })
     }
     
-    func saveMostRecentTodo() {
-        if let firstTodayTodo = todayTodos.first {
-            if let mostRecentTodoIndex = allTodos.firstIndex(where: { $0.id == firstTodayTodo.todoId }) {
-                let mostRecentTodo = allTodos[mostRecentTodoIndex]
-                todoManager.saveMostRecentTodo(mostRecentTodo)
-            }
+    func moveTodo(from source: IndexSet, to destination: Int) {
+        var reordered = allTodos
+        reordered.move(fromOffsets: source, toOffset: destination)
+        for (index, todo) in reordered.enumerated() {
+            todo.sortOrder = Int64(index)
         }
+        saveContext()
+        fetchTodos()
     }
     
     func moveTodayTodos(from source: IndexSet, to destination: Int) {
-        todayTodos.move(fromOffsets: source, toOffset: destination)
-        todoManager.saveTodayTodos(todayTodos)
-        saveMostRecentTodo()
+        var reordered = todayTodos
+        reordered.move(fromOffsets: source, toOffset: destination)
+        for (index, today) in reordered.enumerated() {
+            today.sortOrder = Int64(index)
+        }
+        saveContext()
+        fetchTodayTodos()
     }
     
-    func updateTodos() {
-        todoManager.saveTodos(allTodos)
+    func setToDone(_ todo: Todo) {
+        todo.isDone = true
+        saveContext()
+    }
+    
+    func updateTodo(_ updatedTodo: Todo) {
+        saveContext()
+    }
+    
+    func cloneTodo(todo: Todo) {
+        for t in allTodos {
+            t.sortOrder += 1
+        }
+        
+        let clone = Todo(context: context)
+        clone.id = UUID()
+        clone.title = "Clone - \(todo.title)"
+        clone.details = todo.details
+        clone.dueDate = todo.dueDate
+        clone.estimatedTime = todo.estimatedTime
+        clone.isDone = false
+        clone.createdAt = Date()
+        clone.sortOrder = 0
+        
+        saveContext()
+        fetchTodos()
     }
     
     func randomTodo() -> Todo? {
-        let availableTodos = allTodos.filter { !$0.isSelectedForToday }
+        let availableTodos = allTodos.filter { !$0.selectedForToday }
         return availableTodos.randomElement()
     }
 
     func moveTodoOneDown(_ todo: Todo) {
         guard let currentIndex = allTodos.firstIndex(of: todo) else { return }
 
-        allTodos[currentIndex].resistance = increaseResistance(resistance: todo.resistance)
-        
+        // Increase resistance
+        todo.resistance = increaseResistance(resistance: todo.resistance)
+
         let newIndex = currentIndex + 1
         if newIndex < allTodos.count {
+            // Swap sortOrder values of the two todos
+            let todoBelow = allTodos[newIndex]
+            let tempSortOrder = todo.sortOrder
+            todo.sortOrder = todoBelow.sortOrder
+            todoBelow.sortOrder = tempSortOrder
+
+            // Update the array to match the new order
             allTodos.swapAt(currentIndex, newIndex)
-            updateTodos()
+
+            saveContext()
         }
     }
 
     func moveToTheTop(_ todo: Todo) {
         guard let currentIndex = allTodos.firstIndex(of: todo) else { return }
+        
         selectForToday(todo)
+
+        // Increment sortOrder of all todos before inserting this at the top
+        for t in allTodos {
+            t.sortOrder += 1
+        }
+
+        todo.sortOrder = 0
+
+        // Rearrange allTodos array accordingly
         allTodos.remove(at: currentIndex)
         allTodos.insert(todo, at: 0)
-        updateTodos()
+
+        saveContext()
     }
     
     func reorderTodayTodos() {
-        todayTodos.sort { firstTodo, secondTodo in
-             guard let first = allTodos.first(where: { $0.id == firstTodo.todoId }),
-                   let second = allTodos.first(where: { $0.id == secondTodo.todoId }) else {
-                 return false
-             }
-
+        todayTodos.sort { first, second in
+            let todo1 = first.todo
+            let todo2 = second.todo
+            
             // The completed todos to the end.
-            if first.isDone && !second.isDone {
-                return false
-            } else if !first.isDone && second.isDone {
-                return true
-            } else if first.isDone && second.isDone {
-                return first.dueDate ?? first.createdAt < second.dueDate ?? second.createdAt
+            if todo1.isDone != todo2.isDone {
+                return !todo1.isDone
             }
             
+            let est1 = todo1.estimatedTime ?? 0
+            let est2 = todo2.estimatedTime ?? 0
+            
             // Todos with no estimated time to the top
-             if first.estimatedTime == nil && second.estimatedTime != nil {
-                 return true
-             } else if first.estimatedTime != nil && second.estimatedTime == nil {
-                 return false
-             } else if first.estimatedTime == nil && second.estimatedTime == nil {
-                 return first.dueDate ?? first.createdAt < second.dueDate ?? second.createdAt
-             }
-
-             if first.estimatedTime != second.estimatedTime {
-                 return first.estimatedTime! < second.estimatedTime!
-             } else {
-                 return first.dueDate ?? first.createdAt < second.dueDate ?? second.createdAt
-             }
-         }
-
-         todoManager.saveTodayTodos(todayTodos)
-         saveMostRecentTodo()
-        
+            if est1 == 0 && est2 != 0 {
+                return true
+            }
+            
+            if ( est1 != est2 ) {
+                return est1 < est2
+            }
+            return (todo1.dueDate) < (todo2.dueDate)
+        }
+        for (index, today) in todayTodos.enumerated() {
+            today.sortOrder = Int64(index)
+        }
+        saveContext()
+        fetchTodayTodos()
+    }
+    
+    func getTotalTodaysTodosCount() -> Int {
+        return todayTodos.count
+    }
+    
+    private func increaseResistance(resistance: Int64) -> Int64 {
+        var r = resistance
+        if r <= 10 { r += 1 }
+        return r
+    }
+    
+    private func saveContext() {
+        do {
+            try context.save()
+        } catch {
+            print("❌ Save failed: \(error)")
+        }
     }
 
 }

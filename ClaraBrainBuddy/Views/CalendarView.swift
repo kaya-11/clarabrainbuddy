@@ -32,8 +32,8 @@ struct CalendarView: View {
                     ForEach(events, id: \.self) { event in
                         
                         let eventAlreadyExistsAsTodo = todoViewModel.eventAlreadyExistsAsTodo(event)
-                        let startDate: Date = event.startDate ?? Date()
-                        let endDate: Date = event.endDate ?? Date().addingTimeInterval(60 * 60 * 24)
+                        let startDate: Date = event.startDate
+                        let endDate: Date = event.endDate
                         
                         VStack(alignment: .leading) {
                             HStack {
@@ -52,9 +52,9 @@ struct CalendarView: View {
                         .swipeActions(edge: .leading, allowsFullSwipe: true) {
                             if !eventAlreadyExistsAsTodo {
                                 Button {
-                                    let title: String = event.title ?? ""
+                                    let title: String = event.title
                                     let details: String = event.hasNotes ? event.notes ?? "" : ""
-                                    let estimatedTime: Int = Int((endDate.timeIntervalSince(startDate)) / 60)
+                                    let estimatedTime: Int64 = Int64((endDate.timeIntervalSince(startDate)) / 60)
                                     todoViewModel.addNewTodoForToday(title: title, details: details, estimatedTime: estimatedTime)
                                 } label: {
                                     Label(Localization.labels.addTodoToday, systemImage: "calendar")

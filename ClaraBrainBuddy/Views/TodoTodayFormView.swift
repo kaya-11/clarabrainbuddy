@@ -12,11 +12,21 @@ struct TodoTodayFormView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var todoViewModel: TodoViewModel
 
-    @State private var title: String = ""
-    @State private var details: String = ""
-    @State private var dueDate: Date = Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
-    @State private var estimatedTime: Int?
-    @State private var isDone: Bool = false
+    @State private var title: String
+    @State private var details: String
+    @State private var dueDate: Date
+    @State private var estimatedTime: Int64?
+    @State private var isDone: Bool
+    
+    init(todoViewModel: TodoViewModel) {
+        self.todoViewModel = todoViewModel
+        
+        _title = State(initialValue: "" )
+        _details = State(initialValue: "")
+        _dueDate = State(initialValue: Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date())
+        _estimatedTime = State(initialValue: nil)
+        _isDone = State(initialValue: false)
+    }
     
     var body: some View {
         NavigationView {
@@ -40,7 +50,7 @@ struct TodoTodayFormView: View {
                 
                 
                 Button(action: {
-                   todoViewModel.addNewTodoForToday(title: title, details: details, estimatedTime: estimatedTime)
+                    todoViewModel.addNewTodoForToday(title: title, details: details, estimatedTime: estimatedTime)
                     presentationMode.wrappedValue.dismiss()
                 }) {
                     Text(Localization.labels.saveAddTodo)

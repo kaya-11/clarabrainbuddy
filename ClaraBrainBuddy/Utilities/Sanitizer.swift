@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Sanitizer {
     
-    static func sanitizeTodos(_ todos: [Todo]) -> [Todo] {
+    static func sanitizeTodos(_ todos: [TodoDto]) -> [TodoDto] {
         return todos.compactMap { todo in
             // Basic validation
             let cleanTitle = todo.title.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -29,22 +29,18 @@ struct Sanitizer {
                 cleanDetails = String(details.prefix(500))
             }
             
-            return Todo(
-                id: UUID(), // Always regenerate UUID
+            return TodoDto(
+                id: UUID(), 
                 title: truncatedTitle,
                 details: cleanDetails,
                 dueDate: todo.dueDate,
-                estimatedTime: todo.estimatedTime?.clamped(to: 0...1440),
-                isSelectedForToday: false,
+                estimatedTime: todo.estimatedTime.map { Int64($0.clamped(to: 0...1440)) } ?? nil,
+                selectedForToday: false,
                 isDone: todo.isDone,
-                resistance: todo.resistance?.clamped(to: 0...10) ?? 0
+                resistance: Int64(todo.resistance.clamped(to: 0...10)),
+                createdAt: todo.createdAt,
+                updatedAt: todo.updatedAt
             )
         }
-    }
-}
-
-extension Comparable {
-    func clamped(to range: ClosedRange<Self>) -> Self {
-        return min(max(self, range.lowerBound), range.upperBound)
     }
 }

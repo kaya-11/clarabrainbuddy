@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		9CD0A7932E52325000C664D3 /* ClaraDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9CBED09D2E4B3C6C00365BFF /* ClaraDataModel.xcdatamodeld */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		9CA28D672D88B307001245CF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -42,6 +46,7 @@
 		9C999B212D8A088B00ED77C4 /* ClaraBrainBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClaraBrainBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C999B222D8A088B00ED77C4 /* ClaraBrainBuddyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClaraBrainBuddyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C999B232D8A088B00ED77C4 /* ClaraBrainBuddyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClaraBrainBuddyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CBED09E2E4B3C6C00365BFF /* ClaraDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClaraDataModel.xcdatamodel; sourceTree = "<group>"; };
 		9CE8820E2E3E88B40039B0CB /* ClaraBrainBuddyDE.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ClaraBrainBuddyDE.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,6 +134,7 @@
 		9CA28D4D2D88B306001245CF = {
 			isa = PBXGroup;
 			children = (
+				9CBED09D2E4B3C6C00365BFF /* ClaraDataModel.xcdatamodeld */,
 				9CE8820E2E3E88B40039B0CB /* ClaraBrainBuddyDE.xctestplan */,
 				9CA28D692D88B307001245CF /* ClaraBrainBuddyTests */,
 				9CA28D732D88B307001245CF /* ClaraBrainBuddyUITests */,
@@ -285,6 +291,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CD0A7932E52325000C664D3 /* ClaraDataModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,6 +644,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9CBED09D2E4B3C6C00365BFF /* ClaraDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9CBED09E2E4B3C6C00365BFF /* ClaraDataModel.xcdatamodel */,
+			);
+			currentVersion = 9CBED09E2E4B3C6C00365BFF /* ClaraDataModel.xcdatamodel */;
+			path = ClaraDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+			wrapsLines = 1;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 9CA28D4E2D88B306001245CF /* Project object */;
 }

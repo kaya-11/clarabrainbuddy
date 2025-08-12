@@ -12,8 +12,11 @@ struct SettingsView: View {
 
     @Environment(\.presentationMode) var presentationMode
     
-    @StateObject private var viewModel = SettingsViewModel()
     @ObservedObject var settingsViewModel: SettingsViewModel
+    
+    init(settingsViewModel: SettingsViewModel) {
+        self.settingsViewModel = settingsViewModel
+    }
 
     var body: some View {
         NavigationView {
