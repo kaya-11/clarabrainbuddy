@@ -7,19 +7,17 @@
 
 
 import XCTest
+import CoreData
 @testable import ClaraBrainBuddy
 
 final class SanitizerTests: XCTestCase {
     
     func testSanitizeTodosWithValidTodoShouldCleanFields() {
-        let original = Todo(
-            id: UUID(),
+        let original: TodoDto = createTodo(
             title: "   Clean this title   ",
             details: "   Some detailed description   ",
-            dueDate: Date(),
             estimatedTime: 200,
-            isSelectedForToday: true,
-            isDone: false,
+            selectedForToday: true,
             resistance: 5
         )
         
@@ -30,22 +28,16 @@ final class SanitizerTests: XCTestCase {
         XCTAssertEqual(sanitized.title, "Clean this title")
         XCTAssertEqual(sanitized.details, "Some detailed description")
         XCTAssertEqual(sanitized.estimatedTime, 200)
-        XCTAssertEqual(sanitized.isSelectedForToday, false)
+        XCTAssertEqual(sanitized.selectedForToday, false)
         XCTAssertEqual(sanitized.isDone, false)
         XCTAssertEqual(sanitized.resistance, 5)
         XCTAssertNotEqual(sanitized.id, original.id)
     }
     
     func testSanitizeTodosWithEmptyTitleShouldBeExcluded() {
-        let todo = Todo(
-            id: UUID(),
+        let todo: TodoDto = createTodo(
             title: "   ",
-            details: "Details",
-            dueDate: nil,
-            estimatedTime: nil,
-            isSelectedForToday: false,
-            isDone: false,
-            resistance: nil
+            details: "Details"
         )
         
         let result = Sanitizer.sanitizeTodos([todo])
@@ -56,13 +48,9 @@ final class SanitizerTests: XCTestCase {
         let longTitle = String(repeating: "a", count: 150)
         let longDetails = String(repeating: "b", count: 600)
         
-        let todo = Todo(
-            id: UUID(),
+        let todo = createTodo(
             title: longTitle,
             details: longDetails,
-            dueDate: nil,
-            estimatedTime: nil,
-            isSelectedForToday: false,
             isDone: true,
             resistance: 11
         )
@@ -75,15 +63,9 @@ final class SanitizerTests: XCTestCase {
     }
     
     func testSanitizeTodosWithNilDetailsShouldRemainNil() {
-        let todo = Todo(
-            id: UUID(),
+        let todo: TodoDto = createTodo(
             title: "Valid Title",
-            details: nil,
-            dueDate: nil,
-            estimatedTime: nil,
-            isSelectedForToday: false,
-            isDone: true,
-            resistance: 0
+            isDone: true
         )
         
         let result = Sanitizer.sanitizeTodos([todo])
@@ -91,32 +73,10 @@ final class SanitizerTests: XCTestCase {
         XCTAssertNil(result[0].details)
     }
     
-    func testSanitizeTodosWithNildResistanceShouldDefaulted() {
-        let todo = Todo(
-            id: UUID(),
-            title: "Valid Title",
-            details: "...",
-            dueDate: nil,
-            estimatedTime: nil,
-            isSelectedForToday: false,
-            isDone: true,
-            resistance: nil
-        )
-        
-        let result = Sanitizer.sanitizeTodos([todo])
-        XCTAssertEqual(result.count, 1)
-        XCTAssertEqual(result[0].resistance, 0)
-    }
-    
     func testSanitizeTodosWithOutOfBoundsEstimatedTimeShouldClamp() {
-        let todo = Todo(
-            id: UUID(),
+        let todo: TodoDto = createTodo(
             title: "Test",
-            details: nil,
-            dueDate: nil,
             estimatedTime: 2000,
-            isSelectedForToday: false,
-            isDone: false,
             resistance: -5
         )
         
@@ -125,4 +85,27 @@ final class SanitizerTests: XCTestCase {
         XCTAssertEqual(result[0].estimatedTime, 1440)
         XCTAssertEqual(result[0].resistance, 0)
     }
+}
+
+
+private func createTodo(
+    id: UUID = UUID(),
+    title: String,
+    details: String = "",
+    estimatedTime: Int64? = nil,
+    dueDate: Date = Date(),
+    selectedForToday: Bool = false,
+    isDone: Bool = false,
+    resistance: Int64 = 0
+) -> TodoDto {
+    let todo = TodoDto(
+        id: id,
+        title: title,
+        details: details,
+        dueDate: dueDate,
+        estimatedTime: estimatedTime,
+        selectedForToday: selectedForToday,
+        isDone: isDone,
+        resistance: resistance)
+    return todo
 }

@@ -115,7 +115,9 @@ final class RecurringTaskListAndFormUITests: XCTestCase {
         XCTAssertTrue(taskCell.waitForExistence(timeout: 2))
         
         taskCell.swipeLeft()
-        app.buttons["RecurringTaskListDeleteTask"].tap()
+        let button = app.buttons["RecurringTaskListDeleteTask"]
+        XCTAssertTrue(button.waitForExistence(timeout: 2))
+        button.tap()
         
         XCTAssertFalse(taskCell.waitForExistence(timeout: 2))
 

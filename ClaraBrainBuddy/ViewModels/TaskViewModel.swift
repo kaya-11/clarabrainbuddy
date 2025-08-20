@@ -31,7 +31,7 @@ class TaskViewModel: ObservableObject {
         }
     }
 
-    func addRecurringTask(title: String, details: String, estimatedTime: Int64, recurrenceRule: RecurrenceRule) {
+    func addRecurringTask(title: String, details: String, estimatedTime: Int64?, recurrenceRule: RecurrenceRule) {
     
         let newTask = RecurringTask(context: context)
         newTask.id = UUID()
