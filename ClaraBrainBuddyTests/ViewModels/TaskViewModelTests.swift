@@ -7,66 +7,52 @@
 
 
 import XCTest
+import CoreData
 @testable import ClaraBrainBuddy
-
-class MockTaskManager: RecurringTaskManager {
-    var savedTasks: [RecurringTask] = []
-    
-    override func saveTasks(_ tasks: [RecurringTask]) {
-        savedTasks = tasks
-    }
-    
-    override func loadTasks() -> [RecurringTask] {
-        return savedTasks
-    }
-}
 
 final class TaskViewModelTests: XCTestCase {
     
     var viewModel: TaskViewModel!
-    var mockManager: RecurringTaskManager!
+    var context: NSManagedObjectContext!
     
     override func setUp() {
         super.setUp()
-        mockManager = MockTaskManager()
-        viewModel = TaskViewModel(taskManager: mockManager)
+        DataManager.resetForTests()
+        context = DataManager.shared.context
+        viewModel = TaskViewModel(context: context)
     }
     
     override func tearDown() {
         viewModel = nil
-        mockManager = nil
         super.tearDown()
     }
     
     func testAddRecurringTask() {
-        let recurringTask = RecurringTask(id: UUID(),
-                                          title: "Test Task",
-                                          details: "Details",
-                                          estimatedTime: 20,
-                                          recurrenceRule: RecurrenceRule.daily)
-        viewModel.allRecurringTasks.append(recurringTask);
+        viewModel.addRecurringTask(title: "Test Task", details: "Details", estimatedTime: 10, recurrenceRule: RecurrenceRule.daily)
+        
+        do {
+            try context.save()
+        } catch {
+            XCTFail("Saving context failed: \(error)")
+        }
         
         XCTAssertEqual(viewModel.allRecurringTasks.count, 1)
         
         viewModel.addRecurringTask(title: "New Task", details: "...", estimatedTime: 10, recurrenceRule: RecurrenceRule.evenDays)
         
         XCTAssertEqual(viewModel.allRecurringTasks.count, 2)
-        XCTAssertEqual(viewModel.allRecurringTasks[0].title, "New Task")
+        XCTAssertEqual(viewModel.allRecurringTasks[0].title, "Test Task")
+        XCTAssertEqual(viewModel.allRecurringTasks[1].title, "New Task")
     }
     
     func testUpdateRecurringTask() {
-        var recurringTask = RecurringTask(id: UUID(),
-                                          title: "Test Task",
-                                          details: "Details",
-                                          estimatedTime: 20,
-                                          recurrenceRule: RecurrenceRule.daily)
-        viewModel.allRecurringTasks.append(recurringTask);
+        viewModel.addRecurringTask(title: "Test Task", details: "Details", estimatedTime: 20, recurrenceRule: RecurrenceRule.daily)
+        
+        let recurringTask: RecurringTask = viewModel.allRecurringTasks[0]
         
         XCTAssertEqual(viewModel.allRecurringTasks.count, 1)
         
         recurringTask.title = "Updated Task"
-        
-        XCTAssertEqual(viewModel.allRecurringTasks[0].title, "Test Task")
         
         viewModel.updateRecurringTask(recurringTask)
         
@@ -75,12 +61,9 @@ final class TaskViewModelTests: XCTestCase {
     }
     
     func testDelteRecurringTask() {
-        let recurringTask = RecurringTask(id: UUID(),
-                                          title: "Test Task",
-                                          details: "Details",
-                                          estimatedTime: 20,
-                                          recurrenceRule: RecurrenceRule.daily)
-        viewModel.allRecurringTasks.append(recurringTask);
+        viewModel.addRecurringTask(title: "Test Task", details: "Details", estimatedTime: 20, recurrenceRule: RecurrenceRule.daily)
+        
+        let recurringTask: RecurringTask = viewModel.allRecurringTasks[0]
         
         XCTAssertEqual(viewModel.allRecurringTasks.count, 1)
         
@@ -90,25 +73,39 @@ final class TaskViewModelTests: XCTestCase {
     }
     
     func testMoveRecurringTasks() {
-        let recurringTask1 = RecurringTask(id: UUID(),
-                                          title: "Task1",
-                                          details: "Details1")
-        let recurringTask2 = RecurringTask(id: UUID(),
-                                          title: "Task2",
-                                          details: "Details2")
-        
-        viewModel.allRecurringTasks.append(recurringTask1)
-        viewModel.allRecurringTasks.append(recurringTask2)
+        viewModel.addRecurringTask(title: "Task1", details: "Details1", estimatedTime: 20, recurrenceRule: RecurrenceRule.daily)
+        viewModel.addRecurringTask(title: "Task2", details: "Details2", estimatedTime: 20, recurrenceRule: RecurrenceRule.daily)
         
         XCTAssertEqual(viewModel.allRecurringTasks.count, 2)
         XCTAssertEqual(viewModel.allRecurringTasks[0].title, "Task1")
+        XCTAssertEqual(viewModel.allRecurringTasks[0].sortOrder, 0)
         XCTAssertEqual(viewModel.allRecurringTasks[1].details, "Details2")
+        XCTAssertEqual(viewModel.allRecurringTasks[1].sortOrder, 1)
         
         let indexSet = IndexSet(integer: 1)
         viewModel.moveRecurringTask(from: indexSet, to: 0)
 
         XCTAssertEqual(viewModel.allRecurringTasks.count, 2)
-        XCTAssertEqual(viewModel.allRecurringTasks[0].title, "Task2")
-        XCTAssertEqual(viewModel.allRecurringTasks[1].details, "Details1")
+        XCTAssertEqual(viewModel.allRecurringTasks[0].details, "Details2")
+        XCTAssertEqual(viewModel.allRecurringTasks[1].title, "Task1")
+    }
+    
+    private func createRecurringTask(
+        id: UUID = UUID(),
+        title: String,
+        details: String = "",
+        estimatedTime: Int64 = 0,
+        recurrenceRuleAsString: String = RecurrenceRule.daily.encoded(),
+        sortOrder: Int64 = 0
+    ) -> RecurringTask {
+        let task = RecurringTask(context: context)
+        task.id = id
+        task.title = title
+        task.details = details
+        task.estimatedTime = estimatedTime
+        task.recurrenceRuleAsString = recurrenceRuleAsString
+        task.sortOrder = sortOrder
+        task.createdAt = Date()
+        return task
     }
 }

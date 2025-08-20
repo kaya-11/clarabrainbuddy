@@ -105,7 +105,9 @@ final class TodaysTodosListUITests: XCTestCase {
         XCTAssertTrue(todoCell.waitForExistence(timeout: 2))
         
         todoCell.swipeLeft()
-        app.buttons["TodaysTodosDeleteTodo"].tap()
+        let deleteButton = app.buttons["TodaysTodosDeleteTodo"]
+        XCTAssertTrue(deleteButton.waitForExistence(timeout: 2))
+        deleteButton.tap()
         
         XCTAssertFalse(todoCell.waitForExistence(timeout: 2))
 

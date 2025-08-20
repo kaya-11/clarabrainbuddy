@@ -49,7 +49,7 @@ struct TodaysListView: View {
             case .oddDays:
                 matchesRecurrence = !isEven && !isWeekend
             }
-            return matchesRecurrence //&& !todoViewModel.isRecurringTaskInTodayTodos(task)
+            return matchesRecurrence && !todoViewModel.isRecurringTaskInTodayTodos(task)
         }
     }
     

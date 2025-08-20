@@ -11,12 +11,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		9CA28D672D88B307001245CF /* PBXContainerItemProxy */ = {
+		9C3E89172E55220800964370 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9CA28D4E2D88B306001245CF /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 9CA28D552D88B306001245CF;
-			remoteInfo = BrainBuddy;
+			remoteInfo = ClaraBrainBuddy;
 		};
 		9CA28D712D88B307001245CF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -183,7 +183,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				9CA28D682D88B307001245CF /* PBXTargetDependency */,
+				9C3E89182E55220800964370 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				9CA28D692D88B307001245CF /* ClaraBrainBuddyTests */,
@@ -312,10 +312,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9CA28D682D88B307001245CF /* PBXTargetDependency */ = {
+		9C3E89182E55220800964370 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9CA28D552D88B306001245CF /* ClaraBrainBuddy */;
-			targetProxy = 9CA28D672D88B307001245CF /* PBXContainerItemProxy */;
+			targetProxy = 9C3E89172E55220800964370 /* PBXContainerItemProxy */;
 		};
 		9CA28D722D88B307001245CF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

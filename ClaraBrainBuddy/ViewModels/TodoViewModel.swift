@@ -83,6 +83,8 @@ class TodoViewModel: ObservableObject {
     }
     
     func selectForToday(_ todo: Todo, _ recurringTask: RecurringTask? = nil) {
+        guard allTodos.contains(where: { $0.id == todo.id }) else { return }
+        
         guard !todayTodos.contains(where: { $0.todo.id == todo.id }) else { return }
         
         // Shift today sort orders
@@ -92,6 +94,7 @@ class TodoViewModel: ObservableObject {
         
         let todayTodo = TodayTodo(context: context)
         todayTodo.id = UUID()
+        todayTodo.selectedForTodayAt = Date()
         todayTodo.todo = todo
         todayTodo.recurringTask = recurringTask
         todayTodo.sortOrder = 0
@@ -135,27 +138,41 @@ class TodoViewModel: ObservableObject {
         }
     }
     
-    func addNewTodoForToday(title: String, details: String, estimatedTime: Int64?, recurringTask: RecurringTask? = nil) {
-        let newTodo = Todo(context: context)
-        newTodo.id = UUID()
-        newTodo.title = title
-        newTodo.details = details
-        newTodo.dueDate = Date()
-        newTodo.estimatedTime = estimatedTime
-        newTodo.sortOrder = 0
-
-        // Increment sortOrder of existing todos to push them down
-        for todo in allTodos {
-            todo.sortOrder += 1
-        }
-        
-        allTodos.insert(newTodo, at: 0)
-        
+    func addNewTodoForToday(
+        title: String,
+        details: String,
+        estimatedTime: Int64?,
+        recurringTask: RecurringTask? = nil
+    ) {
         do {
-            try context.save()
-            selectForToday(newTodo, recurringTask)
+            self.allTodos.forEach { $0.sortOrder += 1 }
+            self.todayTodos.forEach { $0.sortOrder += 1 }
+            
+            let todo = Todo(context: self.context)
+            todo.id = UUID()
+            todo.title = title
+            todo.details = details
+            todo.dueDate = Date()
+            todo.estimatedTime = estimatedTime
+            todo.isDone = false              // <- WICHTIG, falls non-optional
+            todo.createdAt = Date()          // <- WICHTIG, falls non-optional
+            todo.selectedForToday = true     // optional, aber konsistent
+            todo.sortOrder = 0
+            
+            let today = TodayTodo(context: self.context)
+            today.id = UUID()
+            today.selectedForTodayAt = Date()
+            today.todo = todo
+            today.sortOrder = 0
+            today.recurringTask = recurringTask
+                        
+            try self.context.save()
+            self.fetchTodos()
+            self.fetchTodayTodos()
         } catch {
-            print("❌ Failed to save new todo: \(error)")
+            let nsErr = error as NSError
+            print("❌ Save failed: \(nsErr), userInfo: \(nsErr.userInfo)")
+            self.context.rollback()
         }
     }
     
@@ -207,10 +224,12 @@ class TodoViewModel: ObservableObject {
     func setToDone(_ todo: Todo) {
         todo.isDone = true
         saveContext()
+        fetchTodos()
     }
     
     func updateTodo(_ updatedTodo: Todo) {
         saveContext()
+        fetchTodos()
     }
     
     func cloneTodo(todo: Todo) {
@@ -259,22 +278,23 @@ class TodoViewModel: ObservableObject {
     }
 
     func moveToTheTop(_ todo: Todo) {
-        guard let currentIndex = allTodos.firstIndex(of: todo) else { return }
+        guard allTodos.contains(where: { $0.id == todo.id }) else { return }
+
+        // Stelle sicher, dass die Todos nach aktueller Sortierung sortiert sind
+        let sorted = allTodos.sorted(by: { $0.sortOrder < $1.sortOrder })
+
+        // Baue die neue Reihenfolge: todo zuerst, dann alle anderen
+        let reordered = [todo] + sorted.filter { $0.id != todo.id }
+
+        // Vergib neue sortOrder ohne Lücken
+        for (index, t) in reordered.enumerated() {
+            t.sortOrder = Int64(index)   // oder Int32 je nach Typ
+        }
         
         selectForToday(todo)
 
-        // Increment sortOrder of all todos before inserting this at the top
-        for t in allTodos {
-            t.sortOrder += 1
-        }
-
-        todo.sortOrder = 0
-
-        // Rearrange allTodos array accordingly
-        allTodos.remove(at: currentIndex)
-        allTodos.insert(todo, at: 0)
-
         saveContext()
+        fetchTodos()
     }
     
     func reorderTodayTodos() {

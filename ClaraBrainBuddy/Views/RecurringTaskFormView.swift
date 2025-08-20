@@ -21,7 +21,7 @@ struct RecurringTaskFormView: View {
     @State private var recurrenceRule: RecurrenceRule = .daily
     @State private var selectedWeekday: Int = 1 // Default to Sunday
     @State private var selectedDay: Int = 1
-    @State private var estimatedTime: Int64
+    @State private var estimatedTime: Int64?
     
     init(taskViewModel: TaskViewModel, defaultEstimatedTime: Int64?, existingTask: RecurringTask? = nil) {
         

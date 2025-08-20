@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="24F74" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
-    <entity name="RecurringTask" representedClassName=".RecurringTask" syncable="YES">
+    <entity name="RecurringTask" representedClassName="ClaraBrainBuddy.RecurringTask" syncable="YES">
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="details" optional="YES" attributeType="String"/>
-        <attribute name="estimatedTime" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="estimatedTime_" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="recurrenceRuleAsString" attributeType="String" defaultValueString="{&quot;type&quot;:&quot;daily&quot;}"/>
         <attribute name="sortOrder" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
-    <entity name="TodayTodo" representedClassName=".TodayTodo" syncable="YES">
+    <entity name="TodayTodo" representedClassName="ClaraBrainBuddy.TodayTodo" syncable="YES">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="selectedForTodayAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="sortOrder" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="recurringTask" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RecurringTask"/>
-        <relationship name="todo" maxCount="1" deletionRule="Cascade" destinationEntity="Todo"/>
+        <relationship name="todo" maxCount="1" deletionRule="No Action" destinationEntity="Todo"/>
     </entity>
-    <entity name="Todo" representedClassName=".Todo" syncable="YES">
+    <entity name="Todo" representedClassName="ClaraBrainBuddy.Todo" syncable="YES">
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="details" optional="YES" attributeType="String"/>
         <attribute name="dueDate" attributeType="Date" usesScalarValueType="NO"/>

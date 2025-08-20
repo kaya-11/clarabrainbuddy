@@ -9,24 +9,33 @@
 import CoreData
 
 class DataManager {
-    static let shared = DataManager()
+    static let shared = {
+        let env = ProcessInfo.processInfo.environment
+        let isUnitTestMode = env["XCTestConfigurationFilePath"] != nil
+        return DataManager(inMemory: isUnitTestMode)
+    }()
+    
+    let container: NSPersistentContainer
+    let context: NSManagedObjectContext
+    
+    private init(inMemory: Bool = false) {
+        container = NSPersistentContainer(name: "ClaraDataModel")
 
-    lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "ClaraDataModel")
-        container.loadPersistentStores { (storeDescription, error) in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+        if inMemory {
+            container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
+        }
+
+        container.loadPersistentStores { _, error in
+            if let error = error {
+                fatalError("Error: \(error.localizedDescription)")
             }
         }
-        return container
-    }()
-
-    var context: NSManagedObjectContext {
-        return persistentContainer.viewContext
+        
+        context = container.viewContext
     }
 
     func saveContext() {
-        let context = persistentContainer.viewContext
+        let context = container.viewContext
         if context.hasChanges {
             do {
                 try context.save()

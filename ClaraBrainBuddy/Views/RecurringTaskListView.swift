@@ -27,7 +27,7 @@ struct RecurringTaskListView: View {
         NavigationView {
             VStack {
                 List {
-                    ForEach(taskViewModel.allRecurringTasks, id: \.self) { task in
+                    ForEach(taskViewModel.allRecurringTasks, id: \.id) { (task: RecurringTask) in
                         Text(task.title)
                             .onTapGesture(count: 2) {
                                 selectedTask = task
