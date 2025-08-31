@@ -43,7 +43,7 @@ class TaskViewModel: ObservableObject {
         newTask.sortOrder = 0
         
         var reorderedTasks = allRecurringTasks
-        reorderedTasks.append(newTask)
+        reorderedTasks.insert(newTask, at: 0)
         
         for (index, task) in reorderedTasks.enumerated() {
             task.sortOrder = Int64(index)

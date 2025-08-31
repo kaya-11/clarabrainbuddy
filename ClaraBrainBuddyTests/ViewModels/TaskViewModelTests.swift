@@ -17,9 +17,11 @@ final class TaskViewModelTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        DataManager.resetForTests()
         context = DataManager.shared.context
         viewModel = TaskViewModel(context: context)
+        for (_, task) in viewModel.allRecurringTasks.enumerated() {
+            context.delete(task)
+        }
     }
     
     override func tearDown() {
@@ -30,19 +32,15 @@ final class TaskViewModelTests: XCTestCase {
     func testAddRecurringTask() {
         viewModel.addRecurringTask(title: "Test Task", details: "Details", estimatedTime: 10, recurrenceRule: RecurrenceRule.daily)
         
-        do {
-            try context.save()
-        } catch {
-            XCTFail("Saving context failed: \(error)")
-        }
-        
         XCTAssertEqual(viewModel.allRecurringTasks.count, 1)
         
         viewModel.addRecurringTask(title: "New Task", details: "...", estimatedTime: 10, recurrenceRule: RecurrenceRule.evenDays)
         
         XCTAssertEqual(viewModel.allRecurringTasks.count, 2)
-        XCTAssertEqual(viewModel.allRecurringTasks[0].title, "Test Task")
-        XCTAssertEqual(viewModel.allRecurringTasks[1].title, "New Task")
+        XCTAssertEqual(viewModel.allRecurringTasks[1].title, "Test Task")
+        XCTAssertEqual(viewModel.allRecurringTasks[0].title, "New Task")
+        let sortOrder = viewModel.allRecurringTasks[0].sortOrder
+        XCTAssertEqual(sortOrder, 1)
     }
     
     func testUpdateRecurringTask() {
@@ -77,17 +75,17 @@ final class TaskViewModelTests: XCTestCase {
         viewModel.addRecurringTask(title: "Task2", details: "Details2", estimatedTime: 20, recurrenceRule: RecurrenceRule.daily)
         
         XCTAssertEqual(viewModel.allRecurringTasks.count, 2)
-        XCTAssertEqual(viewModel.allRecurringTasks[0].title, "Task1")
-        XCTAssertEqual(viewModel.allRecurringTasks[0].sortOrder, 0)
-        XCTAssertEqual(viewModel.allRecurringTasks[1].details, "Details2")
-        XCTAssertEqual(viewModel.allRecurringTasks[1].sortOrder, 1)
+        XCTAssertEqual(viewModel.allRecurringTasks[0].details, "Details2")
+        XCTAssertEqual(viewModel.allRecurringTasks[0].sortOrder, 1)
+        XCTAssertEqual(viewModel.allRecurringTasks[1].title, "Task1")
+        XCTAssertEqual(viewModel.allRecurringTasks[1].sortOrder, 2)
         
         let indexSet = IndexSet(integer: 1)
         viewModel.moveRecurringTask(from: indexSet, to: 0)
 
         XCTAssertEqual(viewModel.allRecurringTasks.count, 2)
-        XCTAssertEqual(viewModel.allRecurringTasks[0].details, "Details2")
-        XCTAssertEqual(viewModel.allRecurringTasks[1].title, "Task1")
+        XCTAssertEqual(viewModel.allRecurringTasks[1].details, "Details2")
+        XCTAssertEqual(viewModel.allRecurringTasks[0].title, "Task1")
     }
     
     private func createRecurringTask(

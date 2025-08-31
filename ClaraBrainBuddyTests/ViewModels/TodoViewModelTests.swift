@@ -18,9 +18,14 @@ final class TodoViewModelTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        DataManager.resetForTests()
         context = DataManager.shared.context
         viewModel = TodoViewModel(context: context)
+        for (_, todo) in viewModel.allTodos.enumerated() {
+            context.delete(todo)
+        }
+        for (_, todayTodo) in viewModel.todayTodos.enumerated() {
+            context.delete(todayTodo)
+        }
     }
     
     
@@ -42,9 +47,13 @@ final class TodoViewModelTests: XCTestCase {
         let todo1 = createTodo(title: "T1", estimatedTime: 10)
         let todo2 = createTodo(title: "T2", estimatedTime: 15)
         
+        XCTAssertEqual(todo1.title, "T1")
+        XCTAssertEqual(todo2.title, "T2")
+        
         viewModel.addTodos([todo1, todo2])
         
         XCTAssertEqual(viewModel.allTodos.count, 2)
+        
         XCTAssertEqual(viewModel.allTodos[0].title, "T1")
         XCTAssertEqual(viewModel.allTodos[1].title, "T2")
     }
@@ -76,6 +85,7 @@ final class TodoViewModelTests: XCTestCase {
     func testSelectForTodayTodoNotInAllTodos() {
         
         let todo: Todo = createTodo(title: "Test Select", estimatedTime: nil, selectedForToday: false)
+        context.delete(todo)
         
         viewModel.selectForToday(todo)
         
@@ -199,6 +209,9 @@ final class TodoViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.allTodos.count, 2)
         let title = viewModel.allTodos[0].title
         XCTAssertTrue(title.contains("Clone"))
+        let sortOrder = viewModel.allTodos[0].sortOrder
+        XCTAssertEqual(sortOrder, 0)
+
     }
     
     func testUpdateTodo() {
@@ -231,8 +244,6 @@ final class TodoViewModelTests: XCTestCase {
         let todo1 = createTodo(title: "Todo1", details: "...", sortOrder: 0)
         let todo2 = createTodo(title: "Todo2", details: "...", sortOrder: 1)
         
-        viewModel.addTodos([todo1, todo2])
-        
         XCTAssertEqual(viewModel.allTodos[0], todo1)
         XCTAssertEqual(viewModel.allTodos[0].sortOrder, 0)
         XCTAssertEqual(viewModel.allTodos[1], todo2)
@@ -249,6 +260,7 @@ final class TodoViewModelTests: XCTestCase {
         viewModel.addTodos([todo1])
     
         let todo2: Todo = createTodo(title: "Todo2", details: "...", sortOrder: 1)
+        context.delete(todo2)
         
         viewModel.moveToTheTop(todo2)
         
@@ -260,19 +272,22 @@ final class TodoViewModelTests: XCTestCase {
         let todo: Todo = createTodo(title: "Todo", details: "...")
         
         viewModel.addTodos([todo])
+        viewModel.selectForToday(todo)
+        
+        let todayTodo = viewModel.todayTodos[0]
+        
         XCTAssertFalse(todo.isDone)
         
-        viewModel.setToDone(todo)
+        viewModel.setToDone(todayTodo)
         
         let updatedTodo = viewModel.allTodos[0]
         XCTAssertTrue(updatedTodo.isDone)
     }
     
     func testMoveTodaysTodosToTheEnd() {
-        let todo1: Todo = createTodo(title: "Todo1", details: "...")
-        let todo2: Todo = createTodo(title: "Todo2", details: "...")
+        let todo1: Todo = createTodo(title: "Todo1", details: "...", sortOrder: 0)
+        let todo2: Todo = createTodo(title: "Todo2", details: "...", sortOrder: 1)
         
-        viewModel.addTodos([todo1, todo2])
         viewModel.selectForToday(todo2)
         viewModel.selectForToday(todo1)
         

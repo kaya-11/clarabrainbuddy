@@ -152,7 +152,7 @@ struct TodaysListView: View {
                             .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                 
                                 Button {
-                                    todoViewModel.setToDone(todo)
+                                    todoViewModel.setToDone(todayTodo)
                                     DeviceFeedback.vibrateTwice()
                                 } label: {
                                     Label(Localization.labels.done, systemImage: "checkmark.square")
