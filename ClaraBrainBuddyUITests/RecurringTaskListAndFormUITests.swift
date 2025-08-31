@@ -24,10 +24,19 @@ final class RecurringTaskListAndFormUITests: XCTestCase {
     func testRecurringTaskFlow() {
         addRecurringTask()
         editRecurringTask()
-        checkRecurringTaskIsInTodaysTodoList()
+        checkRecurringTaskIsInTodaysTodoListAndAddTodo()
+        removeTodoAndCheck()
         deleteRecurringTask()
     }
-        
+
+    func testRecurringTaskFlowDeleteTaskWhenTodoWithReferenceExists() {
+        addRecurringTask()
+        editRecurringTask()
+        checkRecurringTaskIsInTodaysTodoListAndAddTodo()
+        deleteRecurringTask()
+        removeTodo()
+    }
+    
     func addRecurringTask() {
         
         let recurringTasksTab = app.otherElements["RecurringTaskTab"]
@@ -46,7 +55,7 @@ final class RecurringTaskListAndFormUITests: XCTestCase {
         // Optionally fill estimated time
         let estimatedTimeField = app.textFields.element(boundBy: 1)
         estimatedTimeField.tap()
-        estimatedTimeField.typeText("30")
+        estimatedTimeField.clearAndEnterText("30")
 
         // Save
         let saveButton = app.buttons["TaskFormSaveButton"]
@@ -78,7 +87,7 @@ final class RecurringTaskListAndFormUITests: XCTestCase {
         XCTAssertTrue(app.buttons["AddRecurringTaskButton"].waitForExistence(timeout: 2))
     }
     
-    func checkRecurringTaskIsInTodaysTodoList() {
+    func checkRecurringTaskIsInTodaysTodoListAndAddTodo() {
         app.tabBars.buttons.element(boundBy: 1).tap()
         
         let taskCell = app.staticTexts["Updated Task Title"]
@@ -96,6 +105,14 @@ final class RecurringTaskListAndFormUITests: XCTestCase {
         todoCell.swipeLeft()
         
         sleep(4)
+    }
+        
+    func removeTodoAndCheck() {
+        
+        let taskCell = app.staticTexts["Updated Task Title"]
+        XCTAssertTrue(taskCell.waitForExistence(timeout: 2))
+        
+        app.tabBars.buttons.element(boundBy: 1).tap()
         
         let removeTodoButton = app.buttons["TodaysTodosDeleteTodo"]
         XCTAssertTrue(removeTodoButton.exists)
@@ -105,8 +122,22 @@ final class RecurringTaskListAndFormUITests: XCTestCase {
         
         taskCell.swipeRight()
         
+        let addTaskAsTodayTodoButton = app.buttons["AddRecurringTaskAsTodayTodoButton"]
         XCTAssertTrue(addTaskAsTodayTodoButton.exists)
     }
+    
+    func removeTodo() {
+
+        app.tabBars.buttons.element(boundBy: 1).tap()
+        
+        let removeTodoButton = app.buttons["TodaysTodosDeleteTodo"]
+        XCTAssertTrue(removeTodoButton.exists)
+        removeTodoButton.tap()
+        
+        let noTodosLabel = app.staticTexts["Keine Aufgaben für heute geplant"]
+        XCTAssertTrue(noTodosLabel.exists)
+    }
+    
     
     func deleteRecurringTask() {
         app.tabBars.buttons.element(boundBy: 2).tap()
@@ -137,5 +168,54 @@ final class RecurringTaskListAndFormUITests: XCTestCase {
         titleField.typeText("   ")
 
         XCTAssertFalse(saveButton.isEnabled)
+    }
+    
+    func testAddMoreThanOneRecurringTaskAndDeleteThem() {
+        
+        let recurringTasksTab = app.otherElements["RecurringTaskTab"]
+        let addButton = recurringTasksTab.buttons["AddRecurringTaskButton"]
+        addButton.tap()
+        
+        let titleField = app.textFields.element(boundBy: 0)
+        XCTAssertTrue(titleField.waitForExistence(timeout: 2))
+        titleField.tap()
+        titleField.typeText("Task1")
+
+        // Save
+        let saveButton = app.buttons["TaskFormSaveButton"]
+        XCTAssertTrue(saveButton.isEnabled)
+        saveButton.tap()
+
+        addButton.tap()
+        
+        XCTAssertTrue(titleField.waitForExistence(timeout: 2))
+        titleField.tap()
+        titleField.typeText("Task2")
+
+        // Save
+        XCTAssertTrue(saveButton.isEnabled)
+        saveButton.tap()
+        
+        // Form should dismiss, return to list
+        XCTAssertTrue(addButton.waitForExistence(timeout: 2))
+        
+        var taskCell = app.staticTexts["Task1"]
+        XCTAssertTrue(taskCell.waitForExistence(timeout: 2))
+        
+        taskCell.swipeLeft()
+        let button = app.buttons["RecurringTaskListDeleteTask"]
+        XCTAssertTrue(button.waitForExistence(timeout: 2))
+        button.tap()
+        
+        XCTAssertFalse(taskCell.waitForExistence(timeout: 2))
+        
+        taskCell = app.staticTexts["Task2"]
+        XCTAssertTrue(taskCell.waitForExistence(timeout: 2))
+        
+        taskCell.swipeLeft()
+        XCTAssertTrue(button.waitForExistence(timeout: 2))
+        button.tap()
+        
+        XCTAssertFalse(taskCell.waitForExistence(timeout: 2))
     }
 }
