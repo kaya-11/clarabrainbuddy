@@ -10,6 +10,7 @@ import EventKit
 import CoreData
 
 class TodoViewModel: ObservableObject {
+    
     private let context: NSManagedObjectContext
 
     init(context: NSManagedObjectContext) {
@@ -63,20 +64,26 @@ class TodoViewModel: ObservableObject {
         
         saveContext()
     }
-    
+        
     func addTodos(_ todos: [Todo]) {
         var reorderedTodos = allTodos
+        var todosToMove = [Todo]()
 
         for incoming in todos {
-            incoming.sortOrder = 0
-            context.insert(incoming)
-            reorderedTodos.append(incoming)
+            if let existingIndex = reorderedTodos.firstIndex(where: { $0.objectID == incoming.objectID }) {
+                todosToMove.append(reorderedTodos.remove(at: existingIndex))
+            } else {
+                context.insert(incoming)
+                todosToMove.append(incoming)
+            }
         }
-        
+
+        reorderedTodos.insert(contentsOf: todosToMove, at: 0)
+
         for (index, todo) in reorderedTodos.enumerated() {
             todo.sortOrder = Int64(index)
         }
-        
+
         saveContext()
     }
     
@@ -88,9 +95,9 @@ class TodoViewModel: ObservableObject {
         let allTodos: [Todo] = allTodos
         var allTodosForToday: [TodayTodo] = todayTodos
         
-        guard allTodos.contains(where: { $0.id == todo.id }) else { return }
+        guard allTodos.contains(where: { $0.objectID == todo.objectID }) else { return }
         
-        guard !allTodosForToday.contains(where: { $0.todo.id == todo.id }) else { return }
+        guard !allTodosForToday.contains(where: { $0.todo.objectID == todo.objectID }) else { return }
         
         let newTodayTodo = TodayTodo(context: context)
         newTodayTodo.id = UUID()
@@ -101,7 +108,7 @@ class TodoViewModel: ObservableObject {
         
         todo.selectedForToday = true
         
-        allTodosForToday.append(newTodayTodo)
+        allTodosForToday.insert(newTodayTodo, at: 0)
         
         for (index, todayTodo) in allTodosForToday.enumerated() {
             todayTodo.sortOrder = Int64(index)
@@ -169,14 +176,14 @@ class TodoViewModel: ObservableObject {
         newTodayTodo.recurringTask = recurringTask
         
         var reorderedTodos = allTodos
-        reorderedTodos.append(newTodo)
+        reorderedTodos.insert(newTodo, at: 0)
         
         for (index, todo) in reorderedTodos.enumerated() {
             todo.sortOrder = Int64(index)
         }
         
         var reorderedTodaysTodos = todayTodos
-        reorderedTodaysTodos.append(newTodayTodo)
+        reorderedTodaysTodos.insert(newTodayTodo, at: 0)
         
         for (index, todayTodo) in reorderedTodaysTodos.enumerated() {
             todayTodo.sortOrder = Int64(index)
@@ -197,7 +204,7 @@ class TodoViewModel: ObservableObject {
     }
     
     func deleteTodo(_ todo: Todo) {
-        if let todayTodo = todayTodos.first(where: { $0.todo.id == todo.id }) {
+        if let todayTodo = todayTodos.first(where: { $0.todo.objectID == todo.objectID }) {
             context.delete(todayTodo)
         }
         context.delete(todo)
@@ -227,8 +234,16 @@ class TodoViewModel: ObservableObject {
         saveContext()
     }
     
-    func setToDone(_ todo: Todo) {
+    func setToDone(_ todayTodo: TodayTodo) {
+        let updatedAt = Date()
+        
+        let todo = todayTodo.todo
+        
         todo.isDone = true
+        todo.updatedAt = updatedAt
+        
+        todayTodo.todo = todo
+        
         saveContext()
     }
     
@@ -237,6 +252,7 @@ class TodoViewModel: ObservableObject {
     }
     
     func cloneTodo(todo: Todo) {
+        var reorderedTodos = allTodos
         
         let clone = Todo(context: context)
         clone.id = UUID()
@@ -248,8 +264,7 @@ class TodoViewModel: ObservableObject {
         clone.createdAt = Date()
         clone.sortOrder = 0
         
-        var reorderedTodos = allTodos
-        reorderedTodos.append(clone)
+        reorderedTodos.insert(clone, at: 0)
         
         for (index, todo) in reorderedTodos.enumerated() {
             todo.sortOrder = Int64(index)
@@ -286,13 +301,13 @@ class TodoViewModel: ObservableObject {
     }
 
     func moveToTheTop(_ todo: Todo) {
-        guard allTodos.contains(where: { $0.id == todo.id }) else { return }
+        guard allTodos.contains(where: { $0.objectID == todo.objectID }) else { return }
 
         // Stelle sicher, dass die Todos nach aktueller Sortierung sortiert sind
         let sorted = allTodos.sorted(by: { $0.sortOrder < $1.sortOrder })
 
         // Baue die neue Reihenfolge: todo zuerst, dann alle anderen
-        let reordered = [todo] + sorted.filter { $0.id != todo.id }
+        let reordered = [todo] + sorted.filter { $0.objectID != todo.objectID }
 
         // Vergib neue sortOrder ohne Lücken
         for (index, t) in reordered.enumerated() {
