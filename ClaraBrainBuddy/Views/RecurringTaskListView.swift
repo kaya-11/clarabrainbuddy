@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct RecurringTaskListView: View {
     @ObservedObject var taskViewModel: TaskViewModel
@@ -13,8 +14,13 @@ struct RecurringTaskListView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
     
     @State private var showingAddTask = false
+    @State private var editingTask: RecurringTask?
     
-    @State private var selectedTask: RecurringTask? = nil
+    @Environment(\.managedObjectContext) private var context
+        
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \RecurringTask.sortOrder, ascending: true)]
+    ) private var tasks: FetchedResults<RecurringTask>
     
     init(taskViewModel: TaskViewModel, todoViewModel: TodoViewModel, settingsViewModel: SettingsViewModel) {
         self.taskViewModel = taskViewModel
@@ -27,14 +33,16 @@ struct RecurringTaskListView: View {
         NavigationView {
             VStack {
                 List {
-                    ForEach(taskViewModel.allRecurringTasks, id: \.id) { (task: RecurringTask) in
+                    ForEach(tasks, id: \.objectID) { (task: RecurringTask) in
                         Text(task.title)
                             .onTapGesture(count: 2) {
-                                selectedTask = task
+                                editingTask = task
                             }
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(role: .destructive) {
-                                    taskViewModel.deleteRecurringTask(task)
+                                    withAnimation {
+                                        taskViewModel.deleteRecurringTask(task)
+                                    }
                                 } label: {
                                     Label(Localization.labels.delete, systemImage: "trash")
                                 }
@@ -43,7 +51,7 @@ struct RecurringTaskListView: View {
                             }
                             .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                 Button {
-                                    selectedTask = task
+                                    editingTask = task
                                 } label: {
                                     Label(Localization.labels.edit, systemImage: "pencil")
                                 }
@@ -59,8 +67,12 @@ struct RecurringTaskListView: View {
                 .sheet(isPresented: $showingAddTask) {
                     RecurringTaskFormView(taskViewModel: taskViewModel, defaultEstimatedTime : Int64(settingsViewModel.settings.defaultEstimatedTimeForRecurringTasks), existingTask: nil)
                 }
-                .sheet(item: $selectedTask) { task in
-                    RecurringTaskFormView(taskViewModel: taskViewModel, defaultEstimatedTime: nil, existingTask: task)
+                .sheet(item: $editingTask) { (task: RecurringTask) in
+                        RecurringTaskFormView(
+                            taskViewModel: taskViewModel,
+                            defaultEstimatedTime: nil,
+                            existingTask: task
+                        )
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

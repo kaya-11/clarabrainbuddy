@@ -19,6 +19,12 @@ struct TodoListView: View {
     @State private var sharedTodoDetails: SharedTodoDetailsWrapper? = nil
     @State private var sharedTodos: SharedTodosWrapper? = nil
     
+    @Environment(\.managedObjectContext) private var context
+     
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Todo.sortOrder, ascending: true)]
+    ) private var todos: FetchedResults<Todo>
+    
     init(todoViewModel: TodoViewModel, settingsViewModel: SettingsViewModel) {
         self.todoViewModel = todoViewModel
         self.settingsViewModel = settingsViewModel
@@ -29,7 +35,7 @@ struct TodoListView: View {
         NavigationView {
             VStack {
                 List {
-                    ForEach(todoViewModel.allTodos, id: \.id) { (todo: Todo) in
+                    ForEach(todos, id: \.objectID) { (todo: Todo) in
                         let isSelectedForToday: Bool = todo.selectedForToday
                         let isDone: Bool = todo.isDone
                         let title: String = todo.title
