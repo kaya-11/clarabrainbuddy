@@ -19,6 +19,16 @@ struct TodaysListView: View {
     @State private var sharedTodoDetails: SharedTodoDetailsWrapper? = nil
     @State private var energyLevel: Float = EnergyManager.EnergyLevel.medium.rawValue
     
+    @Environment(\.managedObjectContext) private var context
+     
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \TodayTodo.sortOrder, ascending: true)]
+    ) private var todayTodos: FetchedResults<TodayTodo>
+    
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \RecurringTask.sortOrder, ascending: true)]
+    ) private var tasks: FetchedResults<RecurringTask>
+        
     init(todoViewModel: TodoViewModel, taskViewModel: TaskViewModel, settingsViewModel: SettingsViewModel) {
         self.todoViewModel = todoViewModel
         self.taskViewModel = taskViewModel
@@ -35,7 +45,9 @@ struct TodaysListView: View {
         let isEven = day.isMultiple(of: 2)
         let isWeekend = (weekday == 1) || (weekday == 7)
         
-        return taskViewModel.allRecurringTasks.filter { (task : RecurringTask) in
+        let safeTasks: [RecurringTask] = tasks.filter { !$0.isDeleted && $0.managedObjectContext != nil }
+        
+        return safeTasks.filter { (task : RecurringTask) in
             let matchesRecurrence: Bool
             switch task.recurrenceRule {
             case .daily:
@@ -53,13 +65,11 @@ struct TodaysListView: View {
         }
     }
     
-    
-    
     var body: some View {
         NavigationView {
             VStack {
                 
-                if todoViewModel.todayTodos.isEmpty && recurringTasks.isEmpty {
+                if todayTodos.isEmpty && recurringTasks.isEmpty {
                     Text(Localization.labels.noTodosToday)
                         .foregroundColor(Color.theme.primary)
                         .font(.title)
@@ -73,7 +83,7 @@ struct TodaysListView: View {
                             .padding(.top, 28)
                     
                     List {
-                        ForEach(todoViewModel.todayTodos, id: \.id) { (todayTodo: TodayTodo) in
+                        ForEach(todayTodos, id: \.objectID) { (todayTodo: TodayTodo) in
                             let todo: Todo = todayTodo.todo
                                 
                             let isDone: Bool = todo.isDone
@@ -189,7 +199,7 @@ struct TodaysListView: View {
                             .padding(.top, 28)
                         
                         List {
-                            ForEach(recurringTasks, id: \.id) { (todaysTask: RecurringTask) in
+                            ForEach(recurringTasks, id: \.objectID) { (todaysTask: RecurringTask) in
                                 let title = todaysTask.title
                                 Text(title)
                                     .foregroundColor(Color.theme.listText)

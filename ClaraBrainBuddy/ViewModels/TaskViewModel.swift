@@ -12,23 +12,22 @@ class TaskViewModel: ObservableObject {
    
     private let context: NSManagedObjectContext
 
-    @Published var allRecurringTasks: [RecurringTask] = []
-
     init(context: NSManagedObjectContext) {
         self.context = context
-        fetchTasks()
     }
 
-    func fetchTasks() {
+    var allRecurringTasks: [RecurringTask] {
         let request: NSFetchRequest<RecurringTask> = RecurringTask.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(keyPath: \RecurringTask.sortOrder, ascending: true)]
         
+        var allRecurringTasks = [] as [RecurringTask]
         do {
             allRecurringTasks = try context.fetch(request)
         } catch {
             print("Failed to fetch tasks: \(error)")
-            allRecurringTasks = []
         }
+        return allRecurringTasks
+        
     }
 
     func addRecurringTask(title: String, details: String, estimatedTime: Int64?, recurrenceRule: RecurrenceRule) {
@@ -41,22 +40,26 @@ class TaskViewModel: ObservableObject {
         newTask.recurrenceRuleAsString = recurrenceRule.encoded()
         newTask.createdAt = Date()
         newTask.updatedAt = Date()
-        newTask.sortOrder = Int64(allRecurringTasks.count)
+        newTask.sortOrder = 0
+        
+        var reorderedTasks = allRecurringTasks
+        reorderedTasks.append(newTask)
+        
+        for (index, task) in reorderedTasks.enumerated() {
+            task.sortOrder = Int64(index)
+        }
 
         saveContext()
-        fetchTasks()
     }
     
     func updateRecurringTask(_ updatedTask: RecurringTask) {
         updatedTask.updatedAt = Date()
         saveContext()
-        fetchTasks()
     }
 
     func deleteRecurringTask(_ task: RecurringTask) {
         context.delete(task)
         saveContext()
-        fetchTasks()
     }
 
     func moveRecurringTask(from source: IndexSet, to destination: Int) {
@@ -68,7 +71,6 @@ class TaskViewModel: ObservableObject {
         }
         
         saveContext()
-        fetchTasks()
     }
     
     private func saveContext() {

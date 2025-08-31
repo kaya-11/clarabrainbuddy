@@ -11,41 +11,38 @@ import CoreData
 
 class TodoViewModel: ObservableObject {
     private let context: NSManagedObjectContext
-    
-    @Published var allTodos: [Todo] = []
-    @Published var todayTodos: [TodayTodo] = []
 
     init(context: NSManagedObjectContext) {
         self.context = context
-        fetchTodos()
-        fetchTodayTodos()
     }
     
-    func fetchTodos() {
+    var allTodos: [Todo] {
         let request: NSFetchRequest<Todo> = Todo.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(keyPath: \Todo.sortOrder, ascending: true)]
+        
+        var allTodos: [Todo] = []
         do {
             allTodos = try context.fetch(request)
         } catch {
             print("❌ Failed to fetch todos: \(error)")
         }
+        return allTodos
     }
     
-    func fetchTodayTodos() {
+    var todayTodos: [TodayTodo] {
         let request: NSFetchRequest<TodayTodo> = TodayTodo.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(keyPath: \TodayTodo.sortOrder, ascending: true)]
+        
+        var todayTodos: [TodayTodo] = []
         do {
             todayTodos = try context.fetch(request)
         } catch {
             print("❌ Failed to fetch todayTodos: \(error)")
         }
+        return todayTodos
     }
     
     func addTodo(title: String, details: String, dueDate: Date, estimatedTime: Int64?) {
-        // Shift existing sort orders
-        for todo in allTodos {
-            todo.sortOrder += 1
-        }
         
         let newTodo = Todo(context: context)
         newTodo.id = UUID()
@@ -57,25 +54,30 @@ class TodoViewModel: ObservableObject {
         newTodo.createdAt = Date()
         newTodo.sortOrder = 0
         
+        var reorderedTodos = allTodos
+        reorderedTodos.append(newTodo)
+        
+        for (index, todo) in reorderedTodos.enumerated() {
+            todo.sortOrder = Int64(index)
+        }
+        
         saveContext()
-        fetchTodos()
     }
     
     func addTodos(_ todos: [Todo]) {
-        
-        for todo in allTodos {
-            todo.sortOrder += Int64(todos.count)
+        var reorderedTodos = allTodos
+
+        for incoming in todos {
+            incoming.sortOrder = 0
+            context.insert(incoming)
+            reorderedTodos.append(incoming)
         }
         
-        var sortOrder : Int64 = 0
-        for incoming in todos {
-            incoming.sortOrder = sortOrder
-            context.insert(incoming)
-            sortOrder += 1
+        for (index, todo) in reorderedTodos.enumerated() {
+            todo.sortOrder = Int64(index)
         }
         
         saveContext()
-        fetchTodos()
     }
     
     func addRecurringTaskAsTodoForToday(_ recurringTask: RecurringTask) {
@@ -83,30 +85,34 @@ class TodoViewModel: ObservableObject {
     }
     
     func selectForToday(_ todo: Todo, _ recurringTask: RecurringTask? = nil) {
+        let allTodos: [Todo] = allTodos
+        var allTodosForToday: [TodayTodo] = todayTodos
+        
         guard allTodos.contains(where: { $0.id == todo.id }) else { return }
         
-        guard !todayTodos.contains(where: { $0.todo.id == todo.id }) else { return }
+        guard !allTodosForToday.contains(where: { $0.todo.id == todo.id }) else { return }
         
-        // Shift today sort orders
-        for today in todayTodos {
-            today.sortOrder += 1
-        }
-        
-        let todayTodo = TodayTodo(context: context)
-        todayTodo.id = UUID()
-        todayTodo.selectedForTodayAt = Date()
-        todayTodo.todo = todo
-        todayTodo.recurringTask = recurringTask
-        todayTodo.sortOrder = 0
+        let newTodayTodo = TodayTodo(context: context)
+        newTodayTodo.id = UUID()
+        newTodayTodo.selectedForTodayAt = Date()
+        newTodayTodo.todo = todo
+        newTodayTodo.recurringTask = recurringTask
+        newTodayTodo.sortOrder = 0
         
         todo.selectedForToday = true
         
+        allTodosForToday.append(newTodayTodo)
+        
+        for (index, todayTodo) in allTodosForToday.enumerated() {
+            todayTodo.sortOrder = Int64(index)
+        }
+        
         saveContext()
-        fetchTodos()
-        fetchTodayTodos()
     }
     
     func deselectForToday(_ todo: Todo) {
+        let todayTodos: [TodayTodo] = todayTodos
+        
         if let todayTodo = todayTodos.first(where: { $0.todo == todo }) {
             context.delete(todayTodo)
         }
@@ -114,8 +120,6 @@ class TodoViewModel: ObservableObject {
         todo.resistance = increaseResistance(resistance: todo.resistance)
         
         saveContext()
-        fetchTodos()
-        fetchTodayTodos()
     }
     
     func eventAlreadyExistsAsTodo(_ event: EKEvent) -> Bool {
@@ -128,6 +132,7 @@ class TodoViewModel: ObservableObject {
         }
 
         // Compare the title and the date without time
+        let allTodos: [Todo] = allTodos
         return allTodos.contains { todo in
             let todoDueDateComponents = calendar.dateComponents([.day, .month, .year], from: todo.dueDate)
             guard let todoDueDateWithoutTime = calendar.date(from: todoDueDateComponents) else {
@@ -144,36 +149,41 @@ class TodoViewModel: ObservableObject {
         estimatedTime: Int64?,
         recurringTask: RecurringTask? = nil
     ) {
-        do {
-            self.allTodos.forEach { $0.sortOrder += 1 }
-            self.todayTodos.forEach { $0.sortOrder += 1 }
-            
-            let todo = Todo(context: self.context)
-            todo.id = UUID()
-            todo.title = title
-            todo.details = details
-            todo.dueDate = Date()
-            todo.estimatedTime = estimatedTime
-            todo.isDone = false              // <- WICHTIG, falls non-optional
-            todo.createdAt = Date()          // <- WICHTIG, falls non-optional
-            todo.selectedForToday = true     // optional, aber konsistent
-            todo.sortOrder = 0
-            
-            let today = TodayTodo(context: self.context)
-            today.id = UUID()
-            today.selectedForTodayAt = Date()
-            today.todo = todo
-            today.sortOrder = 0
-            today.recurringTask = recurringTask
-                        
-            try self.context.save()
-            self.fetchTodos()
-            self.fetchTodayTodos()
-        } catch {
-            let nsErr = error as NSError
-            print("❌ Save failed: \(nsErr), userInfo: \(nsErr.userInfo)")
-            self.context.rollback()
+       
+        let newTodo = Todo(context: self.context)
+        newTodo.id = UUID()
+        newTodo.title = title
+        newTodo.details = details
+        newTodo.dueDate = Date()
+        newTodo.estimatedTime = estimatedTime
+        newTodo.isDone = false              // <- WICHTIG, falls non-optional
+        newTodo.createdAt = Date()          // <- WICHTIG, falls non-optional
+        newTodo.selectedForToday = true     // optional, aber konsistent
+        newTodo.sortOrder = 0
+        
+        let newTodayTodo = TodayTodo(context: self.context)
+        newTodayTodo.id = UUID()
+        newTodayTodo.selectedForTodayAt = Date()
+        newTodayTodo.todo = newTodo
+        newTodayTodo.sortOrder = 0
+        newTodayTodo.recurringTask = recurringTask
+        
+        var reorderedTodos = allTodos
+        reorderedTodos.append(newTodo)
+        
+        for (index, todo) in reorderedTodos.enumerated() {
+            todo.sortOrder = Int64(index)
         }
+        
+        var reorderedTodaysTodos = todayTodos
+        reorderedTodaysTodos.append(newTodayTodo)
+        
+        for (index, todayTodo) in reorderedTodaysTodos.enumerated() {
+            todayTodo.sortOrder = Int64(index)
+        }
+                        
+        saveContext()
+        
     }
     
     func getTotalEstimatedTime(defaultEstimatedTime: Int64 = 15) -> Int64 {
@@ -192,8 +202,6 @@ class TodoViewModel: ObservableObject {
         }
         context.delete(todo)
         saveContext()
-        fetchTodos()
-        fetchTodayTodos()
         DeviceFeedback.vibrate()
     }
     
@@ -208,7 +216,6 @@ class TodoViewModel: ObservableObject {
             todo.sortOrder = Int64(index)
         }
         saveContext()
-        fetchTodos()
     }
     
     func moveTodayTodos(from source: IndexSet, to destination: Int) {
@@ -218,24 +225,18 @@ class TodoViewModel: ObservableObject {
             today.sortOrder = Int64(index)
         }
         saveContext()
-        fetchTodayTodos()
     }
     
     func setToDone(_ todo: Todo) {
         todo.isDone = true
         saveContext()
-        fetchTodos()
     }
     
     func updateTodo(_ updatedTodo: Todo) {
         saveContext()
-        fetchTodos()
     }
     
     func cloneTodo(todo: Todo) {
-        for t in allTodos {
-            t.sortOrder += 1
-        }
         
         let clone = Todo(context: context)
         clone.id = UUID()
@@ -247,8 +248,14 @@ class TodoViewModel: ObservableObject {
         clone.createdAt = Date()
         clone.sortOrder = 0
         
+        var reorderedTodos = allTodos
+        reorderedTodos.append(clone)
+        
+        for (index, todo) in reorderedTodos.enumerated() {
+            todo.sortOrder = Int64(index)
+        }
+        
         saveContext()
-        fetchTodos()
     }
     
     func randomTodo() -> Todo? {
@@ -257,13 +264,14 @@ class TodoViewModel: ObservableObject {
     }
 
     func moveTodoOneDown(_ todo: Todo) {
-        guard let currentIndex = allTodos.firstIndex(of: todo) else { return }
+        var reorderedTodos = allTodos
+        guard let currentIndex = reorderedTodos.firstIndex(of: todo) else { return }
 
         // Increase resistance
         todo.resistance = increaseResistance(resistance: todo.resistance)
 
         let newIndex = currentIndex + 1
-        if newIndex < allTodos.count {
+        if newIndex < reorderedTodos.count {
             // Swap sortOrder values of the two todos
             let todoBelow = allTodos[newIndex]
             let tempSortOrder = todo.sortOrder
@@ -271,7 +279,7 @@ class TodoViewModel: ObservableObject {
             todoBelow.sortOrder = tempSortOrder
 
             // Update the array to match the new order
-            allTodos.swapAt(currentIndex, newIndex)
+            reorderedTodos.swapAt(currentIndex, newIndex)
 
             saveContext()
         }
@@ -294,11 +302,11 @@ class TodoViewModel: ObservableObject {
         selectForToday(todo)
 
         saveContext()
-        fetchTodos()
     }
     
     func reorderTodayTodos() {
-        todayTodos.sort { first, second in
+        var reorderedTodayTodos = todayTodos
+        reorderedTodayTodos.sort { first, second in
             let todo1 = first.todo
             let todo2 = second.todo
             
@@ -320,11 +328,10 @@ class TodoViewModel: ObservableObject {
             }
             return (todo1.dueDate) < (todo2.dueDate)
         }
-        for (index, today) in todayTodos.enumerated() {
+        for (index, today) in reorderedTodayTodos.enumerated() {
             today.sortOrder = Int64(index)
         }
         saveContext()
-        fetchTodayTodos()
     }
     
     func getTotalTodaysTodosCount() -> Int {
