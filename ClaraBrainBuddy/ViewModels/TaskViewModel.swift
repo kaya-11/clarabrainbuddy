@@ -38,7 +38,6 @@ class TaskViewModel: ObservableObject {
         newTask.estimatedTime = estimatedTime
         newTask.recurrenceRuleAsString = recurrenceRule.encoded()
         newTask.createdAt = Date()
-        newTask.updatedAt = Date()
         newTask.sortOrder = 0
         
         var reorderedTasks = allRecurringTasks
