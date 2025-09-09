@@ -20,7 +20,6 @@ extension Todo {
     @NSManaged public var details: String?
     @NSManaged public var dueDate: Date
     @NSManaged public var estimatedTime_: Int64
-    @NSManaged public var id: UUID
     @NSManaged public var isDone: Bool
     @NSManaged public var resistance: Int64
     @NSManaged public var selectedForToday: Bool
@@ -57,7 +56,6 @@ extension Todo : Identifiable {
     
     func toDto() -> TodoDto {
         return TodoDto(
-            id: id,
             title: title ,
             details: details,
             dueDate: dueDate,
@@ -71,7 +69,6 @@ extension Todo : Identifiable {
     }
     
     func populate(from dto: TodoDto, context: NSManagedObjectContext) {
-        id = dto.id
         title = dto.title
         details = dto.details
         dueDate = dto.dueDate

@@ -89,7 +89,6 @@ final class TaskViewModelTests: XCTestCase {
     }
     
     private func createRecurringTask(
-        id: UUID = UUID(),
         title: String,
         details: String = "",
         estimatedTime: Int64 = 0,
@@ -97,7 +96,6 @@ final class TaskViewModelTests: XCTestCase {
         sortOrder: Int64 = 0
     ) -> RecurringTask {
         let task = RecurringTask(context: context)
-        task.id = id
         task.title = title
         task.details = details
         task.estimatedTime = estimatedTime
