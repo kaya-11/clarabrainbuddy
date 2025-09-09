@@ -30,7 +30,6 @@ struct Sanitizer {
             }
             
             return TodoDto(
-                id: UUID(), 
                 title: truncatedTitle,
                 details: cleanDetails,
                 dueDate: todo.dueDate,

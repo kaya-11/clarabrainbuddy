@@ -46,7 +46,6 @@ class TodoViewModel: ObservableObject {
     func addTodo(title: String, details: String, dueDate: Date, estimatedTime: Int64?) {
         
         let newTodo = Todo(context: context)
-        newTodo.id = UUID()
         newTodo.title = title
         newTodo.details = details
         newTodo.dueDate = dueDate
@@ -100,7 +99,6 @@ class TodoViewModel: ObservableObject {
         guard !allTodosForToday.contains(where: { $0.todo.objectID == todo.objectID }) else { return }
         
         let newTodayTodo = TodayTodo(context: context)
-        newTodayTodo.id = UUID()
         newTodayTodo.selectedForTodayAt = Date()
         newTodayTodo.todo = todo
         newTodayTodo.recurringTask = recurringTask
@@ -158,7 +156,6 @@ class TodoViewModel: ObservableObject {
     ) {
        
         let newTodo = Todo(context: self.context)
-        newTodo.id = UUID()
         newTodo.title = title
         newTodo.details = details
         newTodo.dueDate = Date()
@@ -169,7 +166,6 @@ class TodoViewModel: ObservableObject {
         newTodo.sortOrder = 0
         
         let newTodayTodo = TodayTodo(context: self.context)
-        newTodayTodo.id = UUID()
         newTodayTodo.selectedForTodayAt = Date()
         newTodayTodo.todo = newTodo
         newTodayTodo.sortOrder = 0
@@ -255,7 +251,6 @@ class TodoViewModel: ObservableObject {
         var reorderedTodos = allTodos
         
         let clone = Todo(context: context)
-        clone.id = UUID()
         clone.title = "Clone - \(todo.title)"
         clone.details = todo.details
         clone.dueDate = todo.dueDate

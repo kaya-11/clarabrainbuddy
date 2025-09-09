@@ -89,7 +89,6 @@ final class SanitizerTests: XCTestCase {
 
 
 private func createTodo(
-    id: UUID = UUID(),
     title: String,
     details: String = "",
     estimatedTime: Int64? = nil,
@@ -99,7 +98,6 @@ private func createTodo(
     resistance: Int64 = 0
 ) -> TodoDto {
     let todo = TodoDto(
-        id: id,
         title: title,
         details: details,
         dueDate: dueDate,

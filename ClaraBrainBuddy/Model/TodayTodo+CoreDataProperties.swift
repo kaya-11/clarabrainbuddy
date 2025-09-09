@@ -16,7 +16,6 @@ extension TodayTodo {
         return NSFetchRequest<TodayTodo>(entityName: "TodayTodo")
     }
 
-    @NSManaged public var id: UUID
     @NSManaged public var selectedForTodayAt: Date
     @NSManaged public var sortOrder: Int64
     @NSManaged public var recurringTask: RecurringTask?

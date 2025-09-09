@@ -94,7 +94,6 @@ final class TodoViewModelTests: XCTestCase {
     
     func testAddRecurringTaskAsTodoForToday() {
         let recurringTask = RecurringTask(context: context)
-        recurringTask.id = UUID()
         recurringTask.title = "Test Recurring Task"
         recurringTask.details = ""
         recurringTask.sortOrder = 0
@@ -305,7 +304,6 @@ final class TodoViewModelTests: XCTestCase {
     
     func testIsRecurringTaskInTodayTodos() {
         let recurringTask = RecurringTask(context: context)
-        recurringTask.id = UUID()
         recurringTask.title = "Test Recurring Task"
         recurringTask.details = ""
         recurringTask.sortOrder = 0
@@ -337,7 +335,6 @@ final class TodoViewModelTests: XCTestCase {
     }
     
     private func createTodo(
-        id: UUID = UUID(),
         title: String,
         estimatedTime: Int64? = nil,
         details: String = "",
@@ -347,7 +344,6 @@ final class TodoViewModelTests: XCTestCase {
         sortOrder: Int64 = 0
     ) -> Todo {
         let todo = Todo(context: context)
-        todo.id = id
         todo.title = title
         todo.details = details
         todo.dueDate = dueDate

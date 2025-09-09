@@ -77,7 +77,6 @@ final class ImportExportUtilsTests: XCTestCase {
     }
     
     private func createTodo(
-        id: UUID = UUID(),
         title: String,
         details: String? = nil,
         dueDate: Date = Date(),
@@ -88,7 +87,6 @@ final class ImportExportUtilsTests: XCTestCase {
         sortOrder: Int64 = 0
     ) -> Todo {
         let todo: Todo = Todo(context: context)
-        todo.id = id
         todo.title = title
         todo.details = details
         todo.dueDate = dueDate
