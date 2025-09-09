@@ -105,6 +105,7 @@ class TodoViewModel: ObservableObject {
         newTodayTodo.sortOrder = 0
         
         todo.selectedForToday = true
+        todo.updatedAt = Date()
         
         allTodosForToday.insert(newTodayTodo, at: 0)
         
@@ -122,6 +123,7 @@ class TodoViewModel: ObservableObject {
             context.delete(todayTodo)
         }
         todo.selectedForToday = false
+        todo.updatedAt = Date()
         todo.resistance = increaseResistance(resistance: todo.resistance)
         
         saveContext()
@@ -244,6 +246,7 @@ class TodoViewModel: ObservableObject {
     }
     
     func updateTodo(_ updatedTodo: Todo) {
+        updatedTodo.updatedAt = Date()
         saveContext()
     }
     
@@ -279,6 +282,7 @@ class TodoViewModel: ObservableObject {
 
         // Increase resistance
         todo.resistance = increaseResistance(resistance: todo.resistance)
+        todo.updatedAt = Date()
 
         let newIndex = currentIndex + 1
         if newIndex < reorderedTodos.count {
@@ -308,6 +312,8 @@ class TodoViewModel: ObservableObject {
         for (index, t) in reordered.enumerated() {
             t.sortOrder = Int64(index)   // oder Int32 je nach Typ
         }
+        
+        todo.updatedAt = Date()
         
         selectForToday(todo)
 
