@@ -12,6 +12,7 @@ struct Localization {
     static let labels = Labels()
     static let messages = Messages()
     static let weekdays = Weekdays()
+    static let errors = Errors()
     
     struct Greetings {
         static let hello = NSLocalizedString("hello", comment: "Hello")
@@ -131,13 +132,15 @@ struct Localization {
         let limitExeeded = NSLocalizedString("message.limit.exeeded", comment: "Limit Exceeded")
         let limitExeededMessage = NSLocalizedString("message.limit.exeeded.message", comment: "You cannot add more than %@ todos for today.")
         let noValidTodos = NSLocalizedString("no.valid.todos", comment: "Keine gültigen Todos vorhanden...")
+        let selectFileToImport = NSLocalizedString("message.import.select.file", comment: "Select Import File")
+        let importError = NSLocalizedString("message.import.error", comment: "Import error")
         
     }
-
+    
     struct Errors {
-        static let networkError = NSLocalizedString("network_error", comment: "Network error message")
-        static let unknownError = NSLocalizedString("unknown_error", comment: "Unknown error message")
+        let fileNotFound = NSLocalizedString("error.filenotfound", comment: "File not found")
+        let emptyFile = NSLocalizedString("error.emptyfile", comment: "Empty file")
+        let invalidJSON = NSLocalizedString("error.invalidjson", comment: "Invalid JSON")
     }
-
-    // Add more categories as needed
+    
 }

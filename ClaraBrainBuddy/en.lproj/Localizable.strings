@@ -11,6 +11,8 @@
 "message.estimated.time.unit" = "min";
 "message.limit.exeeded" = "Limit Exceeded";
 "message.limit.exeeded.message" = "You cannot add more than %@ todos for today.";
+"message.import.select.file" = "Select the Clara-Importfile you want to import.";
+"message.import.error" = "Error on Import";
 "edit.todo.title.label" = "Title *";
 "edit.todo.title.tooltip" = "Enter Title";
 "edit.todo.details.label" = "Details";
@@ -77,3 +79,6 @@
 "properties.days.added.for.duedate" = "Days to add for Default Due Date";
 "open.calendar" = "Open Calendar";
 "export.all.label" = "Export All Todos";
+"error.filenotfound" = "File not found.";
+"error.emptyfile" = "Empty File.";
+"error.invalidjson" = "Invalid format.";
