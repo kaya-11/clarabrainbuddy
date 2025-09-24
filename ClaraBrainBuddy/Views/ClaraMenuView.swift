@@ -24,11 +24,6 @@ struct ClaraMenuView: View {
     @State private var isImporting = false
     @State private var importedFileURL: URL?
     
-    @State private var isPreviewingImport = false
-    @State private var importedTodos: [Todo] = []
-    
-    @State private var showingAlert = false
-    
     init(settingsViewModel: SettingsViewModel,todoViewModel: TodoViewModel) {
         self.settingsViewModel = settingsViewModel
         self.todoViewModel = todoViewModel
@@ -103,47 +98,21 @@ struct ClaraMenuView: View {
                 ShareSheet(activityItems: [url])
             }
         }
-        .sheet(isPresented: $isPreviewingImport) {
+        .sheet(isPresented: $isImporting) {
             ImportPreviewView(
-                todos: importedTodos,
-                onConfirm: {
-                    todoViewModel.addTodos(importedTodos)
-                    importedTodos = []
-                    isPreviewingImport = false
+                onConfirm: { todoDtos in
+                    let todos = todoDtos.map { dto in
+                        let entity = Todo(context: context)
+                        entity.populate(from: dto, context: context)  // Deine bestehende Logik
+                        return entity
+                    }
+                    todoViewModel.addTodos(todos)
+                    isImporting = false
                 },
                 onCancel: {
-                    importedTodos = []
-                    isPreviewingImport = false
+                    isImporting = false
                 }
             )
-        }
-        .fileImporter(isPresented: $isImporting, allowedContentTypes: [.json], allowsMultipleSelection: false) { result in
-            switch result {
-            case .success(let urls):
-                guard let selectedFileURL = urls.first else { return }
-                
-                if selectedFileURL.startAccessingSecurityScopedResource() {
-                    defer { selectedFileURL.stopAccessingSecurityScopedResource() }
-                    
-                    let todos = ImportExportUtils.importTodosFromJSONFile(context: context, fileURL: selectedFileURL)
-                    if !todos.isEmpty {
-                        importedTodos = todos
-                        isPreviewingImport = true
-                    } else {
-                        print("No valid todos found in the file.")
-                        showingAlert = true
-                    }
-                } else {
-                    showingAlert = true
-                    print("Failed to access the security-scoped resource.")
-                }
-            case .failure(let error):
-                showingAlert = true
-                print("Error importing file: \(error.localizedDescription)")
-            }
-        }
-        .alert(isPresented: $showingAlert) {
-            Alert(title: Text(Localization.labels.importing), message: Text(Localization.messages.noValidTodos))
         }
     }
 }

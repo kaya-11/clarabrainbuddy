@@ -56,33 +56,26 @@ struct ImportExportUtils {
         }
     }
     
-    static func importTodosFromJSONFile(context: NSManagedObjectContext, fileURL: URL) -> [Todo] {
+    static func importTodosFromJSONFile(fileURL: URL) throws -> [TodoDto] {
         guard FileManager.default.fileExists(atPath: fileURL.path) else {
             print("File not found: \(fileURL.path)")
-            return []
+            throw ImportExportError.fileNotFound
         }
         
-        var entities : [Todo] = []
+        let jsonData = try Data(contentsOf: fileURL)
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(plainDateFormatter)
         
         do {
-            let jsonData = try Data(contentsOf: fileURL)
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .formatted(plainDateFormatter)
-            
             let dtoList = try decoder.decode([TodoDto].self, from: jsonData)
             let sanitized = Sanitizer.sanitizeTodos(dtoList)
-            
-            
-            for dto in sanitized {
-                let entity = Todo(context: context)
-                entity.populate(from: dto, context: context)
-                entities.append(entity)
+            if (sanitized.isEmpty) {
+                throw ImportExportError.emptyFile
             }
+            return sanitized
         } catch {
-            print("Error importing todos: \(error)")
+            throw ImportExportError.invalidJSON
         }
-        
-        return entities
     }
     
     private static let plainDateFormatter: DateFormatter = {
@@ -92,4 +85,21 @@ struct ImportExportUtils {
         formatter.timeZone = TimeZone(secondsFromGMT: 0)     // avoid time zone shifts
         return formatter
     }()
+}
+
+enum ImportExportError: Error, LocalizedError {
+    case fileNotFound
+    case invalidJSON
+    case emptyFile
+
+    var errorDescription: String? {
+        switch self {
+        case .fileNotFound:
+            return NSLocalizedString(Localization.errors.fileNotFound, comment: "File not found error")
+        case .invalidJSON:
+            return NSLocalizedString(Localization.errors.invalidJSON, comment: "Invalid JSON error")
+        case .emptyFile:
+            return NSLocalizedString(Localization.errors.emptyFile, comment: "Empty file error")
+        }
+    }
 }

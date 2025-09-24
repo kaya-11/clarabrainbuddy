@@ -11,6 +11,8 @@
 "message.estimated.time.unit" = " min";
 "message.limit.exeeded" = "Limit erreicht";
 "message.limit.exeeded.message" = "Du kannst nicht mehr als %@ Todos für heute einplanen.";
+"message.import.select.file" = "Selektiere die Clara-Importdatei, die Du importieren möchtest";
+"message.import.error" = "Fehler beim Import";
 "edit.todo.title.label" = "Titel *";
 "edit.todo.title.tooltip" = "Titel eingeben";
 "edit.todo.details.label" = "Details";
@@ -69,7 +71,7 @@
 "import.preview.label" = "Vorschau des Imports";
 "no.valid.todos" = "Keine gültigen Todos zum Importieren";
 "due.label" = "Bis";
-"clone.label" = "Duplizieren";
+"clone.label" = "Duplikat";
 "share.details.label" = "Teile Details";
 "properties.max.todos.for.today" = "Max Todos für Heute";
 "properties.default.estimated.time" = "Standardgeschätzte Zeit für wiederkehrende Aufgaben (in Minuten)";
@@ -77,3 +79,6 @@
 "properties.days.added.for.duedate" = "Tage hinzufügen für das Standard-Fälligkeitsdatum";
 "open.calendar" = "Öffne Kalender";
 "export.all.label" = "Exportiere alle Todos";
+"error.filenotfound" = "Datei nicht gefunden.";
+"error.emptyfile" = "Leere Datei.";
+"error.invalidjson" = "Ungültiges Format.";

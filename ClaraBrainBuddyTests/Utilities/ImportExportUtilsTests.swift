@@ -44,7 +44,13 @@ final class ImportExportUtilsTests: XCTestCase {
         XCTAssertTrue(FileManager.default.fileExists(atPath: fileURL.path), "File should exist at path")
 
         // Import back from JSON
-        let importedTodos = ImportExportUtils.importTodosFromJSONFile(context: context, fileURL: fileURL)
+        var importedTodos: [TodoDto] = []
+        do {
+            importedTodos = try ImportExportUtils.importTodosFromJSONFile(fileURL: fileURL)
+            XCTAssertFalse(importedTodos.isEmpty)
+        } catch {
+            XCTFail("Import failed with error: \(error)")
+        }
         
         XCTAssertEqual(importedTodos.count, todos.count, "Imported todos count should match original")
 
@@ -60,10 +66,44 @@ final class ImportExportUtilsTests: XCTestCase {
         }
     }
     
+    // MARK: - Test: Export & Import No data
+    func testExportAndImportTodosNoData() {
+        // Create sample Todos
+        let date1 = makeDate("2025-08-01")
+        
+        let todos: [Todo] = [
+            createTodo(title: "", details: "Not Valid Todo", dueDate: date1, estimatedTime: 5000, selectedForToday: true, isDone: false, resistance: 3),
+        ]
+
+        let fileName = "TestTodos.json"
+        
+        // Export to JSON file
+        let fileURL = ImportExportUtils.exportListOfTodosToJSONFile(todos: todos, fileName: fileName)
+        
+        XCTAssertFalse(fileURL.path.isEmpty, "Exported file path should not be empty")
+        XCTAssertTrue(FileManager.default.fileExists(atPath: fileURL.path), "File should exist at path")
+
+        // Import back from JSON
+        var importedTodos: [TodoDto] = []
+        do {
+            importedTodos = try ImportExportUtils.importTodosFromJSONFile(fileURL: fileURL)
+            XCTAssertFalse(importedTodos.isEmpty)
+        } catch {
+            XCTAssertEqual(error as! ImportExportError, ImportExportError.invalidJSON)
+        }
+        
+        XCTAssertEqual(importedTodos.count, 0, "Number of imported todos must be 0")
+    }
+    
     // MARK: - Test: Import with invalid path
     func testImportWithInvalidPathReturnsEmptyArray() {
         let invalidURL = URL(fileURLWithPath: "/non/existent/file.json")
-        let todos = ImportExportUtils.importTodosFromJSONFile(context: context, fileURL: invalidURL)
+        var todos: [TodoDto] = []
+        do {
+            todos = try ImportExportUtils.importTodosFromJSONFile(fileURL: invalidURL)
+        } catch {
+            XCTAssertEqual(error as! ImportExportError, ImportExportError.fileNotFound)
+        }
         XCTAssertEqual(todos.count, 0, "Should return empty array for non-existent file")
     }
     
