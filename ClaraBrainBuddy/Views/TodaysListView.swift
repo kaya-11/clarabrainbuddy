@@ -98,6 +98,10 @@ struct TodaysListView: View {
                                     if isDone {
                                         Image(systemName: "checkmark.circle.fill")
                                             .foregroundColor(Color.theme.green)
+                                    } else if todo.isOverdue {
+                                       Text("🦥")
+                                    } else if todo.isDueSoon {
+                                       Text("🐶")
                                     }
                                     Text(title)
                                         .accessibilityValue(isDone ? "done" : "active")

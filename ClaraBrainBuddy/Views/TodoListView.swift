@@ -51,16 +51,13 @@ struct TodoListView: View {
                                     Image(systemName: "checkmark.circle.fill")
                                         .foregroundColor(Color.theme.green)
                                 } else if isSelectedForToday {
-                                    Image(systemName: "heart.fill")
-                                        .foregroundColor(Color.theme.blue)
+                                    Text("🌀🐿️")
                                 } else if isOverdue {
-                                    Image(systemName: "stop.fill")
-                                        .foregroundColor(Color.theme.red)
+                                    Text("🦥")
                                 } else if isDueSoon {
-                                    Image(systemName: "triangle.fill")
-                                        .foregroundColor(Color.theme.accent)
+                                    Text("🐶")
                                 }
-                                Text(title)
+                                Text(title + (todo.isOverdue && !isSelectedForToday ? " ‼️" : ""))
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             

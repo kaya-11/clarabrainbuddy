@@ -38,8 +38,7 @@ struct CalendarView: View {
                         VStack(alignment: .leading) {
                             HStack {
                                 if eventAlreadyExistsAsTodo {
-                                    Image(systemName: "heart.fill")
-                                        .foregroundColor(Color.theme.blue)
+                                    Text("🌀🐿️")
                                 }
                                 Text(event.title)
                                     .font(Font.app.listItem)
