@@ -21,19 +21,29 @@ struct RandomTodoView: View {
                     .foregroundColor(Color.theme.white)
                     .padding(.top)
                 
-                VStack {
+                VStack (spacing: 16) {
                     
-                    Text("<< \(Localization.labels.swipeLeftRandomTodo)")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.leading, 24)
+                    HStack {
+                        Image(.swipeLeft)
+                            .iconStyle()
+                        Text("\(Localization.labels.swipeLeftRandomTodo)")
+                            .padding(.leading, 8)
+                        
+                    }
                     
-                    Text(">> \(Localization.labels.swipeRightRandomTodo)")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.leading, 24)
-
-                    Text(Localization.labels.tapToSelectRandomTodo)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.leading, 24)
+                    HStack {
+                        Image(.swipeRight)
+                            .iconStyle()
+                        Text("\(Localization.labels.swipeRightRandomTodo)")
+                            .padding(.leading, 8)
+                    }
+                    
+                    HStack {
+                        Image(.tap)
+                            .iconStyle()
+                        Text(Localization.labels.tapToSelectRandomTodo)
+                            .padding(.leading, 8)
+                    }
                     
                 }
                 .font(Font.app.normal)
@@ -78,8 +88,16 @@ struct RandomTodoView: View {
             }
         }
         .frame(maxWidth: 375, maxHeight: 375)
-        .background(Color.theme.blue.opacity(0.9))
+        .background(Color.theme.blue.opacity(0.5))
         .cornerRadius(20)
         .padding()
+    }
+}
+
+extension Image {
+    func iconStyle() -> some View {
+        self.resizable()
+            .scaledToFit()
+            .frame(width: 20, height: 20)
     }
 }
