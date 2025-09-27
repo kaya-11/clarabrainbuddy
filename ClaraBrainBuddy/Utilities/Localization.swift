@@ -36,8 +36,10 @@ struct Localization {
         // Random Todo View
         let titleRandomTodoPopup = NSLocalizedString("random.todo.popup.title", comment: "What would you like to do?")
         let swipeLeftRandomTodo = NSLocalizedString("random.todo.popup.explanation.swipe.left", comment: "Swipe left to delete.")
-        let swipeRightRandomTodo = NSLocalizedString("random.todo.popup.explanation.swipe.right", comment: "Swipe right to keep, but prioritize lower.")
-        let tapToSelectRandomTodo = NSLocalizedString("random.todo.popup.explanation.tab", comment: "Or tap to select for today.")
+        let swipeRightRandomTodo1 = NSLocalizedString("random.todo.popup.explanation.swipe.right.1", comment: "Swipe right to keep.")
+        let swipeRightRandomTodo2 = NSLocalizedString("random.todo.popup.explanation.swipe.right.2", comment: "Priorize lower.")
+        let tapToSelectRandomTodo1 = NSLocalizedString("random.todo.popup.explanation.tab.1", comment: "Or tap")
+        let tapToSelectRandomTodo2 = NSLocalizedString("random.todo.popup.explanation.tab.2", comment: "to select for today.")
         let noTodosRandomTodo = NSLocalizedString("random.todo.popup.no.todo.available", comment: "No todos available...")
         
         // All Todos
