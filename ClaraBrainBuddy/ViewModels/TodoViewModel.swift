@@ -55,7 +55,7 @@ class TodoViewModel: ObservableObject {
         newTodo.sortOrder = 0
         
         var reorderedTodos = allTodos
-        reorderedTodos.append(newTodo)
+        reorderedTodos.insert(contentsOf: [newTodo], at: 0)
         
         for (index, todo) in reorderedTodos.enumerated() {
             todo.sortOrder = Int64(index)
