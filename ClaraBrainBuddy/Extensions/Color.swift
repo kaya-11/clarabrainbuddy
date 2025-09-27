@@ -29,5 +29,6 @@ struct ColorTheme {
     let blue: Color = Color("AppBlueColor")
     let yellow: Color = Color("AppYellowColor")
     let white: Color = Color("AppWhiteColor")
+    let gray : Color = Color("AppGrayColor")
     
 }

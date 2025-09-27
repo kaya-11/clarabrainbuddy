@@ -18,7 +18,7 @@ struct RandomTodoView: View {
             if let randomTodo = todoViewModel.randomTodo() {
                 Text(Localization.labels.titleRandomTodoPopup)
                     .font(Font.app.title)
-                    .foregroundColor(Color.theme.white)
+                    .foregroundColor(Color.theme.gray)
                     .padding(.top)
                 
                 VStack (spacing: 16) {
@@ -28,26 +28,33 @@ struct RandomTodoView: View {
                             .iconStyle()
                         Text("\(Localization.labels.swipeLeftRandomTodo)")
                             .padding(.leading, 8)
-                        
                     }
                     
                     HStack {
                         Image(.swipeRight)
                             .iconStyle()
-                        Text("\(Localization.labels.swipeRightRandomTodo)")
-                            .padding(.leading, 8)
+                        VStack {
+                            Text("\(Localization.labels.swipeRightRandomTodo1)")
+                                .padding(.leading, 8)
+                            Text("\(Localization.labels.swipeRightRandomTodo2)")
+                                .padding(.leading, 8)
+                        }
                     }
                     
                     HStack {
                         Image(.tap)
                             .iconStyle()
-                        Text(Localization.labels.tapToSelectRandomTodo)
-                            .padding(.leading, 8)
+                        VStack {
+                            Text(Localization.labels.tapToSelectRandomTodo1)
+                                .padding(.leading, 8)
+                            Text(Localization.labels.tapToSelectRandomTodo2)
+                                .padding(.leading, 8)
+                        }
                     }
                     
                 }
                 .font(Font.app.normal)
-                .foregroundColor(Color.theme.white)
+                .foregroundColor(Color.theme.gray)
                 .padding(.top)
                 .padding(.bottom)
                 
@@ -55,10 +62,14 @@ struct RandomTodoView: View {
                     .frame(maxWidth: .infinity)
                     .font(Font.app.title)
                     .padding()
-                    .foregroundColor(Color.theme.listText)
-                    .background(Color.theme.listBackground)
+                    .foregroundColor(Color.theme.gray)
+                    .background(Color.theme.white)
                     .cornerRadius(15)
                     .shadow(radius: 10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.theme.accent, lineWidth: 1)
+                    )
                     .padding()
                     .onTapGesture {
                         todoViewModel.moveToTheTop(randomTodo)
@@ -79,8 +90,8 @@ struct RandomTodoView: View {
                     )
             } else {
                 Text(Localization.labels.noTodosRandomTodo)
-                    .font(Font.app.title)
-                    .foregroundColor(Color.theme.white)
+                    .font(Font.app.normal)
+                    .foregroundColor(Color.theme.gray)
                     .onTapGesture {
                         isPresented = false
                     }
@@ -88,7 +99,7 @@ struct RandomTodoView: View {
             }
         }
         .frame(maxWidth: 375, maxHeight: 375)
-        .background(Color.theme.blue.opacity(0.5))
+        .background(Color.theme.white)
         .cornerRadius(20)
         .padding()
     }
