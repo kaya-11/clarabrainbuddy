@@ -212,7 +212,7 @@ struct TodaysListView: View {
                                     .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                         Button {
                                             let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
-                                            if todoViewModel.getTotalTodaysTodosCount() >= maxCountOfTodosForToday {
+                                            if todoViewModel.getTotalTodaysTodosCountNotDone() >= maxCountOfTodosForToday {
                                                     showErrorMessage = true
                                             } else {
                                                 todoViewModel.addRecurringTaskAsTodoForToday(todaysTask)
@@ -291,7 +291,7 @@ struct TodaysListView: View {
                         .accessibilityIdentifier("ReorderTodaysTodosButton")
                         Button(action: {
                             let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
-                            if todoViewModel.getTotalTodaysTodosCount() >= maxCountOfTodosForToday {
+                            if todoViewModel.getTotalTodaysTodosCountNotDone() >= maxCountOfTodosForToday {
                                 showErrorMessage = true
                             } else {
                                 showingAddTodo = true

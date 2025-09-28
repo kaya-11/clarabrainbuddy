@@ -360,8 +360,8 @@ class TodoViewModel: ObservableObject {
         saveContext()
     }
     
-    func getTotalTodaysTodosCount() -> Int {
-        return todayTodos.count
+    func getTotalTodaysTodosCountNotDone() -> Int {
+        return todayTodos.filter { !$0.todo.isDone }.count
     }
     
     private func increaseResistance(resistance: Int64) -> Int64 {
