@@ -13,6 +13,7 @@ struct Localization {
     static let messages = Messages()
     static let weekdays = Weekdays()
     static let errors = Errors()
+    static let about = About()
     
     struct Greetings {
         static let hello = NSLocalizedString("hello", comment: "Hello")
@@ -93,6 +94,9 @@ struct Localization {
         let defaultEnergyLevelCalculation = NSLocalizedString("properties.default.energylevel.calculation", comment: "Default Time for Energy Level Calculation (minutes)")
         let daysAddedForDueDate = NSLocalizedString("properties.days.added.for.duedate", comment: "Days to add for Default Due Date")
         let openCalendar = NSLocalizedString("open.calendar", comment: "Open Calendar")
+        let about = NSLocalizedString("about.label", comment: "About")
+        let importTodo = NSLocalizedString("import.label", comment: "Import todos")
+        let todaysEvents = NSLocalizedString( "todays.events.label", comment: "Todays Events")
         
         // Buttons
         let back = NSLocalizedString("back.label", comment: "Back")
@@ -143,6 +147,51 @@ struct Localization {
         let fileNotFound = NSLocalizedString("error.filenotfound", comment: "File not found")
         let emptyFile = NSLocalizedString("error.emptyfile", comment: "Empty file")
         let invalidJSON = NSLocalizedString("error.invalidjson", comment: "Invalid JSON")
+    }
+    
+    struct About {
+        let claraBrainBuddyTitle = NSLocalizedString("about.claraBrainBuddy.title", comment: "Title for the About Clara BrainBuddy section")
+        let claraBrainBuddyDescription = NSLocalizedString("about.claraBrainBuddy.description", comment: "Description of Clara BrainBuddy")
+
+        let featureTodosTitle = NSLocalizedString("about.feature.todos.title", comment: "Title for Todos feature")
+        let featureTodosDescription = NSLocalizedString("about.feature.todos.description", comment: "Description for Todos feature")
+
+        let featureRecurringTasksTitle = NSLocalizedString("about.feature.recurringTasks.title", comment: "Title for Recurring Tasks feature")
+        let featureRecurringTasksDescription = NSLocalizedString("about.feature.recurringTasks.description", comment: "Description for Recurring Tasks feature")
+
+        let featureHapticFeedbackTitle = NSLocalizedString("about.feature.hapticFeedback.title", comment: "Title for Haptic Feedback feature")
+        let featureHapticFeedbackDescription = NSLocalizedString("about.feature.hapticFeedback.description", comment: "Description for Haptic Feedback feature")
+
+        let featureSortTitle = NSLocalizedString("about.feature.sort.title", comment: "Title for Sort feature")
+        let featureSortDescription = NSLocalizedString("about.feature.sort.description", comment: "Description for Sort feature")
+
+        let featureFeedbackTitle = NSLocalizedString("about.feature.feedback.title", comment: "Title for Feedback feature")
+        let featureFeedbackDescription = NSLocalizedString("about.feature.feedback.description", comment: "Description for Feedback feature")
+
+        let featureSharingTitle = NSLocalizedString("about.feature.sharing.title", comment: "Title for Sharing feature")
+        let featureSharingDescription = NSLocalizedString("about.feature.sharing.description", comment: "Description for Sharing feature")
+
+        let featureNeurodivergentTitle = NSLocalizedString("about.feature.neurodivergent.title", comment: "Title for Neurodivergent feature")
+        let featureNeurodivergentDescription = NSLocalizedString("about.feature.neurodivergent.description", comment: "Description for Neurodivergent feature")
+
+        let developer = NSLocalizedString("about.developer", comment: "Developer information")
+        let copyright = NSLocalizedString("about.copyright", comment: "Copyright information")
+        
+        let plannedExtensionsTitle = NSLocalizedString("about.plannedExtensions.title", comment: "Note about planned extensions")
+
+        let plannedNote = NSLocalizedString("about.planned.note", comment: "Note about planned extensions")
+
+        let featureSearchTitle = NSLocalizedString("about.feature.search.title", comment: "Title for Search extension")
+        let featureSearchDescription = NSLocalizedString("about.feature.search.description", comment: "Description for Search extension")
+
+        let featureTaskSetsTitle = NSLocalizedString("about.feature.taskSets.title", comment: "Title for Task Sets extension")
+        let featureTaskSetsDescription = NSLocalizedString("about.feature.taskSets.description", comment: "Description for Task Sets extension")
+
+        let featureCategoriesTitle = NSLocalizedString("about.feature.categories.title", comment: "Title for Categories extension")
+        let featureCategoriesDescription = NSLocalizedString("about.feature.categories.description", comment: "Description for Categories extension")
+
+        let featureAISupportTitle = NSLocalizedString("about.feature.aiSupport.title", comment: "Title for AI Support extension")
+        let featureAISupportDescription = NSLocalizedString("about.feature.aiSupport.description", comment: "Description for AI Support extension")
     }
     
 }

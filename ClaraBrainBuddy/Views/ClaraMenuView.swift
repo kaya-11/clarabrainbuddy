@@ -24,6 +24,8 @@ struct ClaraMenuView: View {
     @State private var isImporting = false
     @State private var importedFileURL: URL?
     
+    @State private var isAboutViewPresented = false
+    
     init(settingsViewModel: SettingsViewModel,todoViewModel: TodoViewModel) {
         self.settingsViewModel = settingsViewModel
         self.todoViewModel = todoViewModel
@@ -35,7 +37,7 @@ struct ClaraMenuView: View {
             Button(action: {
                 isTodaysEventsPresented = true
             }) {
-                Text("Today's Event")
+                Label(Localization.labels.todaysEvents, systemImage: "clock")
             }
             .accessibilityIdentifier("CalenderViewButton")
             
@@ -44,13 +46,13 @@ struct ClaraMenuView: View {
                     UIApplication.shared.open(url)
                 }
             }) {
-                Text(Localization.labels.openCalendar)
+                Label(Localization.labels.openCalendar, systemImage: "calendar")
             }
             
             Button(action: {
                 isSettingsPresented = true
             }) {
-                Text(Localization.labels.properties)
+                Label(Localization.labels.properties, systemImage: "gearshape")
             }
             .accessibilityIdentifier("SettingsButton")
             
@@ -66,14 +68,21 @@ struct ClaraMenuView: View {
                 }
                 
             }) {
-                Text(Localization.labels.exportAll)
+                Label(Localization.labels.exportAll, systemImage: "square.and.arrow.up")
             }
             
             Button(action: {
                 isImporting = true
             }) {
-                Text("Import Todos")
+                Label(Localization.labels.importTodo, systemImage: "square.and.arrow.down")
             }
+            
+            Button (action: {
+                isAboutViewPresented = true
+            }) {
+                Label(Localization.labels.about, systemImage: "info.circle")
+            }
+            
 
         
         } label: {
@@ -113,6 +122,9 @@ struct ClaraMenuView: View {
                     isImporting = false
                 }
             )
+        }
+        .sheet(isPresented: $isAboutViewPresented) {
+            AboutView()
         }
     }
 }
