@@ -102,7 +102,7 @@ struct TodoListView: View {
                             
                             Button {
                                 let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
-                                if todoViewModel.getTotalTodaysTodosCount() >= maxCountOfTodosForToday && !isSelectedForToday {
+                                if todoViewModel.getTotalTodaysTodosCountNotDone() >= maxCountOfTodosForToday && !isSelectedForToday {
                                     showErrorMessage = true
                                 } else {
                                     todoViewModel.selectForToday(todo)
