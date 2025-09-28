@@ -181,6 +181,15 @@ struct TodoListView: View {
                 ToolbarItem(placement: .navigationBarLeading) {
                     ClaraMenuView(settingsViewModel: settingsViewModel, todoViewModel: todoViewModel)
                 }
+                ToolbarItem(placement: .navigation ) {
+                    let defaultEstimatedTime = Int64(settingsViewModel.settings.defaultTimeForEnergyLevelCalculation)
+                    let (count, totalTime) = todoViewModel.calculateCompletedTodaysTodos(defaultEstimatedTime: defaultEstimatedTime)
+
+                    CompletedTodosBadge(
+                        count: count,
+                        totalTime: totalTime
+                    )
+                }
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.titleAllTodos)
                         .foregroundColor(Color.theme.primary)
