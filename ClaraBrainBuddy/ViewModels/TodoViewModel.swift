@@ -240,13 +240,23 @@ class TodoViewModel: ObservableObject {
         todo.isDone = true
         todo.updatedAt = updatedAt
         
-        todayTodo.todo = todo
+        todayTodo.todo = todo // "Touch" the TodayTodo
         
         saveContext()
     }
     
     func updateTodo(_ updatedTodo: Todo) {
         updatedTodo.updatedAt = Date()
+        let fetchRequest: NSFetchRequest<TodayTodo> = TodayTodo.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "todo == %@",  updatedTodo)
+        do {
+            let todayTodos = try updatedTodo.managedObjectContext?.fetch(fetchRequest) ?? []
+            for todayTodo in todayTodos {
+                todayTodo.todo = updatedTodo // "Touch" the TodayTodo
+            }
+        } catch {
+            print("Error fetching TodayTodos: \(error)")
+        }
         saveContext()
     }
     
