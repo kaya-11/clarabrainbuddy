@@ -19,6 +19,8 @@ struct TodaysListView: View {
     @State private var sharedTodoDetails: SharedTodoDetailsWrapper? = nil
     @State private var energyLevel: Float = EnergyManager.EnergyLevel.medium.rawValue
     
+    @State private var showingTooltip = false
+    
     @Environment(\.managedObjectContext) private var context
      
     @FetchRequest(
@@ -273,8 +275,17 @@ struct TodaysListView: View {
             .backgroundStyle()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigation) {
+                ToolbarItem(placement: .navigationBarLeading) {
                     ClaraMenuView(settingsViewModel: settingsViewModel, todoViewModel: todoViewModel)
+                }
+                ToolbarItem(placement: .navigation ) {
+                    let defaultEstimatedTime = Int64(settingsViewModel.settings.defaultTimeForEnergyLevelCalculation)
+                    let (count, totalTime) = todoViewModel.calculateCompletedTodaysTodos(defaultEstimatedTime: defaultEstimatedTime)
+
+                    CompletedTodosBadge(
+                        count: count,
+                        totalTime: totalTime
+                    )
                 }
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.titleToday)

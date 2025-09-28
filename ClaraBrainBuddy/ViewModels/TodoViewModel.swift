@@ -363,6 +363,12 @@ class TodoViewModel: ObservableObject {
     func getTotalTodaysTodosCountNotDone() -> Int {
         return todayTodos.filter { !$0.todo.isDone }.count
     }
+
+    func calculateCompletedTodaysTodos(defaultEstimatedTime: Int64 = 15) -> (count: Int, totalTime: Int64) {
+        let completedTodos = todayTodos.filter { $0.todo.isDone }
+        let totalTime = completedTodos.reduce(0) { $0 + ($1.todo.estimatedTime ?? defaultEstimatedTime)}
+        return (completedTodos.count, totalTime)
+    }
     
     private func increaseResistance(resistance: Int64) -> Int64 {
         var r = resistance
