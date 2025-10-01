@@ -102,8 +102,6 @@ struct TodaysListView: View {
                                             .foregroundColor(Color.theme.green)
                                     } else if todo.isOverdue {
                                        Text("🦥")
-                                    } else if todo.isDueSoon {
-                                       Text("🐶")
                                     }
                                     Text(title)
                                         .accessibilityValue(isDone ? "done" : "active")
