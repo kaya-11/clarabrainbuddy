@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RandomTodoView: View {
     
-    @ObservedObject var todoViewModel: TodoViewModel
+    @ObservedObject var todoViewModel: TodoViewModel = TodoViewModel.shared
     
     @Binding var isPresented: Bool
     

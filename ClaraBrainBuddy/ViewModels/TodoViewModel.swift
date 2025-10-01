@@ -11,6 +11,8 @@ import CoreData
 
 class TodoViewModel: ObservableObject {
     
+    static let shared = TodoViewModel(context: DataManager.shared.context)
+    
     private let context: NSManagedObjectContext
 
     init(context: NSManagedObjectContext) {

@@ -9,9 +9,9 @@ import SwiftUI
 
 struct TodaysListView: View {
     
-    @ObservedObject var todoViewModel: TodoViewModel
-    @ObservedObject var taskViewModel: TaskViewModel
-    @ObservedObject var settingsViewModel: SettingsViewModel
+    @ObservedObject var todoViewModel: TodoViewModel = .shared
+    @ObservedObject var taskViewModel: TaskViewModel = .shared
+    @ObservedObject var settingsViewModel: SettingsViewModel = .shared
     
     @State private var showingAddTodo = false
     @State private var selectedTodo: Todo? = nil
@@ -30,13 +30,7 @@ struct TodaysListView: View {
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \RecurringTask.sortOrder, ascending: true)]
     ) private var tasks: FetchedResults<RecurringTask>
-        
-    init(todoViewModel: TodoViewModel, taskViewModel: TaskViewModel, settingsViewModel: SettingsViewModel) {
-        self.todoViewModel = todoViewModel
-        self.taskViewModel = taskViewModel
-        self.settingsViewModel = settingsViewModel
-    }
-    
+            
     var recurringTasks: [RecurringTask] {
         let now = Date()
         let calendar = Calendar.current

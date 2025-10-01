@@ -9,6 +9,8 @@ import Foundation
 
 class SettingsViewModel: ObservableObject {
     
+    static let shared = SettingsViewModel()
+    
     private let settingsManager : SettingsManager
     
     @Published var settings: AppSettings

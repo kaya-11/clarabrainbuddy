@@ -14,12 +14,7 @@ struct Localization {
     static let weekdays = Weekdays()
     static let errors = Errors()
     static let about = About()
-    
-    struct Greetings {
-        static let hello = NSLocalizedString("hello", comment: "Hello")
-        static let goodbye = NSLocalizedString("goodbye", comment: "Goodbye")
-    }
-    
+        
     struct Labels {
         
         // General
@@ -150,6 +145,13 @@ struct Localization {
         let fileNotFound = NSLocalizedString("error.filenotfound", comment: "File not found")
         let emptyFile = NSLocalizedString("error.emptyfile", comment: "Empty file")
         let invalidJSON = NSLocalizedString("error.invalidjson", comment: "Invalid JSON")
+    }
+    
+    struct AppIntents {
+        let createTodoTitle = LocalizedStringResource("app.intent.createtodo.title")
+        let createTodoDescription = LocalizedStringResource("app.intent.createtodo.description")
+        let createTodoParamTitle = LocalizedStringResource("app.intent.createtodo.param.title")
+        let createTodoResult = LocalizedStringResource("app.intent.createtodo.result")
     }
     
     struct About {

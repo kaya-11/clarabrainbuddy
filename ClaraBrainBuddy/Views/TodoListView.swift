@@ -10,8 +10,8 @@ import SwiftUI
 
 struct TodoListView: View {
     
-    @ObservedObject var todoViewModel: TodoViewModel
-    @ObservedObject var settingsViewModel: SettingsViewModel
+    @ObservedObject var todoViewModel : TodoViewModel = .shared
+    @ObservedObject var settingsViewModel: SettingsViewModel = .shared
     
     @State private var showingAddTodo = false
     @State private var selectedTodo: Todo? = nil
@@ -24,11 +24,6 @@ struct TodoListView: View {
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Todo.sortOrder, ascending: true)]
     ) private var todos: FetchedResults<Todo>
-    
-    init(todoViewModel: TodoViewModel, settingsViewModel: SettingsViewModel) {
-        self.todoViewModel = todoViewModel
-        self.settingsViewModel = settingsViewModel
-    }
     
     var body: some View {
       

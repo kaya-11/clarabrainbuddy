@@ -12,6 +12,8 @@ class TaskViewModel: ObservableObject {
    
     private let context: NSManagedObjectContext
 
+    static let shared = TaskViewModel(context: DataManager.shared.context)
+    
     init(context: NSManagedObjectContext) {
         self.context = context
     }

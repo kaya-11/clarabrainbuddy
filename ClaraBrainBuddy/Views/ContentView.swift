@@ -9,18 +9,10 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @StateObject private var todoViewModel: TodoViewModel
-    @StateObject private var taskViewModel: TaskViewModel
-    @StateObject private var settingsViewModel = SettingsViewModel()
-    
+
     @State private var showRandomTodoView = true
     
     @State private var selectedTab: Int = 1
-    
-    init(context: NSManagedObjectContext) {
-        _todoViewModel = StateObject(wrappedValue: TodoViewModel(context: context))
-        _taskViewModel = StateObject(wrappedValue: TaskViewModel(context: context))
-    }
     
     var randomTodoDisplayDuration: TimeInterval = {
         if ProcessInfo.processInfo.arguments.contains("--UITestMode") {
@@ -33,17 +25,17 @@ struct ContentView: View {
         ZStack {
             
             TabView(selection: $selectedTab) {
-                TodoListView(todoViewModel: todoViewModel, settingsViewModel: settingsViewModel)
+                TodoListView()
                     .tabItem {
                         Label(Localization.labels.allTodosNav, systemImage: "list.bullet")
                     }.tag(0)
                     .accessibilityIdentifier("AllTodosTab")
-                TodaysListView(todoViewModel: todoViewModel, taskViewModel: taskViewModel, settingsViewModel: settingsViewModel)
+                TodaysListView()
                     .tabItem {
                         Label(Localization.labels.todayNav, systemImage: "calendar")
                     }.tag(1)
                     .accessibilityIdentifier("TodayTab")
-                RecurringTaskListView(taskViewModel: taskViewModel, todoViewModel: todoViewModel, settingsViewModel: settingsViewModel)
+                RecurringTaskListView()
                     .tabItem {
                         Label(Localization.labels.recurringTasksNav, systemImage: "checklist")
                     }.tag(2)
@@ -51,7 +43,7 @@ struct ContentView: View {
             }
             
             if showRandomTodoView {
-                RandomTodoView(todoViewModel: todoViewModel, isPresented: $showRandomTodoView)
+                RandomTodoView(isPresented: $showRandomTodoView)
                     .transition(.opacity)
                     .animation(.easeInOut, value: showRandomTodoView)
             }

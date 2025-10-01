@@ -13,7 +13,7 @@ struct ClaraBrainBuddyApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView(context: context)
+            ContentView()
                 .environment(\.managedObjectContext, context)
         }
     }

@@ -9,10 +9,10 @@ import SwiftUI
 import CoreData
 
 struct RecurringTaskListView: View {
-    @ObservedObject var taskViewModel: TaskViewModel
-    @ObservedObject var todoViewModel: TodoViewModel
-    @ObservedObject var settingsViewModel: SettingsViewModel
-    
+    @ObservedObject var taskViewModel: TaskViewModel = .shared
+    @ObservedObject var todoViewModel: TodoViewModel = TodoViewModel.shared
+    @ObservedObject var settingsViewModel: SettingsViewModel = .shared
+
     @State private var showingAddTask = false
     @State private var editingTask: RecurringTask?
     
@@ -21,12 +21,6 @@ struct RecurringTaskListView: View {
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \RecurringTask.sortOrder, ascending: true)]
     ) private var tasks: FetchedResults<RecurringTask>
-    
-    init(taskViewModel: TaskViewModel, todoViewModel: TodoViewModel, settingsViewModel: SettingsViewModel) {
-        self.taskViewModel = taskViewModel
-        self.todoViewModel = todoViewModel
-        self.settingsViewModel = settingsViewModel
-    }
     
     var body: some View {
       

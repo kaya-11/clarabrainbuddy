@@ -43,8 +43,6 @@
 "message.energy.level.low" = "niedrig";
 "message.energy.level.medium" = "mittel";
 "message.energy.level.high" = "hoch";
-"greeting.hello" = "Hallo";
-"greeting.goodbye" = "Auf Wiedersehen";
 "action.add.for.today" = "Für heute hinzufügen";
 "recurrence.rule.label" = "Regel für Wiederholungen";
 "recurrence.picker.label" = "Wiederholung";
@@ -116,3 +114,9 @@
 "about.feature.aiSupport.title" = "🤖 AI-Unterstützung";
 "about.feature.aiSupport.description" = "Nutze AI, um komplexe Aufgaben in kleinere, leichter zu bewältigende Pakete zu teilen.";
 "about.planned.note" = "Diese Funktionen werden in zukünftigen Updates verfügbar sein.";
+"app.intent.createtodo.title" = "Erstelle Aufgabe für heute";
+"app.intent.createtodo.description" = "Erstellt eine Aufgabe";
+"app.intent.createtodo.param.title" = "Aufgabe";
+"app.intent.createtodaytodo.title" = "Erstellt eine Aufgabe für heute";
+"app.intent.createtodaytodo.description" = "Erstellt eine Aufgabe für heute in Clara BrainBuddy.";
+"app.intent.createtodaytodo.param.title" = "Aufgabe für heute";

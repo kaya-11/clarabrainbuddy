@@ -43,8 +43,6 @@
 "message.energy.level.low" = "low";
 "message.energy.level.medium" = "medium";
 "message.energy.level.high" = "high";
-"greeting.hello" = "Hello";
-"greeting.goodbye" = "Good Bye";
 "action.add.for.today" = "Add for today";
 "recurrence.rule.label" = "Recurrence Rule";
 "recurrence.picker.label" = "Recurrence";
@@ -116,3 +114,9 @@
 "about.feature.aiSupport.title" = "🤖 AI Support";
 "about.feature.aiSupport.description" = "Use AI to break down complex tasks into smaller, more manageable packages.";
 "about.planned.note" = "These features will be available in future updates.";
+"app.intent.createtodo.title" = "Create a task";
+"app.intent.createtodo.description" = "Creates a task in Clara BrainBuddy.";
+"app.intent.createtodo.param.title" = "Task";
+"app.intent.createtodaytodo.title" = "Create a task for today";
+"app.intent.createtodaytodo.description" = "Creates a task for today in Clara BrainBuddy.";
+"app.intent.createtodaytodo.param.title" = "Task for today";
