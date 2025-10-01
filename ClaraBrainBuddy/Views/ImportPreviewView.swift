@@ -42,9 +42,11 @@ struct ImportPreviewView: View {
                             Text("\(Localization.labels.dueDate): \(todo.dueDate, formatter: StyleUtils.dateFormatter)")
                                 .font(Font.app.tiny)
                                 .foregroundColor(Color.theme.listText)
-                            Text("\(Localization.labels.estimatedTime): \(String(describing: todo.estimatedTime)) \(Localization.labels.estimatedTimeUnit)")
-                                .font(Font.app.tiny)
-                                .foregroundColor(Color.theme.listText)
+                            if let estimatedTime = todo.estimatedTime {
+                                Text("\(Localization.labels.estimatedTime): \(estimatedTime) \(Localization.labels.estimatedTimeUnit)")
+                                    .font(Font.app.tiny)
+                                    .foregroundColor(Color.theme.listText)
+                            }
                         }
                         .foregroundColor(Color.theme.listText)
                         .listRowBackground(Color.theme.listBackground)
