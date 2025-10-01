@@ -37,9 +37,6 @@ struct CalendarView: View {
                         
                         VStack(alignment: .leading) {
                             HStack {
-                                if eventAlreadyExistsAsTodo {
-                                    Text("🌀🐿️")
-                                }
                                 Text(event.title)
                                     .font(Font.app.listItem)
                             }
@@ -49,21 +46,24 @@ struct CalendarView: View {
                                 .font(Font.app.tiny)
                         }
                         .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                            if !eventAlreadyExistsAsTodo {
-                                Button {
-                                    let title: String = event.title
-                                    let details: String = event.hasNotes ? event.notes ?? "" : ""
-                                    let estimatedTime: Int64 = Int64((endDate.timeIntervalSince(startDate)) / 60)
-                                    todoViewModel.addNewTodoForToday(title: title, details: details, estimatedTime: estimatedTime)
-                                } label: {
-                                    Label(Localization.labels.addTodoToday, systemImage: "calendar")
-                                }
-                                .tint(.blue)
-                                .accessibilityIdentifier("AddEventAsTodayTodoButton")
+                            Button {
+                                let title: String = event.title
+                                let details: String = event.hasNotes ? event.notes ?? "" : ""
+                                let estimatedTime: Int64? = event.isAllDay
+                                                ? nil
+                                                : Int64((endDate.timeIntervalSince(startDate)) / 60)
+                                
+                                todoViewModel.addNewTodoForToday(title: title, details: details, estimatedTime: estimatedTime)
+                                
+                                fetchEvents()
+                            } label: {
+                                Label(Localization.labels.addTodoToday, systemImage: "calendar")
                             }
+                            .tint(.blue)
+                            .accessibilityIdentifier("AddEventAsTodayTodoButton")
                             
                         }
-                        .foregroundColor(StyleUtils.getTextColorForEvent(eventIsInTodos: todoViewModel.eventAlreadyExistsAsTodo(event)))
+                        .foregroundColor(Color.theme.listText)
                         .listRowBackground(Color.theme.listBackground)
                         .font(Font.app.listItem)
                     }
@@ -98,7 +98,7 @@ struct CalendarView: View {
     
     private func fetchEvents() {
         eventProvider.fetchTodayEvents { fetchedEvents in
-            self.events = fetchedEvents
+            self.events = fetchedEvents.filter { !todoViewModel.eventAlreadyExistsAsTodo($0) }
         }
     }
 }

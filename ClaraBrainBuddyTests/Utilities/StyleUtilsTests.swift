@@ -67,14 +67,6 @@ final class StyleUtilsTests: XCTestCase {
         XCTAssertEqual(StyleUtils.dateTimeFormatter.dateFormat, "yyyyMMdd_HHmmss")
     }
     
-    func testGetTextColorForEventIsInTodos() {
-        XCTAssertEqual(StyleUtils.getTextColorForEvent(eventIsInTodos: true), Color.theme.blue)
-    }
-    
-    func testGetTextColorForEventIsNotInTodos() {
-        XCTAssertEqual(StyleUtils.getTextColorForEvent(eventIsInTodos: false), Color.theme.listText)
-    }
-    
     func testIconFontSizeForLevels() {
         XCTAssertEqual(StyleUtils.iconFontSizeForLevels(for: 3), .system(size: 6))
         XCTAssertEqual(StyleUtils.iconFontSizeForLevels(for: 4), .system(size: 8))

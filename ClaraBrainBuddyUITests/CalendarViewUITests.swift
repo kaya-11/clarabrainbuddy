@@ -33,6 +33,8 @@ final class CalendarViewUITests: XCTestCase {
     
     func testCalendarViewDisplaysFakeEventAlreadyExistAsTodo() {
         
+        // Add Event to today's list
+        
         let menuButton = app.buttons["ClaraMenu"]
         XCTAssertTrue(menuButton.waitForExistence(timeout: 2), "Menü-Button nicht gefunden")
         menuButton.tap()
@@ -40,6 +42,8 @@ final class CalendarViewUITests: XCTestCase {
         let calenderViewButton = app.buttons["CalenderViewButton"]
         XCTAssertTrue(calenderViewButton.waitForExistence(timeout: 2))
         calenderViewButton.tap()
+        
+        sleep(2)
         
         let eventCell = app.staticTexts["Test2 Meeting"]
         XCTAssertTrue(eventCell.waitForExistence(timeout: 2))
@@ -54,6 +58,23 @@ final class CalendarViewUITests: XCTestCase {
         XCTAssertTrue(cancelButton.waitForExistence(timeout: 2), "Menü-Button nicht gefunden")
         cancelButton.tap()
 
+        // Check if Event is not shown in the Calendar View
+        
+        sleep(2)
+        
+        menuButton.tap()
+        
+        sleep(1)
+        
+        calenderViewButton.tap()
+        
+        sleep(2)
+        
+        let isVisible = eventCell.exists && eventCell.isHittable
+        XCTAssertFalse(isVisible)
+        
+        // Clean up test data
+        
         sleep(2)
         
         app.launch()

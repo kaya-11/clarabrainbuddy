@@ -50,13 +50,6 @@ struct StyleUtils {
         formatter.dateFormat = "yyyyMMdd_HHmmss"
         return formatter
     }()
-        
-    static func getTextColorForEvent(eventIsInTodos: Bool) -> Color {
-        if eventIsInTodos {
-            return Color.theme.blue
-        }
-        return Color.theme.listText
-    }
     
     static func iconFontSizeForLevels(for value: Int) -> Font {
         switch value {
