@@ -112,15 +112,8 @@ struct TodaysListView: View {
                                     .font(Font.app.tiny)
                                     .foregroundColor(Color.theme.secondary)
                                 
-                                if (1...10).contains(Int(resistance)) {
-                                    HStack {
-                                        ForEach(1...Int(resistance), id: \.self) { (value: Int) in
-                                            Image(systemName: "mountain.2")
-                                                .foregroundColor(StyleUtils.iconFontColorForLevels(for: value))
-                                                .imageScale(.small)
-                                                .font(StyleUtils.iconFontSizeForLevels(for: value))
-                                        }
-                                    }
+                                if Int(resistance) > 0 {
+                                    TaskResistanceView(resistance: Int(resistance))
                                 }
                             }
                             .onTapGesture(count: 2) {
@@ -224,7 +217,7 @@ struct TodaysListView: View {
                     
                     Spacer()
                     
-                    let defaultEstimatedTime: Int64  = Int64(settingsViewModel.settings.defaultTimeForEnergyLevelCalculation)
+                    let defaultEstimatedTime: Int = settingsViewModel.settings.defaultTimeForEnergyLevelCalculation
                     let totalEstimatedTime: Int64 = Int64(todoViewModel.getTotalEstimatedTime(defaultEstimatedTime: defaultEstimatedTime))
                     if totalEstimatedTime > 0 {
                         Section {
@@ -271,7 +264,7 @@ struct TodaysListView: View {
                     ClaraMenuView(settingsViewModel: settingsViewModel, todoViewModel: todoViewModel)
                 }
                 ToolbarItem(placement: .navigation ) {
-                    let defaultEstimatedTime = Int64(settingsViewModel.settings.defaultTimeForEnergyLevelCalculation)
+                    let defaultEstimatedTime : Int = settingsViewModel.settings.defaultTimeForEnergyLevelCalculation
                     let (count, totalTime) = todoViewModel.calculateCompletedTodaysTodos(defaultEstimatedTime: defaultEstimatedTime)
 
                     CompletedTodosBadge(

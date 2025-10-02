@@ -59,7 +59,7 @@ final class SanitizerTests: XCTestCase {
         XCTAssertEqual(result.count, 1)
         XCTAssertEqual(result[0].title.count, 100)
         XCTAssertEqual(result[0].details?.count, 500)
-        XCTAssertEqual(result[0].resistance, 10)
+        XCTAssertEqual(result[0].resistance, 11)
     }
     
     func testSanitizeTodosWithNilDetailsShouldRemainNil() {

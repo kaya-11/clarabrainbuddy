@@ -193,14 +193,9 @@ class TodoViewModel: ObservableObject {
         
     }
     
-    func getTotalEstimatedTime(defaultEstimatedTime: Int64 = 15) -> Int64 {
-        return todayTodos.compactMap { todayTodo in
-            if let todo = allTodos.first(where: { $0 == todayTodo.todo }) {
-                let estimatedTime = todo.estimatedTime == nil ? defaultEstimatedTime : todo.estimatedTime
-                return todo.isDone ? nil : estimatedTime
-            }
-            return nil
-        }.reduce(0, +)
+    func getTotalEstimatedTime(defaultEstimatedTime : Int = 15) -> Int64 {
+        let notCompletedTodos: [Todo] = todayTodos.count > 0 ? todayTodos.filter { !$0.todo.isDone }.map { $0.todo } : []
+        return calculateEstimatedTime(todos: notCompletedTodos, defaultEstimatedTime: defaultEstimatedTime)
     }
     
     func deleteTodo(_ todo: Todo) {
@@ -366,15 +361,30 @@ class TodoViewModel: ObservableObject {
         return todayTodos.filter { !$0.todo.isDone }.count
     }
 
-    func calculateCompletedTodaysTodos(defaultEstimatedTime: Int64 = 15) -> (count: Int, totalTime: Int64) {
+    func calculateCompletedTodaysTodos(defaultEstimatedTime: Int = 15) -> (count: Int, totalTime: Int64) {
         let completedTodos = todayTodos.filter { $0.todo.isDone }
-        let totalTime = completedTodos.reduce(0) { $0 + ($1.todo.estimatedTime ?? defaultEstimatedTime)}
+        
+        let totalTime = calculateEstimatedTime(todos: completedTodos.map(\.todo), defaultEstimatedTime: defaultEstimatedTime)
+
         return (completedTodos.count, totalTime)
+    }
+    
+    private func calculateEstimatedTime(todos: [Todo], defaultEstimatedTime: Int) -> Int64 {
+        let totalTime: Int64 = todos.reduce(0) { result, todoItem in
+            let baseTime = Double(todoItem.estimatedTime ?? Int64(defaultEstimatedTime))
+            let resistance = Int64(min(10,max(todoItem.resistance,0)))
+
+            let penaltyFactor = 1.0 + (Double(resistance) * 0.2)
+            let penalizedTime = baseTime * max(1.0, min(3.0, penaltyFactor))
+
+            return result + Int64(penalizedTime)
+        }
+        return totalTime
     }
     
     private func increaseResistance(resistance: Int64) -> Int64 {
         var r = resistance
-        if r <= 10 { r += 1 }
+        if r <= 11 { r += 1 }
         return r
     }
     

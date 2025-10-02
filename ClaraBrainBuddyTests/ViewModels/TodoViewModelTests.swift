@@ -161,21 +161,52 @@ final class TodoViewModelTests: XCTestCase {
     func testGetTotalEstimatedTimeCalculatesCorrectly() {
         
         let todo1: Todo = createTodo(title: "T1", estimatedTime: 10)
-        let todo2: Todo = createTodo(title: "T2", estimatedTime: nil)
-        let todo3: Todo = createTodo(title: "T3", estimatedTime: 5)
+        let todo2: Todo = createTodo(title: "T2", estimatedTime: 10)
+        todo2.resistance = 5
+        let todo3: Todo = createTodo(title: "T3", estimatedTime: nil)
+        let todo4: Todo = createTodo(title: "T4", estimatedTime: 5)
+        todo4.isDone = true
         
-        viewModel.addTodos([todo1, todo2, todo3])
+        
+        viewModel.addTodos([todo1, todo2, todo3, todo4])
         
         viewModel.selectForToday(todo1)
         viewModel.selectForToday(todo2)
         viewModel.selectForToday(todo3)
+        viewModel.selectForToday(todo4)
         
-        // todo1 estimatedTime = 10, todo2 uses default (15), todo3 is done so ignored
+        // todo1 estimatedTime = 10, todo2 with a penalty of 100%, todo3 uses default (15), todo4 is done so ignored
         let total = viewModel.getTotalEstimatedTime(defaultEstimatedTime: 15)
 
-        XCTAssertEqual(total, 30)
+        XCTAssertEqual(total, 45)
     }
 
+    func testcalculateCompletedTodaysTodos() {
+        
+        let todo1: Todo = createTodo(title: "T1", estimatedTime: 10)
+        todo1.isDone = true
+        let todo2: Todo = createTodo(title: "T2", estimatedTime: 10)
+        todo2.isDone = true
+        todo2.resistance = 5
+        let todo3: Todo = createTodo(title: "T3", estimatedTime: nil)
+        todo3.isDone = true
+        let todo4: Todo = createTodo(title: "T4", estimatedTime: 5)
+        
+        
+        viewModel.addTodos([todo1, todo2, todo3, todo4])
+        
+        viewModel.selectForToday(todo1)
+        viewModel.selectForToday(todo2)
+        viewModel.selectForToday(todo3)
+        viewModel.selectForToday(todo4)
+        
+        // todo1 estimatedTime = 10, todo2 with a penalty of 100%, todo3 uses default (15), todo4 is done so ignored
+        let (total, time) = viewModel.calculateCompletedTodaysTodos(defaultEstimatedTime: 15)
+
+        XCTAssertEqual(total, 3)
+        XCTAssertEqual(time, 45)
+    }
+    
     func testMoveTodoOneDownSwapsAndIncreasesResistance() {
         let todo1: Todo = createTodo(title: "T1", sortOrder: 0)
         let todo2: Todo = createTodo(title: "T2", sortOrder: 1)
@@ -333,7 +364,7 @@ final class TodoViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.todayTodos[2].todo, todo2)
         XCTAssertEqual(viewModel.todayTodos[3].todo, todo1)
     }
-    
+
     private func createTodo(
         title: String,
         estimatedTime: Int64? = nil,

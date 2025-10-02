@@ -67,18 +67,4 @@ final class StyleUtilsTests: XCTestCase {
         XCTAssertEqual(StyleUtils.dateTimeFormatter.dateFormat, "yyyyMMdd_HHmmss")
     }
     
-    func testIconFontSizeForLevels() {
-        XCTAssertEqual(StyleUtils.iconFontSizeForLevels(for: 3), .system(size: 6))
-        XCTAssertEqual(StyleUtils.iconFontSizeForLevels(for: 4), .system(size: 8))
-        XCTAssertEqual(StyleUtils.iconFontSizeForLevels(for: 6), .system(size: 8))
-        XCTAssertEqual(StyleUtils.iconFontSizeForLevels(for: 7), .system(size: 10))
-    }
-   
-    func testIconColorForLevels() {
-        XCTAssertEqual(StyleUtils.iconFontColorForLevels(for: 3), Color.theme.listText)
-        XCTAssertEqual(StyleUtils.iconFontColorForLevels(for: 4), Color.theme.accent)
-        XCTAssertEqual(StyleUtils.iconFontColorForLevels(for: 6), Color.theme.accent)
-        XCTAssertEqual(StyleUtils.iconFontColorForLevels(for: 7), Color.theme.red)
-    }
-    
 }
