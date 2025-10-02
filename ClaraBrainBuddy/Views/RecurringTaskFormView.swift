@@ -118,7 +118,7 @@ struct RecurringTaskFormView: View {
     private func saveTask() {
         let newRecurrenceRule = updateRecurrenceRule()
         if let task = existingTask {
-            var updatedTask = task
+            let updatedTask = task
             updatedTask.title = title
             updatedTask.details = details
             updatedTask.recurrenceRuleAsString = newRecurrenceRule.encoded()

@@ -31,7 +31,6 @@ struct CalendarView: View {
                 List {
                     ForEach(events, id: \.self) { event in
                         
-                        let eventAlreadyExistsAsTodo = todoViewModel.eventAlreadyExistsAsTodo(event)
                         let startDate: Date = event.startDate
                         let endDate: Date = event.endDate
                         
