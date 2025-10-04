@@ -28,6 +28,28 @@ final class TodaysTodosListUITests: XCTestCase {
         markAsDone()
         deleteTodoFlow()
     }
+    
+    func testBadgeWithZeroTodos() {
+        let image = app.images["CompletedTodosBadgeCheckmarkCircle"]
+        XCTAssertTrue(image.exists, "Das Fragezeichen Image (ungefüllt) sollte angezeigt werden, wenn count = 0")
+    }
+    
+    func testBadgeWithOneDoneTodos() {
+        addTodo()
+        markAsDone()
+        
+        let image = app.images["CompletedTodosBadgeCheckmarkCircleFill"]
+        XCTAssertTrue(image.exists, "Das Badge sollte angezeigt werden, wenn count = 0")
+        
+        image.press(forDuration: 1.0)
+        
+        let tooltipText = app.staticTexts["1 Todo(s) erledigt!"]
+        XCTAssertTrue(tooltipText.waitForExistence(timeout: 3.0), "Der Tooltip sollte nach Long-Press angezeigt werden")
+
+        XCTAssertTrue(app.staticTexts["Benötigte Zeit: 15m"].exists, "Der Tooltip sollte die korrekte Zeit anzeigen")
+
+        deleteTodoFlow()
+    }
         
     func addTodo() {
         

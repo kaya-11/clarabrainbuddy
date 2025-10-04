@@ -80,7 +80,7 @@
 "properties.days.added.for.duedate" = "Days to add for Default Due Date";
 "open.calendar" = "Open Calendar";
 "export.all.label" = "Export All Todos";
-"todos.done.label" = "Todos done";
+"todos.done.label" = "Todo(s) done";
 "time.needed.label" = "Time needed";
 "error.filenotfound" = "File not found.";
 "error.emptyfile" = "Empty File.";

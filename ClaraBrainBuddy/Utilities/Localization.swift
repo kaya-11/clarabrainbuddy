@@ -82,7 +82,7 @@ struct Localization {
         let editTask = NSLocalizedString("edit.task.label", comment: "Edit Recurring Task")
         let addTask = NSLocalizedString("add.task.label", comment: "Add New Recurring Task")
         
-        let todosDone = NSLocalizedString("todos.done.label", comment: "Todos done")
+        let todosDone = NSLocalizedString("todos.done.label", comment: "Todo(s) done")
         let timeNeeded = NSLocalizedString("time.needed.label", comment: "Time needed")
         
         // Properties and Clara Main Menu

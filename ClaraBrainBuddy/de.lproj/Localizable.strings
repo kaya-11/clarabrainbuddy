@@ -80,7 +80,7 @@
 "properties.days.added.for.duedate" = "Tage hinzufügen für das Standard-Fälligkeitsdatum";
 "open.calendar" = "Öffne Kalender";
 "export.all.label" = "Exportiere alle Todos";
-"todos.done.label" = "Todos erledigt";
+"todos.done.label" = "Todo(s) erledigt";
 "time.needed.label" = "Benötigte Zeit";
 "error.filenotfound" = "Datei nicht gefunden.";
 "error.emptyfile" = "Leere Datei.";

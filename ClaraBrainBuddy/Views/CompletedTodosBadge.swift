@@ -32,6 +32,7 @@ struct CompletedTodosBadge: View {
                                 }
                             }
                     }
+                    .accessibilityIdentifier("CompletedTodosBadgeCheckmarkCircleFill")
                 }
                 .overlay(
                     ZStack {
@@ -53,6 +54,7 @@ struct CompletedTodosBadge: View {
             } else {
                 Image(systemName: "checkmark.circle")
                     .foregroundColor(Color.theme.accent)
+                    .accessibilityIdentifier("CompletedTodosBadgeCheckmarkCircle")
             }
         }
     }
