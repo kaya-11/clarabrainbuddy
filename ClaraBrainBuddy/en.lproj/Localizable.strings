@@ -116,7 +116,11 @@
 "about.planned.note" = "These features will be available in future updates.";
 "app.intent.createtodo.title" = "Create a task";
 "app.intent.createtodo.description" = "Creates a task in Clara BrainBuddy.";
+"app.intent.createtodo.today.title" = "Task for today";
+"app.intent.createtodo.today.title2" = "For Today";
+"app.intent.createtodo.today.description" = "Creates a task for today in Clara BrainBuddy.";
+"app.intent.createtodo.dueby.title" = "Task due by";
+"app.intent.createtodo.dueby.title2" = "Due by";
+"app.intent.createtodo.dueby.description" = "Creates a task due by specified date in Clara BrainBuddy.";
 "app.intent.createtodo.param.title" = "Task";
-"app.intent.createtodaytodo.title" = "Create a task for today";
-"app.intent.createtodaytodo.description" = "Creates a task for today in Clara BrainBuddy.";
-"app.intent.createtodaytodo.param.title" = "Task for today";
+"app.intent.createtodo.param.duedate" = "Due by";

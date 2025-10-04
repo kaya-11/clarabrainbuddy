@@ -8,21 +8,21 @@
 import AppIntents
 
 struct CreateTodayTodoIntent: AppIntent {
-    static var title: LocalizedStringResource = "app.intent.createtodaytodo.title"
-    static var description = IntentDescription("app.intent.createtodaytodo.description")
+    static var title: LocalizedStringResource = "app.intent.createtodo.today.title"
+    static var description = IntentDescription("app.intent.createtodo.today.description")
 
     @Parameter(
-        title: LocalizedStringResource("app.intent.createtodaytodo.param.title")
+        title: LocalizedStringResource("app.intent.createtodo.param.title")
     )
-    var topic: String
+    var title: String
 
     @MainActor
     func perform() async throws -> some IntentResult {
-        if topic.isEmpty {
+        if title.isEmpty {
             return .result()
         }
         TodoViewModel.shared.addNewTodoForToday(
-            title: topic,
+            title: title,
             details: "",
             estimatedTime: nil,
             recurringTask: nil

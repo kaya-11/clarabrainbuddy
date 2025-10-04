@@ -14,21 +14,23 @@ struct CreateTodoIntent: AppIntent {
     @Parameter(
         title: LocalizedStringResource("app.intent.createtodo.param.title")
     )
-    var topic: String
-
+    var title: String
+    
     @MainActor
     func perform() async throws -> some IntentResult {
-        if topic.isEmpty {
+        if title.isEmpty {
             return .result()
         }
-        let addDays: Int = SettingsViewModel.shared.settings.daysAddedForDefaultDueDate
-        let date: Date = Calendar.current.date(byAdding: .day, value: addDays, to: Date()) ?? Date()
+        
+        let addDays = SettingsViewModel.shared.settings.daysAddedForDefaultDueDate
+        
         TodoViewModel.shared.addTodo(
-            title: topic,
+            title: title,
             details: "",
-            dueDate: date,
+            dueDate: Calendar.current.date(byAdding: .day, value: addDays, to: Date()) ?? Date(),
             estimatedTime: nil
         )
+        
         return .result()
     }
 }

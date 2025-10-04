@@ -181,7 +181,7 @@ final class TodoViewModelTests: XCTestCase {
         XCTAssertEqual(total, 45)
     }
 
-    func testcalculateCompletedTodaysTodos() {
+    func testCalculateCompletedTodaysTodos() {
         
         let todo1: Todo = createTodo(title: "T1", estimatedTime: 10)
         todo1.isDone = true
@@ -205,6 +205,23 @@ final class TodoViewModelTests: XCTestCase {
 
         XCTAssertEqual(total, 3)
         XCTAssertEqual(time, 45)
+    }
+    
+    func testGetTotalTodaysTodosCountNotDone() {
+        
+        let todo1: Todo = createTodo(title: "T1", estimatedTime: 10)
+        todo1.isDone = true
+        let todo2: Todo = createTodo(title: "T2", estimatedTime: 10)
+        
+        
+        viewModel.addTodos([todo1, todo2])
+        
+        viewModel.selectForToday(todo1)
+        viewModel.selectForToday(todo2)
+        
+        let total = viewModel.getTotalTodaysTodosCountNotDone()
+        
+        XCTAssertEqual(total, 1)
     }
     
     func testMoveTodoOneDownSwapsAndIncreasesResistance() {
