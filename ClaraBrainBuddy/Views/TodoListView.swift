@@ -30,6 +30,8 @@ struct TodoListView: View {
         NavigationView {
             VStack {
                 List {
+                    let showEmojis: Bool = settingsViewModel.settings.showEmojis
+                    
                     ForEach(todos, id: \.objectID) { (todo: Todo) in
                         let isSelectedForToday: Bool = todo.selectedForToday
                         let isDone: Bool = todo.isDone
@@ -45,12 +47,14 @@ struct TodoListView: View {
                                 if isDone {
                                     Image(systemName: "checkmark.circle.fill")
                                         .foregroundColor(Color.theme.green)
-                                } else if isSelectedForToday {
-                                    Text("🌀🐿️")
-                                } else if isOverdue {
-                                    Text("🦥")
-                                } else if isDueSoon {
-                                    Text("🐶")
+                                }  else if showEmojis {
+                                    if isSelectedForToday {
+                                        Text("🐿️")
+                                    } else if isOverdue {
+                                        Text("🦥")
+                                    } else if isDueSoon {
+                                        Text("🐶")
+                                    }
                                 }
                                 Text(title + (todo.isOverdue && !isSelectedForToday ? " ‼️" : ""))
                             }

@@ -79,6 +79,10 @@ struct TodaysListView: View {
                             .padding(.top, 28)
                     
                     List {
+                        
+                        let showEmojis: Bool = settingsViewModel.settings.showEmojis
+                        let showDueDate: Bool = settingsViewModel.settings.showDueDateInSchedule
+                        
                         ForEach(todayTodos, id: \.objectID) { (todayTodo: TodayTodo) in
                             let todo: Todo = todayTodo.todo
                                 
@@ -94,10 +98,10 @@ struct TodaysListView: View {
                                     if isDone {
                                         Image(systemName: "checkmark.circle.fill")
                                             .foregroundColor(Color.theme.green)
-                                    } else if todo.isOverdue {
+                                    } else if showEmojis && todo.isOverdue {
                                        Text("🦥")
                                     }
-                                    Text(title)
+                                    Text(title + (todo.isOverdue ? " ‼️" : ""))
                                         .accessibilityValue(isDone ? "done" : "active")
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -108,9 +112,11 @@ struct TodaysListView: View {
                                         .foregroundColor(Color.theme.secondary)
                                 }
                                 
-                                Text("\(Localization.labels.due): \(dueDate, formatter: StyleUtils.dateFormatter)")
-                                    .font(Font.app.tiny)
-                                    .foregroundColor(Color.theme.secondary)
+                                if showDueDate {
+                                    Text("\(Localization.labels.due): \(dueDate, formatter: StyleUtils.dateFormatter)")
+                                        .font(Font.app.tiny)
+                                        .foregroundColor(Color.theme.secondary)
+                                }
                                 
                                 if Int(resistance) > 0 {
                                     TaskResistanceView(resistance: Int(resistance))

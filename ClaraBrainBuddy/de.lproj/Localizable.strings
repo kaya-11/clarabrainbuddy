@@ -78,6 +78,9 @@
 "properties.default.estimated.time" = "Standardgeschätzte Zeit für wiederkehrende Aufgaben (in Minuten)";
 "properties.default.energylevel.calculation" = "Standardzeit für die Berechnung des Energieniveaus (in Minuten)";
 "properties.days.added.for.duedate" = "Tage hinzufügen für das Standard-Fälligkeitsdatum";
+"properties.display.options" = "Anzeigeoptionen";
+"properties.show.emojis" = "Zeige Emojis";
+"properties.show.duedate" = "Zeige Fälligkeit im Tagesplan";
 "open.calendar" = "Öffne Kalender";
 "export.all.label" = "Exportiere alle Todos";
 "todos.done.label" = "Todo(s) erledigt";

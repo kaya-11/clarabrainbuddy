@@ -12,4 +12,6 @@ struct AppSettings: Codable, Equatable {
     var defaultEstimatedTimeForRecurringTasks: Int
     var defaultTimeForEnergyLevelCalculation: Int
     var daysAddedForDefaultDueDate: Int
+    var showEmojis: Bool
+    var showDueDateInSchedule: Bool
 }

@@ -78,6 +78,9 @@
 "properties.default.estimated.time" = "Default Estimated Time for Recurring Tasks (minutes)";
 "properties.default.energylevel.calculation" = "Default Time for Energy Level Calculation (minutes)";
 "properties.days.added.for.duedate" = "Days to add for Default Due Date";
+"properties.display.options" = "Display Options";
+"properties.show.emojis" = "Show Emojis";
+"properties.show.duedate" = "Show Due Date in Today's Schedule";
 "open.calendar" = "Open Calendar";
 "export.all.label" = "Export All Todos";
 "todos.done.label" = "Todo(s) done";

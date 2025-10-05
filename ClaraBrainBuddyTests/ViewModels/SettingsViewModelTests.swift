@@ -20,7 +20,9 @@ class MockSettingsManager: SettingsManager {
         maxTodosForToday: 5,
         defaultEstimatedTimeForRecurringTasks: 30,
         defaultTimeForEnergyLevelCalculation: 10,
-        daysAddedForDefaultDueDate: 3
+        daysAddedForDefaultDueDate: 3,
+        showEmojis: true,
+        showDueDateInSchedule: true
     )
     var didSaveSettings = false
     var savedSettings: AppSettings?
@@ -53,6 +55,8 @@ final class SettingsViewModelTests: XCTestCase {
         viewModel.settings.defaultEstimatedTimeForRecurringTasks=15
         viewModel.settings.defaultTimeForEnergyLevelCalculation=16
         viewModel.settings.daysAddedForDefaultDueDate=5
+        viewModel.settings.showEmojis=false
+        viewModel.settings.showDueDateInSchedule=false
         
         XCTAssertFalse(mockManager.didSaveSettings)
         
@@ -63,6 +67,9 @@ final class SettingsViewModelTests: XCTestCase {
         XCTAssertEqual(mockManager.savedSettings?.defaultEstimatedTimeForRecurringTasks, 15)
         XCTAssertEqual(mockManager.savedSettings?.defaultTimeForEnergyLevelCalculation, 16)
         XCTAssertEqual(mockManager.savedSettings?.daysAddedForDefaultDueDate, 5)
+        XCTAssertEqual(mockManager.savedSettings?.showEmojis, false)
+        XCTAssertEqual(mockManager.savedSettings?.showDueDateInSchedule, false)
+        
         
     }
 }

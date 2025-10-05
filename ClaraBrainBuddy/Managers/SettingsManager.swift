@@ -18,7 +18,14 @@ class SettingsManager {
     }
     
     func loadSetings() -> AppSettings {
-        var appSettings = AppSettings(maxTodosForToday: 10, defaultEstimatedTimeForRecurringTasks: 15, defaultTimeForEnergyLevelCalculation: 15, daysAddedForDefaultDueDate: 14)
+        var appSettings = AppSettings(
+            maxTodosForToday: 10,
+            defaultEstimatedTimeForRecurringTasks: 15,
+            defaultTimeForEnergyLevelCalculation: 15,
+            daysAddedForDefaultDueDate: 14,
+            showEmojis: true,
+            showDueDateInSchedule: true
+        )
         
         if let data = UserDefaults.standard.data(forKey: userDefaultsKey),
            let decodedSettings = try? JSONDecoder().decode(AppSettings.self, from: data) {

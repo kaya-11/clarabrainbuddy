@@ -56,6 +56,17 @@ struct SettingsView: View {
                     }
                     .accessibilityIdentifier("DueDateDaysStepper")
                 }
+                
+                Section(header: Text(Localization.labels.displayOptions)) {
+                    Toggle(Localization.labels.showEmojis, isOn: $settingsViewModel.settings.showEmojis)
+                        .accessibilityIdentifier("ShowEmojisToggle")
+                }
+                
+                Section() {
+                    Toggle(Localization.labels.showDueDate, isOn: $settingsViewModel.settings.showDueDateInSchedule)
+                        .accessibilityIdentifier("ShowDueDateInListToggle")
+                }
+                
 
                 Button(action: {
                     settingsViewModel.saveSettings()

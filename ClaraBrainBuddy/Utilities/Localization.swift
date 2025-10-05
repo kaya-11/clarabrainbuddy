@@ -91,6 +91,10 @@ struct Localization {
         let defaultEstimatedTime = NSLocalizedString("properties.default.estimated.time", comment: "Default Estimated Time for Recurring Tasks (minutes)")
         let defaultEnergyLevelCalculation = NSLocalizedString("properties.default.energylevel.calculation", comment: "Default Time for Energy Level Calculation (minutes)")
         let daysAddedForDueDate = NSLocalizedString("properties.days.added.for.duedate", comment: "Days to add for Default Due Date")
+        let displayOptions = NSLocalizedString("properties.display.options", comment: "Display Options")
+        let showEmojis = NSLocalizedString("properties.show.emojis", comment: "Show Emojis")
+        let showDueDate = NSLocalizedString("properties.show.duedate", comment: "Show DueDate in List")
+
         let openCalendar = NSLocalizedString("open.calendar", comment: "Open Calendar")
         let about = NSLocalizedString("about.label", comment: "About")
         let importTodo = NSLocalizedString("import.label", comment: "Import todos")

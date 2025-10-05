@@ -102,6 +102,77 @@ final class SettingsViewUITests: XCTestCase {
 
         XCTAssertTrue(menuButton.waitForExistence(timeout: 2))
     }
+    
+    func testTogglesCanBeToggled() {
+        let menuButton = app.buttons["ClaraMenu"]
+        XCTAssertTrue(menuButton.waitForExistence(timeout: 2), "Menü-Button nicht gefunden")
+        menuButton.tap()
+        
+        let settingsButton = app.buttons["SettingsButton"]
+        XCTAssertTrue(settingsButton.waitForExistence(timeout: 2))
+        settingsButton.tap()
+
+        // --- Test Show Emojis Toggle ---
+        let showEmojisToggle = app.switches["ShowEmojisToggle"]
+        XCTAssertTrue(showEmojisToggle.waitForExistence(timeout: 2))
+        
+        let initialShowEmojisValue = showEmojisToggle.value as! String
+        
+        showEmojisToggle.switches.firstMatch.tap()
+        
+        sleep(2)
+
+        let toggledShowEmojisValue = showEmojisToggle.value as! String
+        
+        XCTAssertNotEqual(initialShowEmojisValue, toggledShowEmojisValue, "Toggling Show Emojis should change its value")
+        
+        // --- Test Show Due Date Toggle ---
+        let showDueDateToggle = app.switches["ShowDueDateInListToggle"]
+        XCTAssertTrue(showDueDateToggle.exists, "Show Due Date toggle should exist")
+
+        let initialShowDueDateValue = showDueDateToggle.value as? String
+        
+        showDueDateToggle.switches.firstMatch.tap()
+
+        sleep(2)
+        
+        let toggledShowDueDateValue = showDueDateToggle.value as? String
+        
+        XCTAssertNotEqual(initialShowDueDateValue, toggledShowDueDateValue, "Toggling Show Due Date should change its value")
+        
+        let saveButton = app.buttons["SaveSettingsButton"]
+        XCTAssertTrue(saveButton.exists)
+        saveButton.tap()
+
+        XCTAssertTrue(menuButton.waitForExistence(timeout: 2))
+        
+        // Reopen Settings
+        menuButton.tap()
+        
+        XCTAssertTrue(settingsButton.waitForExistence(timeout: 2))
+        settingsButton.tap()
+        
+        XCTAssertTrue(showEmojisToggle.exists, "Show Emoji toggle should exist")
+
+        let reopenedSettingsShowEmojisValue = showEmojisToggle.value as? String
+        
+        XCTAssertEqual(toggledShowEmojisValue, reopenedSettingsShowEmojisValue, "Toggle Show Due Date should have same Value after repoeniung Settings View")
+        
+        showEmojisToggle.switches.firstMatch.tap()
+        
+        XCTAssertTrue(showDueDateToggle.exists, "Show Due Date toggle should exist")
+
+        let reopenedSettingsShowDueDateValue = showDueDateToggle.value as? String
+        
+        XCTAssertEqual(toggledShowDueDateValue, reopenedSettingsShowDueDateValue, "Toggle Show Due Date should have same Value after repoeniung Settings View")
+        
+        showDueDateToggle.switches.firstMatch.tap()
+        
+        XCTAssertTrue(saveButton.exists)
+        saveButton.tap()
+
+        XCTAssertTrue(menuButton.waitForExistence(timeout: 2))
+    }
 
     func testBackButtonDismissesSettings() {
         
