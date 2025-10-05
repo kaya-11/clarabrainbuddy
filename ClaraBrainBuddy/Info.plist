@@ -26,6 +26,6 @@
 	<key>UISupportsDocumentBrowser</key>
 	<true/>
 	<key>NSCalendarsFullAccessUsageDescription</key>
-	<string>his app needs access to your calendar to display your events.</string>
+	<string>this app needs access to your calendar to display your events.</string>
 </dict>
 </plist>
