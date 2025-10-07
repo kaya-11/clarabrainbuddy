@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import EventKit
 
 struct TodaysListView: View {
     
@@ -14,12 +15,16 @@ struct TodaysListView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel = .shared
     
     @State private var showingAddTodo = false
+    @State private var showingCalenderView = false
     @State private var selectedTodo: Todo? = nil
     @State private var showErrorMessage = false
     @State private var sharedTodoDetails: SharedTodoDetailsWrapper? = nil
     @State private var energyLevel: Float = EnergyManager.EnergyLevel.medium.rawValue
     
     @State private var showingTooltip = false
+    
+    @State private var eventProvider: EventProvider = RealEventProvider()
+    @State private var todayEvents: [EKEvent] = []
     
     @Environment(\.managedObjectContext) private var context
      
@@ -285,6 +290,14 @@ struct TodaysListView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack {
+                        if !todayEvents.isEmpty {
+                            Button(action: {
+                                showingCalenderView = true
+                            }) {
+                                Image(systemName: "bell.fill")
+                            }
+                            .accessibilityIdentifier("TodayEventsBellButton")
+                        }
                         Button(action: {
                             todoViewModel.reorderTodayTodos()
                         }) {
@@ -315,6 +328,22 @@ struct TodaysListView: View {
             .sheet(isPresented: $showingAddTodo) {
                 TodoTodayFormView(todoViewModel: todoViewModel)
             }
+            .sheet(isPresented: $showingCalenderView) {
+                if CommandLine.arguments.contains("UITestMode") {
+                    CalendarView(todoViewModel: todoViewModel,
+                                 eventProvider: FakeEventProvider())
+                } else {
+                    CalendarView(todoViewModel: todoViewModel,
+                                 eventProvider: RealEventProvider())
+                }
+            }
+            .onChange(of: todayTodos.count) { _ in
+                eventProvider.fetchTodayEvents { events in
+                    self.todayEvents = events.filter { event in
+                        !todoViewModel.eventAlreadyExistsAsTodo(event)
+                    }
+                }
+            }
             .alert(isPresented: $showErrorMessage) {
                 Alert(
                     title: Text(Localization.messages.limitExeeded),
@@ -323,10 +352,17 @@ struct TodaysListView: View {
                 )
             }
         }
+        .onAppear() {
+            eventProvider.fetchTodayEvents { events in
+                    self.todayEvents = events.filter { event in
+                        !todoViewModel.eventAlreadyExistsAsTodo(event)
+                    }
+            }
+        }
     }
     
     func move(from source: IndexSet, to destination: Int) {
         todoViewModel.moveTodayTodos(from: source, to: destination)
     }
-    
+
 }
