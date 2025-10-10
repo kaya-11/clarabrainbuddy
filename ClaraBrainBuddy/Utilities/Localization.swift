@@ -100,6 +100,11 @@ struct Localization {
         let importTodo = NSLocalizedString("import.label", comment: "Import todos")
         let todaysEvents = NSLocalizedString( "todays.events.label", comment: "Todays Events")
         
+        // Reminders
+        let dailyReminders = NSLocalizedString( "daily.reminders.label", comment: "Daily Reminders")
+        let morningReminder = NSLocalizedString( "morning.reminder.label", comment: "Morning Reminder")
+        let eveningReminder = NSLocalizedString( "evening.reminder.label", comment: "Evening Reminder")
+        
         // Buttons
         let back = NSLocalizedString("back.label", comment: "Back")
         let save = NSLocalizedString("save.label", comment: "Save")
@@ -142,13 +147,19 @@ struct Localization {
         let noValidTodos = NSLocalizedString("no.valid.todos", comment: "Keine gültigen Todos vorhanden...")
         let selectFileToImport = NSLocalizedString("message.import.select.file", comment: "Select Import File")
         let importError = NSLocalizedString("message.import.error", comment: "Import error")
-        
+        let morningNotificationTitle = NSLocalizedString("message.morning.notification.title", comment: "Morning notification message title in the app")
+        let morningNotificationBody = NSLocalizedString("message.morning.notification.body", comment: "Morning notification message body in the app")
+        let eveningNotificationTitle = NSLocalizedString("message.evening.notification.title", comment: "Evening notification message title in the app")
+        let eveningNotificationBody = NSLocalizedString("message.evening.notification.body", comment: "Evening notification message body in the app")
+        let enableNotifications = NSLocalizedString("message.enable.notifications", comment: "Enable notification")
     }
     
     struct Errors {
         let fileNotFound = NSLocalizedString("error.filenotfound", comment: "File not found")
         let emptyFile = NSLocalizedString("error.emptyfile", comment: "Empty file")
         let invalidJSON = NSLocalizedString("error.invalidjson", comment: "Invalid JSON")
+        let invalidTimeSelectionTitle = NSLocalizedString("invalid.time.selection.title", comment: "Title for invalid time selection error")
+        let invalidTimeSelectionMessage = NSLocalizedString("invalid.time.selection.message", comment: "Message for invalid time selection error")
     }
     
     struct AppIntents {
@@ -202,5 +213,4 @@ struct Localization {
         let featureAISupportTitle = NSLocalizedString("about.feature.aiSupport.title", comment: "Title for AI Support extension")
         let featureAISupportDescription = NSLocalizedString("about.feature.aiSupport.description", comment: "Description for AI Support extension")
     }
-    
 }

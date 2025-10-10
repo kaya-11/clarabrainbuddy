@@ -13,6 +13,11 @@
 "message.limit.exeeded.message" = "Du kannst nicht mehr als %@ Todos für heute einplanen.";
 "message.import.select.file" = "Selektiere die Clara-Importdatei, die Du importieren möchtest";
 "message.import.error" = "Fehler beim Import";
+"message.morning.notification.title" = "Hallo!";
+"message.morning.notification.body" = "Guten Morgen, Clara hier ☀️ – hast du schon geschaut, was heute ansteht?";
+"message.evening.notification.title" = "Hallo,";
+"message.evening.notification.body" = "ich bin’s noch mal, Clara ✨ – hast du alles erledigt?";
+"message.enable.notifications" = "Schalte die Benachrichtigungen in den Systemeinstellungen für diese App ein, um diese Funktion zu nutzen.";
 "edit.todo.title.label" = "Titel *";
 "edit.todo.title.tooltip" = "Titel eingeben";
 "edit.todo.details.label" = "Details";
@@ -88,6 +93,11 @@
 "error.filenotfound" = "Datei nicht gefunden.";
 "error.emptyfile" = "Leere Datei.";
 "error.invalidjson" = "Ungültiges Format.";
+"daily.reminders.label" = "Tägliche Erinnerungen";
+"morning.reminder.label" = "Morgentliche Erinnerung";
+"evening.reminder.label" = "Abendliche Erinnerung";
+"invalid.time.selection.title" = "Ungültige Zeitauswahl";
+"invalid.time.selection.message" = "Die Morgen-Erinnerung muss vor der Abend-Erinnerung liegen.";
 "about.label" = "Über";
 "about.claraBrainBuddy.title" = "Über Clara BrainBuddy";
 "about.claraBrainBuddy.description" = "Clara BrainBuddy hilft, dein tägliches Gehirn-Chaos zu organisieren.";

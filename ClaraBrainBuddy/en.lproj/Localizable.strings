@@ -13,6 +13,11 @@
 "message.limit.exeeded.message" = "You cannot add more than %@ todos for today.";
 "message.import.select.file" = "Select the Clara-Importfile you want to import.";
 "message.import.error" = "Error on Import";
+"message.morning.notification.title" = "Hi there!";
+"message.morning.notification.body" = "Good morning, it’s Clara ☀️ – have you checked what’s on your agenda for today?";
+"message.evening.notification.title" = "Hi again,";
+"message.evening.notification.body" = "it’s Clara ✨ – did you get everything done today?";
+"message.enable.notifications" = "Enable notifications in your device settings to use this feature.";
 "edit.todo.title.label" = "Title *";
 "edit.todo.title.tooltip" = "Enter Title";
 "edit.todo.details.label" = "Details";
@@ -89,6 +94,11 @@
 "error.emptyfile" = "Empty File.";
 "error.invalidjson" = "Invalid format.";
 "about.label" = "About";
+"daily.reminders.label" = "Daily Reminders";
+"morning.reminder.label" = "Morning Reminder";
+"evening.reminder.label" = "Evening Reminder";
+"invalid.time.selection.title" = "Invalid Time Selection";
+"invalid.time.selection.message" = "Morning reminder must be earlier than evening reminder.";
 "about.claraBrainBuddy.title" = "About Clara BrainBuddy";
 "about.claraBrainBuddy.description" = "Clara BrainBuddy brings order to your daily brain chaos.";
 "about.feature.todos.title" = "✅ Todos";

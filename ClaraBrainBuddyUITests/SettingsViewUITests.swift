@@ -14,6 +14,7 @@ final class SettingsViewUITests: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
+        app.launchArguments.append("UITestMode")
         app.launch()
     }
 
@@ -97,6 +98,12 @@ final class SettingsViewUITests: XCTestCase {
 
         // Tap Save button
         let saveButton = app.buttons["SaveSettingsButton"]
+        
+        // Scrollen bis der Button sichtbar ist
+        while !saveButton.isHittable {
+            app.swipeUp()
+        }
+        
         XCTAssertTrue(saveButton.exists)
         saveButton.tap()
 
@@ -127,7 +134,15 @@ final class SettingsViewUITests: XCTestCase {
         XCTAssertNotEqual(initialShowEmojisValue, toggledShowEmojisValue, "Toggling Show Emojis should change its value")
         
         // --- Test Show Due Date Toggle ---
+        
+        // Scrollen bis der Button sichtbar ist (Hilfskontrukt)
+        let saveButton = app.buttons["SaveSettingsButton"]
+        while !saveButton.isHittable {
+            app.swipeUp()
+        }
+
         let showDueDateToggle = app.switches["ShowDueDateInListToggle"]
+        
         XCTAssertTrue(showDueDateToggle.exists, "Show Due Date toggle should exist")
 
         let initialShowDueDateValue = showDueDateToggle.value as? String
@@ -139,8 +154,7 @@ final class SettingsViewUITests: XCTestCase {
         let toggledShowDueDateValue = showDueDateToggle.value as? String
         
         XCTAssertNotEqual(initialShowDueDateValue, toggledShowDueDateValue, "Toggling Show Due Date should change its value")
-        
-        let saveButton = app.buttons["SaveSettingsButton"]
+
         XCTAssertTrue(saveButton.exists)
         saveButton.tap()
 
@@ -168,6 +182,11 @@ final class SettingsViewUITests: XCTestCase {
         
         showDueDateToggle.switches.firstMatch.tap()
         
+        // Scrollen bis der Button sichtbar ist
+        while !saveButton.isHittable {
+            app.swipeUp()
+        }
+        
         XCTAssertTrue(saveButton.exists)
         saveButton.tap()
 
@@ -190,4 +209,25 @@ final class SettingsViewUITests: XCTestCase {
 
         XCTAssertTrue(menuButton.waitForExistence(timeout: 2))
     }
+    
+    func testNotificationDatePickersAndAlert() {
+        
+        let menuButton = app.buttons["ClaraMenu"]
+        XCTAssertTrue(menuButton.waitForExistence(timeout: 2), "Menü-Button nicht gefunden")
+        menuButton.tap()
+        
+        let settingsButton = app.buttons["SettingsButton"]
+        XCTAssertTrue(settingsButton.waitForExistence(timeout: 2))
+        settingsButton.tap()
+        
+        let morningPicker = app.datePickers["MorningReminderPicker"]
+        XCTAssertTrue(morningPicker.exists, "Morning DatePicker sollte sichtbar sein")
+        
+        let eveningPicker = app.datePickers["EveningReminderPicker"]
+        XCTAssertTrue(eveningPicker.exists, "Evening DatePicker sollte sichtbar sein")
+        
+        // Hinweis - Erst einmal ohne Funktionstest der Datepicker - später
+
+    }
+
 }

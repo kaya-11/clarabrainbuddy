@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 @main
 struct ClaraBrainBuddyApp: App {
@@ -15,6 +16,18 @@ struct ClaraBrainBuddyApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, context)
+                .onAppear {
+                    NotificationManager.shared.requestAuthorization { granted in
+                        if granted {
+                            NotificationManager.shared.rescheduleDailyNotifications(
+                                morning: SettingsViewModel.shared.settings.morningNotification,
+                                evening: SettingsViewModel.shared.settings.eveningNotification
+                            )
+                        } else {
+                            print("Notifications not granted")
+                        }
+                    }
+                }
         }
     }
 }

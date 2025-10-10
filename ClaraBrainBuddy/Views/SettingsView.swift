@@ -14,6 +14,10 @@ struct SettingsView: View {
     
     @ObservedObject var settingsViewModel: SettingsViewModel
     
+    @State private var showTimeValidationAlert = false
+    
+    @State private var notificationsGranted: Bool = false
+    
     init(settingsViewModel: SettingsViewModel) {
         self.settingsViewModel = settingsViewModel
     }
@@ -57,6 +61,38 @@ struct SettingsView: View {
                     .accessibilityIdentifier("DueDateDaysStepper")
                 }
                 
+                if !notificationsGranted {
+                    Section(header: Text(Localization.labels.dailyReminders)) {
+                        Text(Localization.messages.enableNotifications)
+                            .font(Font.app.tiny)
+                            .foregroundColor(Color.theme.red)
+                        
+                        Button(action: {
+                            NotificationManager.shared.openAppSettings()
+                        }) {
+                            Text("Open App Settings")
+                                .font(Font.app.tiny)
+                        }
+                    }
+                } else {
+                    Section(header: Text(Localization.labels.dailyReminders)) {
+                        DatePicker(Localization.labels.morningReminder,
+                                   selection: $settingsViewModel.settings.morningNotification,
+                                   displayedComponents: .hourAndMinute)
+                        .disabled(!notificationsGranted)
+                        .accessibilityIdentifier("MorningReminderPicker")
+                    }
+                    
+                    Section() {
+                        DatePicker(Localization.labels.eveningReminder,
+                                   selection: $settingsViewModel.settings.eveningNotification,
+                                   displayedComponents: .hourAndMinute)
+                        .disabled(!notificationsGranted)
+                        .accessibilityIdentifier("EveningReminderPicker")
+                    }
+                }
+                
+                
                 Section(header: Text(Localization.labels.displayOptions)) {
                     Toggle(Localization.labels.showEmojis, isOn: $settingsViewModel.settings.showEmojis)
                         .accessibilityIdentifier("ShowEmojisToggle")
@@ -69,7 +105,21 @@ struct SettingsView: View {
                 
 
                 Button(action: {
+                    if !isMorningBeforeEvening() {
+                        showTimeValidationAlert = true
+                        return
+                    }
                     settingsViewModel.saveSettings()
+                    NotificationManager.shared.requestAuthorization { granted in
+                        if granted {
+                            NotificationManager.shared.rescheduleDailyNotifications(
+                                morning: settingsViewModel.settings.morningNotification,
+                                evening: settingsViewModel.settings.eveningNotification
+                            )
+                        } else {
+                            print("Notifications not granted.")
+                        }
+                    }
                     presentationMode.wrappedValue.dismiss()
                 }) {
                     Text(Localization.labels.save)
@@ -94,6 +144,45 @@ struct SettingsView: View {
                         .foregroundColor(Color.theme.primary)
                         .font(Font.app.title)
                 }
+            }
+            .alert(isPresented: $showTimeValidationAlert) {
+                Alert(
+                    title: Text(Localization.errors.invalidTimeSelectionTitle),
+                    message: Text(Localization.errors.invalidTimeSelectionMessage),
+                    dismissButton: .default(Text(Localization.labels.ok))
+                )
+            }
+        }
+        .onAppear {
+            checkNotificationPermission()
+        }
+    }
+
+    
+    private func isMorningBeforeEvening() -> Bool {
+        let calendar = Calendar.current
+        let morningComponents = calendar.dateComponents([.hour, .minute], from: settingsViewModel.settings.morningNotification)
+        let eveningComponents = calendar.dateComponents([.hour, .minute], from: settingsViewModel.settings.eveningNotification)
+        guard
+            let morningDate = calendar.date(from: morningComponents),
+            let eveningDate = calendar.date(from: eveningComponents)
+        else {
+            return true
+        }
+
+        return morningDate < eveningDate
+    }
+    
+    private func checkNotificationPermission() {
+        
+        if CommandLine.arguments.contains("UITestMode") {
+            notificationsGranted = true
+            return
+        }
+        
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            DispatchQueue.main.async {
+                notificationsGranted = settings.authorizationStatus == .authorized
             }
         }
     }

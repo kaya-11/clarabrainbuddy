@@ -16,14 +16,28 @@ struct MockAppSettings: Equatable {
 
 class MockSettingsManager: SettingsManager {
     
-    var mockSettings = AppSettings(
-        maxTodosForToday: 5,
-        defaultEstimatedTimeForRecurringTasks: 30,
-        defaultTimeForEnergyLevelCalculation: 10,
-        daysAddedForDefaultDueDate: 3,
-        showEmojis: true,
-        showDueDateInSchedule: true
-    )
+    var mockSettings: AppSettings = {
+        // Compute morning date
+        let morningComponents = DateComponents(hour: 8, minute: 0)
+        let morningDate = Calendar.current.date(from: morningComponents) ?? Date()
+        
+        // Compute evening date
+        let eveningComponents = DateComponents(hour: 20, minute: 0)
+        let eveningDate = Calendar.current.date(from: eveningComponents) ?? Date()
+        
+        // Return AppSettings instance
+        return AppSettings(
+            maxTodosForToday: 5,
+            defaultEstimatedTimeForRecurringTasks: 30,
+            defaultTimeForEnergyLevelCalculation: 10,
+            daysAddedForDefaultDueDate: 3,
+            showEmojis: true,
+            showDueDateInSchedule: true,
+            morningNotification: morningDate,
+            eveningNotification: eveningDate
+        )
+    }()
+    
     var didSaveSettings = false
     var savedSettings: AppSettings?
     
