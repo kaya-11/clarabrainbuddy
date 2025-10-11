@@ -21,16 +21,14 @@ struct StyleUtils {
         }
         return Color.theme.listText
     }
-    
-    static func getTextColorNew(isDone: Bool, isSelectedForToday: Bool, isOverdue: Bool, isDueSoon: Bool) -> Color {
-        if isDone {
+
+    static func getTextColorForToday(todo: Todo, isSelectedForToday: Bool) -> Color {
+        if todo.isDone {
             return Color.theme.green
         } else if isSelectedForToday {
             return Color.theme.blue
-        } else if isOverdue {
+        } else if todo.isOverdue {
             return Color.theme.red
-        } else if isDueSoon {
-            return Color.theme.accent
         }
         return Color.theme.listText
     }

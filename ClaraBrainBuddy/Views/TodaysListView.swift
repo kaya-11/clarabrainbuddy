@@ -184,7 +184,7 @@ struct TodaysListView: View {
                                 .tint(.gray)
                                 
                             }
-                            .foregroundColor(StyleUtils.getTextColor(todo: todo, isSelectedForToday: false))
+                            .foregroundColor(StyleUtils.getTextColorForToday(todo: todo, isSelectedForToday: false))
                             .listRowBackground(Color.theme.listBackground)
                             .font(Font.app.listItem)
                         }
