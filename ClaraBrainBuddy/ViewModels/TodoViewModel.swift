@@ -261,7 +261,7 @@ class TodoViewModel: ObservableObject {
         var reorderedTodos = allTodos
         
         let clone = Todo(context: context)
-        clone.title = "Clone - \(todo.title)"
+        clone.title = "\(Localization.labels.clone) - \(todo.title)"
         clone.details = todo.details
         clone.dueDate = todo.dueDate
         clone.estimatedTime = todo.estimatedTime

@@ -119,7 +119,6 @@ struct Localization {
         
         let shareDetails = NSLocalizedString("share.details.label", comment: "Share details")
         let exportAll = NSLocalizedString("export.all.label", comment: "Export All Todos")
-        
     }
     
     struct Weekdays {

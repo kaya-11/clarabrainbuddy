@@ -139,6 +139,8 @@
 "app.intent.createtodo.allparams.description" = "Create a task with all parameters in Clara BrainBuddy";
 "app.intent.numberofcompletedtasks.title" = "Anzahl erledigten Aufgaben";
 "app.intent.numberofcompletedtasks.description" = "Gibt die Anzahl der heute erledigten Aufgaben zurück";
+"app.intent.toptodo.title" = "Erste zu erledigende Aufgabe";
+"app.intent.toptodo.description" = "Zeigt die oberste zu erledigende Aufgabe an.";
 "app.intent.createtodo.param.title" = "Aufgabe";
 "app.intent.createtodo.param.description" = "Beschreibung";
 "app.intent.createtodo.param.duedate" = "Zu erledigen bis";
