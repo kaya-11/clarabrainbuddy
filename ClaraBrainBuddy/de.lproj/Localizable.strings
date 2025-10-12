@@ -44,7 +44,7 @@
 "done.label" = "Erledigt";
 "copy.label" = "Kopieren";
 "remove.label" = "Entfernen";
-"message.energy.level" = "Energielevel";
+"message.energy.level" = "Zeitbudget";
 "message.energy.level.low" = "niedrig";
 "message.energy.level.medium" = "mittel";
 "message.energy.level.high" = "hoch";
@@ -98,6 +98,8 @@
 "evening.reminder.label" = "Abendliche Erinnerung";
 "invalid.time.selection.title" = "Ungültige Zeitauswahl";
 "invalid.time.selection.message" = "Die Morgen-Erinnerung muss vor der Abend-Erinnerung liegen.";
+"info.timebudget.explanation.title" = "Zeitbudget Erklärung";
+"info.timebudget.explanation.text" = "Der Zeitbudget-Schieberegler hilft dir, deine Aufgabenlast zu verwalten. 🧠\n\nWenn du wenig Zeit hast, also deine exekutive Kapazität klein ist, kannst du nur eine begrenzte Anzahl an Aufgaben erledigen.\n\nDie geschätzte Zeit wird fett und rot dargestellt, wenn du je nach Zeitbudget einen bestimmten Grenzwert überschreitest. Die mittlere Einstellung bedeutet, dass du 1,5 bis 3 Stunden verfügbar hast. Die hohe Einstellung bedeutet, dass du an diesem Tag viel schaffen kannst. 💪\n\nAber Achtung: Es gibt auch hier einen Grenzwert, damit du siehst, wenn du deinen Tagesplan zu voll gepackt hast.\n\nAufgaben, bei denen du zum Prokrastinieren neigst, erhalten einen Strafaufschlag bei der Berechnung der geschätzten Zeit. ⚠️";
 "about.label" = "Über";
 "about.claraBrainBuddy.title" = "Über Clara BrainBuddy";
 "about.claraBrainBuddy.description" = "Clara BrainBuddy hilft, dein tägliches Gehirn-Chaos zu organisieren.";

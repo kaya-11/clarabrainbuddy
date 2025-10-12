@@ -8,8 +8,8 @@
 class EnergyManager {
     
     static let MAX_ESTIMATED_TIME_LOW : Int64 = 90
-    static let MAX_ESTIMATED_TIME_MEDIUM : Int64 = 150
-    static let MAX_ESTIMATED_TIME_HIGH : Int64 = 210
+    static let MAX_ESTIMATED_TIME_MEDIUM : Int64 = 180
+    static let MAX_ESTIMATED_TIME_HIGH : Int64 = 240
 
     enum EnergyLevel: Float {
         case low = 1.0

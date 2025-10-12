@@ -21,7 +21,7 @@ struct TodaysListView: View {
     @State private var sharedTodoDetails: SharedTodoDetailsWrapper? = nil
     @State private var energyLevel: Float = EnergyManager.EnergyLevel.medium.rawValue
     
-    @State private var showingTooltip = false
+    @State private var showingInfo = false
     
     @State private var eventProvider: EventProvider = RealEventProvider()
     @State private var todayEvents: [EKEvent] = []
@@ -228,43 +228,11 @@ struct TodaysListView: View {
                     
                     Spacer()
                     
-                    let defaultEstimatedTime: Int = settingsViewModel.settings.defaultTimeForEnergyLevelCalculation
-                    let totalEstimatedTime: Int64 = Int64(todoViewModel.getTotalEstimatedTime(defaultEstimatedTime: defaultEstimatedTime))
-                    if totalEstimatedTime > 0 {
-                        Section {
-                            VStack {
-                                
-                                let maxEstimatedTime: Int64 = EnergyManager.getMaxEstimatedTime(energyLevel: energyLevel)
-                                
-                                Text("\(Localization.labels.estimatedTime): \(totalEstimatedTime)\(Localization.labels.estimatedTimeUnit).")
-                                    .font(Font.app.normal)
-                                    .foregroundColor(totalEstimatedTime > maxEstimatedTime ? Color.theme.red : Color.theme.primary)
-                                    .fontWeight(totalEstimatedTime > maxEstimatedTime ? .bold : .regular)
-                                    .padding(.top, 14)
-                                    .padding(.bottom, 14)
-                                HStack {
-                                    Text(Localization.messages.energyLevelLow)
-                                        .multilineTextAlignment(.leading)
-                                    
-                                    Spacer()
-                                    
-                                    Text(Localization.messages.energyLevel)
-                                    
-                                    Spacer()
-                                    
-                                    Text(Localization.messages.energyLevelHigh)
-                                        .multilineTextAlignment(.trailing)
-                                }
-                                .font(Font.app.tiny)
-                                .padding(.horizontal,64)
-                                
-                                Slider(value: $energyLevel, in: 1...3, step: 1)
-                                    .padding(.horizontal,64)
-                                    .accentColor(Color.theme.accent)
-                            }
-                        }
-                        .padding(.bottom, 14)
-                    }
+                    TimeBudgetView(
+                        todoViewModel: todoViewModel,
+                        settingsViewModel: settingsViewModel,
+                        energyLevel: $energyLevel
+                    )
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

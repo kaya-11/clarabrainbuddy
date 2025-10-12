@@ -13,8 +13,9 @@ struct Localization {
     static let messages = Messages()
     static let weekdays = Weekdays()
     static let errors = Errors()
+    static let info = Info()
     static let about = About()
-        
+    
     struct Labels {
         
         // General
@@ -94,7 +95,7 @@ struct Localization {
         let displayOptions = NSLocalizedString("properties.display.options", comment: "Display Options")
         let showEmojis = NSLocalizedString("properties.show.emojis", comment: "Show Emojis")
         let showDueDate = NSLocalizedString("properties.show.duedate", comment: "Show DueDate in List")
-
+        
         let openCalendar = NSLocalizedString("open.calendar", comment: "Open Calendar")
         let about = NSLocalizedString("about.label", comment: "About")
         let importTodo = NSLocalizedString("import.label", comment: "Import todos")
@@ -137,7 +138,7 @@ struct Localization {
     }
     
     struct Messages {
-        let energyLevel = NSLocalizedString("message.energy.level", comment: "Energy Level")
+        let energyLevel = NSLocalizedString("message.energy.level", comment: "Time budget")
         let energyLevelLow = NSLocalizedString("message.energy.level.low", comment: "low")
         let energyLevelMedium = NSLocalizedString("message.energy.level.medium", comment: "medium")
         let energyLevelHigh = NSLocalizedString("message.energy.level.high", comment: "high")
@@ -166,6 +167,11 @@ struct Localization {
         let createTodoDescription = LocalizedStringResource("app.intent.createtodo.description")
         let createTodoParamTitle = LocalizedStringResource("app.intent.createtodo.param.title")
         let createTodoResult = LocalizedStringResource("app.intent.createtodo.result")
+    }
+    
+    struct Info {
+        let infoTimebudgetTitle = NSLocalizedString("info.timebudget.explanation.title", comment: "Title for the timebudget explanation section")
+        let infoTimebudgetText = NSLocalizedString("info.timebudget.explanation.text", comment: "Text for the timebudget explanation section")
     }
     
     struct About {

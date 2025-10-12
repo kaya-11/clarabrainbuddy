@@ -255,7 +255,7 @@ final class TodoViewModelTests: XCTestCase {
 
         XCTAssertEqual(viewModel.allTodos.count, 2)
         let title = viewModel.allTodos[0].title
-        XCTAssertTrue(title.contains("Clone"))
+        XCTAssertTrue(title.contains("Duplikat"))
         let sortOrder = viewModel.allTodos[0].sortOrder
         XCTAssertEqual(sortOrder, 0)
 
