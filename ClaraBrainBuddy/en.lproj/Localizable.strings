@@ -137,6 +137,8 @@
 "app.intent.createtodo.dueby.description" = "Creates a task due by specified date in Clara BrainBuddy.";
 "app.intent.createtodo.allparams.title" = "Task with all parameters";
 "app.intent.createtodo.allparams.description" = "Erstelle eine Aufgabe mit allen Parametern in Clara BrainBuddy";
+"app.intent.numberofcompletedtasks.title" = "Number of completed tasks";
+"app.intent.numberofcompletedtasks.description" = "Returns the number of today's to-dos completed";
 "app.intent.createtodo.param.title" = "Task";
 "app.intent.createtodo.param.description" = "Description";
 "app.intent.createtodo.param.duedate" = "Due by";
