@@ -20,7 +20,7 @@ final class TodoListAndFormUITests: XCTestCase {
         
         app.tabBars.buttons.element(boundBy: 0).tap()
     }
-
+    
     func testTodoFlow() {
         addTodo()
         editTodo()
@@ -164,5 +164,71 @@ final class TodoListAndFormUITests: XCTestCase {
         XCTAssertTrue(app.buttons["AddTodoButton"].waitForExistence(timeout: 2))
     }
         
+    func testSearchBarExists() throws {
+        sleep(3)
+
+        let searchField = app.searchFields.firstMatch
+        XCTAssertTrue(searchField.waitForExistence(timeout: 2))
+    }
+    
+    func testSearchFunctionality() throws {
+        
+        addTodo()
+        
+        let allTodosTab = app.otherElements["AllTodosTab"]
+        let addButton = allTodosTab.buttons["AddTodoButton"]
+        XCTAssertTrue(addButton.waitForExistence(timeout: 2))
+        addButton.tap()
+        
+        let titleField = app.textFields.element(boundBy: 0)
+        XCTAssertTrue(titleField.waitForExistence(timeout: 2))
+        titleField.tap()
+        titleField.typeText("Todo Zwei")
+
+        let saveButton = app.buttons["TodoFormSaveButton"]
+        XCTAssertTrue(saveButton.isEnabled)
+        saveButton.tap()
+        
+        sleep(3)
+
+        let searchField = app.searchFields.firstMatch
+        XCTAssertTrue(searchField.waitForExistence(timeout: 2))
+        
+        searchField.tap()
+
+        searchField.typeText("Test")
+        
+        let todoCellFound = app.staticTexts["Test Todo"]
+        XCTAssertTrue(todoCellFound.waitForExistence(timeout: 2))
+        
+        let todoCellNotFound = app.staticTexts["Todo Zwei"]
+        XCTAssertFalse(todoCellNotFound.waitForExistence(timeout: 2))
+        
+        sleep(2)
+        
+        searchField.clearAndEnterText("")
+
+        sleep(2)
+        
+        XCTAssertTrue(todoCellFound.waitForExistence(timeout: 2))
+        XCTAssertTrue(todoCellNotFound.waitForExistence(timeout: 2))
+        
+        var start = todoCellFound.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5))
+        var end = todoCellFound.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5))
+        start.press(forDuration: 0.1, thenDragTo: end)
+        
+        var deleteButton = app.buttons["TodoListDeleteTodo"]
+        XCTAssertTrue(deleteButton.waitForExistence(timeout: 2))
+        deleteButton.tap()
+        
+        start = todoCellNotFound.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5))
+        end = todoCellNotFound.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5))
+        start.press(forDuration: 0.1, thenDragTo: end)
+        
+        deleteButton = app.buttons["TodoListDeleteTodo"]
+        XCTAssertTrue(deleteButton.waitForExistence(timeout: 2))
+        deleteButton.tap()
+        
+    }
 
 }

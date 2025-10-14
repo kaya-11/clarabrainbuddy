@@ -16,14 +16,29 @@ struct TodoListView: View {
     @State private var showingAddTodo = false
     @State private var selectedTodo: Todo? = nil
     @State private var showErrorMessage = false
+    
     @State private var sharedTodoDetails: SharedTodoDetailsWrapper? = nil
     @State private var sharedTodos: SharedTodosWrapper? = nil
+    
+    @State private var searchText = ""
     
     @Environment(\.managedObjectContext) private var context
      
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Todo.sortOrder, ascending: true)]
     ) private var todos: FetchedResults<Todo>
+    
+    var filteredTodos: [Todo] {
+        if searchText.isEmpty {
+            return Array(todos)
+        } else {
+            return todos.filter { todo in
+                let titleMatches = todo.title.localizedCaseInsensitiveContains(searchText)
+                let detailsMatches = (todo.details ?? "").localizedCaseInsensitiveContains(searchText)
+                return titleMatches || detailsMatches
+            }
+        }
+    }
     
     var body: some View {
       
@@ -32,7 +47,7 @@ struct TodoListView: View {
                 List {
                     let showEmojis: Bool = settingsViewModel.settings.showEmojis
                     
-                    ForEach(todos, id: \.objectID) { (todo: Todo) in
+                    ForEach(filteredTodos, id: \.objectID) { (todo: Todo) in
                         let isSelectedForToday: Bool = todo.selectedForToday
                         let isDone: Bool = todo.isDone
                         let title: String = todo.title
@@ -141,6 +156,7 @@ struct TodoListView: View {
                     }
                     .onMove(perform: move)
                 }
+                .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
                 .sheet(isPresented: $showingAddTodo) {
                     TodoFormView(todoViewModel: todoViewModel, addDays: settingsViewModel.settings.daysAddedForDefaultDueDate, existingTodo: nil)
                 }
