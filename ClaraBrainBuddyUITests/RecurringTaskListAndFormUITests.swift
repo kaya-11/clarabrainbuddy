@@ -218,4 +218,64 @@ final class RecurringTaskListAndFormUITests: XCTestCase {
         
         XCTAssertFalse(taskCell.waitForExistence(timeout: 2))
     }
+    
+    func testSearchBarExists() throws {
+        sleep(3)
+
+        let searchField = app.searchFields.firstMatch
+        XCTAssertTrue(searchField.waitForExistence(timeout: 2))
+    }
+    
+    func testSearchFunctionality() throws {
+        
+        addRecurringTask()
+        
+        let allRecurringTasks = app.otherElements["RecurringTaskTab"]
+        let addButton = allRecurringTasks.buttons["AddRecurringTaskButton"]
+        XCTAssertTrue(addButton.waitForExistence(timeout: 2))
+        addButton.tap()
+        
+        let titleField = app.textFields.element(boundBy: 0)
+        XCTAssertTrue(titleField.waitForExistence(timeout: 2))
+        titleField.tap()
+        titleField.typeText("Task Zwei")
+
+        let saveButton = app.buttons["TaskFormSaveButton"]
+        XCTAssertTrue(saveButton.isEnabled)
+        saveButton.tap()
+        
+        sleep(3)
+
+        let searchField = app.searchFields.firstMatch
+        XCTAssertTrue(searchField.waitForExistence(timeout: 2))
+        
+        searchField.tap()
+
+        searchField.typeText("Title")
+        
+        let taskCellFound = app.staticTexts["Task Title"]
+        XCTAssertTrue(taskCellFound.waitForExistence(timeout: 2))
+        
+        let taskCellNotFound = app.staticTexts["Task Zwei"]
+        XCTAssertFalse(taskCellNotFound.waitForExistence(timeout: 2))
+        
+        sleep(2)
+        
+        searchField.clearAndEnterText("")
+
+        sleep(2)
+        
+        XCTAssertTrue(taskCellFound.waitForExistence(timeout: 2))
+        XCTAssertTrue(taskCellNotFound.waitForExistence(timeout: 2))
+        
+        var start = taskCellFound.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5))
+        var end = taskCellFound.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5))
+        start.press(forDuration: 0.1, thenDragTo: end)
+        
+        start = taskCellNotFound.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5))
+        end = taskCellNotFound.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5))
+        start.press(forDuration: 0.1, thenDragTo: end)
+        
+    }
+
 }

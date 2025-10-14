@@ -14,7 +14,10 @@ struct RecurringTaskListView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel = .shared
 
     @State private var showingAddTask = false
+    
     @State private var editingTask: RecurringTask?
+    
+    @State private var searchText = ""
     
     @Environment(\.managedObjectContext) private var context
         
@@ -22,12 +25,24 @@ struct RecurringTaskListView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \RecurringTask.sortOrder, ascending: true)]
     ) private var tasks: FetchedResults<RecurringTask>
     
+    var filteredRecurringTasks: [RecurringTask] {
+        if searchText.isEmpty {
+            return Array(tasks)
+        } else {
+            return tasks.filter { task in
+                let titleMatches = task.title.localizedCaseInsensitiveContains(searchText)
+                let detailsMatches = (task.details ?? "").localizedCaseInsensitiveContains(searchText)
+                return titleMatches || detailsMatches
+            }
+        }
+    }
+    
     var body: some View {
       
         NavigationView {
             VStack {
                 List {
-                    ForEach(tasks, id: \.objectID) { (task: RecurringTask) in
+                    ForEach(filteredRecurringTasks, id: \.objectID) { (task: RecurringTask) in
                         Text(task.title)
                             .onTapGesture(count: 2) {
                                 editingTask = task
@@ -58,6 +73,7 @@ struct RecurringTaskListView: View {
                     }
                     .onMove(perform: move)
                 }
+                .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
                 .sheet(isPresented: $showingAddTask) {
                     RecurringTaskFormView(taskViewModel: taskViewModel, defaultEstimatedTime : Int64(settingsViewModel.settings.defaultEstimatedTimeForRecurringTasks), existingTask: nil)
                 }
