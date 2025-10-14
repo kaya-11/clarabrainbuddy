@@ -36,6 +36,7 @@ struct InfoView: View {
                         Text(Localization.labels.back)
                             .font(Font.app.button)
                     }
+                    .accessibilityIdentifier("backButton")
                 }
             }
         }

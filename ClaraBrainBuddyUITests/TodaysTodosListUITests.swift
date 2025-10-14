@@ -50,6 +50,41 @@ final class TodaysTodosListUITests: XCTestCase {
 
         deleteTodoFlow()
     }
+    
+    func testTimeBudgetSlider() {
+        addTodo()
+        
+        let timeBudget = app.staticTexts["Geschätzte Zeit: 15 min."]
+        XCTAssertTrue(timeBudget.waitForExistence(timeout: 2.0))
+        
+        let timeBudgetSlider = app.sliders["timeBudgetSlider"]
+        XCTAssertTrue(timeBudgetSlider.waitForExistence(timeout: 2))
+        
+        sleep(1)
+
+        timeBudgetSlider.adjust(toNormalizedSliderPosition: 1.0)
+        
+        sleep(1)
+
+        timeBudgetSlider.adjust(toNormalizedSliderPosition: 0.0)
+        
+        sleep(1)
+
+        timeBudgetSlider.adjust(toNormalizedSliderPosition: 0.5)
+        
+        let infoButton = app.buttons["infoButton"]
+        XCTAssertTrue(infoButton.exists, "Der Info-Button wurde nicht gefunden.")
+        infoButton.tap()
+        
+        let infoViewTitle = app.staticTexts["Zeitbudget Erklärung"]
+        XCTAssertTrue(infoViewTitle.waitForExistence(timeout: 2), "Der InfoView wurde nicht angezeigt.")
+        
+        let backButton = app.buttons["backButton"]
+        XCTAssertTrue(backButton.waitForExistence(timeout: 2.0))
+        backButton.tap()
+        
+        deleteTodoFlow()
+    }
         
     func addTodo() {
         

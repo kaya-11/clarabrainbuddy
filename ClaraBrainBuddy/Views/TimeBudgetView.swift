@@ -53,6 +53,7 @@ struct TimeBudgetView: View {
                                 Image(systemName: "info.circle")
                                     .font(Font.app.tiny)
                             }
+                            .accessibilityIdentifier("infoButton")
                             .sheet(isPresented: $showingInfo) {
                                 InfoView(
                                     title: Localization.info.infoTimebudgetTitle,
@@ -72,6 +73,7 @@ struct TimeBudgetView: View {
                         Slider(value: $energyLevel, in: 1...3, step: 1)
                             .padding(.horizontal,64)
                             .accentColor(Color.theme.accent)
+                            .accessibilityIdentifier("timeBudgetSlider")
                     }
                 }
                 .padding(.bottom, 14)
