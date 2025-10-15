@@ -50,6 +50,14 @@ struct AboutView: View {
                         description: Localization.about.featureSharingDescription
                     )
                     featureSection(
+                        title: Localization.about.featureSearchTitle,
+                        description: Localization.about.featureSearchDescription
+                    )
+                    featureSection(
+                        title: Localization.about.featureTaskSetsTitle,
+                        description: Localization.about.featureTaskSetsDescription
+                    )
+                    featureSection(
                         title: Localization.about.featureNeurodivergentTitle,
                         description: Localization.about.featureNeurodivergentDescription
                     )
@@ -69,14 +77,6 @@ struct AboutView: View {
                         .padding(.top, 4)
                     
                     // Geplante Features
-                    featureSection(
-                        title: Localization.about.featureSearchTitle,
-                        description: Localization.about.featureSearchDescription
-                    )
-                    featureSection(
-                        title: Localization.about.featureTaskSetsTitle,
-                        description: Localization.about.featureTaskSetsDescription
-                    )
                     featureSection(
                         title: Localization.about.featureCategoriesTitle,
                         description: Localization.about.featureCategoriesDescription
