@@ -76,7 +76,7 @@ final class TodaysTodosListUITests: XCTestCase {
         XCTAssertTrue(infoButton.exists, "Der Info-Button wurde nicht gefunden.")
         infoButton.tap()
         
-        let infoViewTitle = app.staticTexts["Zeitbudget Erklärung"]
+        let infoViewTitle = app.staticTexts["Zeitbudget"]
         XCTAssertTrue(infoViewTitle.waitForExistence(timeout: 2), "Der InfoView wurde nicht angezeigt.")
         
         let backButton = app.buttons["backButton"]
