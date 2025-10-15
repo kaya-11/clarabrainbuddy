@@ -190,7 +190,7 @@ struct TodaysListView: View {
                         }
                         .onMove(perform: move)
                     }
-                    .background(Color.background)
+                    .background(Color.theme.background)
                     .frame(width: 400, height: recurringTasks.isEmpty ? 450 : 300)
                     
                     if (!recurringTasks.isEmpty) {

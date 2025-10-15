@@ -155,6 +155,7 @@ struct TodoListView: View {
                         .font(Font.app.listItem)
                     }
                     .onMove(perform: move)
+                    
                 }
                 .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
                 .sheet(isPresented: $showingAddTodo) {
@@ -182,6 +183,9 @@ struct TodoListView: View {
                         dismissButton: .default(Text(Localization.labels.ok))
                     )
                 }
+                
+                Spacer(minLength: 1)
+                
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .backgroundStyle()

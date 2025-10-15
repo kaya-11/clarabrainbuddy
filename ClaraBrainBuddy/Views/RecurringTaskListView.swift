@@ -84,6 +84,8 @@ struct RecurringTaskListView: View {
                             existingTask: task
                         )
                 }
+                
+                Spacer(minLength: 1)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .backgroundStyle()

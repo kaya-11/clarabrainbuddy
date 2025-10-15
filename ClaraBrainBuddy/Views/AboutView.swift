@@ -92,6 +92,7 @@ struct AboutView: View {
                         .italic()
                         .padding(.top, 4)
                 }
+                .sectionSytle()
                 .foregroundColor(Color.theme.primary)
             }
             .backgroundStyle()

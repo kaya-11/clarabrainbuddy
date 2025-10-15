@@ -56,12 +56,14 @@ struct RecurringTaskFormView: View {
                 Section(header: Text(Localization.labels.titleForm)) {
                     TextField(Localization.labels.titleFormTooltip, text: $title)
                 }
+                .sectionSytle()
                 
                 Section(header: Text(Localization.labels.details)) {
                     TextEditor(text: $details)
                         .frame(height: 120)
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray.opacity(0.3)))
                 }
+                .sectionSytle()
                 
                 Section(header: Text(Localization.labels.recurrenceRule)) {
                     Picker(Localization.labels.recurrencePicker, selection: $recurrenceRule) {
@@ -86,12 +88,14 @@ struct RecurringTaskFormView: View {
                         }
                     }
                 }
+                .sectionSytle()
                 
                 Section(header: Text(Localization.labels.estimatedTimeForm)) {
                     TextField(Localization.labels.estimatedTimeTooltip, value: $estimatedTime, formatter: NumberFormatter())
                         .keyboardType(.numberPad)
                         .foregroundColor(Color.theme.primary)
                 }
+                .sectionSytle()
                 
                 Button(action: {
                     saveTask()
@@ -100,6 +104,7 @@ struct RecurringTaskFormView: View {
                 }) {
                     Text(existingTask == nil ? Localization.labels.saveAddTodo : Localization.labels.saveEditTodo)
                 }
+                .sectionSytle()
                 .font(Font.app.button)
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 .accessibilityIdentifier("TaskFormSaveButton")

@@ -17,9 +17,22 @@ struct BackgroundStyle: ViewModifier {
     }
 }
 
+struct InputFieldStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .listRowBackground(Color.theme.listBackground)
+            .foregroundColor(Color.theme.listText)
+            .accentColor(Color.theme.accent)
+    }
+}
+
 extension View {
     func backgroundStyle() -> some View {
         self.modifier(BackgroundStyle())
+    }
+    
+    func sectionSytle() -> some View {
+        self.modifier(InputFieldStyle())
     }
 }
 

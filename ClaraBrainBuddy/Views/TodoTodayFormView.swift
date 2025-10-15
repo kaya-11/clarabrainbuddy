@@ -35,18 +35,21 @@ struct TodoTodayFormView: View {
                     TextField(Localization.labels.titleFormTooltip, text: $title)
                         .foregroundColor(Color.theme.primary)
                 }
+                .sectionSytle()
                 
                 Section(header: Text(Localization.labels.details)) {
                     TextEditor(text: $details)
                         .frame(height: 120)
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray.opacity(0.3)))
                 }
+                .sectionSytle()
                 
                 Section(header: Text(Localization.labels.estimatedTimeForm)) {
                     TextField(Localization.labels.estimatedTimeTooltip, value: $estimatedTime, formatter: NumberFormatter())
                         .keyboardType(.numberPad)
                         .foregroundColor(Color.theme.primary)
                 }
+                .sectionSytle()
                 
                 
                 Button(action: {
@@ -55,6 +58,7 @@ struct TodoTodayFormView: View {
                 }) {
                     Text(Localization.labels.saveAddTodo)
                 }
+                .sectionSytle()
                 .font(Font.app.button)
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 .accessibilityLabel("TodaysTodoFormSaveButton")

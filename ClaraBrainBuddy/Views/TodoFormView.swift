@@ -49,6 +49,7 @@ struct TodoFormView: View {
                         .foregroundColor(Color.theme.primary)
                         .accessibilityIdentifier("TodoFormTitleTextField")
                 }
+                .sectionSytle()
                 
                 Section(header: Text(Localization.labels.details)) {
                     TextEditor(text: $details)
@@ -56,12 +57,14 @@ struct TodoFormView: View {
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray.opacity(0.3)))
                         .accessibilityIdentifier("TodoFormDetailsTextField")
                 }
+                .sectionSytle()
                 
                 Section(header: Text(Localization.labels.dueDate)) {
                     DatePicker(Localization.labels.dueDateTooltip, selection: $dueDate, displayedComponents: .date)
                         .foregroundColor(Color.theme.primary)
                         .accessibilityIdentifier("TodoFormDueDateField")
                 }
+                .sectionSytle()
                 
                 Section(header: Text(Localization.labels.estimatedTimeForm)) {
                     TextField(Localization.labels.estimatedTimeTooltip, value: $estimatedTime, formatter: NumberFormatter())
@@ -69,12 +72,14 @@ struct TodoFormView: View {
                         .foregroundColor(Color.theme.primary)
                         .accessibilityIdentifier("TodoFormEstimatedTimeField")
                 }
+                .sectionSytle()
                 
                 if existingTodo != nil {
                     Section(header: Text(Localization.labels.isDone)) {
                         Toggle(Localization.labels.isDone, isOn: $isDone)
                             .accessibilityIdentifier("TodoFormIsDoneToggle")
                     }
+                    .sectionSytle()
                 }
                 
                 Button(action: {
@@ -87,6 +92,7 @@ struct TodoFormView: View {
                 }) {
                     Text(existingTodo == nil ? Localization.labels.saveAddTodo : Localization.labels.saveEditTodo).accessibilityLabel("TodoFormSaveButton")
                 }
+                .sectionSytle()
                 .font(Font.app.button)
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     

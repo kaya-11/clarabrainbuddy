@@ -33,6 +33,7 @@ struct SettingsView: View {
                     }
                     .accessibilityIdentifier("MaxTodosStepper")
                 }
+                .sectionSytle()
 
                 Section(header: Text(Localization.labels.defaultEstimatedTime)) {
                     Stepper(value: $settingsViewModel.settings.defaultEstimatedTimeForRecurringTasks, in: 1...120) {
@@ -42,6 +43,7 @@ struct SettingsView: View {
                     }
                     .accessibilityIdentifier("EstimatedTimeStepper")
                 }
+                .sectionSytle()
 
                 Section(header: Text(Localization.labels.defaultEnergyLevelCalculation)) {
                     Stepper(value: $settingsViewModel.settings.defaultTimeForEnergyLevelCalculation, in: 1...60) {
@@ -51,6 +53,7 @@ struct SettingsView: View {
                     }
                     .accessibilityIdentifier("EnergyCalcTimeStepper")
                 }
+                .sectionSytle()
 
                 Section(header: Text(Localization.labels.daysAddedForDueDate)) {
                     Stepper(value: $settingsViewModel.settings.daysAddedForDefaultDueDate, in: 1...90) {
@@ -60,6 +63,7 @@ struct SettingsView: View {
                     }
                     .accessibilityIdentifier("DueDateDaysStepper")
                 }
+                .sectionSytle()
                 
                 if !notificationsGranted {
                     Section(header: Text(Localization.labels.dailyReminders)) {
@@ -74,6 +78,7 @@ struct SettingsView: View {
                                 .font(Font.app.tiny)
                         }
                     }
+                    .sectionSytle()
                 } else {
                     Section(header: Text(Localization.labels.dailyReminders)) {
                         DatePicker(Localization.labels.morningReminder,
@@ -82,6 +87,7 @@ struct SettingsView: View {
                         .disabled(!notificationsGranted)
                         .accessibilityIdentifier("MorningReminderPicker")
                     }
+                    .sectionSytle()
                     
                     Section() {
                         DatePicker(Localization.labels.eveningReminder,
@@ -90,6 +96,7 @@ struct SettingsView: View {
                         .disabled(!notificationsGranted)
                         .accessibilityIdentifier("EveningReminderPicker")
                     }
+                    .sectionSytle()
                 }
                 
                 
@@ -97,13 +104,14 @@ struct SettingsView: View {
                     Toggle(Localization.labels.showEmojis, isOn: $settingsViewModel.settings.showEmojis)
                         .accessibilityIdentifier("ShowEmojisToggle")
                 }
+                .sectionSytle()
                 
                 Section() {
                     Toggle(Localization.labels.showDueDate, isOn: $settingsViewModel.settings.showDueDateInSchedule)
                         .accessibilityIdentifier("ShowDueDateInListToggle")
                 }
+                .sectionSytle()
                 
-
                 Button(action: {
                     if !isMorningBeforeEvening() {
                         showTimeValidationAlert = true
@@ -125,6 +133,7 @@ struct SettingsView: View {
                     Text(Localization.labels.save)
                         .foregroundColor(Color.theme.primary)
                 }
+                .sectionSytle()
                 .font(Font.app.button)
                 .accessibilityIdentifier("SaveSettingsButton")
             }

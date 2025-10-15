@@ -26,6 +26,7 @@ struct InfoView: View {
                         .font(Font.app.normal)
                         .padding()
                 }
+                .sectionSytle()
             }
             .backgroundStyle()
             .toolbar {
