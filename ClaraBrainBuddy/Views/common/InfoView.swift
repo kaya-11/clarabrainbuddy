@@ -1,5 +1,5 @@
 //
-//  Views/InfoView.swift
+//  Views/common/InfoView.swift
 //  ClaraBrainBuddy
 //
 //  Created by Karen on 12.10.25.

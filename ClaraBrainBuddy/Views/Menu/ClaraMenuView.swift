@@ -1,5 +1,5 @@
 //
-//  Views/ClaraIconSubmenu.swift
+//  Views/Menu/ClaraIconSubmenu.swift
 //  ClaraBrainBuddy
 //
 //  Created by Karen on 27.04.25.

@@ -1,5 +1,5 @@
 //
-//  Views/CompletedTodosBadge.swift
+//  Views/TodayTodos/CompletedTodosBadge.swift
 //  ClaraBrainBuddy
 //
 //  Created by Karen on 28.09.25.

@@ -1,5 +1,5 @@
 //
-//  Views/TaskResistanceView.swift
+//  Views/common/TaskResistanceView.swift
 //  ClaraBrainBuddy
 //
 //  Created by Karen on 02.10.25.

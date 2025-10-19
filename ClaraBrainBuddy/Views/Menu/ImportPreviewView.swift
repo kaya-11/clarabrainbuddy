@@ -1,5 +1,5 @@
 //
-//  Views/ImportPreviewView.swift
+//  Views/Menu/ImportPreviewView.swift
 //  ClaraBrainBuddy
 //
 //  Created by Karen on 01.08.25.

@@ -1,5 +1,5 @@
 //
-//  Views/CalendarView.swift
+//  Views/Menu/CalendarView.swift
 //  ClaraBrainBuddy
 //
 //  Created by Karen on 01.06.25.

@@ -1,5 +1,5 @@
 //
-//  Views/SettingsView.swift
+//  Views/Menu/SettingsView.swift
 //  ClaraBrainBuddy
 //
 //  Created by Karen on 27.04.25.
