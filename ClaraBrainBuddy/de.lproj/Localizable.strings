@@ -78,7 +78,7 @@
 "no.valid.todos" = "Keine gültigen Todos zum Importieren";
 "due.label" = "Bis";
 "clone.label" = "Duplikat";
-"share.details.label" = "Teile Details";
+"share.details.label" = "Teile Todo";
 "properties.max.todos.for.today" = "Max Todos für Heute";
 "properties.default.estimated.time" = "Standardgeschätzte Zeit für wiederkehrende Aufgaben (in Minuten)";
 "properties.default.energylevel.calculation" = "Standardzeit für die Berechnung des Energieniveaus (in Minuten)";
