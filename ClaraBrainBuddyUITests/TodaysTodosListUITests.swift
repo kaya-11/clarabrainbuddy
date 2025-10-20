@@ -38,6 +38,8 @@ final class TodaysTodosListUITests: XCTestCase {
         addTodo()
         markAsDone()
         
+        sleep(2)
+        
         let image = app.images["CompletedTodosBadgeCheckmarkCircleFill"]
         XCTAssertTrue(image.exists, "Das Badge sollte angezeigt werden, wenn count = 0")
         

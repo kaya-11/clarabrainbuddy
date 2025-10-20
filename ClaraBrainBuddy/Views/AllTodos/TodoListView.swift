@@ -45,52 +45,17 @@ struct TodoListView: View {
         NavigationView {
             VStack {
                 List {
-                    let showEmojis: Bool = settingsViewModel.settings.showEmojis
-                    
                     ForEach(filteredTodos, id: \.objectID) { (todo: Todo) in
-                        let isSelectedForToday: Bool = todo.selectedForToday
-                        let isDone: Bool = todo.isDone
-                        let title: String = todo.title
-                        let details: String = todo.details ?? ""
-                        let dueDate: Date = todo.dueDate
-                        let isOverdue: Bool = todo.isOverdue
-                        let isDueSoon: Bool = todo.isDueSoon
-                        let resistance: Int64 = todo.resistance
-                        
-                        VStack(alignment: .leading, spacing: 4) {
-                            HStack {
-                                if isDone {
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .foregroundColor(Color.theme.green)
-                                }  else if showEmojis {
-                                    if isSelectedForToday {
-                                        Text("🐿️")
-                                    } else if isOverdue {
-                                        Text("🦥")
-                                    } else if isDueSoon {
-                                        Text("🐶")
-                                    }
-                                }
-                                Text(title + (todo.isOverdue && !isSelectedForToday ? " ‼️" : ""))
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            
-                           if !details.isEmpty {
-                                Text(String(details.prefix(20)) + (details.count > 20 ? "..." : ""))
-                                    .font(Font.app.tiny)
-                                    .foregroundColor(Color.theme.secondary)
-                            }
-                            
-                            Text("\(Localization.labels.due): \(dueDate, formatter: StyleUtils.dateFormatter)")
-                                .font(Font.app.tiny)
-                                .foregroundColor(Color.theme.secondary)
-                            
-                            if Int(resistance) > 0 {
-                                TaskResistanceView(resistance: Int(resistance))
-                            }
-                        }
-                        .strikethrough(isDone, color: Color.theme.primary)
-                        .bold(isSelectedForToday)
+                        TodoListEntryView(
+                            todoViewModel: todoViewModel,
+                            todo: todo,
+                            showAsSelectedForToday: todo.selectedForToday,
+                            withEmojis: true,
+                            showEmojis: settingsViewModel.settings.showEmojis,
+                            showDueDate: true
+                        )
+                        .strikethrough(todo.isDone, color: Color.theme.primary)
+                        .bold( todo.selectedForToday)
                         .onTapGesture(count: 2) {
                             selectedTodo = todo
                         }
@@ -109,7 +74,7 @@ struct TodoListView: View {
                             
                             Button {
                                 let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
-                                if todoViewModel.getTotalTodaysTodosCountNotDone() >= maxCountOfTodosForToday && !isSelectedForToday {
+                                if todoViewModel.getTotalTodaysTodosCountNotDone() >= maxCountOfTodosForToday && !todo.selectedForToday {
                                     showErrorMessage = true
                                 } else {
                                     todoViewModel.selectForToday(todo)
@@ -150,7 +115,7 @@ struct TodoListView: View {
                             .tint(.gray)
                             
                         }
-                        .foregroundColor(StyleUtils.getTextColor(todo: todo, isSelectedForToday: isSelectedForToday))
+                        .foregroundColor(StyleUtils.getTextColor(todo: todo, isSelectedForToday: todo.selectedForToday))
                         .listRowBackground(Color.theme.listBackground)
                         .font(Font.app.listItem)
                     }

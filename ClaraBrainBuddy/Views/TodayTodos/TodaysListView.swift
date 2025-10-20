@@ -85,53 +85,22 @@ struct TodaysListView: View {
                     
                     List {
                         
-                        let showEmojis: Bool = settingsViewModel.settings.showEmojis
-                        let showDueDate: Bool = settingsViewModel.settings.showDueDateInSchedule
-                        
                         ForEach(todayTodos, id: \.objectID) { (todayTodo: TodayTodo) in
                             let todo: Todo = todayTodo.todo
                                 
-                            let isDone: Bool = todo.isDone
-                            let title: String = todo.title
-                            let details: String = todo.details ?? ""
-                            let dueDate: Date = todo.dueDate
-                            let resistance: Int64 = todo.resistance
-                               
-                            VStack(alignment: .leading, spacing: 4) {
-                            
-                                HStack {
-                                    if isDone {
-                                        Image(systemName: "checkmark.circle.fill")
-                                            .foregroundColor(Color.theme.green)
-                                    } else if showEmojis && todo.isOverdue {
-                                       Text("🦥")
-                                    }
-                                    Text(title + (todo.isOverdue ? " ‼️" : ""))
-                                        .accessibilityValue(isDone ? "done" : "active")
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                if !details.isEmpty {
-                                    Text(String(details.prefix(20)) + (details.count > 20 ? "..." : ""))
-                                        .font(Font.app.tiny)
-                                        .foregroundColor(Color.theme.secondary)
-                                }
-                                
-                                if showDueDate {
-                                    Text("\(Localization.labels.due): \(dueDate, formatter: StyleUtils.dateFormatter)")
-                                        .font(Font.app.tiny)
-                                        .foregroundColor(Color.theme.secondary)
-                                }
-                                
-                                if Int(resistance) > 0 {
-                                    TaskResistanceView(resistance: Int(resistance))
-                                }
-                            }
+                            TodoListEntryView(
+                                todoViewModel: todoViewModel,
+                                todo: todo,
+                                showAsSelectedForToday: false,
+                                withEmojis: false,
+                                showEmojis: settingsViewModel.settings.showEmojis,
+                                showDueDate: settingsViewModel.settings.showDueDateInSchedule
+                            )
                             .onTapGesture(count: 2) {
                                 selectedTodo = todo
                             }
-                            .strikethrough(isDone, color: Color.theme.primary)
-                            .italic(isDone)
+                            .strikethrough(todo.isDone, color: Color.theme.primary)
+                            .italic(todo.isDone)
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 
                                 Button(role: .destructive) {
