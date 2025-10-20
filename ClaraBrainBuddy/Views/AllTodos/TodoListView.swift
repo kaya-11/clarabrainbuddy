@@ -142,11 +142,7 @@ struct TodoListView: View {
                     
                 }
                 .alert(isPresented: $showErrorMessage) {
-                    Alert(
-                        title: Text(Localization.messages.limitExeeded),
-                        message: Text(String(format: Localization.messages.limitExeededMessage, "\(settingsViewModel.settings.maxTodosForToday)")),
-                        dismissButton: .default(Text(Localization.labels.ok))
-                    )
+                    LimitExceededAlert(maxTodos: settingsViewModel.settings.maxTodosForToday).alert()
                 }
                 
                 Spacer(minLength: 1)
