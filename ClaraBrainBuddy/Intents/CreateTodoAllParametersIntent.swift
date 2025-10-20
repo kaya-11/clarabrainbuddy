@@ -41,11 +41,16 @@ struct CreateTodoAllParamsIntent: AppIntent {
         
         let isDueToday = Calendar.current.isDate(intentDueDate, inSameDayAs: Date())
         
+        var intentEstimatedTime : Int64? = nil
+        if estimatedTime != nil {
+            intentEstimatedTime = Int64(estimatedTime ?? 0)
+        }
+        
         if isDueToday {
             TodoViewModel.shared.addNewTodoForToday(
                 title: title,
                 details: description ?? "",
-                estimatedTime: Int64(estimatedTime!),
+                estimatedTime: intentEstimatedTime,
                 recurringTask: nil
             )
         } else {
@@ -53,7 +58,7 @@ struct CreateTodoAllParamsIntent: AppIntent {
                 title: title,
                 details: description ?? "",
                 dueDate: intentDueDate,
-                estimatedTime: Int64(estimatedTime!)
+                estimatedTime: intentEstimatedTime
             )
         }
         
