@@ -45,7 +45,7 @@ final class TodaysTodosListUITests: XCTestCase {
         
         image.press(forDuration: 1.0)
         
-        let tooltipText = app.staticTexts["1 Todo(s) erledigt!"]
+        let tooltipText = app.staticTexts["1 Aufgabe(n) erledigt!"]
         XCTAssertTrue(tooltipText.waitForExistence(timeout: 3.0), "Der Tooltip sollte nach Long-Press angezeigt werden")
 
         XCTAssertTrue(app.staticTexts["Benötigte Zeit: 15m"].exists, "Der Tooltip sollte die korrekte Zeit anzeigen")

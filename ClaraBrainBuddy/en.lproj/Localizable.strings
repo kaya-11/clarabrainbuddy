@@ -81,8 +81,8 @@
 "share.details.label" = "Share task";
 "properties.max.todos.for.today" = "Max Tasks for Today";
 "properties.default.estimated.time" = "Default Estimated Time for Recurring Tasks (minutes)";
-"properties.default.energylevel.calculation" = "Default Time for Energy Level Calculation (minutes)";
-"properties.days.added.for.duedate" = "Days to add for Default Due Date";
+"properties.default.energylevel.calculation" = "Default Time for Time Budget Calculation (minutes)";
+"properties.days.added.for.duedate" = "Default completion time (days)";
 "properties.display.options" = "Display Options";
 "properties.show.emojis" = "Show Emojis";
 "properties.show.duedate" = "Show Due Date in Today's Schedule";
