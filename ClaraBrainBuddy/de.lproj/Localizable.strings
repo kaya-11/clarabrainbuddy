@@ -86,6 +86,8 @@
 "properties.display.options" = "Anzeigeoptionen";
 "properties.show.emojis" = "Zeige Emojis";
 "properties.show.duedate" = "Zeige Fälligkeit im Tagesplan";
+"properties.show.resistance.today" = "Zeige Widerstand gegen Aufgaben (Heute)";
+"properties.show.resistance.alltodos" = "Zeige Widerstand gegen Aufgaben (alle Aufgaben)";
 "open.calendar" = "Öffne Kalender";
 "export.all.label" = "Exportiere alle Aufgaben";
 "todos.done.label" = "Aufgabe(n) erledigt";

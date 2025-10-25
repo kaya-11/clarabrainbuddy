@@ -58,8 +58,7 @@ struct TodoTodayFormView: View {
                 }) {
                     Text(Localization.labels.saveAddTodo)
                 }
-                .sectionSytle()
-                .font(Font.app.button)
+                .buttonStyle()
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 .accessibilityLabel("TodaysTodoFormSaveButton")
                     

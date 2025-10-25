@@ -94,7 +94,8 @@ struct TodaysListView: View {
                                 showAsSelectedForToday: false,
                                 withEmojis: false,
                                 showEmojis: settingsViewModel.settings.showEmojis,
-                                showDueDate: settingsViewModel.settings.showDueDateInSchedule
+                                showDueDate: settingsViewModel.settings.showDueDateInSchedule,
+                                showResistance: settingsViewModel.settings.showResistanceInTodayView
                             )
                             .onTapGesture(count: 2) {
                                 selectedTodo = todo

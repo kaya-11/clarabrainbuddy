@@ -134,14 +134,10 @@ final class SettingsViewUITests: XCTestCase {
         XCTAssertNotEqual(initialShowEmojisValue, toggledShowEmojisValue, "Toggling Show Emojis should change its value")
         
         // --- Test Show Due Date Toggle ---
-        
-        // Scrollen bis der Button sichtbar ist (Hilfskontrukt)
-        let saveButton = app.buttons["SaveSettingsButton"]
-        while !saveButton.isHittable {
+        let showDueDateToggle = app.switches["ShowDueDateInListToggle"]
+        while !showDueDateToggle.isHittable {
             app.swipeUp()
         }
-
-        let showDueDateToggle = app.switches["ShowDueDateInListToggle"]
         
         XCTAssertTrue(showDueDateToggle.exists, "Show Due Date toggle should exist")
 
@@ -154,6 +150,49 @@ final class SettingsViewUITests: XCTestCase {
         let toggledShowDueDateValue = showDueDateToggle.value as? String
         
         XCTAssertNotEqual(initialShowDueDateValue, toggledShowDueDateValue, "Toggling Show Due Date should change its value")
+        
+        // --- Test Show View Resistance Today Toggle ---
+        let showResistanceInTodayViewToggle = app.switches["ShowResistanceInTodayViewToggle"]
+        while !showResistanceInTodayViewToggle.isHittable {
+            app.swipeUp()
+        }
+        
+        XCTAssertTrue(showResistanceInTodayViewToggle.exists, "Show resistance in today view toggle should exist")
+
+        let initialShowResistanceInTodayViewValue = showResistanceInTodayViewToggle.value as? String
+        
+        showResistanceInTodayViewToggle.switches.firstMatch.tap()
+
+        sleep(2)
+        
+        let toggledShowResistanceInTodayViewValue = showResistanceInTodayViewToggle.value as? String
+        
+        XCTAssertNotEqual(initialShowResistanceInTodayViewValue, toggledShowResistanceInTodayViewValue, "Toggling Show View Resistance in Today View should change its value")
+
+        // --- Test Show View Resistance All Task Toggle ---
+        let showResistanceInAllTaskViewToggle = app.switches["ShowResistanceInAllTodosViewToggle"]
+        while !showResistanceInAllTaskViewToggle.isHittable {
+            app.swipeUp()
+        }
+        
+        XCTAssertTrue(showResistanceInAllTaskViewToggle.exists, "Show resistance in All task view toggle should exist")
+
+        let initialShowResistanceInAllTaskViewValue = showResistanceInAllTaskViewToggle.value as? String
+        
+        showResistanceInAllTaskViewToggle.switches.firstMatch.tap()
+
+        sleep(2)
+        
+        let toggledShowResistanceInAllTaskViewValue = showResistanceInAllTaskViewToggle.value as? String
+        
+        XCTAssertNotEqual(initialShowResistanceInAllTaskViewValue, toggledShowResistanceInAllTaskViewValue, "Toggling Show View Resistance in All Task View should change its value")
+
+        
+        // Scrollen bis der Button sichtbar ist (Hilfskontrukt)
+        let saveButton = app.buttons["SaveSettingsButton"]
+        while !saveButton.isHittable {
+            app.swipeUp()
+        }
 
         XCTAssertTrue(saveButton.exists)
         saveButton.tap()
@@ -166,6 +205,7 @@ final class SettingsViewUITests: XCTestCase {
         XCTAssertTrue(settingsButton.waitForExistence(timeout: 2))
         settingsButton.tap()
         
+        // show emojis
         XCTAssertTrue(showEmojisToggle.exists, "Show Emoji toggle should exist")
 
         let reopenedSettingsShowEmojisValue = showEmojisToggle.value as? String
@@ -174,6 +214,7 @@ final class SettingsViewUITests: XCTestCase {
         
         showEmojisToggle.switches.firstMatch.tap()
         
+        // show due date
         XCTAssertTrue(showDueDateToggle.exists, "Show Due Date toggle should exist")
 
         let reopenedSettingsShowDueDateValue = showDueDateToggle.value as? String
@@ -181,6 +222,24 @@ final class SettingsViewUITests: XCTestCase {
         XCTAssertEqual(toggledShowDueDateValue, reopenedSettingsShowDueDateValue, "Toggle Show Due Date should have same Value after repoeniung Settings View")
         
         showDueDateToggle.switches.firstMatch.tap()
+        
+        // show resistance in today view
+        while !showResistanceInTodayViewToggle.isHittable {
+            app.swipeUp()
+        }
+        
+        let reopenedSettingsShowResistanceInTodayViewValue = showResistanceInTodayViewToggle.value as? String
+        
+        XCTAssertEqual(toggledShowResistanceInTodayViewValue, reopenedSettingsShowResistanceInTodayViewValue, "Toggle show resistance in today view should have same Value after repoeniung Settings View")
+        
+        showResistanceInTodayViewToggle.switches.firstMatch.tap()
+        
+        // show resistance in today view
+        let reopenedSettingsShowResistanceInAllTaskViewValue = showResistanceInAllTaskViewToggle.value as? String
+        
+        XCTAssertEqual(toggledShowResistanceInAllTaskViewValue, reopenedSettingsShowResistanceInAllTaskViewValue, "Toggle show resistance in all task view should have same Value after repoeniung Settings View")
+        
+        showResistanceInAllTaskViewToggle.switches.firstMatch.tap()
         
         // Scrollen bis der Button sichtbar ist
         while !saveButton.isHittable {

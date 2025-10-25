@@ -33,6 +33,8 @@ class MockSettingsManager: SettingsManager {
             daysAddedForDefaultDueDate: 3,
             showEmojis: true,
             showDueDateInSchedule: true,
+            showResistanceInTodayView: false,
+            showResistanceInAllTodosView: true,
             morningNotification: morningDate,
             eveningNotification: eveningDate
         )

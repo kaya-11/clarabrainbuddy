@@ -52,7 +52,8 @@ struct TodoListView: View {
                             showAsSelectedForToday: todo.selectedForToday,
                             withEmojis: true,
                             showEmojis: settingsViewModel.settings.showEmojis,
-                            showDueDate: true
+                            showDueDate: true,
+                            showResistance: settingsViewModel.settings.showResistanceInAllTodosView
                         )
                         .strikethrough(todo.isDone, color: Color.theme.primary)
                         .bold( todo.selectedForToday)

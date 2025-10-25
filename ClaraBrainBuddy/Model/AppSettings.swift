@@ -14,6 +14,8 @@ struct AppSettings: Codable, Equatable {
     var daysAddedForDefaultDueDate: Int
     var showEmojis: Bool
     var showDueDateInSchedule: Bool
+    var showResistanceInTodayView: Bool
+    var showResistanceInAllTodosView: Bool
     var morningNotification: Date
     var eveningNotification: Date
 }

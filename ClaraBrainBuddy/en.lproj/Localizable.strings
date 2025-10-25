@@ -86,6 +86,8 @@
 "properties.display.options" = "Display Options";
 "properties.show.emojis" = "Show Emojis";
 "properties.show.duedate" = "Show Due Date in Today's Schedule";
+"properties.show.resistance.today" = "Show resistance to tasks (today)";
+"properties.show.resistance.alltodos" = "Show resistance to tasks (all tasks)";
 "open.calendar" = "Open Calendar";
 "export.all.label" = "Export All Tasks";
 "todos.done.label" = "Task(s) done";

@@ -105,10 +105,22 @@ struct SettingsView: View {
                         .accessibilityIdentifier("ShowEmojisToggle")
                 }
                 .sectionSytle()
-                
+
                 Section() {
                     Toggle(Localization.labels.showDueDate, isOn: $settingsViewModel.settings.showDueDateInSchedule)
                         .accessibilityIdentifier("ShowDueDateInListToggle")
+                }
+                .sectionSytle()
+                
+                Section() {
+                    Toggle(Localization.labels.showResistanceInTodaysView, isOn: $settingsViewModel.settings.showResistanceInTodayView)
+                        .accessibilityIdentifier("ShowResistanceInTodayViewToggle")
+                }
+                .sectionSytle()
+
+                Section() {
+                    Toggle(Localization.labels.showResistanceInAllTodosView, isOn: $settingsViewModel.settings.showResistanceInAllTodosView)
+                        .accessibilityIdentifier("ShowResistanceInAllTodosViewToggle")
                 }
                 .sectionSytle()
                 
@@ -133,8 +145,7 @@ struct SettingsView: View {
                     Text(Localization.labels.save)
                         .foregroundColor(Color.theme.primary)
                 }
-                .sectionSytle()
-                .font(Font.app.button)
+                .buttonStyle()
                 .accessibilityIdentifier("SaveSettingsButton")
             }
             .backgroundStyle()

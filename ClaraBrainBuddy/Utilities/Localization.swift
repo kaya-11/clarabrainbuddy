@@ -95,6 +95,8 @@ struct Localization {
         let displayOptions = NSLocalizedString("properties.display.options", comment: "Display Options")
         let showEmojis = NSLocalizedString("properties.show.emojis", comment: "Show Emojis")
         let showDueDate = NSLocalizedString("properties.show.duedate", comment: "Show DueDate in List")
+        let showResistanceInTodaysView = NSLocalizedString("properties.show.resistance.today", comment: "Show Resistance in Today View")
+        let showResistanceInAllTodosView = NSLocalizedString("properties.show.resistance.alltodos", comment: "Show Resistance in All Todos View")
         
         let openCalendar = NSLocalizedString("open.calendar", comment: "Open Calendar")
         let about = NSLocalizedString("about.label", comment: "About")
