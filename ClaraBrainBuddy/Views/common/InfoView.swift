@@ -10,23 +10,48 @@ import SwiftUI
 struct InfoView: View {
     @Environment(\.presentationMode) var presentationMode
     
+    @Binding var isPresented: Bool
+    
     let title: String
     let explanationText: String
-    let buttonText: String
+    let buttonText: String?
+    let buttonAction: (() -> Void)?
 
     var body: some View {
         NavigationView {
             Form {
                 VStack {
-                    Text(title)
-                        .font(Font.app.title)
-                        .padding()
+                    VStack {
+                        Text(title)
+                            .font(Font.app.title)
+                            .padding()
+                            .accessibilityIdentifier("Title")
+                        
+                        Text(explanationText)
+                            .font(Font.app.normal)
+                            .padding()
+                            .accessibilityIdentifier("Explanation")
+                        
+                    }
+                    .sectionSytle()
                     
-                    Text(explanationText)
-                        .font(Font.app.normal)
+                    if let buttonText = buttonText, let buttonAction = buttonAction {
+                        Button(action: {
+                            buttonAction()
+                            isPresented = false
+                        }) {
+                            Text(buttonText)
+                                .font(Font.app.button)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.theme.listBackground)
+                                .foregroundColor(Color.theme.listText)
+                                .cornerRadius(8)
+                        }
+                        .buttonStyle()
                         .padding()
+                    }
                 }
-                .sectionSytle()
             }
             .backgroundStyle()
             .toolbar {

@@ -217,6 +217,7 @@ struct TodaysListView: View {
                     let (count, totalTime) = todoViewModel.calculateCompletedTodaysTodos(defaultEstimatedTime: defaultEstimatedTime)
 
                     CompletedTodosBadge(
+                        todoViewModel: todoViewModel,
                         count: count,
                         totalTime: totalTime
                     )

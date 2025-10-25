@@ -5,52 +5,43 @@
 //  Created by Karen on 28.09.25.
 //
 
-
 import SwiftUI
 
 struct CompletedTodosBadge: View {
+    
+    @ObservedObject var todoViewModel: TodoViewModel
+    
     let count: Int
     let totalTime: Int64
     
-    @State private var showingTooltip = false
     
-
+    @State private var showingInfoView = false
+    
     var body: some View {
         
         return Group {
             if (count > 0) {
                 ZStack(alignment: .topTrailing) {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(Color.theme.accent)
-                        .onLongPressGesture {
-                            withAnimation(.easeInOut(duration: 0.2)) {
-                                showingTooltip = true
-                            }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                withAnimation(.easeInOut(duration: 0.2)) {
-                                    showingTooltip = false
-                                }
-                            }
+                    Button(action: {
+                        showingInfoView = true
+                    }) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(Color.theme.accent)
                     }
+                    .foregroundColor(Color.theme.accent)
                     .accessibilityIdentifier("CompletedTodosBadgeCheckmarkCircleFill")
-                }
-                .overlay(
-                    ZStack {
-                        if showingTooltip {
-                            VStack(alignment: .leading, spacing: 0) {
-                                Text("\(count) \(Localization.labels.todosDone)!")
-                                Text("\(Localization.labels.timeNeeded): \(formattedTime(totalTime))")
+                    .sheet(isPresented: $showingInfoView) {
+                        InfoView(
+                            isPresented: $showingInfoView,
+                            title: Localization.labels.todosDoneTitle,
+                            explanationText: "\(count) \(Localization.labels.todosDone)! \n\(Localization.labels.timeNeeded): \(formattedTime(totalTime))",
+                            buttonText: Localization.labels.deleteCompletedTodos,
+                            buttonAction: {
+                                todoViewModel.deleteCompletedTodos()
                             }
-                            .font(Font.app.tiny)
-                            .padding(4)
-                            .frame(width: 150, height: 60)
-                            .background(Color.theme.listBackground)
-                            .cornerRadius(8)
-                            .offset(x: 75, y: 45)  // Position relativ zum Icon
-                            .transition(.opacity)
-                        }
+                        )
                     }
-                )
+                }
             } else {
                 Image(systemName: "checkmark.circle")
                     .foregroundColor(Color.theme.accent)

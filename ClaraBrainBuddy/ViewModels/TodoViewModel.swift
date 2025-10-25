@@ -369,6 +369,21 @@ class TodoViewModel: ObservableObject {
         return (completedTodos.count, totalTime)
     }
     
+    func deleteCompletedTodos() {
+        let completedTodayTodos = todayTodos.filter { $0.todo.isDone }
+
+        for todayTodo in completedTodayTodos {
+            
+            let todo = todayTodo.todo
+            
+            context.delete(todayTodo)
+
+            context.delete(todo)
+        }
+
+        saveContext()
+    }
+    
     private func calculateEstimatedTime(todos: [Todo], defaultEstimatedTime: Int) -> Int64 {
         let totalTime: Int64 = todos.reduce(0) { result, todoItem in
             let baseTime = Double(todoItem.estimatedTime ?? Int64(defaultEstimatedTime))
