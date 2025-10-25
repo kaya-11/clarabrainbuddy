@@ -90,8 +90,10 @@
 "properties.show.resistance.alltodos" = "Show resistance to tasks (all tasks)";
 "open.calendar" = "Open Calendar";
 "export.all.label" = "Export All Tasks";
+"todos.done.title" = "Completed tasks";
 "todos.done.label" = "Task(s) done";
 "time.needed.label" = "Time needed";
+"todos.done.delete.all" = "Delete all completed tasks";
 "error.filenotfound" = "File not found.";
 "error.emptyfile" = "Empty File.";
 "error.invalidjson" = "Invalid format.";

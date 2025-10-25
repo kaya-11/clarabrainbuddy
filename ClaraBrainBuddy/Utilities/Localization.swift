@@ -83,6 +83,7 @@ struct Localization {
         let editTask = NSLocalizedString("edit.task.label", comment: "Edit Recurring Task")
         let addTask = NSLocalizedString("add.task.label", comment: "Add New Recurring Task")
         
+        let todosDoneTitle = NSLocalizedString("todos.done.title", comment: "Completed tasks")
         let todosDone = NSLocalizedString("todos.done.label", comment: "Todo(s) done")
         let timeNeeded = NSLocalizedString("time.needed.label", comment: "Time needed")
         
@@ -119,6 +120,7 @@ struct Localization {
         let cancel = NSLocalizedString("cancel.label", comment: "Abbrechen")
         let importing = NSLocalizedString("import.label", comment: "Importieren")
         let previewImport = NSLocalizedString("import.preview.label", comment: "Vorschau des Imports")
+        let deleteCompletedTodos = NSLocalizedString("todos.done.delete.all", comment: "Delete all completed tasks")
         
         let shareDetails = NSLocalizedString("share.details.label", comment: "Share details")
         let exportAll = NSLocalizedString("export.all.label", comment: "Export All Todos")

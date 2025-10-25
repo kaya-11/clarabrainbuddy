@@ -56,9 +56,11 @@ struct TimeBudgetView: View {
                             .accessibilityIdentifier("infoButton")
                             .sheet(isPresented: $showingInfo) {
                                 InfoView(
+                                    isPresented: $showingInfo,
                                     title: Localization.info.infoTimebudgetTitle,
                                     explanationText: Localization.info.infoTimebudgetText,
-                                    buttonText: Localization.labels.ok
+                                    buttonText: nil,
+                                    buttonAction: nil
                                 )
                             }
                             

@@ -7,6 +7,7 @@
 
 
 import XCTest
+import SwiftUI
 @testable import ClaraBrainBuddy
 
 final class TodaysTodosListUITests: XCTestCase {
@@ -40,17 +41,34 @@ final class TodaysTodosListUITests: XCTestCase {
         
         sleep(2)
         
-        let image = app.images["CompletedTodosBadgeCheckmarkCircleFill"]
-        XCTAssertTrue(image.exists, "Das Badge sollte angezeigt werden, wenn count = 0")
+        let imageFilled = app.buttons["CompletedTodosBadgeCheckmarkCircleFill"]
+        XCTAssertTrue(imageFilled.exists, "Das Badge sollte angezeigt werden, wenn count = 0")
         
-        image.press(forDuration: 1.0)
+        imageFilled.press(forDuration: 1.0)
         
-        let tooltipText = app.staticTexts["1 Aufgabe(n) erledigt!"]
-        XCTAssertTrue(tooltipText.waitForExistence(timeout: 3.0), "Der Tooltip sollte nach Long-Press angezeigt werden")
+        let deleteButton = app.buttons["Alle erledigte Aufgaben löschen"]
+        XCTAssertTrue(deleteButton.waitForExistence(timeout: 2.0), "Der Infoview sollte angezeigt werden")
 
-        XCTAssertTrue(app.staticTexts["Benötigte Zeit: 15m"].exists, "Der Tooltip sollte die korrekte Zeit anzeigen")
+        let infoText = app.staticTexts["Explanation"]
+        XCTAssertTrue(infoText.waitForExistence(timeout: 2), "Info-Text sollte existieren")
 
-        deleteTodoFlow()
+        let label = infoText.label
+        XCTAssertTrue(label.contains("1 Aufgabe(n) erledigt"), "Sollte '1 Aufgabe(n) erledigt' enthalten")
+        XCTAssertTrue(label.contains("Benötigte Zeit: 15m"), "Sollte 'Benötigt Zeit:' enthalten")
+
+        let backButton = app.buttons["backButton"]
+        XCTAssertTrue(backButton.waitForExistence(timeout: 2.0))
+        
+        backButton.tap()
+        
+        imageFilled.press(forDuration: 1.0)
+        
+        XCTAssertTrue(deleteButton.waitForExistence(timeout: 2.0), "Der Infoview sollte angezeigt werden")
+        
+        deleteButton.tap()
+        
+        let imageNotFilled = app.images["CompletedTodosBadgeCheckmarkCircle"]
+        XCTAssertTrue(imageNotFilled.exists, "Das Fragezeichen Image (ungefüllt) sollte angezeigt werden, wenn count = 0")
     }
     
     func testTimeBudgetSlider() {
