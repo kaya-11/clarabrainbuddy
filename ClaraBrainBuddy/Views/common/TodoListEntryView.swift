@@ -19,6 +19,8 @@ struct TodoListEntryView: View {
     let showEmojis: Bool
     let showDueDate: Bool
     
+    let showResistance: Bool
+    
     @State private var viewID = UUID()
 
     var body: some View {
@@ -65,7 +67,7 @@ struct TodoListEntryView: View {
                     .foregroundColor(Color.theme.secondary)
             }
             
-            if Int(resistance) > 0 {
+            if showResistance && Int(resistance) > 0 {
                 TaskResistanceView(resistance: Int(resistance))
             }
         }

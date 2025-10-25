@@ -18,5 +18,6 @@ struct FontList {
     let button : Font = Font.system(size: 16, weight: .bold, design: .default)
     let title : Font = Font.system(size: 24, weight: .bold, design: .default)
     let normal : Font = Font.system(size: 16, weight: .regular, design: .default)
+    let section : Font = Font.system(size: 14, weight: .regular, design: .default)
     let tiny : Font = Font.system(size: 12, weight: .regular, design: .default)
 }

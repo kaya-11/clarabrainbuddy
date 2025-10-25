@@ -92,8 +92,7 @@ struct TodoFormView: View {
                 }) {
                     Text(existingTodo == nil ? Localization.labels.saveAddTodo : Localization.labels.saveEditTodo).accessibilityLabel("TodoFormSaveButton")
                 }
-                .sectionSytle()
-                .font(Font.app.button)
+                .buttonStyle()
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     
             }

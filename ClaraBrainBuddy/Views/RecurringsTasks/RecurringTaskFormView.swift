@@ -104,8 +104,7 @@ struct RecurringTaskFormView: View {
                 }) {
                     Text(existingTask == nil ? Localization.labels.saveAddTodo : Localization.labels.saveEditTodo)
                 }
-                .sectionSytle()
-                .font(Font.app.button)
+                .buttonStyle()
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 .accessibilityIdentifier("TaskFormSaveButton")
             }

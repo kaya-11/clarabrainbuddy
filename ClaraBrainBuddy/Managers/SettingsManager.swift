@@ -36,6 +36,8 @@ class SettingsManager {
             daysAddedForDefaultDueDate: 14,
             showEmojis: true,
             showDueDateInSchedule: true,
+            showResistanceInTodayView: false,
+            showResistanceInAllTodosView: true,
             morningNotification: morningDate,
             eveningNotification: eveningDate
         )
