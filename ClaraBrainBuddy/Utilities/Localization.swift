@@ -94,7 +94,7 @@ struct Localization {
         let defaultEnergyLevelCalculation = NSLocalizedString("properties.default.energylevel.calculation", comment: "Default Time for Energy Level Calculation (minutes)")
         let daysAddedForDueDate = NSLocalizedString("properties.days.added.for.duedate", comment: "Days to add for Default Due Date")
         let displayOptions = NSLocalizedString("properties.display.options", comment: "Display Options")
-        let showEmojis = NSLocalizedString("properties.show.emojis", comment: "Show Emojis")
+        let showSymbols = NSLocalizedString("properties.show.symbols", comment: "Show Symbols")
         let showDueDate = NSLocalizedString("properties.show.duedate", comment: "Show DueDate in List")
         let showResistanceInTodaysView = NSLocalizedString("properties.show.resistance.today", comment: "Show Resistance in Today View")
         let showResistanceInAllTodosView = NSLocalizedString("properties.show.resistance.alltodos", comment: "Show Resistance in All Todos View")

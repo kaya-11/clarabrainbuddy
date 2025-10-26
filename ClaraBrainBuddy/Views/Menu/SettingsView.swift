@@ -101,8 +101,8 @@ struct SettingsView: View {
                 
                 
                 Section(header: Text(Localization.labels.displayOptions)) {
-                    Toggle(Localization.labels.showEmojis, isOn: $settingsViewModel.settings.showEmojis)
-                        .accessibilityIdentifier("ShowEmojisToggle")
+                    Toggle(Localization.labels.showSymbols, isOn: $settingsViewModel.settings.showSymbols)
+                        .accessibilityIdentifier("ShowSymbolsToggle")
                 }
                 .sectionSytle()
 

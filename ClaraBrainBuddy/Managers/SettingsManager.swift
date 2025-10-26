@@ -34,7 +34,7 @@ class SettingsManager {
             defaultEstimatedTimeForRecurringTasks: 15,
             defaultTimeForEnergyLevelCalculation: 15,
             daysAddedForDefaultDueDate: 14,
-            showEmojis: true,
+            showSymbols: true,
             showDueDateInSchedule: true,
             showResistanceInTodayView: false,
             showResistanceInAllTodosView: true,

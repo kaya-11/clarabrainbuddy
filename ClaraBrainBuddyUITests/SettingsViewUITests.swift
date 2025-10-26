@@ -119,19 +119,19 @@ final class SettingsViewUITests: XCTestCase {
         XCTAssertTrue(settingsButton.waitForExistence(timeout: 2))
         settingsButton.tap()
 
-        // --- Test Show Emojis Toggle ---
-        let showEmojisToggle = app.switches["ShowEmojisToggle"]
-        XCTAssertTrue(showEmojisToggle.waitForExistence(timeout: 2))
+        // --- Test Show Symbols Toggle ---
+        let showSymbolsToggle = app.switches["ShowSymbolsToggle"]
+        XCTAssertTrue(showSymbolsToggle.waitForExistence(timeout: 2))
         
-        let initialShowEmojisValue = showEmojisToggle.value as! String
+        let initialShowSymbolsValue = showSymbolsToggle.value as! String
         
-        showEmojisToggle.switches.firstMatch.tap()
+        showSymbolsToggle.switches.firstMatch.tap()
         
         sleep(2)
 
-        let toggledShowEmojisValue = showEmojisToggle.value as! String
+        let toggledShowSymbolsValue = showSymbolsToggle.value as! String
         
-        XCTAssertNotEqual(initialShowEmojisValue, toggledShowEmojisValue, "Toggling Show Emojis should change its value")
+        XCTAssertNotEqual(initialShowSymbolsValue, toggledShowSymbolsValue, "Toggling Show Symbols should change its value")
         
         // --- Test Show Due Date Toggle ---
         let showDueDateToggle = app.switches["ShowDueDateInListToggle"]
@@ -205,14 +205,14 @@ final class SettingsViewUITests: XCTestCase {
         XCTAssertTrue(settingsButton.waitForExistence(timeout: 2))
         settingsButton.tap()
         
-        // show emojis
-        XCTAssertTrue(showEmojisToggle.exists, "Show Emoji toggle should exist")
+        // show symbols
+        XCTAssertTrue(showSymbolsToggle.exists, "Show Symbols toggle should exist")
 
-        let reopenedSettingsShowEmojisValue = showEmojisToggle.value as? String
+        let reopenedSettingsShowSymbolsValue = showSymbolsToggle.value as? String
         
-        XCTAssertEqual(toggledShowEmojisValue, reopenedSettingsShowEmojisValue, "Toggle Show Due Date should have same Value after repoeniung Settings View")
+        XCTAssertEqual(toggledShowSymbolsValue, reopenedSettingsShowSymbolsValue, "Toggle Show Due Date should have same Value after repoeniung Settings View")
         
-        showEmojisToggle.switches.firstMatch.tap()
+        showSymbolsToggle.switches.firstMatch.tap()
         
         // show due date
         XCTAssertTrue(showDueDateToggle.exists, "Show Due Date toggle should exist")

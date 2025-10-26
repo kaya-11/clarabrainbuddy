@@ -50,8 +50,8 @@ struct TodoListView: View {
                             todoViewModel: todoViewModel,
                             todo: todo,
                             showAsSelectedForToday: todo.selectedForToday,
-                            withEmojis: true,
-                            showEmojis: settingsViewModel.settings.showEmojis,
+                            withSymbols: true,
+                            showSymbols: settingsViewModel.settings.showSymbols,
                             showDueDate: true,
                             showResistance: settingsViewModel.settings.showResistanceInAllTodosView
                         )

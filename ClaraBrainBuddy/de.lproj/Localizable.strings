@@ -84,7 +84,7 @@
 "properties.default.energylevel.calculation" = "Standardzeit für die Berechnung des Zeitbuudgets (in Minuten)";
 "properties.days.added.for.duedate" = "Standard-Erledigungszeit (in Tagen)";
 "properties.display.options" = "Anzeigeoptionen";
-"properties.show.emojis" = "Zeige Emojis";
+"properties.show.symbols" = "Zeige Symbole";
 "properties.show.duedate" = "Zeige Fälligkeit im Tagesplan";
 "properties.show.resistance.today" = "Zeige Widerstand gegen Aufgaben (Heute)";
 "properties.show.resistance.alltodos" = "Zeige Widerstand gegen Aufgaben (alle Aufgaben)";
