@@ -14,7 +14,7 @@ struct TodoListEntryView: View {
     let todo: Todo
     let showAsSelectedForToday: Bool
     
-    let withSymbols: Bool
+    let isInTodayView: Bool
     
     let showSymbols: Bool
     let showDueDate: Bool
@@ -37,7 +37,7 @@ struct TodoListEntryView: View {
                 if isDone {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(Color.theme.green)
-                } else if withSymbols && showSymbols {
+                } else if !isInTodayView && showSymbols {
                     if showAsSelectedForToday {
                         Image(systemName: "wind")
                     } else if isOverdue {
@@ -48,9 +48,13 @@ struct TodoListEntryView: View {
                 }
                 Text(title)
                     .accessibilityValue(isDone ? "done" : "active")
-                if (isOverdue && !showAsSelectedForToday) {
-                    Image(systemName: "exclamationmark.circle")
-                        .foregroundColor(Color.theme.red)
+                let showEnergyImpact = showSymbols || isInTodayView
+                if (showEnergyImpact && todo.energyImpact < 0) {
+                    Battery25Icon(size: 12.0)
+                        .rotationEffect(.degrees(-90))
+                } else if (showEnergyImpact && todo.energyImpact > 0) {
+                    Battery100Icon(size: 12.0)
+                        .rotationEffect(.degrees(-90))
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)

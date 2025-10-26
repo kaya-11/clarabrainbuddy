@@ -37,6 +37,40 @@ struct ButtonStyle: ViewModifier {
     }
 }
 
+struct Battery25Icon: View {
+    
+    var size : CGFloat = 24.0
+    
+    var body: some View {
+        Image(systemName: "battery.25percent")
+            .resizable()
+            .scaledToFit()
+            .frame(width: size, height: size)
+            .symbolRenderingMode(.palette)
+            .foregroundStyle(
+                Color.theme.red,
+                Color.theme.primary
+            )
+    }
+}
+
+struct Battery100Icon: View {
+    
+    var size : CGFloat = 24.0
+    
+    var body: some View {
+        Image(systemName: "battery.100percent")
+            .resizable()
+            .scaledToFit()
+            .frame(width: size, height: size)
+            .symbolRenderingMode(.palette)
+            .foregroundStyle(
+                Color.theme.green,
+                Color.theme.primary
+            )
+    }
+}
+
 extension View {
     func backgroundStyle() -> some View {
         self.modifier(BackgroundStyle())

@@ -73,6 +73,7 @@ struct RecurringTaskFormView: View {
                         Text(Localization.labels.recurrenceRuleEvenDays).tag(RecurrenceRule.evenDays)
                         Text(Localization.labels.recurrenceRuleOddDays).tag(RecurrenceRule.oddDays)
                     }
+                    .accessibilityIdentifier("RecurrTaskFormRulePicker")
                     
                     if case .weekly = recurrenceRule {
                         Picker(Localization.labels.weekday, selection: $selectedWeekday) {
@@ -94,6 +95,7 @@ struct RecurringTaskFormView: View {
                     TextField(Localization.labels.estimatedTimeTooltip, value: $estimatedTime, formatter: NumberFormatter())
                         .keyboardType(.numberPad)
                         .foregroundColor(Color.theme.primary)
+                        .accessibilityIdentifier("RecurringTaskFormEstimatedTimeField")
                 }
                 .sectionSytle()
                 
@@ -116,6 +118,7 @@ struct RecurringTaskFormView: View {
                         .font(Font.app.title)
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 

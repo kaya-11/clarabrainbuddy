@@ -153,7 +153,9 @@ final class SettingsViewUITests: XCTestCase {
         
         // --- Test Show View Resistance Today Toggle ---
         let showResistanceInTodayViewToggle = app.switches["ShowResistanceInTodayViewToggle"]
-        while !showResistanceInTodayViewToggle.isHittable {
+        let showResistanceInAllTaskViewToggle = app.switches["ShowResistanceInAllTodosViewToggle"]
+        
+        while !showResistanceInAllTaskViewToggle.isHittable {
             app.swipeUp()
         }
         
@@ -170,10 +172,6 @@ final class SettingsViewUITests: XCTestCase {
         XCTAssertNotEqual(initialShowResistanceInTodayViewValue, toggledShowResistanceInTodayViewValue, "Toggling Show View Resistance in Today View should change its value")
 
         // --- Test Show View Resistance All Task Toggle ---
-        let showResistanceInAllTaskViewToggle = app.switches["ShowResistanceInAllTodosViewToggle"]
-        while !showResistanceInAllTaskViewToggle.isHittable {
-            app.swipeUp()
-        }
         
         XCTAssertTrue(showResistanceInAllTaskViewToggle.exists, "Show resistance in All task view toggle should exist")
 
@@ -224,7 +222,7 @@ final class SettingsViewUITests: XCTestCase {
         showDueDateToggle.switches.firstMatch.tap()
         
         // show resistance in today view
-        while !showResistanceInTodayViewToggle.isHittable {
+        while !showResistanceInAllTaskViewToggle.isHittable {
             app.swipeUp()
         }
         

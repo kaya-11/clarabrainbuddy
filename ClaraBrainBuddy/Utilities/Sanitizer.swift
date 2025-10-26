@@ -34,6 +34,7 @@ struct Sanitizer {
                 details: cleanDetails,
                 dueDate: todo.dueDate,
                 estimatedTime: todo.estimatedTime.map { Int64($0.clamped(to: 0...1440)) } ?? nil,
+                energyImpact: todo.energyImpact.map { Int64($0.clamped(to: -1...1)) } ?? 0,
                 selectedForToday: false,
                 isDone: todo.isDone,
                 resistance: Int64(todo.resistance.clamped(to: 0...11)),

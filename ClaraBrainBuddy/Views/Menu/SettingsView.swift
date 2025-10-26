@@ -172,6 +172,7 @@ struct SettingsView: View {
                     dismissButton: .default(Text(Localization.labels.ok))
                 )
             }
+            .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear {
             checkNotificationPermission()

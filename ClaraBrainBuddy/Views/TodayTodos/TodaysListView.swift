@@ -91,8 +91,8 @@ struct TodaysListView: View {
                             TodoListEntryView(
                                 todoViewModel: todoViewModel,
                                 todo: todo,
-                                showAsSelectedForToday: false,
-                                withSymbols: false,
+                                showAsSelectedForToday: true,
+                                isInTodayView: true,
                                 showSymbols: settingsViewModel.settings.showSymbols,
                                 showDueDate: settingsViewModel.settings.showDueDateInSchedule,
                                 showResistance: settingsViewModel.settings.showResistanceInTodayView

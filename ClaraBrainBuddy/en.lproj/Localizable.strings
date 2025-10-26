@@ -25,6 +25,7 @@
 "edit.todo.duedate.tooltip" = "Select Due Date";
 "edit.todo.estimatedtime.label" = "Estimated Time (minutes)";
 "edit.todo.estimatedtime.tooltip" = "e.g., 30";
+"edit.todo.energyimpact" = "Impact on your energy level";
 "edit.todo.isdone.label" = "Done";
 "edit.todo.label" = "Edit Task";
 "add.todo.label" = "Add New Task";
