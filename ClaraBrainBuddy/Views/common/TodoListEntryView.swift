@@ -14,9 +14,9 @@ struct TodoListEntryView: View {
     let todo: Todo
     let showAsSelectedForToday: Bool
     
-    let withEmojis: Bool
+    let withSymbols: Bool
     
-    let showEmojis: Bool
+    let showSymbols: Bool
     let showDueDate: Bool
     
     let showResistance: Bool
@@ -33,25 +33,25 @@ struct TodoListEntryView: View {
         let resistance: Int64 = todo.resistance
         
         VStack(alignment: .leading, spacing: 4) {
-            HStack {
+            HStack (alignment: .firstTextBaseline, spacing: 8) {
                 if isDone {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(Color.theme.green)
-                } else if withEmojis && showEmojis {
+                } else if withSymbols && showSymbols {
                     if showAsSelectedForToday {
-                        Text("🐿️")
+                        Image(systemName: "wind")
                     } else if isOverdue {
-                        Text("🦥")
+                        Image(systemName: "cloud.drizzle.fill")
                     } else if isDueSoon {
-                        Text("🐶")
-                    }
-                } else {
-                    if showEmojis && isOverdue {
-                        Text("🦥")
+                        Image(systemName: "leaf")
                     }
                 }
-                Text(title + (isOverdue && !showAsSelectedForToday ? " ‼️" : ""))
+                Text(title)
                     .accessibilityValue(isDone ? "done" : "active")
+                if (isOverdue && !showAsSelectedForToday) {
+                    Image(systemName: "exclamationmark.circle")
+                        .foregroundColor(Color.theme.red)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             

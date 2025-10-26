@@ -92,8 +92,8 @@ struct TodaysListView: View {
                                 todoViewModel: todoViewModel,
                                 todo: todo,
                                 showAsSelectedForToday: false,
-                                withEmojis: false,
-                                showEmojis: settingsViewModel.settings.showEmojis,
+                                withSymbols: false,
+                                showSymbols: settingsViewModel.settings.showSymbols,
                                 showDueDate: settingsViewModel.settings.showDueDateInSchedule,
                                 showResistance: settingsViewModel.settings.showResistanceInTodayView
                             )

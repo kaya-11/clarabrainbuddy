@@ -84,7 +84,7 @@
 "properties.default.energylevel.calculation" = "Default Time for Time Budget Calculation (minutes)";
 "properties.days.added.for.duedate" = "Default completion time (days)";
 "properties.display.options" = "Display Options";
-"properties.show.emojis" = "Show Emojis";
+"properties.show.symbols" = "Show Symbols";
 "properties.show.duedate" = "Show Due Date in Today's Schedule";
 "properties.show.resistance.today" = "Show resistance to tasks (today)";
 "properties.show.resistance.alltodos" = "Show resistance to tasks (all tasks)";
