@@ -51,10 +51,27 @@ final class RecurringTaskListAndFormUITests: XCTestCase {
         let detailsEditor = app.textViews.element(boundBy: 0)
         detailsEditor.tap()
         detailsEditor.typeText("Some additional details for this task")
+        
+        let recurrenceRulePicker = app.buttons["RecurrTaskFormRulePicker"]
+        
+        XCTAssertTrue(recurrenceRulePicker.waitForExistence(timeout: 5))
+        
+        while !recurrenceRulePicker.isHittable {
+            app.swipeUp()
+        }
+        recurrenceRulePicker.tap()
 
         // Optionally fill estimated time
-        let estimatedTimeField = app.textFields.element(boundBy: 1)
+        let estimatedTimeField = app.textFields["RecurringTaskFormEstimatedTimeField"]
+        
+        XCTAssertTrue(estimatedTimeField.waitForExistence(timeout: 2))
+        
+        while !estimatedTimeField.isHittable {
+            app.swipeUp()
+        }
+        
         estimatedTimeField.tap()
+        
         estimatedTimeField.clearAndEnterText("30")
 
         // Save

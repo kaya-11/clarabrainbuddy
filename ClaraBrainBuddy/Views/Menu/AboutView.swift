@@ -106,6 +106,7 @@ struct AboutView: View {
                     }
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 

@@ -65,6 +65,7 @@ struct InfoView: View {
                     .accessibilityIdentifier("backButton")
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

@@ -16,6 +16,7 @@ struct TodoTodayFormView: View {
     @State private var details: String
     @State private var dueDate: Date
     @State private var estimatedTime: Int64?
+    @State private var energyImpact: Int64?
     @State private var isDone: Bool
     
     init(todoViewModel: TodoViewModel) {
@@ -25,6 +26,7 @@ struct TodoTodayFormView: View {
         _details = State(initialValue: "")
         _dueDate = State(initialValue: Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date())
         _estimatedTime = State(initialValue: nil)
+        _energyImpact = State(initialValue: 0)
         _isDone = State(initialValue: false)
     }
     
@@ -51,9 +53,20 @@ struct TodoTodayFormView: View {
                 }
                 .sectionSytle()
                 
+                Section(header: Text(Localization.labels.energyImpact)) {
+                    HStack {
+                        Battery25Icon()
+                        Slider(value: Binding(
+                            get: { Double(energyImpact ?? 0) },
+                            set: { energyImpact = Int64($0) }
+                        ), in: -1...1, step: 1)
+                        Battery100Icon()
+                    }
+                }
+                .sectionSytle()
                 
                 Button(action: {
-                    todoViewModel.addNewTodoForToday(title: title, details: details, estimatedTime: estimatedTime)
+                    todoViewModel.addNewTodoForToday(title: title, details: details, estimatedTime: estimatedTime, energyImpact: energyImpact ?? 0)
                     presentationMode.wrappedValue.dismiss()
                 }) {
                     Text(Localization.labels.saveAddTodo)
@@ -71,6 +84,7 @@ struct TodoTodayFormView: View {
                         .font(Font.app.title)
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

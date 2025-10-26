@@ -16,15 +16,16 @@ extension Todo {
         return NSFetchRequest<Todo>(entityName: "Todo")
     }
 
-    @NSManaged public var createdAt: Date
+    @NSManaged public var title: String
     @NSManaged public var details: String?
     @NSManaged public var dueDate: Date
     @NSManaged public var estimatedTime_: Int64
+    @NSManaged public var energyImpact: Int64
     @NSManaged public var isDone: Bool
     @NSManaged public var resistance: Int64
     @NSManaged public var selectedForToday: Bool
     @NSManaged public var sortOrder: Int64
-    @NSManaged public var title: String
+    @NSManaged public var createdAt: Date
     @NSManaged public var updatedAt: Date?
 
 }
@@ -60,6 +61,7 @@ extension Todo : Identifiable {
             details: details,
             dueDate: dueDate,
             estimatedTime: estimatedTime,
+            energyImpact: energyImpact,
             selectedForToday: selectedForToday,
             isDone: isDone,
             resistance: resistance,
@@ -73,6 +75,7 @@ extension Todo : Identifiable {
         details = dto.details
         dueDate = dto.dueDate
         estimatedTime = dto.estimatedTime.map { Int64($0.clamped(to: 0...1440)) }
+        energyImpact = dto.energyImpact.map { Int64($0.clamped(to: -1...1)) } ?? 0
         selectedForToday = dto.selectedForToday
         isDone = dto.isDone
         resistance = dto.resistance.clamped(to: 0...10)

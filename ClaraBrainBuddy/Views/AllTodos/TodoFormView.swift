@@ -20,6 +20,7 @@ struct TodoFormView: View {
     @State private var details: String = ""
     @State private var dueDate: Date = Date()
     @State private var estimatedTime: Int64?
+    @State private var energyImpact: Int64?
     @State private var isDone: Bool = false
     
     init(todoViewModel: TodoViewModel, addDays: Int?, existingTodo: Todo?) {
@@ -32,6 +33,7 @@ struct TodoFormView: View {
             _details = State(initialValue: todo.details ?? "")
             _dueDate = State(initialValue: todo.dueDate)
             _estimatedTime = State(initialValue: todo.estimatedTime)
+            _energyImpact = State(initialValue: todo.energyImpact)
             _isDone = State(initialValue: todo.isDone)
         } else {
             let addDays = addDays ?? 14
@@ -72,6 +74,19 @@ struct TodoFormView: View {
                 }
                 .sectionSytle()
                 
+                Section(header: Text(Localization.labels.energyImpact)) {
+                    HStack {
+                        Battery25Icon()
+                        Slider(value: Binding(
+                            get: { Double(energyImpact ?? 0) },
+                            set: { energyImpact = Int64($0) }
+                        ), in: -1...1, step: 1)
+                            .accessibilityIdentifier("TodoFormEnergyImpactField")
+                        Battery100Icon()
+                    }
+                }
+                .sectionSytle()
+                
                 if existingTodo != nil {
                     Section(header: Text(Localization.labels.isDone)) {
                         Toggle(Localization.labels.isDone, isOn: $isDone)
@@ -102,6 +117,7 @@ struct TodoFormView: View {
                         .font(Font.app.title)
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
     
@@ -111,6 +127,7 @@ struct TodoFormView: View {
         updatedTodo.details = details
         updatedTodo.dueDate = dueDate
         updatedTodo.estimatedTime = estimatedTime
+        updatedTodo.energyImpact = energyImpact ?? 0
         updatedTodo.updatedAt = Date()
         let vibrate = isDone && !todo.isDone
         updatedTodo.isDone = isDone

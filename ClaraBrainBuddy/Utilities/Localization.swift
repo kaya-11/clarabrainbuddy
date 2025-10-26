@@ -65,6 +65,7 @@ struct Localization {
         let dueDateTooltip = NSLocalizedString("edit.todo.duedate.tooltip", comment: "Select Due Date")
         let estimatedTimeForm = NSLocalizedString("edit.todo.estimatedtime.label", comment: "Estimated Time (minutes)")
         let estimatedTimeTooltip = NSLocalizedString("edit.todo.estimatedtime.tooltip", comment: "e.g., 30")
+        let energyImpact = NSLocalizedString("edit.todo.energyimpact", comment: "Impact on your energy level")
         let isDone = NSLocalizedString("edit.todo.isdone.label", comment: "Done")
         let editTodo = NSLocalizedString("edit.todo.label", comment: "Edit Todo")
         let addTodo = NSLocalizedString("add.todo.label", comment: "Add New Todo")

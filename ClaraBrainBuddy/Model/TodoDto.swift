@@ -13,6 +13,7 @@ struct TodoDto: Identifiable, Codable, Hashable {
     var details: String?
     var dueDate: Date = Date()
     var estimatedTime: Int64? // in minutes
+    var energyImpact: Int64?
     var selectedForToday: Bool = false
     var isDone: Bool = false
     var resistance: Int64
@@ -25,6 +26,7 @@ struct TodoDto: Identifiable, Codable, Hashable {
         details: String? = nil,
         dueDate: Date = Date(),
         estimatedTime: Int64? = nil,
+        energyImpact: Int64 = 0,
         selectedForToday: Bool = false,
         isDone: Bool = false,
         resistance: Int64 = 0,
@@ -36,6 +38,7 @@ struct TodoDto: Identifiable, Codable, Hashable {
         self.details = details
         self.dueDate = dueDate
         self.estimatedTime = estimatedTime
+        self.energyImpact = energyImpact
         self.selectedForToday = selectedForToday
         self.isDone = isDone
         self.resistance = resistance

@@ -156,6 +156,7 @@ class TodoViewModel: ObservableObject {
         title: String,
         details: String,
         estimatedTime: Int64?,
+        energyImpact: Int64 = 0,
         recurringTask: RecurringTask? = nil
     ) {
        
@@ -164,9 +165,10 @@ class TodoViewModel: ObservableObject {
         newTodo.details = details
         newTodo.dueDate = Date()
         newTodo.estimatedTime = estimatedTime
-        newTodo.isDone = false              // <- WICHTIG, falls non-optional
-        newTodo.createdAt = Date()          // <- WICHTIG, falls non-optional
-        newTodo.selectedForToday = true     // optional, aber konsistent
+        newTodo.energyImpact = energyImpact
+        newTodo.isDone = false
+        newTodo.createdAt = Date()
+        newTodo.selectedForToday = true 
         newTodo.sortOrder = 0
         
         let newTodayTodo = TodayTodo(context: self.context)
@@ -265,6 +267,7 @@ class TodoViewModel: ObservableObject {
         clone.details = todo.details
         clone.dueDate = todo.dueDate
         clone.estimatedTime = todo.estimatedTime
+        clone.energyImpact = todo.energyImpact
         clone.isDone = false
         clone.createdAt = Date()
         clone.sortOrder = 0

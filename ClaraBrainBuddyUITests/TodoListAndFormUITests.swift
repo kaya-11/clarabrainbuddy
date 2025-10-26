@@ -41,14 +41,32 @@ final class TodoListAndFormUITests: XCTestCase {
         let detailsEditor = app.textViews.element(boundBy: 0)
         detailsEditor.tap()
         detailsEditor.typeText("Some additional details for this todo")
+        
+        let dueDateField = app.datePickers["TodoFormDueDateField"]
+        dueDateField.tap()
 
-        // Optionally fill estimated time
-        let estimatedTimeField = app.textFields.element(boundBy: 1)
+        let estimatedTimeField = app.textFields["TodoFormEstimatedTimeField"]
+        
+        sleep(2)
+        XCTAssertTrue(estimatedTimeField.waitForExistence(timeout: 2))
+        
+        // Hilfskontrukt um nach unten zu scrollen
+        let saveButton = app.buttons["TodoFormSaveButton"]
+        while !saveButton.isHittable {
+            app.swipeUp()
+        }
+        
         estimatedTimeField.tap()
+        
         estimatedTimeField.typeText("30")
+        
+        
 
         // Save
-        let saveButton = app.buttons["TodoFormSaveButton"]
+        while !saveButton.isHittable {
+            app.swipeUp()
+        }
+
         XCTAssertTrue(saveButton.isEnabled)
         saveButton.tap()
 
@@ -104,6 +122,61 @@ final class TodoListAndFormUITests: XCTestCase {
         XCTAssertFalse(saveButton.isEnabled)
     }
     
+    func testEnergyImpactSlider() {
+        let allTodosTab = app.otherElements["AllTodosTab"]
+        let addButton = allTodosTab.buttons["AddTodoButton"]
+        addButton.tap()
+        
+        let saveButton = app.buttons["TodoFormSaveButton"]
+        
+        let titleField = app.textFields.element(boundBy: 0)
+        XCTAssertTrue(titleField.waitForExistence(timeout: 2))
+        titleField.tap()
+        titleField.typeText("Todo EnergyImpact")
+        
+        sleep(2)
+        
+        while !saveButton.isHittable {
+            app.swipeUp()
+        }
+
+        let energyImpactSlider = app.sliders["TodoFormEnergyImpactField"]
+        XCTAssertTrue(energyImpactSlider.waitForExistence(timeout: 2))
+        
+        sleep(1)
+
+        energyImpactSlider.adjust(toNormalizedSliderPosition: 0)
+
+        sleep(1)
+
+        energyImpactSlider.adjust(toNormalizedSliderPosition: 1)
+        
+        sleep(1)
+
+        energyImpactSlider.adjust(toNormalizedSliderPosition: 0.5)
+        
+        XCTAssertTrue(saveButton.isEnabled)
+        saveButton.tap()
+
+        XCTAssertTrue(addButton.waitForExistence(timeout: 2))
+
+        sleep(2)
+        
+        var todoCell = app.staticTexts["Todo EnergyImpact"]
+        XCTAssertTrue(todoCell.waitForExistence(timeout: 2))
+        
+        var start = todoCell.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5))
+        var end = todoCell.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5))
+        start.press(forDuration: 0.1, thenDragTo: end)
+        
+        print(app.debugDescription)
+        
+        var button = app.buttons["TodoListDeleteTodo"]
+        XCTAssertTrue(button.waitForExistence(timeout: 2))
+        
+        button.tap()
+    }
+
     func testAddTwoTodosAndDelete() {
         let allTodosTab = app.otherElements["AllTodosTab"]
         let addButton = allTodosTab.buttons["AddTodoButton"]
