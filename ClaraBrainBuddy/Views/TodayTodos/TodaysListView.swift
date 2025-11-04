@@ -238,7 +238,7 @@ struct TodaysListView: View {
                             .accessibilityIdentifier("TodayEventsBellButton")
                         }
                         Button(action: {
-                            todoViewModel.reorderTodayTodos()
+                            todoViewModel.reorderTodayTodos(defaultEstimatedTime: settingsViewModel.settings.defaultTimeForEnergyLevelCalculation)
                         }) {
                             Image(systemName: "arrow.clockwise")
                         }

@@ -45,13 +45,14 @@ class TodoViewModel: ObservableObject {
         return todayTodos
     }
     
-    func addTodo(title: String, details: String, dueDate: Date, estimatedTime: Int64?) {
+    func addTodo(title: String, details: String, dueDate: Date, estimatedTime: Int64?, energyImpact: Int64 = 0) {
         
         let newTodo = Todo(context: context)
         newTodo.title = title
         newTodo.details = details
         newTodo.dueDate = dueDate
         newTodo.estimatedTime = estimatedTime
+        newTodo.energyImpact = energyImpact
         newTodo.isDone = false
         newTodo.createdAt = Date()
         newTodo.sortOrder = 0
@@ -330,7 +331,7 @@ class TodoViewModel: ObservableObject {
         saveContext()
     }
     
-    func reorderTodayTodos() {
+    func reorderTodayTodos(defaultEstimatedTime: Int = 0) {
         var reorderedTodayTodos = todayTodos
         reorderedTodayTodos.sort { first, second in
             let todo1 = first.todo
@@ -341,8 +342,8 @@ class TodoViewModel: ObservableObject {
                 return !todo1.isDone
             }
             
-            let est1 = todo1.estimatedTime ?? 0
-            let est2 = todo2.estimatedTime ?? 0
+            let est1 = todo1.estimatedTime ?? Int64(defaultEstimatedTime)
+            let est2 = todo2.estimatedTime ?? Int64(defaultEstimatedTime)
             
             // Todos with no estimated time to the top
             if est1 == 0 && est2 != 0 {
