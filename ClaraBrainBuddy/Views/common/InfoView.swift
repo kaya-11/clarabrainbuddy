@@ -44,8 +44,8 @@ struct InfoView: View {
                                 .font(Font.app.button)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.theme.listBackground)
-                                .foregroundColor(Color.theme.listText)
+                                .listRowBackground(Color.theme.listBackground)
+                                .foregroundColor(Color.theme.accent)
                                 .cornerRadius(8)
                         }
                         .buttonStyle()

@@ -66,10 +66,6 @@ struct RandomTodoView: View {
                     .background(Color.theme.white)
                     .cornerRadius(15)
                     .shadow(radius: 10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.theme.accent, lineWidth: 1)
-                    )
                     .padding()
                     .onTapGesture {
                         todoViewModel.moveToTheTop(randomTodo)
@@ -98,7 +94,7 @@ struct RandomTodoView: View {
                     .accessibilityIdentifier("NoTodosText")
             }
         }
-        .frame(maxWidth: 375, maxHeight: 375)
+        .frame(maxWidth: 400, maxHeight: 500)
         .background(Color.theme.white)
         .cornerRadius(20)
         .padding()

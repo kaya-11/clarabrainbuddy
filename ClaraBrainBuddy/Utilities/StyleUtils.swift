@@ -17,7 +17,7 @@ struct StyleUtils {
         } else if todo.isOverdue {
             return Color.theme.red
         } else if todo.isDueSoon {
-            return Color.theme.accent
+            return Color.theme.orange
         }
         return Color.theme.listText
     }

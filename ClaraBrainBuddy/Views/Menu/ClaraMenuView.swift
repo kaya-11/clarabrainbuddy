@@ -90,10 +90,10 @@ struct ClaraMenuView: View {
                 .foregroundColor(Color.theme.accent)
                 .accessibilityIdentifier("ClaraMenu")
         }
-        .fullScreenCover(isPresented: $isSettingsPresented) {
+        .sheet(isPresented: $isSettingsPresented) {
             SettingsView(settingsViewModel: settingsViewModel)
         }
-        .fullScreenCover(isPresented: $isTodaysEventsPresented) {
+        .sheet(isPresented: $isTodaysEventsPresented) {
             if CommandLine.arguments.contains("UITestMode") {
                 CalendarView(todoViewModel: todoViewModel,
                              eventProvider: FakeEventProvider())

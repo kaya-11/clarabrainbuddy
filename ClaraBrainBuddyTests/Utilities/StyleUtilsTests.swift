@@ -47,7 +47,7 @@ final class StyleUtilsTests: XCTestCase {
         todo.title = "Due Soon Todo"
         todo.dueDate = soonDate
         let color = StyleUtils.getTextColor(todo: todo, isSelectedForToday: false)
-        XCTAssertEqual(color, Color.theme.accent)
+        XCTAssertEqual(color, Color.theme.orange)
     }
 
     func testGetTextColorDefault_returnsListText() {
