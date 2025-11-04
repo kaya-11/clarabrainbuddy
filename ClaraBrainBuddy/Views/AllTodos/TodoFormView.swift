@@ -99,7 +99,7 @@ struct TodoFormView: View {
                     if let todo = existingTodo {
                         updateTodo(todo)
                     } else {
-                        todoViewModel.addTodo(title: title, details: details, dueDate: dueDate, estimatedTime: estimatedTime)
+                        todoViewModel.addTodo(title: title, details: details, dueDate: dueDate, estimatedTime: estimatedTime, energyImpact: energyImpact ?? 0)
                     }
                     presentationMode.wrappedValue.dismiss()
                 }) {

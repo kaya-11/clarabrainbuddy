@@ -366,20 +366,23 @@ final class TodoViewModelTests: XCTestCase {
         let todo2: Todo = createTodo(title: "Todo2", estimatedTime: 10, sortOrder: 1)
         let todo3: Todo = createTodo(title: "Todo3", estimatedTime: 5, sortOrder: 2)
         let todo4: Todo = createTodo(title: "Todo4", estimatedTime: nil, sortOrder: 3)
+        let todo5: Todo = createTodo(title: "Todo4", estimatedTime: 0, sortOrder: 4)
         
-        viewModel.addTodos([todo1, todo2, todo3, todo4])
+        viewModel.addTodos([todo1, todo2, todo3, todo4, todo5])
         
         viewModel.selectForToday(todo1)
         viewModel.selectForToday(todo2)
         viewModel.selectForToday(todo3)
         viewModel.selectForToday(todo4)
+        viewModel.selectForToday(todo5)
 
-        viewModel.reorderTodayTodos()
+        viewModel.reorderTodayTodos(defaultEstimatedTime: 2)
         
-        XCTAssertEqual(viewModel.todayTodos[0].todo, todo4)
-        XCTAssertEqual(viewModel.todayTodos[1].todo, todo3)
-        XCTAssertEqual(viewModel.todayTodos[2].todo, todo2)
-        XCTAssertEqual(viewModel.todayTodos[3].todo, todo1)
+        XCTAssertEqual(viewModel.todayTodos[0].todo, todo5)
+        XCTAssertEqual(viewModel.todayTodos[1].todo, todo4)
+        XCTAssertEqual(viewModel.todayTodos[2].todo, todo3)
+        XCTAssertEqual(viewModel.todayTodos[3].todo, todo2)
+        XCTAssertEqual(viewModel.todayTodos[4].todo, todo1)
     }
     
     func testDeleteCompletedTodos() {
