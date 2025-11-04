@@ -87,8 +87,7 @@ struct CalendarView: View {
                         .font(Font.app.title)
                 }
             }
-            .toolbarBackground(Color.theme.background, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
+            .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear () {
             fetchEvents()
