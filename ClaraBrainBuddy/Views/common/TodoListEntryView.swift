@@ -50,7 +50,7 @@ struct TodoListEntryView: View {
                     .accessibilityValue(isDone ? "done" : "active")
                 let showEnergyImpact = showSymbols || isInTodayView
                 if (showEnergyImpact && todo.energyImpact < 0) {
-                    Battery25Icon(size: 12.0)
+                    Battery50Icon(size: 12.0)
                         .rotationEffect(.degrees(-90))
                 } else if (showEnergyImpact && todo.energyImpact > 0) {
                     Battery100Icon(size: 12.0)

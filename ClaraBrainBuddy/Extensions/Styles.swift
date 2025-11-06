@@ -37,12 +37,12 @@ struct ButtonStyle: ViewModifier {
     }
 }
 
-struct Battery25Icon: View {
+struct Battery50Icon: View {
     
     var size : CGFloat = 24.0
     
     var body: some View {
-        Image(systemName: "battery.25percent")
+        Image(systemName: "battery.50percent")
             .resizable()
             .scaledToFit()
             .frame(width: size, height: size)
