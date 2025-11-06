@@ -55,7 +55,7 @@ struct TodoTodayFormView: View {
                 
                 Section(header: Text(Localization.labels.energyImpact)) {
                     HStack {
-                        Battery25Icon()
+                        Battery50Icon()
                         Slider(value: Binding(
                             get: { Double(energyImpact ?? 0) },
                             set: { energyImpact = Int64($0) }
