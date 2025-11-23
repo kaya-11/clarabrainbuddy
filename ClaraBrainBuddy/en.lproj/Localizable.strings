@@ -109,6 +109,7 @@
 "info.timebudget.explanation.text" = "The time budget slider helps you manage your workload. 🧠\n\nIf you have little time, i.e., your executive capacity is low, you can only complete a limited number of tasks.\n\nThe estimated time is displayed in bold red when you exceed a certain limit based on your time budget. The medium setting means that you have 1.5 to 3 hours available. The high setting means that you can get a lot done that day. 💪\n\nBut be careful: there is also a limit here so that you can see when you have packed your daily schedule too full.\n\nTasks that you tend to procrastinate on receive a penalty when calculating the estimated time. ⚠️";
 "about.claraBrainBuddy.title" = "About Clara BrainBuddy";
 "about.claraBrainBuddy.description" = "Clara BrainBuddy brings order to your daily brain chaos.";
+"about.claraBrainBuddy.version" = "Version";
 "about.feature.todos.title" = "✅ To-do";
 "about.feature.todos.description" = "Plan your daily tasks with simple swipe gestures.";
 "about.feature.recurringTasks.title" = "📅 Recurring Tasks";

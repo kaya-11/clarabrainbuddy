@@ -20,6 +20,9 @@ struct AboutView: View {
                                         .bold()
                                         .padding(.top, 4)
                     
+                    Text("\(Localization.about.version): \(AppInfo.versionAndBuild)")
+                        .font(Font.app.tiny)
+                    
                     // Beschreibung
                     Text(Localization.about.claraBrainBuddyDescription)
                         .font(Font.app.tiny)
