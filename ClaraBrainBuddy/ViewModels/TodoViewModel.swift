@@ -284,7 +284,34 @@ class TodoViewModel: ObservableObject {
     
     func randomTodo() -> Todo? {
         let availableTodos = allTodos.filter { !$0.selectedForToday }
-        return availableTodos.randomElement()
+        guard !availableTodos.isEmpty else { return nil }
+        
+        let totalWeight = availableTodos.reduce(0) { $0 + weight(for: $1) }
+        var randomValue = Int.random(in: 0..<totalWeight)
+        
+        for todo in availableTodos {
+            randomValue -= weight(for: todo)
+            if randomValue < 0 {
+                return todo
+            }
+        }
+        
+        return nil
+    }
+    
+    func weight(for todo: Todo) -> Int {
+        let now = Date()
+        let dueDate : Date = todo.dueDate
+        
+        if dueDate <= now.addingTimeInterval(7 * 24 * 60 * 60) { // bis 1 Woche in der Zukunft
+            return 8
+        } else if dueDate <= now.addingTimeInterval(21 * 24 * 60 * 60) { // 1 bis 3 Wochen
+            return 4
+        } else if dueDate <= now.addingTimeInterval(84 * 24 * 60 * 60) { // 4 bis 12 Wochen
+            return 2
+        } else {
+            return 1 // alle anderen
+        }
     }
 
     func moveTodoOneDown(_ todo: Todo) {
