@@ -109,6 +109,7 @@
 "about.label" = "Über";
 "about.claraBrainBuddy.title" = "Über Clara BrainBuddy";
 "about.claraBrainBuddy.description" = "Clara BrainBuddy hilft, dein tägliches Gehirn-Chaos zu organisieren.";
+"about.claraBrainBuddy.version" = "Version";
 "about.feature.todos.title" = "✅ Aufgaben";
 "about.feature.todos.description" = "Plane deine täglichen Aufgaben mit einfachen Swipe-Gesten.";
 "about.feature.recurringTasks.title" = "📅 Wiederkehrende Aufgaben";

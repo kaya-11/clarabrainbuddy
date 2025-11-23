@@ -184,6 +184,8 @@ struct Localization {
         let claraBrainBuddyTitle = NSLocalizedString("about.claraBrainBuddy.title", comment: "Title for the About Clara BrainBuddy section")
         let claraBrainBuddyDescription = NSLocalizedString("about.claraBrainBuddy.description", comment: "Description of Clara BrainBuddy")
 
+        let version = NSLocalizedString("about.claraBrainBuddy.version", comment: "Version")
+        
         let featureTodosTitle = NSLocalizedString("about.feature.todos.title", comment: "Title for Todos feature")
         let featureTodosDescription = NSLocalizedString("about.feature.todos.description", comment: "Description for Todos feature")
 
