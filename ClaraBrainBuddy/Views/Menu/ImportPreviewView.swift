@@ -73,13 +73,21 @@ struct ImportPreviewView: View {
                     }
                 }
             }
-            .fileImporter(isPresented: $showFileImporter, allowedContentTypes: [.json], allowsMultipleSelection: false) { result in
+            .fileImporter(isPresented: $showFileImporter,
+                          allowedContentTypes: [.data],
+                          allowsMultipleSelection: false) { result in
                 switch result {
                 case .success(let urls):
                     guard let selectedFileURL = urls.first else {
                         onCancel()
                         return
                     }
+                    guard selectedFileURL.lastPathComponent.hasSuffix(ImportExportUtils.export_filesuffix) else {
+                        alertMessage = Localization.errors.invalidFiletype
+                        showingAlert = true
+                        return
+                    }
+                    
                     if selectedFileURL.startAccessingSecurityScopedResource() {
                         defer { selectedFileURL.stopAccessingSecurityScopedResource() }
                         do {
