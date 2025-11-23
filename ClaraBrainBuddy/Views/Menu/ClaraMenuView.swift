@@ -58,7 +58,7 @@ struct ClaraMenuView: View {
             
             Button(action: {
                 let dateString = StyleUtils.dateTimeFormatter.string(from: Date())
-                let fileName = "Clara_All_Todos_\(dateString).json"
+                let fileName = "\(dateString)_all_\(ImportExportUtils.export_filename)"
                 
                 let url = ImportExportUtils.exportAllTodosToJSONFile(context: context, fileName: fileName)
 

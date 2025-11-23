@@ -8,7 +8,13 @@
 import SwiftUI
 import CoreData
 
+
 struct ImportExportUtils {
+    
+    static let export_filename = "clara_todo"
+    static let export_extension = "bin"
+
+    static let export_filesuffix = export_filename + "." + export_extension
     
     static func exportAllTodosToJSONFile(context: NSManagedObjectContext, fileName: String) -> URL {
         let request: NSFetchRequest<Todo> = Todo.fetchRequest()
@@ -21,13 +27,16 @@ struct ImportExportUtils {
             encoder.outputFormatting = .prettyPrinted
             encoder.dateEncodingStrategy = .formatted(plainDateFormatter)
             
-            let jsonFileURL = URL(fileURLWithPath: NSTemporaryDirectory())
-                .appendingPathComponent(fileName)
-            
             let jsonData = try encoder.encode(dtos)
-            try jsonData.write(to: jsonFileURL)
             
-            return jsonFileURL
+            let binURL = URL(fileURLWithPath: NSTemporaryDirectory())
+                .appendingPathComponent(fileName)
+                .appendingPathExtension(export_extension)
+            
+            try jsonData.write(to: binURL)
+
+            return binURL
+            
         } catch {
             print("Error exporting todos: \(error)")
             return URL(fileURLWithPath: "")
@@ -43,13 +52,16 @@ struct ImportExportUtils {
             encoder.outputFormatting = .prettyPrinted
             encoder.dateEncodingStrategy = .formatted(plainDateFormatter)
             
-            let jsonFileURL = URL(fileURLWithPath: NSTemporaryDirectory())
-                .appendingPathComponent(fileName)
-            
             let jsonData = try encoder.encode(dtos)
-            try jsonData.write(to: jsonFileURL)
             
-            return jsonFileURL
+            let binURL = URL(fileURLWithPath: NSTemporaryDirectory())
+                .appendingPathComponent(fileName)
+                .appendingPathExtension("bin")
+            
+            try jsonData.write(to: binURL)
+
+            return binURL
+            
         } catch {
             print("Error exporting todos: \(error)")
             return URL(fileURLWithPath: "")

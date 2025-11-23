@@ -98,6 +98,7 @@
 "error.filenotfound" = "Datei nicht gefunden.";
 "error.emptyfile" = "Leere Datei.";
 "error.invalidjson" = "Ungültiges Format.";
+"error.invalid.filetype" = "Ungültiger Dateityp.";
 "daily.reminders.label" = "Tägliche Erinnerungen";
 "morning.reminder.label" = "Morgentliche Erinnerung";
 "evening.reminder.label" = "Abendliche Erinnerung";

@@ -163,6 +163,7 @@ struct Localization {
         let fileNotFound = NSLocalizedString("error.filenotfound", comment: "File not found")
         let emptyFile = NSLocalizedString("error.emptyfile", comment: "Empty file")
         let invalidJSON = NSLocalizedString("error.invalidjson", comment: "Invalid JSON")
+        let invalidFiletype = NSLocalizedString("error.invalid.filetype", comment: "Invalid file type")
         let invalidTimeSelectionTitle = NSLocalizedString("invalid.time.selection.title", comment: "Title for invalid time selection error")
         let invalidTimeSelectionMessage = NSLocalizedString("invalid.time.selection.message", comment: "Message for invalid time selection error")
     }
