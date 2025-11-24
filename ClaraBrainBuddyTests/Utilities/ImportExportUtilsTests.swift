@@ -66,6 +66,43 @@ final class ImportExportUtilsTests: XCTestCase {
         }
     }
     
+    // MARK: - Test: Export & Import round trip
+    func testExportAndImportTodosOrdered() {
+        // Create sample Todos
+        let date1 = makeDate("2025-08-01")
+        let date2 = makeDate("2025-08-31")
+        
+        let todos: [Todo] = [
+            createTodo(title: "Test 2", details: "", dueDate: date2, estimatedTime: 30, selectedForToday: false, isDone: false, resistance: 0),
+            createTodo(title: "Test 1", details: "", dueDate: date1, estimatedTime: 30, selectedForToday: false, isDone: false, resistance: 0),
+            createTodo(title: "Test 3", details: "", dueDate: date2, estimatedTime: 30, selectedForToday: false, isDone: false, resistance: 0),
+        ]
+
+        let fileName = "TestTodos.json"
+        
+        // Export to JSON file
+        let fileURL = ImportExportUtils.exportListOfTodosToJSONFile(todos: todos, fileName: fileName)
+        
+        XCTAssertFalse(fileURL.path.isEmpty, "Exported file path should not be empty")
+        XCTAssertTrue(FileManager.default.fileExists(atPath: fileURL.path), "File should exist at path")
+
+        // Import back from JSON
+        var importedTodos: [TodoDto] = []
+        do {
+            importedTodos = try ImportExportUtils.importTodosFromJSONFile(fileURL: fileURL)
+            XCTAssertFalse(importedTodos.isEmpty)
+        } catch {
+            XCTFail("Import failed with error: \(error)")
+        }
+        
+        XCTAssertEqual(importedTodos.count, todos.count, "Imported todos count should match original")
+
+        // Check Sort Order
+        XCTAssertEqual(importedTodos[0].title, "Test 1")
+        XCTAssertEqual(importedTodos[1].title, "Test 2")
+        XCTAssertEqual(importedTodos[2].title, "Test 3")
+    }
+    
     // MARK: - Test: Export & Import No data
     func testExportAndImportTodosNoData() {
         // Create sample Todos
