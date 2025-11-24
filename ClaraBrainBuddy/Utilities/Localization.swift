@@ -15,6 +15,7 @@ struct Localization {
     static let errors = Errors()
     static let info = Info()
     static let about = About()
+    static let filename = Filenames()
     
     struct Labels {
         
@@ -226,4 +227,11 @@ struct Localization {
         let featureAISupportTitle = NSLocalizedString("about.feature.aiSupport.title", comment: "Title for AI Support extension")
         let featureAISupportDescription = NSLocalizedString("about.feature.aiSupport.description", comment: "Description for AI Support extension")
     }
+    
+    struct Filenames {
+        // Export/Emport
+        let exportAll = NSLocalizedString("export.all.filename", comment: "All_Tasks")
+        let exportTodo = NSLocalizedString("export.todo.filename", comment: "Task")
+    }
+    
 }

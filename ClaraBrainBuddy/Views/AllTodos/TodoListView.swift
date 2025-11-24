@@ -129,7 +129,9 @@ struct TodoListView: View {
                 }
                 .sheet(item: $sharedTodos) { wrapper in
                     let todos : [Todo] = wrapper.todos
-                    let url : URL = ImportExportUtils.exportListOfTodosToJSONFile(todos: todos, fileName: ImportExportUtils.export_filename)
+                    let dateString = StyleUtils.dateTimeFormatter.string(from: Date())
+                    let filename = "\(Localization.filename.exportTodo)_\(dateString)"
+                    let url : URL = ImportExportUtils.exportListOfTodosToJSONFile(todos: todos, fileName: filename)
                     if (FileManager.default.fileExists(atPath: url.path)) {
                         ShareSheet(activityItems: [url])
                     }

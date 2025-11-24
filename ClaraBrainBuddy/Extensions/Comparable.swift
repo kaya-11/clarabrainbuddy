@@ -1,5 +1,5 @@
 //
-//  Comparable.swift
+//  Extensions/Comparable.swift
 //  ClaraBrainBuddy
 //
 //  Created by Karen on 13.08.25.
