@@ -11,11 +11,8 @@ import CoreData
 
 struct ImportExportUtils {
     
-    static let export_filename = "clara_todo"
-    static let export_extension = "bin"
+    static let export_extension = "clara"
 
-    static let export_filesuffix = export_filename + "." + export_extension
-    
     static func exportAllTodosToJSONFile(context: NSManagedObjectContext, fileName: String) -> URL {
         let request: NSFetchRequest<Todo> = Todo.fetchRequest()
         
@@ -56,7 +53,7 @@ struct ImportExportUtils {
             
             let binURL = URL(fileURLWithPath: NSTemporaryDirectory())
                 .appendingPathComponent(fileName)
-                .appendingPathExtension("bin")
+                .appendingPathExtension(export_extension)
             
             try jsonData.write(to: binURL)
 
@@ -72,6 +69,11 @@ struct ImportExportUtils {
         guard FileManager.default.fileExists(atPath: fileURL.path) else {
             print("File not found: \(fileURL.path)")
             throw ImportExportError.fileNotFound
+        }
+        
+        guard fileURL.pathExtension == ImportExportUtils.export_extension else {
+            print("Invalid file type: \(fileURL.path)")
+            throw ImportExportError.invalidFileType
         }
         
         let jsonData = try Data(contentsOf: fileURL)
@@ -103,6 +105,7 @@ enum ImportExportError: Error, LocalizedError {
     case fileNotFound
     case invalidJSON
     case emptyFile
+    case invalidFileType
 
     var errorDescription: String? {
         switch self {
@@ -112,6 +115,8 @@ enum ImportExportError: Error, LocalizedError {
             return NSLocalizedString(Localization.errors.invalidJSON, comment: "Invalid JSON error")
         case .emptyFile:
             return NSLocalizedString(Localization.errors.emptyFile, comment: "Empty file error")
+        case .invalidFileType:
+            return NSLocalizedString(Localization.errors.invalidFiletype, comment: "Invalid file type")
         }
     }
 }

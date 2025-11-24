@@ -91,6 +91,8 @@
 "properties.show.resistance.alltodos" = "Zeige Widerstand gegen Aufgaben (alle Aufgaben)";
 "open.calendar" = "Öffne Kalender";
 "export.all.label" = "Exportiere alle Aufgaben";
+"export.all.filename" = "Alle_Aufgaben";
+"export.todo.filename" = "Aufgabe";
 "todos.done.title" = "Erledigte Aufgaben";
 "todos.done.label" = "Aufgabe(n) erledigt";
 "time.needed.label" = "Benötigte Zeit";

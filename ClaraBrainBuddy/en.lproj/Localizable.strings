@@ -91,6 +91,8 @@
 "properties.show.resistance.alltodos" = "Show resistance to tasks (all tasks)";
 "open.calendar" = "Open Calendar";
 "export.all.label" = "Export All Tasks";
+"export.all.filename" = "All_Tasks";
+"export.todo.filename" = "Task";
 "todos.done.title" = "Completed tasks";
 "todos.done.label" = "Task(s) done";
 "time.needed.label" = "Time needed";

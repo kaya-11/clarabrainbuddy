@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import UniformTypeIdentifiers
 
 struct ImportPreviewView: View {
     
@@ -74,17 +73,12 @@ struct ImportPreviewView: View {
                 }
             }
             .fileImporter(isPresented: $showFileImporter,
-                          allowedContentTypes: [.data],
+                          allowedContentTypes: [.claratodo],
                           allowsMultipleSelection: false) { result in
                 switch result {
                 case .success(let urls):
                     guard let selectedFileURL = urls.first else {
                         onCancel()
-                        return
-                    }
-                    guard selectedFileURL.lastPathComponent.hasSuffix(ImportExportUtils.export_filesuffix) else {
-                        alertMessage = Localization.errors.invalidFiletype
-                        showingAlert = true
                         return
                     }
                     
