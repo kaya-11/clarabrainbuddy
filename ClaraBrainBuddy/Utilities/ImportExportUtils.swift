@@ -82,11 +82,20 @@ struct ImportExportUtils {
         
         do {
             let dtoList = try decoder.decode([TodoDto].self, from: jsonData)
+            
             let sanitized = Sanitizer.sanitizeTodos(dtoList)
             if (sanitized.isEmpty) {
                 throw ImportExportError.emptyFile
             }
-            return sanitized
+            
+            var orderedList = sanitized
+            orderedList.sort {
+                $0.dueDate == $1.dueDate
+                ? $0.createdAt < $1.createdAt
+                : $0.dueDate < $1.dueDate
+            }
+
+            return orderedList
         } catch {
             throw ImportExportError.invalidJSON
         }
