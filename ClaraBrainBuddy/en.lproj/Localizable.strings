@@ -75,7 +75,7 @@
 "cancel.label" = "Cancel";
 "import.label" = "Import";
 "todays.events.label" = "Todays Events";
-"import.preview.label" = "Preview Import";
+"import.preview.label" = "Preview";
 "no.valid.todos" = "No valid tasks found in the file.";
 "due.label" = "Until";
 "clone.label" = "Clone";

@@ -75,7 +75,7 @@
 "cancel.label" = "Abbrechen";
 "import.label" = "Importieren";
 "todays.events.label" = "Heutigen Ereignisse";
-"import.preview.label" = "Vorschau des Imports";
+"import.preview.label" = "Vorschau";
 "no.valid.todos" = "Keine gültigen Aufgaben zum Importieren";
 "due.label" = "Bis";
 "clone.label" = "Duplikat";
