@@ -23,7 +23,7 @@
             <key>UTTypeIdentifier</key>
                 <string>de.neurobuddies.clara</string>
                 <key>UTTypeDescription</key>
-                <string>Clara Todo Binary Export File</string>
+                <string>Clara File</string>
                 <key>UTTypeConformsTo</key>
                 <array>
                     <string>public.data</string>
@@ -34,6 +34,8 @@
                     <array>
                         <string>clara</string>
                     </array>
+                    <key>public.mime-type</key>
+                    <string>application/json</string>
                 </dict>
             </dict>
         </array>
