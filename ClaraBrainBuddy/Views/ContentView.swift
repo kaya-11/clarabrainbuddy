@@ -9,10 +9,16 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
+    
+    @Environment(\.managedObjectContext) private var context
 
     @State private var showRandomTodoView = true
     
     @State private var selectedTab: Int = 1
+    
+    @ObservedObject private var externalImportManager = ExternalImportManager.shared
+    
+    @ObservedObject var todoViewModel: TodoViewModel = TodoViewModel.shared
     
     var randomTodoDisplayDuration: TimeInterval = {
         if ProcessInfo.processInfo.arguments.contains("--UITestMode") {
@@ -46,6 +52,26 @@ struct ContentView: View {
                 RandomTodoView(isPresented: $showRandomTodoView)
                     .transition(.opacity)
                     .animation(.easeInOut, value: showRandomTodoView)
+            }
+        }
+        .sheet(isPresented: $externalImportManager.showImportPreview) {
+            let importedTodos = externalImportManager.importedTodos
+            if !importedTodos.isEmpty {
+                ImportPreviewView(
+                    initialTodos: importedTodos,
+                    onConfirm: { todoDtos in
+                        let todos = todoDtos.map { dto in
+                            let entity = Todo(context: context)
+                            entity.populate(from: dto, context: context)
+                            return entity
+                        }
+                        todoViewModel.addTodos(todos)
+                        externalImportManager.cancelImport()
+                    },
+                    onCancel: {
+                        externalImportManager.cancelImport()
+                    }
+                )
             }
         }
         .onAppear {

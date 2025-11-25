@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ImportPreviewView: View {
     
+    let initialTodos: [TodoDto]?
     let onConfirm: ([TodoDto]) -> Void
     let onCancel: () -> Void
 
@@ -19,6 +20,16 @@ struct ImportPreviewView: View {
     
     @State private var showingAlert = false
     @State private var alertMessage = ""
+    
+    init(initialTodos: [TodoDto]? = nil,
+         onConfirm: @escaping ([TodoDto]) -> Void,
+         onCancel: @escaping () -> Void) {
+        self.initialTodos = initialTodos
+        self.onConfirm = onConfirm
+        self.onCancel = onCancel
+        _importedTodos = State(initialValue: initialTodos ?? [])
+        _showFileImporter = State(initialValue: initialTodos == nil)
+    }
     
     var body: some View {
         NavigationView {
@@ -100,9 +111,6 @@ struct ImportPreviewView: View {
                     alertMessage = error.localizedDescription
                     showingAlert = true
                 }
-            }
-            .onAppear {
-                showFileImporter = true
             }
             .alert(Localization.messages.importError, isPresented: $showingAlert) { 
                 Button(Localization.labels.ok, role: .cancel) {

@@ -10,6 +10,7 @@ import UserNotifications
 
 @main
 struct ClaraBrainBuddyApp: App {
+    
     let context = DataManager.shared.context
     
     var body: some Scene {
@@ -26,6 +27,11 @@ struct ClaraBrainBuddyApp: App {
                         } else {
                             print("Notifications not granted")
                         }
+                    }
+                }
+                .onOpenURL { url in
+                    Task {
+                        await ExternalImportManager.shared.handleFile(url: url)
                     }
                 }
         }
