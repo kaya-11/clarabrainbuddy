@@ -35,7 +35,7 @@
                         <string>clara</string>
                     </array>
                     <key>public.mime-type</key>
-                    <string>application/json</string>
+                    <string>application/x-clara</string>
                 </dict>
             </dict>
         </array>
