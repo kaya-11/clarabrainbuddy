@@ -20,6 +20,7 @@ extension TodayTodo {
     @NSManaged public var sortOrder: Int64
     @NSManaged public var recurringTask: RecurringTask?
     @NSManaged public var todo: Todo
+    @NSManaged public var updatedAt: Date?
 
 }
 

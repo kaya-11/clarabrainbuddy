@@ -29,7 +29,10 @@ struct TodaysListView: View {
     @Environment(\.managedObjectContext) private var context
      
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \TodayTodo.sortOrder, ascending: true)]
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \TodayTodo.sortOrder, ascending: true),
+            NSSortDescriptor(keyPath: \TodayTodo.updatedAt, ascending: true)
+        ]
     ) private var todayTodos: FetchedResults<TodayTodo>
     
     @FetchRequest(
