@@ -25,7 +25,10 @@ struct TodoListView: View {
     @Environment(\.managedObjectContext) private var context
      
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Todo.sortOrder, ascending: true)]
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \Todo.sortOrder, ascending: true),
+            NSSortDescriptor(keyPath: \Todo.updatedAt, ascending: true)
+        ]
     ) private var todos: FetchedResults<Todo>
     
     var filteredTodos: [Todo] {

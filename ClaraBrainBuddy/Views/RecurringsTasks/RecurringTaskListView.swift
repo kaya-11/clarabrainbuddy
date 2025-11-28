@@ -22,7 +22,10 @@ struct RecurringTaskListView: View {
     @Environment(\.managedObjectContext) private var context
         
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \RecurringTask.sortOrder, ascending: true)]
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \RecurringTask.sortOrder, ascending: true),
+            NSSortDescriptor(keyPath: \RecurringTask.updatedAt, ascending: true)
+        ]
     ) private var tasks: FetchedResults<RecurringTask>
     
     var filteredRecurringTasks: [RecurringTask] {
