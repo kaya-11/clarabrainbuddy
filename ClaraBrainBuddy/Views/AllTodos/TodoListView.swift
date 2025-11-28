@@ -172,12 +172,26 @@ struct TodoListView: View {
                         .foregroundColor(Color.theme.primary)
                         .font(Font.app.title)
                 }
+
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        showingAddTodo = true
-                    }) {
-                        Image(systemName: "plus.circle")
-                    }.accessibilityIdentifier("AddTodoButton")
+                    HStack {
+                        Button(action: {
+                            todoViewModel.reorderTodos()
+                        }) {
+                            ZStack {
+                                Image(systemName: "calendar")
+                                    .font(Font.app.small)
+                                Image(systemName: "arrow.down")
+                                    .font(Font.app.micro)
+                                    .offset(x: 14, y: -4)
+                            }
+                        }.accessibilityIdentifier("ReorderTodos")
+                        Button(action: {
+                            showingAddTodo = true
+                        }) {
+                            Image(systemName: "plus.circle")
+                        }.accessibilityIdentifier("AddTodoButton")
+                    }
                 }
             }
             .toolbarBackground(Color.theme.background, for: .navigationBar)

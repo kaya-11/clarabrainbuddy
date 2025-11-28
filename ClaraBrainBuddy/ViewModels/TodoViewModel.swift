@@ -388,6 +388,22 @@ class TodoViewModel: ObservableObject {
         saveContext()
     }
     
+    func reorderTodos() {
+        var reorderedTodos = allTodos
+        reorderedTodos.sort { first, second in
+            
+            if first.dueDate == second.dueDate {
+                return first.createdAt > second.createdAt
+            }
+            
+            return first.dueDate < second.dueDate
+        }
+        for (index, todo) in reorderedTodos.enumerated() {
+            todo.sortOrder = Int64(index)
+        }
+        saveContext()
+    }
+    
     func getTotalTodaysTodosCountNotDone() -> Int {
         return todayTodos.filter { !$0.todo.isDone }.count
     }

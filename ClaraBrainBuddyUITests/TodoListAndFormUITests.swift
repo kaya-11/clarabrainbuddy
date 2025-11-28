@@ -162,16 +162,16 @@ final class TodoListAndFormUITests: XCTestCase {
 
         sleep(2)
         
-        var todoCell = app.staticTexts["Todo EnergyImpact"]
+        let todoCell = app.staticTexts["Todo EnergyImpact"]
         XCTAssertTrue(todoCell.waitForExistence(timeout: 2))
         
-        var start = todoCell.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5))
-        var end = todoCell.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5))
+        let start = todoCell.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5))
+        let end = todoCell.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5))
         start.press(forDuration: 0.1, thenDragTo: end)
         
         print(app.debugDescription)
         
-        var button = app.buttons["TodoListDeleteTodo"]
+        let button = app.buttons["TodoListDeleteTodo"]
         XCTAssertTrue(button.waitForExistence(timeout: 2))
         
         button.tap()
@@ -234,6 +234,72 @@ final class TodoListAndFormUITests: XCTestCase {
         
         XCTAssertFalse(todoCell.waitForExistence(timeout: 2))
 
+        XCTAssertTrue(app.buttons["AddTodoButton"].waitForExistence(timeout: 2))
+    }
+    
+    func testAddTwoTodosAndReorder() {
+        let allTodosTab = app.otherElements["AllTodosTab"]
+        let addButton = allTodosTab.buttons["AddTodoButton"]
+        addButton.tap()
+        
+        let titleField = app.textFields.element(boundBy: 0)
+        XCTAssertTrue(titleField.waitForExistence(timeout: 2))
+        titleField.tap()
+        titleField.typeText("Todo1")
+        
+        let saveButton = app.buttons["TodoFormSaveButton"]
+        XCTAssertTrue(saveButton.isEnabled)
+        saveButton.tap()
+
+        XCTAssertTrue(addButton.waitForExistence(timeout: 2))
+        addButton.tap()
+        
+        XCTAssertTrue(titleField.waitForExistence(timeout: 2))
+        titleField.tap()
+        titleField.typeText("Todo2")
+
+        XCTAssertTrue(saveButton.isEnabled)
+        saveButton.tap()
+
+        XCTAssertTrue(addButton.waitForExistence(timeout: 2))
+        
+        sleep(2)
+        let reorderButton = app.buttons["ReorderTodos"]
+        
+        XCTAssertTrue(reorderButton.waitForExistence(timeout: 2))
+        reorderButton.tap()
+        
+        sleep(2)
+        
+        let todoCell1 = app.staticTexts["Todo1"]
+        XCTAssertTrue(todoCell1.waitForExistence(timeout: 2))
+        
+        let start1 = todoCell1.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5))
+        let end1 = todoCell1.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5))
+        
+        let todoCell2 = app.staticTexts["Todo2"]
+        XCTAssertTrue(todoCell2.waitForExistence(timeout: 2))
+        
+        let start2 = todoCell2.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5))
+        let end2 = todoCell2.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5))
+        
+        XCTAssertTrue(start1.screenPoint.y < start2.screenPoint.y)
+
+        start1.press(forDuration: 0.1, thenDragTo: end1)
+        
+        var button = app.buttons["TodoListDeleteTodo"]
+        XCTAssertTrue(button.waitForExistence(timeout: 2))
+        
+        button.tap()
+
+        start2.press(forDuration: 0.1, thenDragTo: end2)
+
+        button = app.buttons["TodoListDeleteTodo"]
+        XCTAssertTrue(button.waitForExistence(timeout: 2))
+        button.tap()
+        
+        XCTAssertFalse(todoCell2.waitForExistence(timeout: 2))
+        
         XCTAssertTrue(app.buttons["AddTodoButton"].waitForExistence(timeout: 2))
     }
         
