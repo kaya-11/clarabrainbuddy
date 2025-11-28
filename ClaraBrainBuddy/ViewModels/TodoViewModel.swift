@@ -240,7 +240,7 @@ class TodoViewModel: ObservableObject {
         todo.isDone = true
         todo.updatedAt = updatedAt
         
-        todayTodo.todo = todo // "Touch" the TodayTodo
+        todayTodo.updatedAt = Date()
         
         saveContext()
     }
@@ -252,7 +252,7 @@ class TodoViewModel: ObservableObject {
         do {
             let todayTodos = try updatedTodo.managedObjectContext?.fetch(fetchRequest) ?? []
             for todayTodo in todayTodos {
-                todayTodo.todo = updatedTodo // "Touch" the TodayTodo
+                todayTodo.updatedAt = Date()
             }
         } catch {
             print("Error fetching TodayTodos: \(error)")

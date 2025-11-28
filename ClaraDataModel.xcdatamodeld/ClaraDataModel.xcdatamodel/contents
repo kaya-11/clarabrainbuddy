@@ -12,6 +12,7 @@
     <entity name="TodayTodo" representedClassName="ClaraBrainBuddy.TodayTodo" syncable="YES">
         <attribute name="selectedForTodayAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="sortOrder" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="recurringTask" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RecurringTask"/>
         <relationship name="todo" maxCount="1" deletionRule="No Action" destinationEntity="Todo"/>
     </entity>
