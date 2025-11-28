@@ -385,6 +385,44 @@ final class TodoViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.todayTodos[4].todo, todo1)
     }
     
+    func testReorderTodos() {
+        let todo1: Todo = createTodoWithDueDateAndCreatedAt(title: "Todo2", dueDate: Date()+1, createdAt: Date()+1, sortOrder: 1)
+        let todo2: Todo = createTodoWithDueDateAndCreatedAt(title: "Todo1", dueDate: Date()+1, sortOrder: 0)
+        let todo3: Todo = createTodoWithDueDateAndCreatedAt(title: "Todo3", sortOrder: 2)
+        
+        viewModel.addTodos([todo1, todo2, todo3])
+  
+        XCTAssertEqual(viewModel.allTodos[0], todo1)
+        XCTAssertEqual(viewModel.allTodos[1], todo2)
+        XCTAssertEqual(viewModel.allTodos[2], todo3)
+    
+        viewModel.reorderTodos()
+        
+        XCTAssertEqual(viewModel.allTodos[0], todo3)
+        XCTAssertEqual(viewModel.allTodos[1], todo1)
+        XCTAssertEqual(viewModel.allTodos[2], todo2)
+    }
+    
+    private func createTodoWithDueDateAndCreatedAt(
+        title: String,
+        dueDate: Date = Date(),
+        createdAt: Date = Date(),
+        sortOrder: Int64 = 0
+    ) -> Todo {
+        let todo = Todo(context: context)
+        todo.title = title
+        todo.dueDate = dueDate
+        todo.isDone = false
+        todo.estimatedTime = 10
+        todo.selectedForToday = false
+        todo.sortOrder = sortOrder
+        todo.resistance = 0
+        todo.createdAt = createdAt
+        todo.updatedAt = nil
+        return todo
+    }
+    
+    
     func testDeleteCompletedTodos() {
         let todo1: Todo = createTodo(title: "Todo1", estimatedTime: 5, isDone: true, sortOrder: 0)
         let todo2: Todo = createTodo(title: "Todo2", estimatedTime: 10, sortOrder: 1)
