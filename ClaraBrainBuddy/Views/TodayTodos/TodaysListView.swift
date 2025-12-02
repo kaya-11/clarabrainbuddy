@@ -279,7 +279,7 @@ struct TodaysListView: View {
                                  eventProvider: RealEventProvider())
                 }
             }
-            .onChange(of: todayTodos.count) { _ in
+            .onChange(of: todayTodos.count) {
                 eventProvider.fetchTodayEvents { events in
                     self.todayEvents = events.filter { event in
                         !todoViewModel.eventAlreadyExistsAsTodo(event)

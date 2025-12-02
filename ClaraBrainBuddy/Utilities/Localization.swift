@@ -12,10 +12,12 @@ struct Localization {
     static let labels = Labels()
     static let messages = Messages()
     static let weekdays = Weekdays()
+    static let priority = Priority()
     static let errors = Errors()
     static let info = Info()
     static let about = About()
     static let filename = Filenames()
+
     
     struct Labels {
         
@@ -141,6 +143,13 @@ struct Localization {
             [sunday, monday, tuesday, wednesday, thursday, friday, saturday][day - 1]
         }
         
+    }
+    
+    struct Priority {
+        let urgent = NSLocalizedString("priority.urgent", comment: "Urgent")
+        let important = NSLocalizedString("priority.important", comment: "Important")
+        let importantAndUrgent = NSLocalizedString("priority.important.and.urgent", comment: "Important And Urgent")
+        let nothingOfBoth = NSLocalizedString("priority.nothing.of.both", comment: "Nothing of Both")
     }
     
     struct Messages {
