@@ -23,30 +23,79 @@ struct PriorityBox: View {
             HStack(spacing: 16) {
                 
                 PriorityDropView(
-                    priority: .urgent,
-                    tasks: $urgentTasks,
-                    todayTasks: $todayTasks)
+                    priority: .importantAndUrgent,
+                    tasks: $importantAndUrgentTasks
+                )
+                .onDrop(of: [UTType.text], isTargeted: nil) { providers in
+                    handleDrop(providers: providers, target: $importantAndUrgentTasks)
+                }
                 
                 PriorityDropView(
-                    priority: .importantAndUrgent,
-                    tasks: $importantAndUrgentTasks,
-                    todayTasks: $todayTasks)
+                    priority: .urgent,
+                    tasks: $urgentTasks
+                )
+                .onDrop(of: [UTType.text], isTargeted: nil) { providers in
+                    handleDrop(providers: providers, target: $urgentTasks)
+                }
+                
             }
             HStack(spacing: 16) {
                 
                 PriorityDropView(
-                    priority: .nothingOfBoth,
-                    tasks: $nothingOfBothTasks,
-                    todayTasks: $todayTasks)
-                
-                PriorityDropView(
                     priority: .important,
-                    tasks: $importantTasks,
-                    todayTasks: $todayTasks)
+                    tasks: $importantTasks
+                )
+                .onDrop(of: [UTType.text], isTargeted: nil) { providers in
+                    handleDrop(providers: providers, target: $importantTasks)
+                }
+
+                PriorityDropView(
+                    priority: .nothingOfBoth,
+                    tasks: $nothingOfBothTasks
+                )
+                .onDrop(of: [UTType.text], isTargeted: nil) { providers in
+                    handleDrop(providers: providers, target: $nothingOfBothTasks)
+                }
+                
             }
         }
         .padding(.horizontal)
     }
+    
+    private func handleDrop(providers: [NSItemProvider], target: Binding<[Todo]>) -> Bool {
+        for provider in providers {
+            provider.loadItem(forTypeIdentifier: UTType.text.identifier) { (item, error) in
+                DispatchQueue.main.async {
+                    if let data = item as? Data {
+                        let uriString = String(decoding: data, as: UTF8.self)
+                        moveTodo(withURI: uriString, to: target)
+                    }
+                }
+            }
+        }
+        return true
+    }
+
+    private func moveTodo(withURI uriString: String, to target: Binding<[Todo]>) {
+        // 1. Suche in todayTasks (Ursprungsliste)
+        if let index = todayTasks.firstIndex(where: { $0.objectID.uriRepresentation().absoluteString == uriString }) {
+            target.wrappedValue.append(todayTasks.remove(at: index))
+            return
+        }
+
+        // 2. Suche in den DropViews
+        if let index = urgentTasks.firstIndex(where: { $0.objectID.uriRepresentation().absoluteString == uriString }) {
+            target.wrappedValue.append(urgentTasks.remove(at: index))
+        } else if let index = importantAndUrgentTasks.firstIndex(where: { $0.objectID.uriRepresentation().absoluteString == uriString }) {
+            target.wrappedValue.append(importantAndUrgentTasks.remove(at: index))
+        } else if let index = nothingOfBothTasks.firstIndex(where: { $0.objectID.uriRepresentation().absoluteString == uriString }) {
+            target.wrappedValue.append(nothingOfBothTasks.remove(at: index))
+        } else if let index = importantTasks.firstIndex(where: { $0.objectID.uriRepresentation().absoluteString == uriString }) {
+            target.wrappedValue.append(importantTasks.remove(at: index))
+        }
+    }
+
+
 }
 
 enum PriorityMatrix  {
@@ -75,8 +124,7 @@ struct PriorityDropView: View {
     let priority: PriorityMatrix
     
     @Binding var tasks: [Todo]
-    @Binding var todayTasks: [Todo]
-
+    
     var body: some View {
         VStack (alignment: .leading, spacing: 8) {
             Text(priority.localizedString)
@@ -91,8 +139,10 @@ struct PriorityDropView: View {
                         TodoListEntrySimpleView(todo: task)
                             .font(Font.app.tiny)
                             .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
                             .listRowInsets(EdgeInsets(top: 2, leading: 8, bottom: 2, trailing: 8))
+                            .onDrag {
+                                NSItemProvider(object: String(task.objectID.uriRepresentation().absoluteString) as NSString)
+                            }
                     }
                 }
                 .listStyle(.plain)
@@ -106,36 +156,14 @@ struct PriorityDropView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .padding(8)
         .frame(width: 180, height: 180)
+        .background(Color.theme.listBackground)
+        .cornerRadius(12)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
                 .stroke(Color.theme.secondary, lineWidth: 2)
         )
         .contentShape(RoundedRectangle(cornerRadius: 12))
-        .onDrop(
-            of: [UTType.text],
-            isTargeted: nil,
-            perform: { providers in
-                handleDrop(providers: providers)
-                return true
-            }
-        )
     }
-    
-    private func handleDrop(providers: [NSItemProvider]) {
-        for provider in providers {
-            provider.loadItem(forTypeIdentifier: UTType.text.identifier) { (item, error) in
-                DispatchQueue.main.async {
-                    if let data = item as? Data {
-                        let uriString = String(decoding: data, as: UTF8.self)
-                        if let index = todayTasks.firstIndex(where: { $0.objectID.uriRepresentation().absoluteString == uriString }) {
-                            tasks.append(todayTasks.remove(at: index))
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
 }
 
 struct PriorityView: View {
@@ -157,6 +185,13 @@ struct PriorityView: View {
         self.onCancel = onCancel
         self._todayTasks = State(initialValue: tasks)
     }
+    
+    var priorityListsEmpty : Bool {
+        return urgentTasks.isEmpty
+            && importantAndUrgentTasks.isEmpty
+            && nothingOfBothTasks.isEmpty
+            && importantTasks.isEmpty
+    }
 
     var body: some View {
         NavigationView {
@@ -176,7 +211,7 @@ struct PriorityView: View {
                             InfoView(
                                 isPresented: $showingInfo,
                                 title: "Aufgaben neu priorisieren", // Localize
-                                explanationText: "Ziehe die Aufgaben auf eine der vier Prioritätenboxen. [...]", // Localize
+                                explanationText: "Wenn Du zu viele Aufgaben in Deiner Tagesplanung hast und nicht weißt mit welcher Du anfangen sollst, nutze diese Matrix, um die Aufgaben zu priorisieren, Ziehe die Aufgaben auf eine der vier Prioritätenboxen. [...]. Wenn Du auf 'Confirm' klickst, werden die Aufgaben folgendermaßen neu priorisiert: Dringende & wichtige Aufgaben landen oben in der Tagesplanung. Nur dringende Aufgaben bleiben in der Tagesplanung, werden aber nach unten verschoben. Alles was 'nur' wichtgig ist, wird aus der Tagesplanung entfernt, jedoch oben in die Übversicht aller Tasks verschoben. Alle anderen werden auch aus der Tagesplanung entfernt und unterhalb der 'wichtigen' Aufgaben platziert", // Localize
                                 buttonText: nil,
                                 buttonAction: nil
                             )
@@ -185,17 +220,27 @@ struct PriorityView: View {
                     .foregroundColor(Color.theme.primary)
                     .frame(maxWidth: .infinity, alignment: .center)
                     
-                    List {
-                        ForEach(todayTasks) { task in
-                            TodoListEntrySimpleView(todo: task)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .onDrag {
-                                    NSItemProvider(object: String(task.objectID.uriRepresentation().absoluteString) as NSString)
+                    if !todayTasks.isEmpty {
+                        VStack {
+                            List {
+                                ForEach(todayTasks) { task in
+                                    TodoListEntrySimpleView(todo: task)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .onDrag {
+                                            NSItemProvider(object: String(task.objectID.uriRepresentation().absoluteString) as NSString)
+                                        }
                                 }
+                            }
+                            .listStyle(.plain)
+                            .scrollContentBackground(.hidden)
+                            .background(Color.clear)
+                            .frame(width: 260, height: 260, alignment: .center)
                         }
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    } else {
+                        Spacer()
+                            .frame(maxWidth: .infinity, maxHeight: 260, alignment: .center)
                     }
-                    .frame(height: 260)
-                    .background(Color.theme.background)
                 }
                 .frame(height: 300)
                 
@@ -217,10 +262,10 @@ struct PriorityView: View {
                     Button(Localization.labels.cancel, action: onCancel)
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Confirm", action: onConfirm) // Localize
+                    Button("Neuordnen", action: onConfirm) // Localize
+                        .disabled(!todayTasks.isEmpty || priorityListsEmpty)
                 }
             }
-            
             .onAppear {
                 urgentTasks.removeAll()
                 importantAndUrgentTasks.removeAll()
@@ -229,6 +274,4 @@ struct PriorityView: View {
             }
         }
     }
-    
 }
-

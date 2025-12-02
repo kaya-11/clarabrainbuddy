@@ -99,7 +99,7 @@ struct ClaraMenuView: View {
                 .accessibilityIdentifier("ClaraMenu")
         }
         .sheet(isPresented: $isPriorityMatrixPresented) {
-            let todayTasks : [Todo] = todoViewModel.todayTodos.map(\.todo)
+            let todayTasks : [Todo] = todoViewModel.todayTodos.map(\.todo).filter{ !$0.isDone }
             PriorityView(
                 tasks: todayTasks,
                 onConfirm: {
