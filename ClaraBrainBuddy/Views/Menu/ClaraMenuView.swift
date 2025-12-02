@@ -15,8 +15,11 @@ struct ClaraMenuView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
     @ObservedObject var todoViewModel: TodoViewModel
     
-    @State private var isSettingsPresented = false
     @State private var isTodaysEventsPresented = false
+    
+    @State private var isPriorityMatrixPresented = false
+    
+    @State private var isSettingsPresented = false
     
     @State private var showingShareSheet = false
     @State private var urlToShare: URL?
@@ -48,6 +51,13 @@ struct ClaraMenuView: View {
             }) {
                 Label(Localization.labels.openCalendar, systemImage: "calendar")
             }
+            
+            Button(action: {
+                isPriorityMatrixPresented = true
+            }) {
+                Label("Eisenhower-Matrix", systemImage: "arrow.clockwise")
+            }
+            .accessibilityIdentifier("PriorityView")
             
             Button(action: {
                 isSettingsPresented = true
@@ -83,12 +93,22 @@ struct ClaraMenuView: View {
                 Label(Localization.labels.about, systemImage: "info.circle")
             }
             
-
-        
         } label: {
             Label("Menu", systemImage: "line.horizontal.3")
                 .foregroundColor(Color.theme.accent)
                 .accessibilityIdentifier("ClaraMenu")
+        }
+        .sheet(isPresented: $isPriorityMatrixPresented) {
+            let todayTasks : [Todo] = todoViewModel.todayTodos.map(\.todo)
+            PriorityView(
+                tasks: todayTasks,
+                onConfirm: {
+                isPriorityMatrixPresented = false
+                },
+                onCancel: {
+                isPriorityMatrixPresented = false
+                }
+            )
         }
         .sheet(isPresented: $isSettingsPresented) {
             SettingsView(settingsViewModel: settingsViewModel)
