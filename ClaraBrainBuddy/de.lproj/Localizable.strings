@@ -45,6 +45,8 @@
 "done.label" = "Erledigt";
 "copy.label" = "Kopieren";
 "remove.label" = "Entfernen";
+"reprioritize.tasks.label" = "Aufgaben neu priorisieren";
+"rearrange.label" = "Neuordnen";
 "message.energy.level" = "Zeitbudget";
 "message.energy.level.low" = "niedrig";
 "message.energy.level.medium" = "mittel";
@@ -69,6 +71,7 @@
 "weekday.friday" = "Freitag";
 "weekday.saturday" = "Samstag";
 "properties.label" = "Einstellungen";
+"prioritymatrix.label" = "Eisenhower-Matrix";
 "back.label" = "Zurück";
 "save.label" = "Speichern";
 "ok.label" = "Ok";
@@ -108,6 +111,8 @@
 "invalid.time.selection.message" = "Die Morgen-Erinnerung muss vor der Abend-Erinnerung liegen.";
 "info.timebudget.explanation.title" = "Zeitbudget";
 "info.timebudget.explanation.text" = "Der Zeitbudget-Schieberegler hilft dir, deine Aufgabenlast zu verwalten. 🧠\n\nWenn du wenig Zeit hast, also deine exekutive Kapazität klein ist, kannst du nur eine begrenzte Anzahl an Aufgaben erledigen.\n\nDie geschätzte Zeit wird fett und rot dargestellt, wenn du je nach Zeitbudget einen bestimmten Grenzwert überschreitest. Die mittlere Einstellung bedeutet, dass du 1,5 bis 3 Stunden verfügbar hast. Die hohe Einstellung bedeutet, dass du an diesem Tag viel schaffen kannst. 💪\n\nAber Achtung: Es gibt auch hier einen Grenzwert, damit du siehst, wenn du deinen Tagesplan zu voll gepackt hast.\n\nAufgaben, bei denen du zum Prokrastinieren neigst, erhalten einen Strafaufschlag bei der Berechnung der geschätzten Zeit. ⚠️";
+"info.prioritymatrix.explanation.title" = "Zu viele Aufgaben in Deiner Tagesplanung?";
+"info.prioritymatrix.explanation.text" = "Nutze diese Matrix, um Deine Aufgaben neu zu priorisieren.\n\nZiehe die Aufgaben einfach in eine der vier Boxen:\n- Dringend & Wichtig\n- Dringend\n- Wichtig\n- Weder noch\n\nNach dem Klick auf 'Neuordnen' werden die Aufgaben automatisch neu sortiert:\n\nAlles aus 'Dringend & Wichtig' landet ganz oben in Deiner Tagesplanung. Aufgaben, die nur 'Dringend' sind, bleiben in der Tagesplanung, werden aber weiter nach unten verschoben. Die nur als  'Wichtige' geflaggten Aufgaben werden aus der Tagesplanung entfernt und oben in der 'Übersicht aller Aufgaben' platziert. Alle anderen Aufgaben werden ebenfalls aus der Tagesplanung entfernt und in der 'Übersicht aller Aufgaben' unterhalb der 'wichtigen' Aufgaben einsortiert.";
 "about.label" = "Über";
 "about.claraBrainBuddy.title" = "Über Clara BrainBuddy";
 "about.claraBrainBuddy.description" = "Clara BrainBuddy hilft, dein tägliches Gehirn-Chaos zu organisieren.";
@@ -159,4 +164,4 @@
 "priority.urgent" = "Dringend";
 "priority.important" = "Wichtig";
 "priority.important.and.urgent" = "Dringend & Wichtig";
-"priority.nothing.of.both" = "Keines von beiden";
+"priority.nothing.of.both" = "Weder noch";
