@@ -109,9 +109,14 @@ struct Localization {
         let todaysEvents = NSLocalizedString( "todays.events.label", comment: "Todays Events")
         
         // Reminders
-        let dailyReminders = NSLocalizedString( "daily.reminders.label", comment: "Daily Reminders")
-        let morningReminder = NSLocalizedString( "morning.reminder.label", comment: "Morning Reminder")
-        let eveningReminder = NSLocalizedString( "evening.reminder.label", comment: "Evening Reminder")
+        let dailyReminders = NSLocalizedString("daily.reminders.label", comment: "Daily Reminders")
+        let morningReminder = NSLocalizedString("morning.reminder.label", comment: "Morning Reminder")
+        let eveningReminder = NSLocalizedString("evening.reminder.label", comment: "Evening Reminder")
+        
+        // Priority Matrix
+        let priorityMatrix = NSLocalizedString("prioritymatrix.label", comment: "Eisenhower-Matrix")
+        let reprioritizeTasks = NSLocalizedString("reprioritize.tasks.label", comment: "Reprioritize tasks")
+        let rearrange = NSLocalizedString("rearrange.label", comment:  "Rearrange");
         
         // Buttons
         let back = NSLocalizedString("back.label", comment: "Back")
@@ -142,7 +147,6 @@ struct Localization {
         func getWeekdayName(_ day: Int) -> String {
             [sunday, monday, tuesday, wednesday, thursday, friday, saturday][day - 1]
         }
-        
     }
     
     struct Priority {
@@ -188,6 +192,8 @@ struct Localization {
     struct Info {
         let infoTimebudgetTitle = NSLocalizedString("info.timebudget.explanation.title", comment: "Title for the timebudget explanation section")
         let infoTimebudgetText = NSLocalizedString("info.timebudget.explanation.text", comment: "Text for the timebudget explanation section")
+        let infoPriorityMatrixTitle = NSLocalizedString("info.prioritymatrix.explanation.title", comment: "Title for the prioritymatrix explanation section")
+        let infoPriorityMatrixText = NSLocalizedString("info.prioritymatrix.explanation.text", comment: "Text for the prioritymatrix explanation section")
     }
     
     struct About {

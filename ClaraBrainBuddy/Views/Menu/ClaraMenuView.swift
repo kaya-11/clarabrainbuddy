@@ -55,7 +55,7 @@ struct ClaraMenuView: View {
             Button(action: {
                 isPriorityMatrixPresented = true
             }) {
-                Label("Eisenhower-Matrix", systemImage: "arrow.clockwise")
+                Label(Localization.labels.priorityMatrix, systemImage: "arrow.clockwise")
             }
             .accessibilityIdentifier("PriorityView")
             
@@ -100,7 +100,7 @@ struct ClaraMenuView: View {
         }
         .sheet(isPresented: $isPriorityMatrixPresented) {
             let todayTasks : [Todo] = todoViewModel.todayTodos.map(\.todo).filter{ !$0.isDone }
-            PriorityView(
+            PriorityMatrixView(
                 tasks: todayTasks,
                 onConfirm: {
                 isPriorityMatrixPresented = false

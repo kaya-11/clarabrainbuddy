@@ -45,6 +45,8 @@
 "done.label" = "Done";
 "copy.label" = "Copy";
 "remove.label" = "Remove";
+"reprioritize.tasks.label" = "Reprioritize tasks";
+"rearrange.label" = "Rearrange";
 "message.energy.level" = "Time budget";
 "message.energy.level.low" = "low";
 "message.energy.level.medium" = "medium";
@@ -69,6 +71,7 @@
 "weekday.friday" = "Friday";
 "weekday.saturday" = "Saturday";
 "properties.label" = "Settings";
+"prioritymatrix.label" = "Eisenhower-Matrix";
 "back.label" = "Back";
 "save.label" = "Save";
 "ok.label" = "OK";
@@ -109,7 +112,8 @@
 "invalid.time.selection.message" = "Morning reminder must be earlier than evening reminder.";
 "info.timebudget.explanation.title" = "Time budget";
 "info.timebudget.explanation.text" = "The time budget slider helps you manage your workload. 🧠\n\nIf you have little time, i.e., your executive capacity is low, you can only complete a limited number of tasks.\n\nThe estimated time is displayed in bold red when you exceed a certain limit based on your time budget. The medium setting means that you have 1.5 to 3 hours available. The high setting means that you can get a lot done that day. 💪\n\nBut be careful: there is also a limit here so that you can see when you have packed your daily schedule too full.\n\nTasks that you tend to procrastinate on receive a penalty when calculating the estimated time. ⚠️";
-"about.claraBrainBuddy.title" = "About Clara BrainBuddy";
+"info.prioritymatrix.explanation.title" = "Too many tasks in your daily plan?";
+"info.prioritymatrix.explanation.text" = "UUse this matrix to reprioritize your tasks.\n\nSimply drag the tasks into one of the four boxes:\n- Urgent & Important\n- Urgent\n- Important\n\n- Neither\n\nAfter clicking on ‘Reorder’, the tasks are automatically sorted:\n\nEverything from ‘Urgent & Important’ ends up at the top of your daily schedule. Tasks that are only ‘Urgent’ remain in the daily schedule but are moved further down. Tasks flagged as ‘Important’ are removed from the daily schedule and placed at the top of the ‘Overview of all tasks’. All other tasks are also removed from the daily schedule and sorted into the ‘Overview of all tasks’ below the ‘Important’ tasks.";
 "about.claraBrainBuddy.description" = "Clara BrainBuddy brings order to your daily brain chaos.";
 "about.claraBrainBuddy.version" = "Version";
 "about.feature.todos.title" = "✅ To-do";
@@ -159,4 +163,4 @@
 "priority.urgent" = "Urgent";
 "priority.important" = "Important";
 "priority.important.and.urgent" = "Urgent & Important";
-"priority.nothing.of.both" = "Nothing of both";
+"priority.nothing.of.both" = "Neither";

@@ -23,12 +23,12 @@ struct InfoView: View {
                 VStack {
                     VStack {
                         Text(title)
-                            .font(Font.app.title)
+                            .font(Font.app.normal)
                             .padding()
                             .accessibilityIdentifier("Title")
                         
                         Text(explanationText)
-                            .font(Font.app.normal)
+                            .font(Font.app.small)
                             .padding()
                             .accessibilityIdentifier("Explanation")
                         
