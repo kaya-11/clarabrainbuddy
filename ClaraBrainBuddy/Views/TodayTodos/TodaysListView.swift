@@ -273,10 +273,12 @@ struct TodaysListView: View {
             .sheet(isPresented: $showingCalenderView) {
                 if CommandLine.arguments.contains("UITestMode") {
                     CalendarView(todoViewModel: todoViewModel,
-                                 eventProvider: FakeEventProvider())
+                                 eventProvider: FakeEventProvider(),
+                                 onlyToday: true)
                 } else {
                     CalendarView(todoViewModel: todoViewModel,
-                                 eventProvider: RealEventProvider())
+                                 eventProvider: RealEventProvider(),
+                                 onlyToday: true)
                 }
             }
             .onChange(of: todayTodos.count) {

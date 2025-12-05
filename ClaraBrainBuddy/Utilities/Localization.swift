@@ -106,6 +106,7 @@ struct Localization {
         let openCalendar = NSLocalizedString("open.calendar", comment: "Open Calendar")
         let about = NSLocalizedString("about.label", comment: "About")
         let importTodo = NSLocalizedString("import.label", comment: "Import todos")
+        let upcomingEvents = NSLocalizedString( "upcoming.events.label", comment: "Upcoming Events")
         let todaysEvents = NSLocalizedString( "todays.events.label", comment: "Todays Events")
         
         // Reminders
