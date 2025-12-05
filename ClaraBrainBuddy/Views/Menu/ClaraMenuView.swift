@@ -102,11 +102,17 @@ struct ClaraMenuView: View {
             let todayTasks : [Todo] = todoViewModel.todayTodos.map(\.todo).filter{ !$0.isDone }
             PriorityMatrixView(
                 tasks: todayTasks,
-                onConfirm: {
-                isPriorityMatrixPresented = false
+                onConfirm: { urgentTasks, importantAndUrgentTasks, nothingOfBothTasks, importantTasks in
+                    isPriorityMatrixPresented = false
+                    todoViewModel.reprioritizeTodos(
+                        importantAndUrgentTasks: importantAndUrgentTasks,
+                        urgentTasks: urgentTasks,
+                        importantTasks: importantTasks,
+                        nothingOfBothTasks: nothingOfBothTasks
+                    )
                 },
                 onCancel: {
-                isPriorityMatrixPresented = false
+                    isPriorityMatrixPresented = false
                 }
             )
         }
