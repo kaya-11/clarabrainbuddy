@@ -20,9 +20,12 @@ struct CalendarView: View {
     
     private let eventProvider: EventProvider
     
-    init(todoViewModel: TodoViewModel, eventProvider: EventProvider) {
+    private let onlyToday: Bool
+    
+    init(todoViewModel: TodoViewModel, eventProvider: EventProvider, onlyToday: Bool = false) {
         self.todoViewModel = todoViewModel
         self.eventProvider = eventProvider
+        self.onlyToday = onlyToday
     }
 
     var body: some View {
@@ -82,7 +85,8 @@ struct CalendarView: View {
                     .accessibilityIdentifier("CancelTodaysEventsButton")
                 }
                 ToolbarItemGroup(placement: .principal) {
-                    Text("Today's Events")
+                    let label : String = onlyToday ? Localization.labels.todaysEvents : Localization.labels.upcomingEvents;
+                    Text(label)
                         .foregroundColor(Color.theme.primary)
                         .font(Font.app.title)
                 }
@@ -95,8 +99,14 @@ struct CalendarView: View {
     }
     
     private func fetchEvents() {
-        eventProvider.fetchTodayEvents { fetchedEvents in
-            self.events = fetchedEvents.filter { !todoViewModel.eventAlreadyExistsAsTodo($0) }
+        if (onlyToday) {
+            eventProvider.fetchTodayEvents { fetchedEvents in
+                self.events = fetchedEvents.filter { !todoViewModel.eventAlreadyExistsAsTodo($0) }
+            }
+        } else {
+            eventProvider.fetchTodayAndTomorrowsEvents { fetchedEvents in
+                self.events = fetchedEvents.filter { !todoViewModel.eventAlreadyExistsAsTodo($0) }
+            }
         }
     }
 }

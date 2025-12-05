@@ -77,6 +77,7 @@
 "ok.label" = "OK";
 "cancel.label" = "Cancel";
 "import.label" = "Import";
+"upcoming.events.label" = "Upcoming events";
 "todays.events.label" = "Todays Events";
 "import.preview.label" = "Preview";
 "no.valid.todos" = "No valid tasks found in the file.";

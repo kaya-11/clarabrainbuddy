@@ -10,30 +10,42 @@ import EventKit
 
 protocol EventProvider {
     func fetchTodayEvents(completion: @escaping ([EKEvent]) -> Void)
+    func fetchTodayAndTomorrowsEvents(completion: @escaping ([EKEvent]) -> Void)
 }
 
 class RealEventProvider: EventProvider {
-    func fetchTodayEvents(completion: @escaping ([EKEvent]) -> Void) {
+    
+    private func fetchEvents(from startDate: Date, to endDate: Date, completion: @escaping ([EKEvent]) -> Void) {
         let eventStore = EKEventStore()
         eventStore.requestFullAccessToEvents { granted, error in
             guard granted else {
                 completion([])
                 return
             }
-            
-            let calendar = Calendar.current
-            let startDate = calendar.startOfDay(for: Date())
-            let endDate = calendar.date(byAdding: .day, value: 1, to: startDate)!
-            
+
             let predicate = eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: nil)
             let events = eventStore.events(matching: predicate)
             completion(events)
         }
     }
+    
+    func fetchTodayEvents(completion: @escaping ([EKEvent]) -> Void) {
+        let calendar = Calendar.current
+        let startDate = calendar.startOfDay(for: Date())
+        let endDate = calendar.date(byAdding: .day, value: 1, to: startDate)!
+        fetchEvents(from: startDate, to: endDate, completion: completion)
+    }
+
+    func fetchTodayAndTomorrowsEvents(completion: @escaping ([EKEvent]) -> Void) {
+        let calendar = Calendar.current
+        let startDate = calendar.startOfDay(for: Date())
+        let endDate = calendar.date(byAdding: .day, value: 2, to: startDate)!
+        fetchEvents(from: startDate, to: endDate, completion: completion)
+    }
 }
 
 class FakeEventProvider: EventProvider {
-    func fetchTodayEvents(completion: @escaping ([EKEvent]) -> Void) {
+    private func fetchEvents(completion: @escaping ([EKEvent]) -> Void) {
         let eventStore = EKEventStore()
         let calendar = Calendar.current
         let today = Date()
@@ -71,5 +83,13 @@ class FakeEventProvider: EventProvider {
         event2.endDate = endDate2
 
         completion([event1, event2])
+    }
+    
+    func fetchTodayEvents(completion: @escaping ([EKEvent]) -> Void) {
+        fetchEvents(completion: completion)
+    }
+    
+    func fetchTodayAndTomorrowsEvents(completion: @escaping ([EKEvent]) -> Void) {
+        fetchEvents(completion: completion)
     }
 }

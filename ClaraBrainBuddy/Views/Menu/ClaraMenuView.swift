@@ -40,7 +40,7 @@ struct ClaraMenuView: View {
             Button(action: {
                 isTodaysEventsPresented = true
             }) {
-                Label(Localization.labels.todaysEvents, systemImage: "clock")
+                Label(Localization.labels.upcomingEvents, systemImage: "clock")
             }
             .accessibilityIdentifier("CalenderViewButton")
             
