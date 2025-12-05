@@ -434,6 +434,59 @@ final class TodoViewModelTests: XCTestCase {
         viewModel.deleteCompletedTodos()
         XCTAssertEqual(viewModel.todayTodos.count, 1)
     }
+    
+    func testReprioritizeTodos_RemovesImportantAndNothingTasksFromToday() {
+        // Setup
+        let todo1 = createTodo(title: "Nothing", sortOrder: 0)
+        let todo2 = createTodo(title: "Important", sortOrder: 1)
+        let todo3 = createTodo(title: "Test0", isDone: true, sortOrder: 2)
+        let todo4 = createTodo(title: "Urgent", sortOrder: 3)
+        let todo5 = createTodo(title: "UrgentAndImportant", sortOrder: 4)
+        let todo6 = createTodo(title: "Test1", sortOrder: 5)
+        let todo7 = createTodo(title: "Test2", sortOrder: 6)
+        
+
+        viewModel.addTodos([todo1, todo2, todo3, todo4, todo5, todo6, todo7])
+        viewModel.selectForToday(todo1)
+        viewModel.selectForToday(todo2)
+        viewModel.selectForToday(todo3)
+        viewModel.selectForToday(todo4)
+        viewModel.selectForToday(todo5)
+
+        XCTAssertEqual(viewModel.todayTodos.count, 5)
+
+        // Action
+        viewModel.reprioritizeTodos(
+            importantAndUrgentTasks: [todo5],
+            urgentTasks: [todo4],
+            importantTasks: [todo2],
+            nothingOfBothTasks: [todo1]
+        )
+
+        // Assert
+        XCTAssertEqual(viewModel.todayTodos.count, 3)
+        XCTAssertTrue(viewModel.todayTodos[0].todo == todo5 )
+        XCTAssertTrue(viewModel.todayTodos[1].todo == todo4 )
+        XCTAssertTrue(viewModel.todayTodos[2].todo == todo3 )
+        XCTAssertFalse(viewModel.todayTodos.contains { $0.todo == todo1 })
+        XCTAssertFalse(viewModel.todayTodos.contains { $0.todo == todo2 })
+        
+        XCTAssertEqual(viewModel.allTodos.count, 7)
+        XCTAssertTrue(viewModel.allTodos[0] == todo5 )
+        XCTAssertTrue(viewModel.allTodos[1] == todo4 )
+        XCTAssertTrue(viewModel.allTodos[2] == todo2 )
+        XCTAssertTrue(viewModel.allTodos[3] == todo1 )
+        XCTAssertTrue(viewModel.allTodos[4] == todo3 )
+        XCTAssertTrue(viewModel.allTodos[5] == todo6 )
+        XCTAssertTrue(viewModel.allTodos[6] == todo7 )
+        
+        for (index, todo) in viewModel.allTodos.enumerated() {
+            XCTAssertEqual(todo.sortOrder, Int64(index))
+        }
+        for (index, todayTodo) in viewModel.todayTodos.enumerated() {
+            XCTAssertEqual(todayTodo.sortOrder, Int64(index))
+        }
+    }
 
     private func createTodo(
         title: String,

@@ -20,10 +20,12 @@ struct PriorityMatrixView: View {
     
     @State private var showingInfo = false
     
-    let onConfirm: () -> Void
+    let onConfirm: (_ urgentTasks: [Todo], _ importantAndUrgentTasks: [Todo], _ nothingOfBothTasks: [Todo], _ importantTasks: [Todo]) -> Void
     let onCancel: () -> Void
     
-    init(tasks: [Todo], onConfirm: @escaping () -> Void, onCancel: @escaping () -> Void) {
+    init(tasks: [Todo],
+         onConfirm: @escaping (_ urgentTasks: [Todo], _ importantAndUrgentTasks: [Todo], _ nothingOfBothTasks: [Todo], _ importantTasks: [Todo]) -> Void,
+         onCancel: @escaping () -> Void) {
         self.onConfirm = onConfirm
         self.onCancel = onCancel
         self._todayTasks = State(initialValue: tasks)
@@ -83,7 +85,9 @@ struct PriorityMatrixView: View {
                         .padding(.leading, 16)
                     } else {
                         VStack {
-                            Button(action: onConfirm) {
+                            Button(action: {
+                                    onConfirm(urgentTasks, importantAndUrgentTasks, nothingOfBothTasks, importantTasks)
+                            }) {
                                 Text(Localization.labels.rearrange)
                                     .frame(maxWidth: .infinity)
                                     .padding()

@@ -404,6 +404,65 @@ class TodoViewModel: ObservableObject {
         saveContext()
     }
     
+    func reprioritizeTodos(importantAndUrgentTasks: [Todo], urgentTasks: [Todo], importantTasks: [Todo], nothingOfBothTasks: [Todo]) {
+        // 1. Remove all tasks from todayTodos that are in any of the provided lists
+        let allTodayTodos = todayTodos
+        for todayTodo in allTodayTodos {
+            let todo = todayTodo.todo
+            if nothingOfBothTasks.contains(where: { $0.objectID == todo.objectID }) ||
+               importantTasks.contains(where: { $0.objectID == todo.objectID }) {
+                context.delete(todayTodo)
+                todo.selectedForToday = false
+                todo.updatedAt = Date()
+            }
+        }
+        
+        // 2. Reorder todayTodos
+        let allTodayTodosAfterRemoval = todayTodos // Fetch again after removal
+        var importantAndUrgentTodayTodos = [TodayTodo]()
+        var urgentTodayTodos = [TodayTodo]()
+        var otherTodayTodos = [TodayTodo]()
+        
+        for todayTodo in allTodayTodosAfterRemoval {
+            let todo = todayTodo.todo
+            if importantAndUrgentTasks.contains(where: { $0.objectID == todo.objectID }) {
+                importantAndUrgentTodayTodos.append(todayTodo)
+            } else if urgentTasks.contains(where: { $0.objectID == todo.objectID }) {
+                urgentTodayTodos.append(todayTodo)
+            } else {
+                otherTodayTodos.append(todayTodo)
+            }
+        }
+
+        var reorderedTodayTodos = [TodayTodo]()
+        reorderedTodayTodos.append(contentsOf: importantAndUrgentTodayTodos)
+        reorderedTodayTodos.append(contentsOf: urgentTodayTodos)
+        reorderedTodayTodos.append(contentsOf: otherTodayTodos)
+        
+        for (index, todayTodo) in reorderedTodayTodos.enumerated() {
+            todayTodo.sortOrder = Int64(index)
+        }
+
+        // 3. Reorder allTodos
+        let allTodosSet = Set(allTodos)
+        let allListedTodos = Set(importantAndUrgentTasks + urgentTasks + importantTasks + nothingOfBothTasks)
+        let otherTodos = Array(allTodosSet.subtracting(allListedTodos)).sorted { $0.sortOrder < $1.sortOrder }
+
+        var reorderedTodos = [Todo]()
+        reorderedTodos.append(contentsOf: importantAndUrgentTasks)
+        reorderedTodos.append(contentsOf: urgentTasks)
+        reorderedTodos.append(contentsOf: importantTasks)
+        reorderedTodos.append(contentsOf: nothingOfBothTasks)
+        reorderedTodos.append(contentsOf: otherTodos)
+
+        for (index, todo) in reorderedTodos.enumerated() {
+            todo.sortOrder = Int64(index)
+        }
+
+        // 4. Save the context
+        saveContext()
+    }
+    
     func getTotalTodaysTodosCountNotDone() -> Int {
         return todayTodos.filter { !$0.todo.isDone }.count
     }
