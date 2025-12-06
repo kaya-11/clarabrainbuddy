@@ -181,13 +181,7 @@ struct TodoListView: View {
                         Button(action: {
                             todoViewModel.reorderTodos()
                         }) {
-                            ZStack {
-                                Image(systemName: "calendar")
-                                    .font(Font.app.small)
-                                Image(systemName: "arrow.down")
-                                    .font(Font.app.micro)
-                                    .offset(x: 14, y: -4)
-                            }
+                            CombinedImageView(imageMain: "calendar", imageSmall: "arrow.down")
                         }.accessibilityIdentifier("ReorderTodos")
                         Button(action: {
                             showingAddTodo = true
