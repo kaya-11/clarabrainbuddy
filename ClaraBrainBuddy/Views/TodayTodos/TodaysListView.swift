@@ -18,7 +18,11 @@ struct TodaysListView: View {
     @State private var showingCalenderView = false
     @State private var selectedTodo: Todo? = nil
     @State private var showErrorMessage = false
+    
     @State private var sharedTodoDetails: SharedTodoDetailsWrapper? = nil
+    
+    @State private var sharedTodos: SharedTodosWrapper? = nil
+    
     @State private var energyLevel: Float = EnergyManager.EnergyLevel.medium.rawValue
     
     @State private var showingInfo = false
@@ -143,6 +147,13 @@ struct TodaysListView: View {
                                 .tint(.green)
                                 
                                 Button {
+                                    sharedTodos = SharedTodosWrapper(todos: [todo])
+                                } label: {
+                                    Label(Localization.labels.shareDetails, systemImage: "square.and.arrow.up")
+                                }
+                                .tint(.mint)
+                                
+                                Button {
                                     sharedTodoDetails = SharedTodoDetailsWrapper(todo: todo)
                                 } label: {
                                     Label(Localization.labels.copy, systemImage: "doc.on.doc")
@@ -258,6 +269,15 @@ struct TodaysListView: View {
                         }
                         .accessibilityIdentifier("AddTodayTodoButton")
                     }
+                }
+            }
+            .sheet(item: $sharedTodos) { wrapper in
+                let todos : [Todo] = wrapper.todos
+                let dateString = StyleUtils.dateTimeFormatter.string(from: Date())
+                let filename = "\(Localization.filename.exportTodo)_\(dateString)"
+                let url : URL = ImportExportUtils.exportListOfTodosToJSONFile(todos: todos, fileName: filename)
+                if (FileManager.default.fileExists(atPath: url.path)) {
+                    ShareSheet(activityItems: [url])
                 }
             }
             .sheet(item: $sharedTodoDetails) { wrapper in
