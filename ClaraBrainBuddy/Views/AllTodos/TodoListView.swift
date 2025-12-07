@@ -191,6 +191,7 @@ struct TodoListView: View {
                     }
                 }
             }
+            .accessibilityIdentifier("AllTodosListContainer")
             .toolbarBackground(Color.theme.background, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationBarTitleDisplayMode(.inline)

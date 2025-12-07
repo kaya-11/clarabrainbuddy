@@ -57,7 +57,7 @@ struct ClaraMenuView: View {
             }) {
                 Label(Localization.labels.priorityMatrix, systemImage: "arrow.clockwise")
             }
-            .accessibilityIdentifier("PriorityView")
+            .accessibilityIdentifier("PriorityMatrixButton")
             
             Button(action: {
                 isSettingsPresented = true
