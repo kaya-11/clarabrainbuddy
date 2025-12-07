@@ -71,6 +71,7 @@ struct PriorityMatrixView: View {
                                 ForEach(todayTasks) { task in
                                     TodoListEntrySimpleView(todo: task)
                                         .frame(maxWidth: .infinity, alignment: .leading)
+                                        .contentShape(Rectangle())
                                         .onDrag {
                                             NSItemProvider(object: String(task.objectID.uriRepresentation().absoluteString) as NSString)
                                         }
@@ -81,6 +82,7 @@ struct PriorityMatrixView: View {
                             .background(Color.clear)
                             .frame(width: 260, height: 260, alignment: .center)
                         }
+                        .accessibilityIdentifier("PriorityTodoContainer")
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, 16)
                     } else {
@@ -89,6 +91,7 @@ struct PriorityMatrixView: View {
                                     onConfirm(urgentTasks, importantAndUrgentTasks, nothingOfBothTasks, importantTasks)
                             }) {
                                 Text(Localization.labels.rearrange)
+                                    .accessibilityIdentifier("RearrangeButton")
                                     .frame(maxWidth: .infinity)
                                     .padding()
                                     .background(Color.theme.listBackground)

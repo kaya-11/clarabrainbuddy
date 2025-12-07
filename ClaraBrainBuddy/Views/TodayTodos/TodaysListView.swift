@@ -174,6 +174,7 @@ struct TodaysListView: View {
                         }
                         .onMove(perform: move)
                     }
+                    .accessibilityIdentifier("TodaysListContainer")
                     .background(Color.theme.background)
                     .frame(width: 400, height: recurringTasks.isEmpty ? 450 : 300)
                     

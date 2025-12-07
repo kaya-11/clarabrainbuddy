@@ -27,6 +27,7 @@ struct PriorityBox: View {
                     priority: .importantAndUrgent,
                     tasks: $importantAndUrgentTasks
                 )
+                .accessibilityIdentifier("ImportantAndUrgentView")
                 .onDrop(of: [UTType.text], isTargeted: nil) { providers in
                     handleDrop(providers: providers, target: $importantAndUrgentTasks)
                 }
@@ -35,6 +36,7 @@ struct PriorityBox: View {
                     priority: .urgent,
                     tasks: $urgentTasks
                 )
+                .accessibilityIdentifier("UrgentView")
                 .onDrop(of: [UTType.text], isTargeted: nil) { providers in
                     handleDrop(providers: providers, target: $urgentTasks)
                 }
@@ -47,6 +49,7 @@ struct PriorityBox: View {
                     priority: .important,
                     tasks: $importantTasks
                 )
+                .accessibilityIdentifier("ImportanttView")
                 .onDrop(of: [UTType.text], isTargeted: nil) { providers in
                     handleDrop(providers: providers, target: $importantTasks)
                 }
@@ -55,6 +58,7 @@ struct PriorityBox: View {
                     priority: .nothingOfBoth,
                     tasks: $nothingOfBothTasks
                 )
+                .accessibilityIdentifier("NothingOfBoth")
                 .onDrop(of: [UTType.text], isTargeted: nil) { providers in
                     handleDrop(providers: providers, target: $nothingOfBothTasks)
                 }
