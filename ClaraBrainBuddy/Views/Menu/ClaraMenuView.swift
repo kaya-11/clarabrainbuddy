@@ -21,6 +21,8 @@ struct ClaraMenuView: View {
     
     @State private var isSettingsPresented = false
     
+    @State private var isCategoriesListPresented = false
+    
     @State private var showingShareSheet = false
     @State private var urlToShare: URL?
     
@@ -65,6 +67,13 @@ struct ClaraMenuView: View {
                 Label(Localization.labels.properties, systemImage: "gearshape")
             }
             .accessibilityIdentifier("SettingsButton")
+            
+            Button(action: {
+                isCategoriesListPresented = true
+            }) {
+                Label(Localization.labels.categories, systemImage: "tag")
+            }
+            .accessibilityIdentifier("CategoriesListButton")
             
             Button(action: {
                 let dateString = StyleUtils.dateTimeFormatter.string(from: Date())
@@ -118,6 +127,9 @@ struct ClaraMenuView: View {
         }
         .sheet(isPresented: $isSettingsPresented) {
             SettingsView(settingsViewModel: settingsViewModel)
+        }
+        .sheet(isPresented: $isCategoriesListPresented) {
+            CategoryListView()
         }
         .sheet(isPresented: $isTodaysEventsPresented) {
             if CommandLine.arguments.contains("UITestMode") {

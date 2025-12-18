@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension Todo {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Todo> {
