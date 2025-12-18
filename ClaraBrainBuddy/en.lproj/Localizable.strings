@@ -32,6 +32,14 @@
 "add.todo.for.today.label" = "Add New Task For Today";
 "edit.todo.save.label" = "Add Task";
 "add.todo.save.label" = "Save Changes";
+"edit.category.label" = "Edit category:";
+"add.category.label" = "Add new category:";
+"edit.category.name.label" = "Name";
+"edit.category.name.tooltip" = "Name of the category";
+"edit.category.color.label" = "Color";
+"edit.category.default.label" = "Default";
+"edit.category.save.label" = "Save category";
+"add.category.save.label" = "Add category";
 "random.todo.popup.title" = "What would you like to do?";
 "random.todo.popup.explanation.swipe.left" = "Swipe left to delete.";
 "random.todo.popup.explanation.swipe.right.1" = "Swipe right to keep,";
@@ -71,6 +79,7 @@
 "weekday.friday" = "Friday";
 "weekday.saturday" = "Saturday";
 "properties.label" = "Settings";
+"categories.label" = "Categories";
 "prioritymatrix.label" = "Eisenhower-Matrix";
 "back.label" = "Back";
 "save.label" = "Save";

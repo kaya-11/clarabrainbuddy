@@ -77,6 +77,15 @@ struct Localization {
         let saveEditTodo = NSLocalizedString("add.todo.save.label", comment: "Add Todo")
         let due = NSLocalizedString("due.label", comment: "Due")
         
+        let editCategory = NSLocalizedString("edit.category.label", comment: "Edit category")
+        let addCategory = NSLocalizedString("add.category.label", comment: "Add new category")
+        let categoryName = NSLocalizedString("edit.category.name.label", comment: "Name of the category")
+        let categoryNameTooltip = NSLocalizedString("edit.category.name.tooltip", comment: "Tooltip for the category name field")
+        let categoryColor = NSLocalizedString("edit.category.color.label", comment: "Color of the category")
+        let categoryDefault = NSLocalizedString("edit.category.default.label", comment: "Default category setting")
+        let saveEditCategory = NSLocalizedString("edit.category.save.label", comment: "Button to add a new category")
+        let saveAddCategory = NSLocalizedString("add.category.save.label", comment: "Button to save the category")
+        
         let recurrenceRule = NSLocalizedString("recurrence.rule.label", comment: "Recurrence Rule")
         let recurrencePicker = NSLocalizedString("recurrence.picker.label", comment: "Recurrence")
         let recurrenceRuleDaily = NSLocalizedString("recurrence.rule.daily.label", comment: "Daily")
@@ -93,6 +102,8 @@ struct Localization {
         
         // Properties and Clara Main Menu
         let properties = NSLocalizedString("properties.label", comment: "Open properties")
+        let categories = NSLocalizedString("categories.label", comment: "Open catgories")
+        
         let maxTodosForToday = NSLocalizedString("properties.max.todos.for.today", comment: "Max Todos for Today")
         let defaultEstimatedTime = NSLocalizedString("properties.default.estimated.time", comment: "Default Estimated Time for Recurring Tasks (minutes)")
         let defaultEnergyLevelCalculation = NSLocalizedString("properties.default.energylevel.calculation", comment: "Default Time for Energy Level Calculation (minutes)")
