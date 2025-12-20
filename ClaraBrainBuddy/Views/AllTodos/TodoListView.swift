@@ -38,7 +38,9 @@ struct TodoListView: View {
             return todos.filter { todo in
                 let titleMatches = todo.title.localizedCaseInsensitiveContains(searchText)
                 let detailsMatches = (todo.details ?? "").localizedCaseInsensitiveContains(searchText)
-                return titleMatches || detailsMatches
+                let categoryName = todo.category?.name ?? ""
+                let categoryMatches = (categoryName).localizedCaseInsensitiveContains(searchText)
+                return titleMatches || detailsMatches || categoryMatches
             }
         }
     }
