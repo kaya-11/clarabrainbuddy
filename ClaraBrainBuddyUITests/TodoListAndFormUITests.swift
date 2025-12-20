@@ -86,8 +86,12 @@ final class TodoListAndFormUITests: XCTestCase {
         XCTAssertTrue(titleField.waitForExistence(timeout: 2))
         titleField.tap()
         titleField.clearAndEnterText("Updated Todo Title")
-
+        
         let saveButton = app.buttons["TodoFormSaveButton"]
+        while !saveButton.isHittable {
+            app.swipeUp()
+        }
+        
         XCTAssertTrue(saveButton.isEnabled)
         saveButton.tap()
 

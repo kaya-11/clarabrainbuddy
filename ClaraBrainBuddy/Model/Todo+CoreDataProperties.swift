@@ -24,6 +24,7 @@ extension Todo {
     @NSManaged public var resistance: Int64
     @NSManaged public var selectedForToday: Bool
     @NSManaged public var sortOrder: Int64
+    @NSManaged public var category: Category?
     @NSManaged public var createdAt: Date
     @NSManaged public var updatedAt: Date?
 
@@ -65,7 +66,8 @@ extension Todo : Identifiable {
             isDone: isDone,
             resistance: resistance,
             createdAt: createdAt,
-            updatedAt: updatedAt ?? Date()
+            updatedAt: updatedAt ?? Date(),
+            category: category?.toDto()
         )
     }
     
@@ -80,5 +82,22 @@ extension Todo : Identifiable {
         resistance = dto.resistance.clamped(to: 0...10)
         createdAt = dto.createdAt
         updatedAt = dto.updatedAt
+        
+        if let categoryDto = dto.category {
+            let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "name == %@", categoryDto.name)
+            do {
+                let existingCategories = try context.fetch(fetchRequest)
+                if let existingCategory = existingCategories.first {
+                    self.category = existingCategory
+                } else {
+                    self.category = nil
+                }
+            } catch {
+                print("Fehler beim Laden/Speichern der Category: \(error)")
+            }
+        } else {
+            self.category = nil
+        }
     }
 }

@@ -21,6 +21,8 @@
 "edit.todo.title.label" = "Title *";
 "edit.todo.title.tooltip" = "Enter Title";
 "edit.todo.details.label" = "Details";
+"edit.todo.category.label" = "Category";
+"edit.todo.selectcategory.label" = "Select a category";
 "edit.todo.duedate.label" = "Due Date";
 "edit.todo.duedate.tooltip" = "Select Due Date";
 "edit.todo.estimatedtime.label" = "Estimated Time (minutes)";
@@ -40,6 +42,7 @@
 "edit.category.default.label" = "Default";
 "edit.category.save.label" = "Save category";
 "add.category.save.label" = "Add category";
+"category.none" = "None";
 "random.todo.popup.title" = "What would you like to do?";
 "random.todo.popup.explanation.swipe.left" = "Swipe left to delete.";
 "random.todo.popup.explanation.swipe.right.1" = "Swipe right to keep,";
@@ -114,6 +117,8 @@
 "error.emptyfile" = "Empty File.";
 "error.invalidjson" = "Invalid format.";
 "error.invalid.filetype" = "Invalid file type.";
+"deletion.error.title" = "Deletion Not Possible";
+"deletion.error.category.message" = "There are still tasks linked to this category.";
 "about.label" = "About";
 "daily.reminders.label" = "Daily Reminders";
 "morning.reminder.label" = "Morning Reminder";

@@ -19,6 +19,7 @@ struct TodoDto: Identifiable, Codable, Hashable {
     var resistance: Int64
     var createdAt: Date = Date()
     var updatedAt: Date = Date()
+    let category: CategoryDto?
     
     init(
         id: UUID = UUID(),
@@ -31,7 +32,8 @@ struct TodoDto: Identifiable, Codable, Hashable {
         isDone: Bool = false,
         resistance: Int64 = 0,
         createdAt: Date = Date(),
-        updatedAt: Date = Date()
+        updatedAt: Date = Date(),
+        category: CategoryDto? = nil
     ) {
         self.id = id
         self.title = title
@@ -44,5 +46,6 @@ struct TodoDto: Identifiable, Codable, Hashable {
         self.resistance = resistance
         self.createdAt = createdAt
         self.updatedAt = updatedAt
+        self.category = category
     }
 }

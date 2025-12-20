@@ -31,9 +31,16 @@ struct TodoListEntryView: View {
         let isOverdue: Bool = todo.isOverdue
         let isDueSoon: Bool = todo.isDueSoon
         let resistance: Int64 = todo.resistance
+        let category: Category? = todo.category
         
         VStack(alignment: .leading, spacing: 4) {
             HStack (alignment: .firstTextBaseline, spacing: 8) {
+                if let cat = category {
+                    ColorCircleView(hex: cat.color, size: 6)
+                    Text("\(cat.name): ")
+                        .foregroundColor(Color.theme.listText)
+                    }
+                
                 if isDone {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(Color.theme.green)
@@ -46,8 +53,10 @@ struct TodoListEntryView: View {
                         Image(systemName: "leaf")
                     }
                 }
+
                 Text(title)
                     .accessibilityValue(isDone ? "done" : "active")
+                
                 let showEnergyImpact = showSymbols || isInTodayView
                 if (showEnergyImpact && todo.energyImpact < 0) {
                     Battery50Icon(size: 12.0)

@@ -18,6 +18,8 @@ struct CategoryListView: View {
     
     @State private var selectedCategory: Category?
     
+    @State private var showDeletionFailedAlert = false
+    
     @State private var searchText = ""
     
     @FetchRequest(
@@ -44,9 +46,7 @@ struct CategoryListView: View {
                 List {
                     ForEach(filteredCategories, id: \.id) { category in
                         HStack {
-                            Circle()
-                                .fill(Color(hex: category.color ?? "0000FF"))
-                                .frame(width: 20, height: 20)
+                            ColorCircleView(hex: category.color, size: 20)
                             Text(category.name)
                                 .foregroundColor(Color.theme.primary)
                             Spacer()
@@ -58,8 +58,11 @@ struct CategoryListView: View {
                         }
                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                             Button(role: .destructive) {
-                                // TODO: Vorher gucken wird die Category verwendet, sonst Alert mit Fehler
-                                categoryViewModel.deleteCategory(category)
+                                if (category.todos.isEmpty) {
+                                    categoryViewModel.deleteCategory(category)
+                                } else {
+                                    showDeletionFailedAlert = true
+                                }
                             } label: {
                                 Label(Localization.labels.delete, systemImage: "trash")
                             }
@@ -107,6 +110,13 @@ struct CategoryListView: View {
                             Image(systemName: "plus.circle")
                         }
                     }
+                }
+                .alert(isPresented: $showDeletionFailedAlert) {
+                    Alert(
+                        title: Text(Localization.errors.deletionErrorTitle),
+                        message: Text(Localization.errors.deletionErrorCategoryMessage),
+                        dismissButton: .default(Text(Localization.labels.ok))
+                    )
                 }
                 .navigationBarTitleDisplayMode(.inline)
             }

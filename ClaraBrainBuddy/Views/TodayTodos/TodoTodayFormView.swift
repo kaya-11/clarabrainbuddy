@@ -18,6 +18,7 @@ struct TodoTodayFormView: View {
     @State private var estimatedTime: Int64?
     @State private var energyImpact: Int64?
     @State private var isDone: Bool
+    @State private var category: Category?
     
     init(todoViewModel: TodoViewModel) {
         self.todoViewModel = todoViewModel
@@ -28,6 +29,7 @@ struct TodoTodayFormView: View {
         _estimatedTime = State(initialValue: nil)
         _energyImpact = State(initialValue: 0)
         _isDone = State(initialValue: false)
+        _category = State(initialValue: nil)
     }
     
     var body: some View {
@@ -43,6 +45,12 @@ struct TodoTodayFormView: View {
                     TextEditor(text: $details)
                         .frame(height: 120)
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray.opacity(0.3)))
+                }
+                .sectionSytle()
+                
+                Section(header: Text(Localization.labels.category)) {
+                    CategoryPickerView(selectedCategory: $category)
+                        .accessibilityIdentifier("TodayTodoFormCategoryPicker")
                 }
                 .sectionSytle()
                 
@@ -66,7 +74,7 @@ struct TodoTodayFormView: View {
                 .sectionSytle()
                 
                 Button(action: {
-                    todoViewModel.addNewTodoForToday(title: title, details: details, estimatedTime: estimatedTime, energyImpact: energyImpact ?? 0)
+                    todoViewModel.addNewTodoForToday(title: title, details: details, estimatedTime: estimatedTime, energyImpact: energyImpact ?? 0, category: category)
                     presentationMode.wrappedValue.dismiss()
                 }) {
                     Text(Localization.labels.saveAddTodo)
