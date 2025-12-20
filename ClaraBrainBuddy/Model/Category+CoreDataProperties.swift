@@ -21,9 +21,12 @@ extension Category {
     @NSManaged public var name: String
     @NSManaged public var sortOrder: Int64
     @NSManaged public var isDefault: Bool
-    @NSManaged public var color: String?
+    @NSManaged public var color: String
+    @NSManaged public var todos: Set<Todo>
 }
 
 extension Category : Identifiable {
-
+    func toDto() -> CategoryDto {
+        return CategoryDto(name: name)
+    }
 }

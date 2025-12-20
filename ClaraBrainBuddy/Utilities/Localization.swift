@@ -64,6 +64,8 @@ struct Localization {
         let titleForm = NSLocalizedString("edit.todo.title.label", comment: "Title *")
         let titleFormTooltip = NSLocalizedString("edit.todo.title.tooltip", comment: "Enter title")
         let details = NSLocalizedString("edit.todo.details.label", comment: "Details")
+        let category = NSLocalizedString("edit.todo.category.label", comment: "Category")
+        let selectCategory = NSLocalizedString("edit.todo.selectcategory.label", comment: "Select a Category")
         let dueDate = NSLocalizedString("edit.todo.duedate.label", comment: "Due Date")
         let dueDateTooltip = NSLocalizedString("edit.todo.duedate.tooltip", comment: "Select Due Date")
         let estimatedTimeForm = NSLocalizedString("edit.todo.estimatedtime.label", comment: "Estimated Time (minutes)")
@@ -85,6 +87,8 @@ struct Localization {
         let categoryDefault = NSLocalizedString("edit.category.default.label", comment: "Default category setting")
         let saveEditCategory = NSLocalizedString("edit.category.save.label", comment: "Button to add a new category")
         let saveAddCategory = NSLocalizedString("add.category.save.label", comment: "Button to save the category")
+        
+        let categoryNone = NSLocalizedString("category.none", comment: "Category Noney")
         
         let recurrenceRule = NSLocalizedString("recurrence.rule.label", comment: "Recurrence Rule")
         let recurrencePicker = NSLocalizedString("recurrence.picker.label", comment: "Recurrence")
@@ -192,6 +196,8 @@ struct Localization {
         let invalidFiletype = NSLocalizedString("error.invalid.filetype", comment: "Invalid file type")
         let invalidTimeSelectionTitle = NSLocalizedString("invalid.time.selection.title", comment: "Title for invalid time selection error")
         let invalidTimeSelectionMessage = NSLocalizedString("invalid.time.selection.message", comment: "Message for invalid time selection error")
+        let deletionErrorTitle = NSLocalizedString("deletion.error.title", comment: "Deletion Not Possible")
+        let deletionErrorCategoryMessage = NSLocalizedString("deletion.error.category.message", comment: "There are still tasks linked to this category.")
     }
     
     struct AppIntents {

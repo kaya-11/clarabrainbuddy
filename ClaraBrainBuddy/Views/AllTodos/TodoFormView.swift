@@ -22,6 +22,7 @@ struct TodoFormView: View {
     @State private var estimatedTime: Int64?
     @State private var energyImpact: Int64?
     @State private var isDone: Bool = false
+    @State private var category: Category?
     
     init(todoViewModel: TodoViewModel, addDays: Int?, existingTodo: Todo?) {
         self.todoViewModel = todoViewModel
@@ -34,6 +35,7 @@ struct TodoFormView: View {
             _dueDate = State(initialValue: todo.dueDate)
             _estimatedTime = State(initialValue: todo.estimatedTime)
             _energyImpact = State(initialValue: todo.energyImpact)
+            _category = State(initialValue: todo.category)
             _isDone = State(initialValue: todo.isDone)
         } else {
             let addDays = addDays ?? 14
@@ -56,6 +58,12 @@ struct TodoFormView: View {
                         .frame(height: 120)
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray.opacity(0.3)))
                         .accessibilityIdentifier("TodoFormDetailsTextField")
+                }
+                .sectionSytle()
+                
+                Section(header: Text(Localization.labels.category)) {
+                    CategoryPickerView(selectedCategory: $category)
+                        .accessibilityIdentifier("TodoFormCategoryPicker")
                 }
                 .sectionSytle()
                 
@@ -99,7 +107,7 @@ struct TodoFormView: View {
                     if let todo = existingTodo {
                         updateTodo(todo)
                     } else {
-                        todoViewModel.addTodo(title: title, details: details, dueDate: dueDate, estimatedTime: estimatedTime, energyImpact: energyImpact ?? 0)
+                        todoViewModel.addTodo(title: title, details: details, dueDate: dueDate, estimatedTime: estimatedTime, energyImpact: energyImpact ?? 0, category: category)
                     }
                     presentationMode.wrappedValue.dismiss()
                 }) {
@@ -131,6 +139,7 @@ struct TodoFormView: View {
         updatedTodo.updatedAt = Date()
         let vibrate = isDone && !todo.isDone
         updatedTodo.isDone = isDone
+        updatedTodo.category = category
         todoViewModel.updateTodo(updatedTodo)
         if vibrate {
             DeviceFeedback.vibrateTwice()

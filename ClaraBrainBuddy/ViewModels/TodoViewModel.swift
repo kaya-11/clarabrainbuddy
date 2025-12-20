@@ -45,7 +45,8 @@ class TodoViewModel: ObservableObject {
         return todayTodos
     }
     
-    func addTodo(title: String, details: String, dueDate: Date, estimatedTime: Int64?, energyImpact: Int64 = 0) {
+    func addTodo(title: String, details: String, dueDate: Date, estimatedTime: Int64?, energyImpact: Int64 = 0,
+                 category: Category? = nil) {
         
         let newTodo = Todo(context: context)
         newTodo.title = title
@@ -55,6 +56,7 @@ class TodoViewModel: ObservableObject {
         newTodo.energyImpact = energyImpact
         newTodo.isDone = false
         newTodo.createdAt = Date()
+        newTodo.category = category
         newTodo.sortOrder = 0
         
         var reorderedTodos = allTodos
@@ -158,6 +160,7 @@ class TodoViewModel: ObservableObject {
         details: String,
         estimatedTime: Int64?,
         energyImpact: Int64 = 0,
+        category: Category? = nil,
         recurringTask: RecurringTask? = nil
     ) {
        
@@ -169,7 +172,8 @@ class TodoViewModel: ObservableObject {
         newTodo.energyImpact = energyImpact
         newTodo.isDone = false
         newTodo.createdAt = Date()
-        newTodo.selectedForToday = true 
+        newTodo.selectedForToday = true
+        newTodo.category = category
         newTodo.sortOrder = 0
         
         let newTodayTodo = TodayTodo(context: self.context)
@@ -271,6 +275,7 @@ class TodoViewModel: ObservableObject {
         clone.energyImpact = todo.energyImpact
         clone.isDone = false
         clone.createdAt = Date()
+        clone.category = todo.category
         clone.sortOrder = 0
         
         reorderedTodos.insert(clone, at: 0)

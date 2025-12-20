@@ -27,7 +27,7 @@ struct CategoryFormView: View {
         // Initialize the state variables
         if let category = existingCategory {
             _name = State(initialValue: category.name)
-            _color = State(initialValue: category.color ?? "")
+            _color = State(initialValue: category.color)
             _isDefault = State(initialValue: category.isDefault)
         } else {
             _color = State(initialValue: "616161")
@@ -49,12 +49,14 @@ struct CategoryFormView: View {
                     Grid(horizontalSpacing: 8, verticalSpacing: 8) {
                         GridRow {
                             ForEach(Array(CategoryColor.allCases.prefix(9)), id: \.self) { color in
-                                colorCircle(hex: color.hex)
+                                ColorCircleView(hex: color.hex, size: 30)
+                                    .selectable(selectedColorHex: $color)
                             }
                         }
                         GridRow {
                             ForEach(Array(CategoryColor.allCases.dropFirst(9)), id: \.self) { color in
-                                colorCircle(hex: color.hex)
+                                ColorCircleView(hex: color.hex, size: 30)
+                                    .selectable(selectedColorHex: $color)
                             }
                         }
                     }
@@ -92,20 +94,6 @@ struct CategoryFormView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
         }
-    }
-    
-    @ViewBuilder
-    private func colorCircle(hex: String) -> some View {
-        Circle()
-            .fill(Color(hex: hex))
-            .frame(width: 30, height: 30)
-            .overlay(
-                Circle()
-                    .stroke(color == hex ? Color.theme.primary : Color.clear, lineWidth: 2)
-            )
-            .onTapGesture {
-                color = hex
-            }
     }
     
     func updateCategory(_ category: Category) {
