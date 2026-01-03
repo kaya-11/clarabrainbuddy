@@ -75,6 +75,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		9C10BCFF2F09CCCE0009974A /* Docs */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Docs;
+			sourceTree = "<group>";
+		};
 		9CA28D582D88B306001245CF /* ClaraBrainBuddy */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -134,6 +139,7 @@
 		9CA28D4D2D88B306001245CF = {
 			isa = PBXGroup;
 			children = (
+				9C10BCFF2F09CCCE0009974A /* Docs */,
 				9CBED09D2E4B3C6C00365BFF /* ClaraDataModel.xcdatamodeld */,
 				9CE8820E2E3E88B40039B0CB /* ClaraBrainBuddyDE.xctestplan */,
 				9CA28D692D88B307001245CF /* ClaraBrainBuddyTests */,
