@@ -114,7 +114,7 @@ final class PriorityMatrixUITests: XCTestCase {
 
     func deleteTaskInTodayView(title: String) {
         
-        app.tabBars.buttons.element(boundBy: 1).tap()
+        app.tabBars.buttons["Heute"].tap()
         
         let allTodosListContainer = app.collectionViews["TodaysListContainer"]
         XCTAssertTrue(allTodosListContainer.waitForExistence(timeout: 2), "TodaysListContainer sollte sichtbar sein")
@@ -133,7 +133,7 @@ final class PriorityMatrixUITests: XCTestCase {
     
     func deleteTaskInAllTodosView(title: String) {
         
-        app.tabBars.buttons.element(boundBy: 0).tap()
+        app.tabBars.buttons[UITestUtils.TabNames.all].tap()
     
         let allTodosListContainer = app.collectionViews["AllTodosListContainer"]
         XCTAssertTrue(allTodosListContainer.waitForExistence(timeout: 2), "AllTodosListContainer sollte sichtbar sein")

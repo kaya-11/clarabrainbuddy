@@ -18,7 +18,7 @@ final class TodoListAndFormUITests: XCTestCase {
         app = XCUIApplication()
         app.launch()
         
-        app.tabBars.buttons.element(boundBy: 0).tap()
+        app.tabBars.buttons[UITestUtils.TabNames.all].tap()
     }
     
     func testTodoFlow() {

@@ -79,7 +79,7 @@ final class CalendarViewUITests: XCTestCase {
         
         app.launch()
         
-        app.tabBars.buttons.element(boundBy: 1).tap()
+        app.tabBars.buttons[UITestUtils.TabNames.today].tap()
         
         let todoCell = app.staticTexts["Test2 Meeting"]
         XCTAssertTrue(todoCell.waitForExistence(timeout: 2))

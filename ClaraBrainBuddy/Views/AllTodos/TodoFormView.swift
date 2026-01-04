@@ -24,7 +24,7 @@ struct TodoFormView: View {
     @State private var isDone: Bool = false
     @State private var category: Category?
     
-    init(todoViewModel: TodoViewModel, addDays: Int?, existingTodo: Todo?) {
+    init(todoViewModel: TodoViewModel, addDays: Int?, existingTodo: Todo?, category: Category? = nil) {
         self.todoViewModel = todoViewModel
         self.existingTodo = existingTodo
 
@@ -40,6 +40,7 @@ struct TodoFormView: View {
         } else {
             let addDays = addDays ?? 14
             _dueDate = State(initialValue: Calendar.current.date(byAdding: .day, value: addDays, to: Date()) ?? Date())
+            _category = State(initialValue: category) 
         }
     }
 

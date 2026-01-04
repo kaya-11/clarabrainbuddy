@@ -14,11 +14,13 @@ struct ContentView: View {
 
     @State private var showRandomTodoView = true
     
-    @State private var selectedTab: Int = 1
+    @State private var selectedTab: Int = ClaraTab.today.intValue
     
     @ObservedObject private var externalImportManager = ExternalImportManager.shared
     
     @ObservedObject var todoViewModel: TodoViewModel = TodoViewModel.shared
+    
+    @ObservedObject var categotyViewModel: CategoryViewModel = CategoryViewModel.shared
     
     var randomTodoDisplayDuration: TimeInterval = {
         if ProcessInfo.processInfo.arguments.contains("--UITestMode") {
@@ -34,18 +36,25 @@ struct ContentView: View {
                 TodoListView()
                     .tabItem {
                         Label(Localization.labels.allTodosNav, systemImage: "list.bullet")
-                    }.tag(0)
-                    .accessibilityIdentifier("AllTodosTab")
+                    }.tag(ClaraTab.all.intValue)
+                    .accessibility(identifier: "AllTodosTab")
+                if !categotyViewModel.allCategoriess.isEmpty {
+                    CategoriesOverviewView()
+                        .tabItem {
+                            Label(Localization.labels.categoriesNav, systemImage: "tag")
+                        }.tag(ClaraTab.categories.intValue)
+                        .accessibility(identifier: "CategoriesTab")
+                }
                 TodaysListView()
                     .tabItem {
                         Label(Localization.labels.todayNav, systemImage: "calendar")
-                    }.tag(1)
-                    .accessibilityIdentifier("TodayTab")
+                    }.tag(ClaraTab.today.intValue)
+                    .accessibility(identifier: "TodayTab")
                 RecurringTaskListView()
                     .tabItem {
                         Label(Localization.labels.recurringTasksNav, systemImage: "checklist")
-                    }.tag(2)
-                    .accessibilityIdentifier("RecurringTaskTab")
+                    }.tag(ClaraTab.recurringtasks.intValue)
+                    .accessibility(identifier: "RecurringTaskTab")
             }
             
             if showRandomTodoView {
@@ -84,3 +93,21 @@ struct ContentView: View {
     }
 
 }
+
+enum ClaraTab {
+    case all
+    case today
+    case recurringtasks
+    case categories
+    
+    var intValue : Int{
+        switch self {
+        case .all: return 0
+        case .today: return 1
+        case .recurringtasks: return 2
+        case .categories: return 3
+        }
+    }
+
+}
+

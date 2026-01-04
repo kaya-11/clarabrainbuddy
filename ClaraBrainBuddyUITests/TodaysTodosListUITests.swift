@@ -19,7 +19,7 @@ final class TodaysTodosListUITests: XCTestCase {
         app = XCUIApplication()
         app.launch()
         
-        app.tabBars.buttons.element(boundBy: 1).tap()
+        app.otherElements["TodayTab"].tap()
     }
 
     func testTodayTodoFlow() {
@@ -142,7 +142,8 @@ final class TodaysTodosListUITests: XCTestCase {
     
     func markForToday() {
         
-        app.tabBars.buttons.element(boundBy: 0).tap()
+        app.tabBars.buttons[UITestUtils.TabNames.all].tap()
+        
         
         let todoCell = app.staticTexts["Test Today Todo"]
         XCTAssertTrue(todoCell.waitForExistence(timeout: 2))
@@ -152,9 +153,11 @@ final class TodaysTodosListUITests: XCTestCase {
         
         XCTAssertTrue(todoCell.waitForExistence(timeout: 2))
         
-        app.tabBars.buttons.element(boundBy: 1).tap()
-
+        app.tabBars.buttons[UITestUtils.TabNames.today].tap()
+        
         let todayTab = app.otherElements["TodayTab"]
+        XCTAssertTrue(todayTab.waitForExistence(timeout: 2))
+        
         let addButton = todayTab.buttons["AddTodayTodoButton"]
         XCTAssertTrue(addButton.waitForExistence(timeout: 2))
     }
