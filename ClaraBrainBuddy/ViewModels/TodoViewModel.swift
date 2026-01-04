@@ -495,6 +495,12 @@ class TodoViewModel: ObservableObject {
         saveContext()
     }
     
+    func changeCategory(todo: Todo, category: Category) {
+        todo.category = category
+        todo.updatedAt = Date()
+        saveContext()
+    }
+    
     private func calculateEstimatedTime(todos: [Todo], defaultEstimatedTime: Int) -> Int64 {
         let totalTime: Int64 = todos.reduce(0) { result, todoItem in
             let baseTime = Double(todoItem.estimatedTime ?? Int64(defaultEstimatedTime))

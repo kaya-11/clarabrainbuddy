@@ -30,6 +30,7 @@ struct Localization {
         
         // Navigation
         let allTodosNav = NSLocalizedString("navigation.alltodos", comment: "Navigation All Todos")
+        let categoriesNav = NSLocalizedString("navigation.categories", comment: "Navigation Categories")
         let todayNav = NSLocalizedString("navigation.today", comment: "Navigation Today")
         let recurringTasksNav = NSLocalizedString("navigation.recurringtasks", comment: "Navigation Recurring Tasks")
         

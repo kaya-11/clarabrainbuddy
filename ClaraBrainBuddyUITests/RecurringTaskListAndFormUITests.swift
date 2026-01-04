@@ -18,7 +18,7 @@ final class RecurringTaskListAndFormUITests: XCTestCase {
         app = XCUIApplication()
         app.launch()
         
-        app.tabBars.buttons.element(boundBy: 2).tap()
+        app.tabBars.buttons[UITestUtils.TabNames.recurring].tap()
     }
 
     func testRecurringTaskFlow() {
@@ -105,7 +105,7 @@ final class RecurringTaskListAndFormUITests: XCTestCase {
     }
     
     func checkRecurringTaskIsInTodaysTodoListAndAddTodo() {
-        app.tabBars.buttons.element(boundBy: 1).tap()
+        app.tabBars.buttons[UITestUtils.TabNames.today].tap()
         
         let taskCell = app.staticTexts["Updated Task Title"]
         XCTAssertTrue(taskCell.waitForExistence(timeout: 2))
@@ -129,7 +129,7 @@ final class RecurringTaskListAndFormUITests: XCTestCase {
         let taskCell = app.staticTexts["Updated Task Title"]
         XCTAssertTrue(taskCell.waitForExistence(timeout: 2))
         
-        app.tabBars.buttons.element(boundBy: 1).tap()
+        app.tabBars.buttons[UITestUtils.TabNames.today].tap()
         
         let removeTodoButton = app.buttons["TodaysTodosDeleteTodo"]
         XCTAssertTrue(removeTodoButton.exists)
@@ -145,7 +145,7 @@ final class RecurringTaskListAndFormUITests: XCTestCase {
     
     func removeTodo() {
 
-        app.tabBars.buttons.element(boundBy: 1).tap()
+        app.tabBars.buttons[UITestUtils.TabNames.today].tap()
         
         let removeTodoButton = app.buttons["TodaysTodosDeleteTodo"]
         XCTAssertTrue(removeTodoButton.exists)
@@ -157,7 +157,7 @@ final class RecurringTaskListAndFormUITests: XCTestCase {
     
     
     func deleteRecurringTask() {
-        app.tabBars.buttons.element(boundBy: 2).tap()
+        app.tabBars.buttons[UITestUtils.TabNames.recurring].tap()
         
         let taskCell = app.staticTexts["Updated Task Title"]
         XCTAssertTrue(taskCell.waitForExistence(timeout: 2))

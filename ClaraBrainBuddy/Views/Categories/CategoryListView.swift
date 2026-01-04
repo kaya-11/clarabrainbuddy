@@ -82,7 +82,7 @@ struct CategoryListView: View {
                 }
                 .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
                 .sheet(item: $selectedCategory) { category in
-                    CategoryFormView(categoryViewModel: categoryViewModel, existingCategory: category).accessibilityIdentifier("TodoFormView")
+                    CategoryFormView(categoryViewModel: categoryViewModel, existingCategory: category).accessibilityIdentifier("CategoryFormView")
                 }
                 .sheet(isPresented: $showingAddCategory) {
                     CategoryFormView(categoryViewModel: categoryViewModel, existingCategory: nil)

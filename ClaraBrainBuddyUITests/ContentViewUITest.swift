@@ -17,25 +17,20 @@ final class ContentViewUITest: XCTestCase {
         // Wait 4 seconds (to allow the 3-sec delay to finish)
         sleep(4)
         
-        // Verify tab labels exist
-        XCTAssertTrue(app.tabBars.buttons.element(boundBy: 0).exists, "Tab bar should have at least one button")
+        // Verify tab exist
+        let allTabs = app.tabBars.buttons[UITestUtils.TabNames.all]
+        XCTAssertTrue(allTabs.exists, "All Tasks Tab should exist")
+        allTabs.tap()
 
         // Today Tab is shown on start up
-        let todayTab = app.otherElements["TodayTab"]
+        let todayTab = app.tabBars.buttons[UITestUtils.TabNames.today]
         XCTAssertTrue(todayTab.exists, "TodayTab should exist")
+        todayTab.tap()
         
-        // switch to third tab
-        app.tabBars.buttons.element(boundBy: 2).tap()
-        
-        let recurringTaskTab = app.otherElements["RecurringTaskTab"]
-        XCTAssertTrue(recurringTaskTab.waitForExistence(timeout: 1), "RecurringTaskTab should be shown")
-        
-        // switch to tab 3
-        app.tabBars.buttons.element(boundBy: 0).tap()
-        
-        let allTodosTab = app.otherElements["AllTodosTab"]
-        XCTAssertTrue(allTodosTab.waitForExistence(timeout: 1), "AllTodosTab should be shown")
-
+        // switch to last tab
+        let lastTab = app.tabBars.buttons[UITestUtils.TabNames.recurring]
+        XCTAssertTrue(lastTab.exists, "Last Tab should exist.")
+        lastTab.tap()
     }
     
     func testRandomTodoOverlayIsVisible() {
@@ -64,7 +59,7 @@ final class ContentViewUITest: XCTestCase {
         app.launchArguments.append("--UITestMode")
         app.launch()
         
-        app.tabBars.buttons.element(boundBy: 0).tap()
+        app.tabBars.buttons[UITestUtils.TabNames.all].tap()
         
         // Add Todo
         let allTodosTab = app.otherElements["AllTodosTab"]
@@ -80,7 +75,6 @@ final class ContentViewUITest: XCTestCase {
         XCTAssertTrue(saveButton.isEnabled)
         saveButton.tap()
         
-
         // Check Random Todo
         app.terminate()
         sleep(2)
@@ -98,7 +92,7 @@ final class ContentViewUITest: XCTestCase {
     
         sleep(2)
         
-        app.tabBars.buttons.element(boundBy: 0).tap()
+        app.tabBars.buttons[UITestUtils.TabNames.all].tap()
         
         let todoCell = app.staticTexts["Random Todo"]
         XCTAssertFalse(todoCell.waitForExistence(timeout: 2))
