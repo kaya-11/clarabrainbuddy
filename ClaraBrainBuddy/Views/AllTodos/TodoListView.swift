@@ -24,138 +24,27 @@ struct TodoListView: View {
     
     @Environment(\.managedObjectContext) private var context
      
-    @FetchRequest(
-        sortDescriptors: [
-            NSSortDescriptor(keyPath: \Todo.sortOrder, ascending: true),
-            NSSortDescriptor(keyPath: \Todo.updatedAt, ascending: true)
-        ]
-    ) private var todos: FetchedResults<Todo>
-    
-    var filteredTodos: [Todo] {
-        if searchText.isEmpty {
-            return Array(todos)
-        } else {
-            return todos.filter { todo in
-                let titleMatches = todo.title.localizedCaseInsensitiveContains(searchText)
-                let detailsMatches = (todo.details ?? "").localizedCaseInsensitiveContains(searchText)
-                let categoryName = todo.category?.name ?? ""
-                let categoryMatches = (categoryName).localizedCaseInsensitiveContains(searchText)
-                return titleMatches || detailsMatches || categoryMatches
-            }
-        }
-    }
-    
     var body: some View {
       
         NavigationView {
             VStack {
-                List {
-                    ForEach(filteredTodos, id: \.objectID) { (todo: Todo) in
-                        TodoListEntryView(
-                            todoViewModel: todoViewModel,
-                            todo: todo,
-                            showAsSelectedForToday: todo.selectedForToday,
-                            isInTodayView: false,
-                            showSymbols: settingsViewModel.settings.showSymbols,
-                            showDueDate: true,
-                            showResistance: settingsViewModel.settings.showResistanceInAllTodosView
-                        )
-                        .strikethrough(todo.isDone, color: Color.theme.primary)
-                        .bold( todo.selectedForToday)
-                        .onTapGesture(count: 2) {
-                            selectedTodo = todo
-                        }
-                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                        
-                            Button(role: .destructive) {
-                                todoViewModel.deleteTodo(todo)
-                            } label: {
-                                Label(Localization.labels.delete, systemImage: "trash")
-                            }
-                            .tint(.red)
-                            .accessibilityIdentifier("TodoListDeleteTodo")
-                            
-                        }
-                        .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                            
-                            Button {
-                                let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
-                                if todoViewModel.getTotalTodaysTodosCountNotDone() >= maxCountOfTodosForToday && !todo.selectedForToday {
-                                    showErrorMessage = true
-                                } else {
-                                    todoViewModel.selectForToday(todo)
-                                }
-                            } label: {
-                                Label(Localization.labels.today, systemImage: "calendar")
-                            }
-                            .tint(.blue)
-                            .accessibilityIdentifier("MarkForToday")
-                            
-                            Button {
-                                selectedTodo = todo
-                            } label: {
-                                Label(Localization.labels.edit, systemImage: "pencil")
-                            }
-                            .tint(.green)
-                            .accessibilityIdentifier("TodoListViewEditTodo")
-
-                            Button {
-                                sharedTodos = SharedTodosWrapper(todos: [todo])
-                            } label: {
-                                Label(Localization.labels.shareDetails, systemImage: "square.and.arrow.up")
-                            }
-                            .tint(.mint)
-                            
-                            Button {
-                                sharedTodoDetails = SharedTodoDetailsWrapper(todo: todo)
-                            } label: {
-                                Label(Localization.labels.copy, systemImage: "doc.on.doc")
-                            }
-                            .tint(.cyan)
-                            
-                            Button {
-                                todoViewModel.cloneTodo(todo: todo)
-                            } label: {
-                                Label(Localization.labels.clone, systemImage: "plus.square.on.square")
-                            }
-                            .tint(.gray)
-                            
-                        }
-                        .foregroundColor(StyleUtils.getTextColor(todo: todo, isSelectedForToday: todo.selectedForToday))
-                        .listRowBackground(Color.theme.listBackground)
-                        .font(Font.app.listItem)
-                    }
-                    .onMove(perform: move)
-                    
-                }
-                .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-                .sheet(isPresented: $showingAddTodo) {
-                    TodoFormView(todoViewModel: todoViewModel, addDays: settingsViewModel.settings.daysAddedForDefaultDueDate, existingTodo: nil)
-                }
-                .sheet(item: $sharedTodos) { wrapper in
-                    let todos : [Todo] = wrapper.todos
-                    let dateString = StyleUtils.dateTimeFormatter.string(from: Date())
-                    let filename = "\(Localization.filename.exportTodo)_\(dateString)"
-                    let url : URL = ImportExportUtils.exportListOfTodosToJSONFile(todos: todos, fileName: filename)
-                    if (FileManager.default.fileExists(atPath: url.path)) {
-                        ShareSheet(activityItems: [url])
-                    }
-                }
-                .sheet(item: $sharedTodoDetails) { wrapper in
-                    let text = wrapper.todo.fullTodoDescription
-                    ShareSheet(activityItems: [text])
-                }
-                .sheet(item: $selectedTodo) { todo in
-                    TodoFormView(todoViewModel: todoViewModel, addDays: nil, existingTodo: todo).accessibilityIdentifier("TodoFormView")
-                    
-                }
-                .alert(isPresented: $showErrorMessage) {
-                    LimitExceededAlert(maxTodos: settingsViewModel.settings.maxTodosForToday).alert()
-                }
+                TodoListCoreView(
+                    predicate: searchText.isEmpty
+                        ? NSPredicate(value: true)  // Gibt alle Todos zurück
+                        : NSPredicate(format: "title CONTAINS[c] %@ OR details CONTAINS[c] %@ OR category.name CONTAINS[c] %@", searchText, searchText, searchText),
+                    category: nil,
+                    todoViewModel: todoViewModel,
+                    settingsViewModel: settingsViewModel,
+                    selectedTodo: $selectedTodo,
+                    showErrorMessage: $showErrorMessage,
+                    sharedTodoDetails: $sharedTodoDetails,
+                    sharedTodos: $sharedTodos,
+                    showingAddTodo: $showingAddTodo
+                )
                 
                 Spacer(minLength: 1)
-                
             }
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .backgroundStyle()
             .toolbar {
@@ -198,10 +87,5 @@ struct TodoListView: View {
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationBarTitleDisplayMode(.inline)
         }
-    }
-    
-    func move(from source: IndexSet, to destination: Int) {
-        todoViewModel.moveTodo(from: source, to: destination)
-    }
-    
+    }  
 }
