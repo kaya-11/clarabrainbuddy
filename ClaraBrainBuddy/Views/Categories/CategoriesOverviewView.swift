@@ -36,20 +36,6 @@ struct CategoriesOverviewView: View {
         ]
     ) private var categories: FetchedResults<Category>
     
-    @FetchRequest(
-        sortDescriptors: [
-            NSSortDescriptor(keyPath: \Todo.sortOrder, ascending: true),
-            NSSortDescriptor(keyPath: \Todo.updatedAt, ascending: true)
-        ]
-    ) private var todos: FetchedResults<Todo>
-    
-    var filteredTodos: [Todo] {
-        return todos.filter { todo in
-            todo.category == selectedCategory
-        }
-    }
-    
-
     var body: some View {
         NavigationView {
             VStack {
@@ -75,110 +61,17 @@ struct CategoriesOverviewView: View {
                 .padding(16)
                 
                 if let selectedCategory = selectedCategory {
-                    List {
-                        ForEach(filteredTodos, id: \.objectID) { (todo: Todo) in
-                            TodoListEntryView(
-                                todoViewModel: todoViewModel,
-                                todo: todo,
-                                showAsSelectedForToday: todo.selectedForToday,
-                                isInTodayView: false,
-                                showSymbols: settingsViewModel.settings.showSymbols,
-                                showDueDate: true,
-                                showResistance: settingsViewModel.settings.showResistanceInAllTodosView
-                            )
-                            .onDrag {
-                                NSItemProvider(object: String(todo.objectID.uriRepresentation().absoluteString) as NSString)
-                            }
-                            .strikethrough(todo.isDone, color: Color.theme.primary)
-                            .bold( todo.selectedForToday)
-                            .onTapGesture(count: 2) {
-                                selectedTodo = todo
-                            }
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                
-                                Button(role: .destructive) {
-                                    todoViewModel.deleteTodo(todo)
-                                } label: {
-                                    Label(Localization.labels.delete, systemImage: "trash")
-                                }
-                                .tint(.red)
-                                .accessibilityIdentifier("TodoListDeleteTodo")
-                                
-                            }
-                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                                
-                                Button {
-                                    let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
-                                    if todoViewModel.getTotalTodaysTodosCountNotDone() >= maxCountOfTodosForToday && !todo.selectedForToday {
-                                        showErrorMessage = true
-                                    } else {
-                                        todoViewModel.selectForToday(todo)
-                                    }
-                                } label: {
-                                    Label(Localization.labels.today, systemImage: "calendar")
-                                }
-                                .tint(.blue)
-                                .accessibilityIdentifier("MarkForToday")
-                                
-                                Button {
-                                    selectedTodo = todo
-                                } label: {
-                                    Label(Localization.labels.edit, systemImage: "pencil")
-                                }
-                                .tint(.green)
-                                .accessibilityIdentifier("TodoListViewEditTodo")
-                                
-                                Button {
-                                    sharedTodos = SharedTodosWrapper(todos: [todo])
-                                } label: {
-                                    Label(Localization.labels.shareDetails, systemImage: "square.and.arrow.up")
-                                }
-                                .tint(.mint)
-                                
-                                Button {
-                                    sharedTodoDetails = SharedTodoDetailsWrapper(todo: todo)
-                                } label: {
-                                    Label(Localization.labels.copy, systemImage: "doc.on.doc")
-                                }
-                                .tint(.cyan)
-                                
-                                Button {
-                                    todoViewModel.cloneTodo(todo: todo)
-                                } label: {
-                                    Label(Localization.labels.clone, systemImage: "plus.square.on.square")
-                                }
-                                .tint(.gray)
-                                
-                            }
-                            .foregroundColor(StyleUtils.getTextColor(todo: todo, isSelectedForToday: todo.selectedForToday))
-                            .listRowBackground(Color.theme.listBackground)
-                            .font(Font.app.listItem)
-                        }
-                        .onMove(perform: move)
-                    }
-                    .sheet(isPresented: $showingAddTodo) {
-                        TodoFormView(todoViewModel: todoViewModel, addDays: settingsViewModel.settings.daysAddedForDefaultDueDate, existingTodo: nil, category: selectedCategory)
-                    }
-                    .sheet(item: $sharedTodos) { wrapper in
-                        let todos : [Todo] = wrapper.todos
-                        let dateString = StyleUtils.dateTimeFormatter.string(from: Date())
-                        let filename = "\(Localization.filename.exportTodo)_\(dateString)"
-                        let url : URL = ImportExportUtils.exportListOfTodosToJSONFile(todos: todos, fileName: filename)
-                        if (FileManager.default.fileExists(atPath: url.path)) {
-                            ShareSheet(activityItems: [url])
-                        }
-                    }
-                    .sheet(item: $sharedTodoDetails) { wrapper in
-                        let text = wrapper.todo.fullTodoDescription
-                        ShareSheet(activityItems: [text])
-                    }
-                    .sheet(item: $selectedTodo) { todo in
-                        TodoFormView(todoViewModel: todoViewModel, addDays: nil, existingTodo: todo).accessibilityIdentifier("TodoFormView")
-                    }
-                    .alert(isPresented: $showErrorMessage) {
-                        LimitExceededAlert(maxTodos: settingsViewModel.settings.maxTodosForToday).alert()
-                    }
-                    
+                    TodoListCoreView(
+                        predicate: NSPredicate(format: "category == %@", selectedCategory),
+                        category: selectedCategory,
+                        todoViewModel: todoViewModel,
+                        settingsViewModel: settingsViewModel,
+                        selectedTodo: $selectedTodo,
+                        showErrorMessage: $showErrorMessage,
+                        sharedTodoDetails: $sharedTodoDetails,
+                        sharedTodos: $sharedTodos,
+                        showingAddTodo: $showingAddTodo
+                    )
                 } else {
                     Spacer()
                 }
@@ -232,9 +125,5 @@ struct CategoriesOverviewView: View {
                 break
             }
         }
-    }
-    
-    func move(from source: IndexSet, to destination: Int) {
-        todoViewModel.moveTodo(from: source, to: destination)
     }
 }
