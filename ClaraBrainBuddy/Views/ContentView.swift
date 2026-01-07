@@ -38,6 +38,11 @@ struct ContentView: View {
                         Label(Localization.labels.allTodosNav, systemImage: "list.bullet")
                     }.tag(ClaraTab.all.intValue)
                     .accessibility(identifier: "AllTodosTab")
+                TodaysListView()
+                    .tabItem {
+                        Label(Localization.labels.todayNav, systemImage: "calendar")
+                    }.tag(ClaraTab.today.intValue)
+                    .accessibility(identifier: "TodayTab")
                 if !categotyViewModel.allCategoriess.isEmpty {
                     CategoriesOverviewView()
                         .tabItem {
@@ -45,11 +50,6 @@ struct ContentView: View {
                         }.tag(ClaraTab.categories.intValue)
                         .accessibility(identifier: "CategoriesTab")
                 }
-                TodaysListView()
-                    .tabItem {
-                        Label(Localization.labels.todayNav, systemImage: "calendar")
-                    }.tag(ClaraTab.today.intValue)
-                    .accessibility(identifier: "TodayTab")
                 RecurringTaskListView()
                     .tabItem {
                         Label(Localization.labels.recurringTasksNav, systemImage: "checklist")
