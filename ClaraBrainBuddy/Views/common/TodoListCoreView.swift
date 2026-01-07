@@ -158,7 +158,23 @@ struct TodoListCoreView: View {
         }
     }
 
+    
     func move(from source: IndexSet, to destination: Int) {
-        todoViewModel.moveTodo(from: source, to: destination)
+        guard let sourceIndex = source.first else { return }
+        if sourceIndex == destination { return }
+
+        let sourceTodo = filteredTodos[sourceIndex]
+
+        let destTodo: Todo
+        if destination < filteredTodos.count {
+            destTodo = filteredTodos[destination]
+            todoViewModel.moveTodo(source: sourceTodo, destination: destTodo)
+        } else {
+            destTodo = filteredTodos.last!
+            todoViewModel.moveTodo(source: sourceTodo, destination: destTodo, aftereDestination: true)
+            return
+        }
+
+        todoViewModel.moveTodo(source: sourceTodo, destination: destTodo)
     }
 }

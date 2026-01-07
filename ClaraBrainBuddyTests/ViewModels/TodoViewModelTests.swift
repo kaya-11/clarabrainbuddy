@@ -487,6 +487,127 @@ final class TodoViewModelTests: XCTestCase {
             XCTAssertEqual(todayTodo.sortOrder, Int64(index))
         }
     }
+    
+    func testMoveTodoTopDown() {
+        // Setup
+        let todo1 = createTodo(title: "Test1", sortOrder: 0)
+        let todo2 = createTodo(title: "Test2", sortOrder: 1)
+        let todo3 = createTodo(title: "Test3", sortOrder: 2)
+        let todo4 = createTodo(title: "Test4", sortOrder: 3)
+        let todo5 = createTodo(title: "Test5", sortOrder: 4)
+        
+
+        viewModel.addTodos([todo1, todo2, todo3, todo4, todo5])
+
+        XCTAssertEqual(viewModel.allTodos.count, 5)
+
+        // Action
+        viewModel.moveTodo(source: todo1, destination: todo5)
+
+        // Assert
+        XCTAssertEqual(viewModel.allTodos.count, 5)
+        
+        XCTAssertTrue(viewModel.allTodos[0] == todo2 )
+        XCTAssertTrue(viewModel.allTodos[1] == todo3 )
+        XCTAssertTrue(viewModel.allTodos[2] == todo4 )
+        XCTAssertTrue(viewModel.allTodos[3] == todo1 )
+        XCTAssertTrue(viewModel.allTodos[4] == todo5 )
+        
+        for (index, todo) in viewModel.allTodos.enumerated() {
+            XCTAssertEqual(todo.sortOrder, Int64(index))
+        }
+    }
+    
+    
+    func testMoveTodoBottomUp() {
+        // Setup
+        let todo1 = createTodo(title: "Test1", sortOrder: 0)
+        let todo2 = createTodo(title: "Test2", sortOrder: 1)
+        let todo3 = createTodo(title: "Test3", sortOrder: 2)
+        let todo4 = createTodo(title: "Test4", sortOrder: 3)
+        let todo5 = createTodo(title: "Test5", sortOrder: 4)
+        
+
+        viewModel.addTodos([todo1, todo2, todo3, todo4, todo5])
+
+        XCTAssertEqual(viewModel.allTodos.count, 5)
+
+        // Action
+        viewModel.moveTodo(source: todo5, destination: todo2)
+
+        // Assert
+        XCTAssertEqual(viewModel.allTodos.count, 5)
+        
+        XCTAssertTrue(viewModel.allTodos[0] == todo1 )
+        XCTAssertTrue(viewModel.allTodos[1] == todo5 )
+        XCTAssertTrue(viewModel.allTodos[2] == todo2 )
+        XCTAssertTrue(viewModel.allTodos[3] == todo3 )
+        XCTAssertTrue(viewModel.allTodos[4] == todo4 )
+        
+        for (index, todo) in viewModel.allTodos.enumerated() {
+            XCTAssertEqual(todo.sortOrder, Int64(index))
+        }
+    }
+    
+    func testMoveTodoToEnd() {
+        // Setup
+        let todo1 = createTodo(title: "Test1", sortOrder: 0)
+        let todo2 = createTodo(title: "Test2", sortOrder: 1)
+        let todo3 = createTodo(title: "Test3", sortOrder: 2)
+        let todo4 = createTodo(title: "Test4", sortOrder: 3)
+        let todo5 = createTodo(title: "Test5", sortOrder: 4)
+        
+
+        viewModel.addTodos([todo1, todo2, todo3, todo4, todo5])
+
+        XCTAssertEqual(viewModel.allTodos.count, 5)
+
+        // Action
+        viewModel.moveTodo(source: todo1, destination: todo5, aftereDestination: true)
+
+        // Assert
+        XCTAssertEqual(viewModel.allTodos.count, 5)
+        
+        XCTAssertTrue(viewModel.allTodos[0] == todo2 )
+        XCTAssertTrue(viewModel.allTodos[1] == todo3 )
+        XCTAssertTrue(viewModel.allTodos[2] == todo4 )
+        XCTAssertTrue(viewModel.allTodos[3] == todo5 )
+        XCTAssertTrue(viewModel.allTodos[4] == todo1 )
+        
+        for (index, todo) in viewModel.allTodos.enumerated() {
+            XCTAssertEqual(todo.sortOrder, Int64(index))
+        }
+    }
+    
+    func testMoveTodoBehindOneTodo() {
+        // Setup
+        let todo1 = createTodo(title: "Test1", sortOrder: 0)
+        let todo2 = createTodo(title: "Test2", sortOrder: 1)
+        let todo3 = createTodo(title: "Test3", sortOrder: 2)
+        let todo4 = createTodo(title: "Test4", sortOrder: 3)
+        let todo5 = createTodo(title: "Test5", sortOrder: 4)
+        
+
+        viewModel.addTodos([todo1, todo2, todo3, todo4, todo5])
+
+        XCTAssertEqual(viewModel.allTodos.count, 5)
+
+        // Action
+        viewModel.moveTodo(source: todo2, destination: todo4, aftereDestination: true)
+
+        // Assert
+        XCTAssertEqual(viewModel.allTodos.count, 5)
+        
+        XCTAssertTrue(viewModel.allTodos[0] == todo1 )
+        XCTAssertTrue(viewModel.allTodos[1] == todo3 )
+        XCTAssertTrue(viewModel.allTodos[2] == todo4 )
+        XCTAssertTrue(viewModel.allTodos[3] == todo2 )
+        XCTAssertTrue(viewModel.allTodos[4] == todo5 )
+        
+        for (index, todo) in viewModel.allTodos.enumerated() {
+            XCTAssertEqual(todo.sortOrder, Int64(index))
+        }
+    }
 
     private func createTodo(
         title: String,
