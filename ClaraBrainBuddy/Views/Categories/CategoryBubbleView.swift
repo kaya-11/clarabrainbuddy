@@ -21,7 +21,7 @@ struct CategoryBubbleView: View {
                 .foregroundColor(Color.theme.primary)
                 .padding(4)
         }
-        .frame(minWidth: 150, minHeight: 60)
+        .frame(width: 150, height: 60)
         .cornerRadius(10)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
