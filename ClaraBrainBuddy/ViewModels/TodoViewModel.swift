@@ -218,12 +218,25 @@ class TodoViewModel: ObservableObject {
         return todayTodos.contains(where: { $0.recurringTask == recurringTask })
     }
     
-    func moveTodo(from source: IndexSet, to destination: Int) {
+    func moveTodo(source: Todo, destination: Todo, aftereDestination: Bool = false) {
+        
         var reordered = allTodos
-        reordered.move(fromOffsets: source, toOffset: destination)
+                
+        guard let sourceIndex = allTodos.firstIndex(where: { $0.id == source.id }),
+              let destIndex = allTodos.firstIndex(where: { $0.id == destination.id }) else {
+            return
+        }
+
+        let sourceTodo = reordered.remove(at: sourceIndex)
+        
+        let insertIndex = destIndex > sourceIndex && !aftereDestination ? destIndex - 1 : destIndex
+        
+        reordered.insert(sourceTodo, at: insertIndex)
+        
         for (index, todo) in reordered.enumerated() {
             todo.sortOrder = Int64(index)
         }
+
         saveContext()
     }
     
