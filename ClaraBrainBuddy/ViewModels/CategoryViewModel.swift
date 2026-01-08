@@ -14,6 +14,8 @@ class CategoryViewModel: ObservableObject {
 
     static let shared = CategoryViewModel(context: DataManager.shared.context)
     
+    static let MAX_LENGTH_CATEGORY_NAME: Int = 30
+    
     init(context: NSManagedObjectContext) {
         self.context = context
     }
@@ -69,8 +71,11 @@ class CategoryViewModel: ObservableObject {
         saveContext()
     }
 
+    func categoryExists(name: String) -> Bool {
+        return allCategoriess.contains { $0.name.lowercased() == name.lowercased() }
+    }
+    
     func deleteCategory(_ category: Category) {
-        // TODO Nur löschen, wenn es keine Todos mit der Category gibt
         context.delete(category)
         saveContext()
     }
