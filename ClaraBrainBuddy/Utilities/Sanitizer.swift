@@ -7,8 +7,11 @@
 
 import SwiftUI
 
-
 struct Sanitizer {
+    
+    static let TODO_TITLE_MAX_LENGTH: Int = 100
+    
+    static let TODO_DETAILS_MAX_LENGTH: Int = 500
     
     static func sanitizeTodos(_ todos: [TodoDto]) -> [TodoDto] {
         return todos.compactMap { todo in
@@ -20,13 +23,20 @@ struct Sanitizer {
             
             // Sanitize strings
             var truncatedTitle = cleanTitle
-            if truncatedTitle.count > 100 {
-                truncatedTitle = String(truncatedTitle.prefix(100))
+            if truncatedTitle.count > TODO_TITLE_MAX_LENGTH {
+                truncatedTitle = String(truncatedTitle.prefix(TODO_TITLE_MAX_LENGTH))
             }
             
             var cleanDetails: String? = nil
             if let details = todo.details?.trimmingCharacters(in: .whitespacesAndNewlines), !details.isEmpty {
-                cleanDetails = String(details.prefix(500))
+                cleanDetails = String(details.prefix(TODO_DETAILS_MAX_LENGTH))
+            }
+            
+            var cleanCategory: CategoryDto? = nil
+            if let category = todo.category {
+                var cleanCategoryName = category.name.trimmingCharacters(in: .whitespacesAndNewlines)
+                cleanCategoryName = String(cleanCategoryName.prefix(CategoryViewModel.MAX_LENGTH_CATEGORY_NAME))
+                cleanCategory = CategoryDto(name: cleanCategoryName)
             }
             
             return TodoDto(
@@ -39,7 +49,8 @@ struct Sanitizer {
                 isDone: todo.isDone,
                 resistance: Int64(todo.resistance.clamped(to: 0...11)),
                 createdAt: todo.createdAt,
-                updatedAt: todo.updatedAt
+                updatedAt: todo.updatedAt,
+                category: cleanCategory
             )
         }
     }
