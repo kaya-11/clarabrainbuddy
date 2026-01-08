@@ -13,6 +13,9 @@ struct CategoryFormView: View {
     
     @ObservedObject var categoryViewModel: CategoryViewModel
     
+    @State private var showError: Bool = false
+    @State private var errorMessage: String = ""
+    
     // If nil → Add Mode | If non-nil → Edit Mode
     var existingCategory: Category?
 
@@ -42,8 +45,18 @@ struct CategoryFormView: View {
                     TextField(Localization.labels.categoryNameTooltip, text: $name)
                         .foregroundColor(Color.theme.primary)
                         .accessibilityIdentifier("CategoryFormNameTextField")
+                        .onChange(of: name) {
+                            validateName(name)
+                        }
+                    if showError {
+                        Text(errorMessage)
+                            .foregroundColor(Color.theme.red)
+                            .font(Font.app.small)
+                    }
+                    
                 }
                 .sectionSytle()
+
 
                 Section(header: Text(Localization.labels.categoryColor)) {
                     Grid(horizontalSpacing: 8, verticalSpacing: 8) {
@@ -81,7 +94,7 @@ struct CategoryFormView: View {
                     Text(existingCategory == nil ? Localization.labels.saveAddCategory :  Localization.labels.saveEditCategory).accessibilityLabel("CategoryFormSaveButton")
                 }
                 .buttonStyle()
-                .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || showError)
                     
             }
             .backgroundStyle()
@@ -93,6 +106,19 @@ struct CategoryFormView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+    
+    func validateName(_ name: String) {
+        if name.count > CategoryViewModel.MAX_LENGTH_CATEGORY_NAME {
+            showError = true
+            errorMessage = Localization.errors.categoryNameLengthError
+        } else if existingCategory == nil && categoryViewModel.categoryExists(name: name) {
+            showError = true
+            errorMessage = Localization.errors.categoryNameAlreadyExistsError
+        } else {
+            showError = false
+            errorMessage = ""
         }
     }
     
