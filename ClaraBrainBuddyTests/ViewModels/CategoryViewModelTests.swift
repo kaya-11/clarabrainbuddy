@@ -1,0 +1,121 @@
+//
+//  CategoryViewModelTests.swift
+//  ClaraBrainBuddy
+//
+//  Created by Karen on 09.01.26.
+//
+
+
+import XCTest
+import CoreData
+@testable import ClaraBrainBuddy
+
+final class CategoryViewModelTests: XCTestCase {
+
+    var viewModel: CategoryViewModel!
+    var context: NSManagedObjectContext!
+
+    override func setUp() {
+        super.setUp()
+        context = DataManager.shared.context
+        viewModel = CategoryViewModel(context: context)
+        // Lösche alle bestehenden Kategorien vor jedem Test
+        for (_, category) in viewModel.allCategoriess.enumerated() {
+            context.delete(category)
+        }
+    }
+
+    override func tearDown() {
+        viewModel = nil
+        super.tearDown()
+    }
+
+    func testAddCategoryAddsCategoryAndSaves() {
+        XCTAssertEqual(viewModel.allCategoriess.count, 0)
+
+        viewModel.addCategory(name: "Test Category", color: "FF0000", isDefault: true)
+
+        XCTAssertEqual(viewModel.allCategoriess.count, 1)
+        XCTAssertEqual(viewModel.allCategoriess[0].name, "Test Category")
+        XCTAssertEqual(viewModel.allCategoriess[0].color, "FF0000")
+        XCTAssertTrue(viewModel.allCategoriess[0].isDefault)
+    }
+
+    func testResetIsDefault() {
+        viewModel.addCategory(name: "Category 1", color: "FF0000", isDefault: true)
+        let category1 : ClaraBrainBuddy.Category = viewModel.allCategoriess[0]
+        
+        XCTAssertTrue(category1.isDefault)
+        
+        viewModel.addCategory(name: "Category 2", color: "FF0000", isDefault: true)
+
+        XCTAssertFalse(category1.isDefault)
+        
+        let category2 : ClaraBrainBuddy.Category = viewModel.allCategoriess[0]
+        XCTAssertEqual(category2.name, "Category 2")
+        XCTAssertTrue(category2.isDefault)
+    }
+
+    func testUpdateCategory() {
+        let category = createCategory(name: "Old Name", isDefault: false)
+
+        category.name = "New Name"
+        category.isDefault = true
+        viewModel.updateCategory(category)
+
+        XCTAssertEqual(category.name, "New Name")
+        XCTAssertTrue(category.isDefault)
+    }
+
+    func testCategoryExists() {
+        _ = createCategory(name: "Test Category")
+        
+        XCTAssertTrue(viewModel.categoryExists(name: "Test Category"))
+        XCTAssertFalse(viewModel.categoryExists(name: "Non Existent"))
+    }
+
+    func testDeleteCategory() {
+        let category = createCategory(name: "Test Category")
+
+        XCTAssertEqual(viewModel.allCategoriess.count, 1)
+        viewModel.deleteCategory(category)
+        XCTAssertEqual(viewModel.allCategoriess.count, 0)
+    }
+
+    func testMoveCategory() {
+        _ = createCategory(name: "Category 1", sortOrder: 0)
+        _ = createCategory(name: "Category 2", sortOrder: 1)
+
+        XCTAssertEqual(viewModel.allCategoriess[0].name, "Category 1")
+        XCTAssertEqual(viewModel.allCategoriess[1].name, "Category 2")
+
+        viewModel.moveCategory(from: IndexSet(integer: 1), to: 0)
+
+        XCTAssertEqual(viewModel.allCategoriess[0].name, "Category 2")
+        XCTAssertEqual(viewModel.allCategoriess[1].name, "Category 1")
+    }
+
+    func testHasReachedMaxNumberOfCategories() {
+        for i in 0..<CategoryViewModel.MAX_NUMBER_OF_CATEGORIES {
+            _ = createCategory(name: "Category \(i)")
+        }
+
+        XCTAssertTrue(viewModel.hasReachedMaxNumberOfCategories())
+    }
+
+    private func createCategory(
+        name: String,
+        color: String = "FF0000",
+        isDefault: Bool = false,
+        sortOrder: Int64 = 0
+    ) -> ClaraBrainBuddy.Category {
+        let category = ClaraBrainBuddy.Category(context: context)
+        category.name = name
+        category.color = color
+        category.isDefault = isDefault
+        category.sortOrder = sortOrder
+        category.createdAt = Date()
+        try? context.save()
+        return category
+    }
+}
