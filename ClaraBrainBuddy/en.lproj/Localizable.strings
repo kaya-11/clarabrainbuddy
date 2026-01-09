@@ -120,8 +120,10 @@
 "error.emptyfile" = "Empty File.";
 "error.invalidjson" = "Invalid format.";
 "error.invalid.filetype" = "Invalid file type.";
-"deletion.error.title" = "Deletion Not Possible";
-"deletion.error.category.message" = "There are still tasks linked to this category.";
+"error.category.deletion.title" = "Deletion Not Possible";
+"error.category.deletion.message" = "There are still tasks linked to this category.";
+"error.category.maxnumber.title" = "Max number of categories reached";
+"error.category.maxnumber.message" = "You can only add a maximum of {0} categories.";
 "daily.reminders.label" = "Daily Reminders";
 "morning.reminder.label" = "Morning Reminder";
 "evening.reminder.label" = "Evening Reminder";

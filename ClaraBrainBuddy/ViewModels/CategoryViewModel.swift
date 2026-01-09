@@ -9,6 +9,8 @@ import Foundation
 import CoreData
 
 class CategoryViewModel: ObservableObject {
+    
+    static let MAX_NUMBER_OF_CATEGORIES = 12
    
     private let context: NSManagedObjectContext
 
@@ -89,6 +91,10 @@ class CategoryViewModel: ObservableObject {
         }
         
         saveContext()
+    }
+
+    func hasReachedMaxNumberOfCategories() -> Bool {
+        return allCategoriess.count >= CategoryViewModel.MAX_NUMBER_OF_CATEGORIES
     }
     
     private func saveContext() {

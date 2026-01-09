@@ -46,6 +46,8 @@
 "category.none" = "Keine";
 "error.category.name.length" = "Der Name darf nicht länger als {0} Zeichen sein.";
 "error.category.name.alreadyexists" = "Dieser Name ist bereits vergeben.";
+"error.category.max.length" = "Der Name darf nicht länger als 30 Zeichen sein.";
+"error.category.name.alreadyexists" = "Dieser Name ist bereits vergeben.";
 "random.todo.popup.title" = "Was möchten Sie tun?";
 "random.todo.popup.explanation.swipe.left" = "Zum Löschen nach links wischen.";
 "random.todo.popup.explanation.swipe.right.1" = "Zum Behalten aber niedriger";
@@ -125,8 +127,10 @@
 "evening.reminder.label" = "Abendliche Erinnerung";
 "invalid.time.selection.title" = "Ungültige Zeitauswahl";
 "invalid.time.selection.message" = "Die Morgen-Erinnerung muss vor der Abend-Erinnerung liegen.";
-"deletion.error.title" = "Löschen nicht möglich";
-"deletion.error.category.message" = "Es sind noch Aufgaben mit dieser Kategorie verknüpft.";
+"error.category.deletion.title" = "Löschen nicht möglich";
+"error.category.deletion.message" = "Es sind noch Aufgaben mit dieser Kategorie verknüpft.";
+"error.category.maxnumber.title" = "Maximale Anzahl an Kategorien erreicht";
+"error.category.maxnumber.message" = "Du kannst maximal {0} Kategorien anlegen.";
 "info.timebudget.explanation.title" = "Zeitbudget";
 "info.timebudget.explanation.text" = "Der Zeitbudget-Schieberegler hilft dir, deine Aufgabenlast zu verwalten. \n\nWenn du wenig Zeit hast, also deine exekutive Kapazität klein ist, kannst du nur eine begrenzte Anzahl an Aufgaben erledigen.\n\nDie geschätzte Zeit wird fett und rot dargestellt, wenn du je nach Zeitbudget einen bestimmten Grenzwert überschreitest. Die mittlere Einstellung bedeutet, dass du 1,5 bis 3 Stunden verfügbar hast. Die hohe Einstellung bedeutet, dass du an diesem Tag viel schaffen kannst.\n\nAber Achtung: Es gibt auch hier einen Grenzwert, damit du siehst, wenn du deinen Tagesplan zu voll gepackt hast.\n\nAufgaben, bei denen du zum Prokrastinieren neigst, erhalten einen kleinen Aufschlag bei der Berechnung der geschätzten Zeit, denn das Anfangen der Aufgabe oder die Aufgabe selbst scheint Dir mehr Mühe zu bereiten.";
 "info.prioritymatrix.explanation.title" = "Zu viele Aufgaben in Deiner Tagesplanung?";

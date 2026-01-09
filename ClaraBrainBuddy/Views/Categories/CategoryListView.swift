@@ -8,18 +8,20 @@
 import SwiftUI
 
 struct CategoryListView: View {
+    
     @ObservedObject var categoryViewModel: CategoryViewModel = .shared
     @ObservedObject var todoViewModel: TodoViewModel = .shared
     
     @Environment(\.managedObjectContext) private var context
     @Environment(\.presentationMode) var presentationMode
-
+    
+    
     @State private var showingAddCategory = false
     
     @State private var selectedCategory: Category?
     
-    @State private var showDeletionFailedAlert = false
-    
+    @State private var alertItem: CategoryAlertItem?
+
     @State private var searchText = ""
     
     @FetchRequest(
@@ -61,7 +63,7 @@ struct CategoryListView: View {
                                 if (category.todos.isEmpty) {
                                     categoryViewModel.deleteCategory(category)
                                 } else {
-                                    showDeletionFailedAlert = true
+                                    alertItem = .deletionFailed
                                 }
                             } label: {
                                 Label(Localization.labels.delete, systemImage: "trash")
@@ -105,18 +107,31 @@ struct CategoryListView: View {
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
-                            showingAddCategory = true
+                            if categoryViewModel.hasReachedMaxNumberOfCategories() {
+                                alertItem = .maxCategories
+                            } else {
+                                showingAddCategory = true
+                            }
                         }) {
                             Image(systemName: "plus.circle")
                         }
                     }
                 }
-                .alert(isPresented: $showDeletionFailedAlert) {
-                    Alert(
-                        title: Text(Localization.errors.deletionErrorTitle),
-                        message: Text(Localization.errors.deletionErrorCategoryMessage),
-                        dismissButton: .default(Text(Localization.labels.ok))
-                    )
+                .alert(item: $alertItem) { item in
+                    switch item {
+                    case .maxCategories:
+                        return Alert(
+                            title: Text(Localization.errors.addMaxNumberOfCategoriesErrorTitle),
+                            message: Text(Localization.errors.addMaxNumberOfCategoriesMessage),
+                            dismissButton: .default(Text(Localization.labels.ok))
+                        )
+                    case .deletionFailed:
+                        return Alert(
+                            title: Text(Localization.errors.deletionErrorTitle),
+                            message: Text(Localization.errors.deletionErrorCategoryMessage),
+                            dismissButton: .default(Text(Localization.labels.ok))
+                        )
+                    }
                 }
                 .navigationBarTitleDisplayMode(.inline)
             }
@@ -127,4 +142,9 @@ struct CategoryListView: View {
     func move(from source: IndexSet, to destination: Int) {
         categoryViewModel.moveCategory(from: source, to: destination)
     }
+}
+
+enum CategoryAlertItem: Identifiable {
+    case maxCategories, deletionFailed
+    var id: Self { self }
 }

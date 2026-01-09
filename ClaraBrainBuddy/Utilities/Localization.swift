@@ -198,8 +198,12 @@ struct Localization {
         let invalidTimeSelectionTitle = NSLocalizedString("invalid.time.selection.title", comment: "Title for invalid time selection error")
         let invalidTimeSelectionMessage = NSLocalizedString("invalid.time.selection.message", comment: "Message for invalid time selection error")
         
-        let deletionErrorTitle = NSLocalizedString("deletion.error.title", comment: "Deletion Not Possible")
-        let deletionErrorCategoryMessage = NSLocalizedString("deletion.error.category.message", comment: "There are still tasks linked to this category.")
+        let deletionErrorTitle = NSLocalizedString("error.category.deletion.title", comment: "Deletion Not Possible")
+        let deletionErrorCategoryMessage = NSLocalizedString("error.category.deletion.message", comment: "There are still tasks linked to this category.")
+        
+        let addMaxNumberOfCategoriesErrorTitle = NSLocalizedString("error.category.maxnumber.title", comment: "Max number of categories reached.")
+        let addMaxNumberOfCategoriesMessage = NSLocalizedString("error.category.maxnumber.message", comment: "Only add max number of categories")
+            .replacingOccurrences(of: "{0}", with: "\(CategoryViewModel.MAX_NUMBER_OF_CATEGORIES)")
         
         let categoryNameLengthError = NSLocalizedString("error.category.name.length", comment: "Error message for category name length")
             .replacingOccurrences(of: "{0}", with: "\(CategoryViewModel.MAX_LENGTH_CATEGORY_NAME)")
