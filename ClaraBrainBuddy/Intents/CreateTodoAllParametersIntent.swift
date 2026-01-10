@@ -41,6 +41,8 @@ struct CreateTodoAllParamsIntent: AppIntent {
         
         let isDueToday = Calendar.current.isDate(intentDueDate, inSameDayAs: Date())
         
+        let defaultCategory = CategoryViewModel.shared.getDefaultCategory()
+        
         var intentEstimatedTime : Int64? = nil
         if estimatedTime != nil {
             intentEstimatedTime = Int64(estimatedTime ?? 0)
@@ -51,6 +53,7 @@ struct CreateTodoAllParamsIntent: AppIntent {
                 title: title,
                 details: description ?? "",
                 estimatedTime: intentEstimatedTime,
+                category: defaultCategory,
                 recurringTask: nil
             )
         } else {
@@ -58,7 +61,8 @@ struct CreateTodoAllParamsIntent: AppIntent {
                 title: title,
                 details: description ?? "",
                 dueDate: intentDueDate,
-                estimatedTime: intentEstimatedTime
+                estimatedTime: intentEstimatedTime,
+                category: defaultCategory
             )
         }
         

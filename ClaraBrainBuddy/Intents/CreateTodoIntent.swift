@@ -24,11 +24,14 @@ struct CreateTodoIntent: AppIntent {
         
         let addDays = SettingsViewModel.shared.settings.daysAddedForDefaultDueDate
         
+        let defaultCategory = CategoryViewModel.shared.getDefaultCategory()
+        
         TodoViewModel.shared.addTodo(
             title: title,
             details: "",
             dueDate: Calendar.current.date(byAdding: .day, value: addDays, to: Date()) ?? Date(),
-            estimatedTime: nil
+            estimatedTime: nil,
+            category: defaultCategory
         )
         
         return .result()
