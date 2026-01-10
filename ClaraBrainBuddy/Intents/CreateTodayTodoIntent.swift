@@ -21,10 +21,14 @@ struct CreateTodayTodoIntent: AppIntent {
         if title.isEmpty {
             return .result()
         }
+        
+        let defaultCategory = CategoryViewModel.shared.getDefaultCategory()
+        
         TodoViewModel.shared.addNewTodoForToday(
             title: title,
             details: "",
             estimatedTime: nil,
+            category: defaultCategory,
             recurringTask: nil
         )
         return .result()

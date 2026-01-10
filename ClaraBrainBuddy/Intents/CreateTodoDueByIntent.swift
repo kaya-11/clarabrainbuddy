@@ -29,11 +29,14 @@ struct CreateTodoDueByIntent: AppIntent {
         
         let isDueToday = Calendar.current.isDate(dueDate, inSameDayAs: Date())
         
+        let defaultCategory = CategoryViewModel.shared.getDefaultCategory()
+        
         if isDueToday {
             TodoViewModel.shared.addNewTodoForToday(
                 title: title,
                 details: "",
                 estimatedTime: nil,
+                category: defaultCategory,
                 recurringTask: nil
             )
         } else {
@@ -41,7 +44,8 @@ struct CreateTodoDueByIntent: AppIntent {
                 title: title,
                 details: "",
                 dueDate: dueDate,
-                estimatedTime: nil
+                estimatedTime: nil,
+                category: defaultCategory
             )
         }
         
