@@ -10,14 +10,13 @@ import UniformTypeIdentifiers
 
 struct CategoriesOverviewView: View {
     
-    @ObservedObject var categviewModel: CategoryViewModel = CategoryViewModel.shared
+    @Environment(\.managedObjectContext) private var context
+    
+    @ObservedObject var categegoriesViewModel: CategoryViewModel = CategoryViewModel.shared
     
     @ObservedObject var todoViewModel : TodoViewModel = .shared
     @ObservedObject var settingsViewModel: SettingsViewModel = .shared
 
-    
-    @Environment(\.managedObjectContext) private var context
-    
     @State private var showingAddTodo = false
     @State private var selectedTodo: Todo? = nil
     @State private var showErrorMessage = false
@@ -25,9 +24,7 @@ struct CategoriesOverviewView: View {
     @State private var sharedTodoDetails: SharedTodoDetailsWrapper? = nil
     @State private var sharedTodos: SharedTodosWrapper? = nil
     
-    @State private var selectedCategory: Category? = CategoryViewModel.shared.allCategoriess.first { category in
-        category.isDefault
-    }
+    @State private var selectedCategory: Category? = CategoryViewModel.shared.getDefaultCategory()
 
     @FetchRequest(
         sortDescriptors: [

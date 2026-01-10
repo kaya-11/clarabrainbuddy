@@ -43,7 +43,7 @@ struct ContentView: View {
                         Label(Localization.labels.todayNav, systemImage: "calendar")
                     }.tag(ClaraTab.today.intValue)
                     .accessibility(identifier: "TodayTab")
-                if !categotyViewModel.allCategoriess.isEmpty {
+                if categotyViewModel.hasCategories() {
                     CategoriesOverviewView()
                         .tabItem {
                             Label(Localization.labels.categoriesNav, systemImage: "tag")
