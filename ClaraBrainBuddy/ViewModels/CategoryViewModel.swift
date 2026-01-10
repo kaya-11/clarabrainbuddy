@@ -22,7 +22,7 @@ class CategoryViewModel: ObservableObject {
         self.context = context
     }
 
-    var allCategoriess: [Category] {
+    var allCategories: [Category] {
         let request: NSFetchRequest<Category> = Category.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.sortOrder, ascending: true)]
         
@@ -47,7 +47,7 @@ class CategoryViewModel: ObservableObject {
         
         resetIsDefault(newCategory)
         
-        var reorderedCategories = allCategoriess
+        var reorderedCategories = allCategories
         reorderedCategories.insert(newCategory, at: 0)
         
         for (index, category) in reorderedCategories.enumerated() {
@@ -59,7 +59,7 @@ class CategoryViewModel: ObservableObject {
     
     fileprivate func resetIsDefault(_ category: Category) {
         if (category.isDefault == true) {
-            for cat in allCategoriess {
+            for cat in allCategories {
                 if cat != category {
                     cat.isDefault = false
                 }
@@ -74,7 +74,7 @@ class CategoryViewModel: ObservableObject {
     }
 
     func categoryExists(name: String) -> Bool {
-        return allCategoriess.contains { $0.name.lowercased() == name.lowercased() }
+        return allCategories.contains { $0.name.lowercased() == name.lowercased() }
     }
     
     func deleteCategory(_ category: Category) {
@@ -83,7 +83,7 @@ class CategoryViewModel: ObservableObject {
     }
 
     func moveCategory(from source: IndexSet, to destination: Int) {
-        var reorderedCategories = allCategoriess
+        var reorderedCategories = allCategories
         reorderedCategories.move(fromOffsets: source, toOffset: destination)
         
         for (index, category) in reorderedCategories.enumerated() {
@@ -94,7 +94,17 @@ class CategoryViewModel: ObservableObject {
     }
 
     func hasReachedMaxNumberOfCategories() -> Bool {
-        return allCategoriess.count >= CategoryViewModel.MAX_NUMBER_OF_CATEGORIES
+        return allCategories.count >= CategoryViewModel.MAX_NUMBER_OF_CATEGORIES
+    }
+    
+    func getDefaultCategory() -> Category? {
+        return allCategories.first { category in
+            category.isDefault
+        }
+    }
+    
+    func hasCategories() -> Bool {
+        return !allCategories.isEmpty
     }
     
     private func saveContext() {

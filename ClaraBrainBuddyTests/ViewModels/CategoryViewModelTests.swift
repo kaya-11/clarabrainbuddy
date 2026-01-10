@@ -20,7 +20,7 @@ final class CategoryViewModelTests: XCTestCase {
         context = DataManager.shared.context
         viewModel = CategoryViewModel(context: context)
         // Lösche alle bestehenden Kategorien vor jedem Test
-        for (_, category) in viewModel.allCategoriess.enumerated() {
+        for (_, category) in viewModel.allCategories.enumerated() {
             context.delete(category)
         }
     }
@@ -31,19 +31,19 @@ final class CategoryViewModelTests: XCTestCase {
     }
 
     func testAddCategoryAddsCategoryAndSaves() {
-        XCTAssertEqual(viewModel.allCategoriess.count, 0)
+        XCTAssertEqual(viewModel.allCategories.count, 0)
 
         viewModel.addCategory(name: "Test Category", color: "FF0000", isDefault: true)
 
-        XCTAssertEqual(viewModel.allCategoriess.count, 1)
-        XCTAssertEqual(viewModel.allCategoriess[0].name, "Test Category")
-        XCTAssertEqual(viewModel.allCategoriess[0].color, "FF0000")
-        XCTAssertTrue(viewModel.allCategoriess[0].isDefault)
+        XCTAssertEqual(viewModel.allCategories.count, 1)
+        XCTAssertEqual(viewModel.allCategories[0].name, "Test Category")
+        XCTAssertEqual(viewModel.allCategories[0].color, "FF0000")
+        XCTAssertTrue(viewModel.allCategories[0].isDefault)
     }
 
     func testResetIsDefault() {
         viewModel.addCategory(name: "Category 1", color: "FF0000", isDefault: true)
-        let category1 : ClaraBrainBuddy.Category = viewModel.allCategoriess[0]
+        let category1 : ClaraBrainBuddy.Category = viewModel.allCategories[0]
         
         XCTAssertTrue(category1.isDefault)
         
@@ -51,7 +51,7 @@ final class CategoryViewModelTests: XCTestCase {
 
         XCTAssertFalse(category1.isDefault)
         
-        let category2 : ClaraBrainBuddy.Category = viewModel.allCategoriess[0]
+        let category2 : ClaraBrainBuddy.Category = viewModel.allCategories[0]
         XCTAssertEqual(category2.name, "Category 2")
         XCTAssertTrue(category2.isDefault)
     }
@@ -77,22 +77,22 @@ final class CategoryViewModelTests: XCTestCase {
     func testDeleteCategory() {
         let category = createCategory(name: "Test Category")
 
-        XCTAssertEqual(viewModel.allCategoriess.count, 1)
+        XCTAssertEqual(viewModel.allCategories.count, 1)
         viewModel.deleteCategory(category)
-        XCTAssertEqual(viewModel.allCategoriess.count, 0)
+        XCTAssertEqual(viewModel.allCategories.count, 0)
     }
 
     func testMoveCategory() {
         _ = createCategory(name: "Category 1", sortOrder: 0)
         _ = createCategory(name: "Category 2", sortOrder: 1)
 
-        XCTAssertEqual(viewModel.allCategoriess[0].name, "Category 1")
-        XCTAssertEqual(viewModel.allCategoriess[1].name, "Category 2")
+        XCTAssertEqual(viewModel.allCategories[0].name, "Category 1")
+        XCTAssertEqual(viewModel.allCategories[1].name, "Category 2")
 
         viewModel.moveCategory(from: IndexSet(integer: 1), to: 0)
 
-        XCTAssertEqual(viewModel.allCategoriess[0].name, "Category 2")
-        XCTAssertEqual(viewModel.allCategoriess[1].name, "Category 1")
+        XCTAssertEqual(viewModel.allCategories[0].name, "Category 2")
+        XCTAssertEqual(viewModel.allCategories[1].name, "Category 1")
     }
 
     func testHasReachedMaxNumberOfCategories() {
@@ -101,6 +101,30 @@ final class CategoryViewModelTests: XCTestCase {
         }
 
         XCTAssertTrue(viewModel.hasReachedMaxNumberOfCategories())
+    }
+    
+    func testGetDefaultCategoryNoneAvailable() {
+        XCTAssertEqual(viewModel.getDefaultCategory(), nil)
+    }
+    
+    
+    func testGetDefaultCategoryNoneSetAsDefault() {
+        _ = createCategory(name: "Test Category")
+        XCTAssertEqual(viewModel.getDefaultCategory(), nil)
+    }
+    
+    func testGetDefaultCategory() {
+        let cat = createCategory(name: "Test Category", isDefault: true)
+        XCTAssertEqual(viewModel.getDefaultCategory(), cat)
+    }
+    
+    func testHasNoneCategories() {
+        XCTAssertFalse(viewModel.hasCategories())
+    }
+    
+    func testHasCategories() {
+        _ = createCategory(name: "Test Category")
+        XCTAssertTrue(viewModel.hasCategories())
     }
 
     private func createCategory(

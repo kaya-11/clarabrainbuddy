@@ -10,10 +10,8 @@ import SwiftUI
 import CoreData
 
 struct CategoryPickerView: View {
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Category.name, ascending: true)],
-        animation: .default)
-    private var categories: FetchedResults<Category>
+    
+    @ObservedObject var categegoriesViewModel: CategoryViewModel = CategoryViewModel.shared
 
     @Binding var selectedCategory: Category?
 
@@ -26,7 +24,7 @@ struct CategoryPickerView: View {
             Button(action: { selectedCategory = nil }) {
                 Text(Localization.labels.categoryNone)
             }
-            ForEach(categories, id: \.self) { category in
+            ForEach(categegoriesViewModel.allCategories, id: \.self) { category in
                 Button(action: { selectedCategory = category }) {
                     Text(category.name)
                 }
@@ -43,7 +41,7 @@ struct CategoryPickerView: View {
         }
         .onAppear {
             if selectedCategory == nil {
-                if let defaultCategory = categories.first(where: { $0.isDefault }) {
+                if let defaultCategory = categegoriesViewModel.getDefaultCategory() {
                     selectedCategory = defaultCategory
                 }
             }
