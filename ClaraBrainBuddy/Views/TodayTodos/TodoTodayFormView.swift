@@ -39,6 +39,7 @@ struct TodoTodayFormView: View {
                     TextField(Localization.labels.titleFormTooltip, text: $title)
                         .foregroundColor(Color.theme.primary)
                 }
+                .accessibilityIdentifier("TodayTodoFormTitleTextField")
                 .sectionSytle()
                 
                 Section(header: Text(Localization.labels.details)) {

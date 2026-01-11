@@ -55,23 +55,23 @@ struct CategoriesOverviewView: View {
                                                         }
                     }
                 }
+                .accessibilityIdentifier("CategoriesOverviewContainer")
                 .padding(16)
                 
-                if let selectedCategory = selectedCategory {
-                    TodoListCoreView(
-                        predicate: NSPredicate(format: "category == %@", selectedCategory),
-                        category: selectedCategory,
-                        todoViewModel: todoViewModel,
-                        settingsViewModel: settingsViewModel,
-                        selectedTodo: $selectedTodo,
-                        showErrorMessage: $showErrorMessage,
-                        sharedTodoDetails: $sharedTodoDetails,
-                        sharedTodos: $sharedTodos,
-                        showingAddTodo: $showingAddTodo
-                    )
-                } else {
-                    Spacer()
-                }
+                let predicate = selectedCategory != nil ?
+                    NSPredicate(format: "category == %@", selectedCategory!) :
+                    NSPredicate(format: "category == nil")
+                TodoListCoreView(
+                    predicate: predicate,
+                    category: selectedCategory,
+                    todoViewModel: todoViewModel,
+                    settingsViewModel: settingsViewModel,
+                    selectedTodo: $selectedTodo,
+                    showErrorMessage: $showErrorMessage,
+                    sharedTodoDetails: $sharedTodoDetails,
+                    sharedTodos: $sharedTodos,
+                    showingAddTodo: $showingAddTodo
+                )
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .backgroundStyle()
@@ -90,7 +90,7 @@ struct CategoriesOverviewView: View {
                         showingAddTodo = true
                     }) {
                         Image(systemName: "plus.circle")
-                    }.accessibilityIdentifier("AddCategoryButton")
+                    }.accessibilityIdentifier("AddTodoButtonInCategoryView")
                     
                 }
             }

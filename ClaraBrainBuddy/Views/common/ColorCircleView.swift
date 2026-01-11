@@ -32,6 +32,7 @@ extension ColorCircleView {
             .overlay(
                 Circle()
                     .stroke(selectedColorHex.wrappedValue == hex ? Color.theme.primary : Color.clear, lineWidth: 3)
+                    .accessibilityIdentifier("ColorCircle_\(hex)")
             )
             .onTapGesture {
                 selectedColorHex.wrappedValue = hex
