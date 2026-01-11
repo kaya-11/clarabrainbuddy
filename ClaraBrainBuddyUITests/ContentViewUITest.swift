@@ -5,7 +5,6 @@
 //  Created by Karen on 06.08.25.
 //
 
-
 import XCTest
 
 final class ContentViewUITest: XCTestCase {

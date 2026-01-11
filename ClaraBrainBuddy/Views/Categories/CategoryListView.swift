@@ -4,7 +4,6 @@
 //
 //  Created by Karen on 17.12.25.
 //
-
 import SwiftUI
 
 struct CategoryListView: View {
@@ -51,6 +50,7 @@ struct CategoryListView: View {
                             ColorCircleView(hex: category.color, size: 20)
                             Text(category.name)
                                 .foregroundColor(Color.theme.primary)
+                                .accessibilityIdentifier("CategoryRow_\(category.name)")
                             Spacer()
                             if category.isDefault {
                                 Image(systemName: "star.fill")
@@ -69,6 +69,7 @@ struct CategoryListView: View {
                                 Label(Localization.labels.delete, systemImage: "trash")
                             }
                             .tint(.red)
+                            .accessibilityIdentifier("DeleteCategory")
                         }
                         .swipeActions(edge: .leading, allowsFullSwipe: true) {
                             Button {
@@ -77,6 +78,7 @@ struct CategoryListView: View {
                                 Label(Localization.labels.edit, systemImage: "pencil")
                             }
                             .tint(.green)
+                            .accessibilityIdentifier("EditCategory")
                         }
                         .listRowBackground(Color.theme.listBackground)
                     }
@@ -115,6 +117,7 @@ struct CategoryListView: View {
                         }) {
                             Image(systemName: "plus.circle")
                         }
+                        .accessibilityIdentifier("CategoryAddButton")
                     }
                 }
                 .alert(item: $alertItem) { item in

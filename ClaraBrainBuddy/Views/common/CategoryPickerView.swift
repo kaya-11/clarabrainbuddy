@@ -24,10 +24,12 @@ struct CategoryPickerView: View {
             Button(action: { selectedCategory = nil }) {
                 Text(Localization.labels.categoryNone)
             }
+            .accessibilityIdentifier("CategoryPickerNoneButton")
             ForEach(categegoriesViewModel.allCategories, id: \.self) { category in
                 Button(action: { selectedCategory = category }) {
                     Text(category.name)
                 }
+                .accessibilityIdentifier("CategoryPicker_\(category.name)_Button")
             }
         } label: {
             HStack {
@@ -39,6 +41,7 @@ struct CategoryPickerView: View {
                 Image(systemName: "chevron.down")
             }
         }
+        .accessibilityIdentifier("CategoryPickerMenu")
         .onAppear {
             if selectedCategory == nil {
                 if let defaultCategory = categegoriesViewModel.getDefaultCategory() {
