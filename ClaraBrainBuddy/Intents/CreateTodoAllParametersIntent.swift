@@ -31,6 +31,11 @@ struct CreateTodoAllParamsIntent: AppIntent {
     )
     var estimatedTime: Int?
     
+    @Parameter(
+        title: LocalizedStringResource("app.intent.createtodo.param.category")
+    )
+    var category: String?
+    
     @MainActor
     func perform() async throws -> some IntentResult {
         if title.isEmpty {
@@ -41,11 +46,14 @@ struct CreateTodoAllParamsIntent: AppIntent {
         
         let isDueToday = Calendar.current.isDate(intentDueDate, inSameDayAs: Date())
         
-        let defaultCategory = CategoryViewModel.shared.getDefaultCategory()
-        
         var intentEstimatedTime : Int64? = nil
         if estimatedTime != nil {
             intentEstimatedTime = Int64(estimatedTime ?? 0)
+        }
+        
+        var intentCategory : Category? = CategoryViewModel.shared.getCategoryByName(name: category)
+        if intentCategory == nil {
+            intentCategory = CategoryViewModel.shared.getDefaultCategory()
         }
         
         if isDueToday {
@@ -53,7 +61,7 @@ struct CreateTodoAllParamsIntent: AppIntent {
                 title: title,
                 details: description ?? "",
                 estimatedTime: intentEstimatedTime,
-                category: defaultCategory,
+                category: intentCategory,
                 recurringTask: nil
             )
         } else {
@@ -62,7 +70,7 @@ struct CreateTodoAllParamsIntent: AppIntent {
                 details: description ?? "",
                 dueDate: intentDueDate,
                 estimatedTime: intentEstimatedTime,
-                category: defaultCategory
+                category: intentCategory
             )
         }
         

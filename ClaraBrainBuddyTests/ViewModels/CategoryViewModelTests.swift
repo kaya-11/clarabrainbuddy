@@ -72,6 +72,15 @@ final class CategoryViewModelTests: XCTestCase {
         
         XCTAssertTrue(viewModel.categoryExists(name: "Test Category"))
         XCTAssertFalse(viewModel.categoryExists(name: "Non Existent"))
+        XCTAssertFalse(viewModel.categoryExists(name: nil))
+    }
+    
+    func testGetCategoryByName() {
+        let cat = createCategory(name: "Test Category")
+        
+        XCTAssertEqual(cat, viewModel.getCategoryByName(name: "Test Category"))
+        XCTAssertNil(viewModel.getCategoryByName(name: "Non Existent"))
+        XCTAssertNil(viewModel.getCategoryByName(name: nil))
     }
 
     func testDeleteCategory() {
