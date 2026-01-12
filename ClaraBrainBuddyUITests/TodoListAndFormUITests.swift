@@ -373,5 +373,15 @@ final class TodoListAndFormUITests: XCTestCase {
         deleteButton.tap()
         
     }
+    
+    func testCheckCategoryPickerNotExistWithoutCategory() {
+        
+        let allTodosTab = app.otherElements["AllTodosTab"]
+        let addButton = allTodosTab.buttons["AddTodoButton"]
+        addButton.tap()
+        
+        let category = app.buttons["TodoFormCategoryPicker"]
+        XCTAssertFalse(category.waitForExistence(timeout: 2))
+    }
 
 }

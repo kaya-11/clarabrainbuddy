@@ -12,6 +12,7 @@ struct TodoFormView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @ObservedObject var todoViewModel: TodoViewModel
+    @ObservedObject var categoriesViewModel: CategoryViewModel
     
     // If nil → Add Mode | If non-nil → Edit Mode
     var existingTodo: Todo?
@@ -26,7 +27,10 @@ struct TodoFormView: View {
     
     init(todoViewModel: TodoViewModel, addDays: Int?, existingTodo: Todo?, category: Category? = nil) {
         self.todoViewModel = todoViewModel
+        self.categoriesViewModel = CategoryViewModel.shared
+        
         self.existingTodo = existingTodo
+        
 
         // Initialize the state variables
         if let todo = existingTodo {
@@ -62,11 +66,13 @@ struct TodoFormView: View {
                 }
                 .sectionSytle()
                 
-                Section(header: Text(Localization.labels.category)) {
-                    CategoryPickerView(selectedCategory: $category)
-                        .accessibilityIdentifier("TodoFormCategoryPicker")
+                if (categoriesViewModel.hasCategories()) {
+                    Section(header: Text(Localization.labels.category)) {
+                        CategoryPickerView(selectedCategory: $category)
+                            .accessibilityIdentifier("TodoFormCategoryPicker")
+                    }
+                    .sectionSytle()
                 }
-                .sectionSytle()
                 
                 Section(header: Text(Localization.labels.dueDate)) {
                     DatePicker(Localization.labels.dueDateTooltip, selection: $dueDate, displayedComponents: .date)

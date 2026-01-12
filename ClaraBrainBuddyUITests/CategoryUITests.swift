@@ -174,8 +174,8 @@ class CategoryUITests: XCTestCase {
         titleTextField.typeText(title)
         
         if !useDefault {
-            let test = app.buttons["TodoFormCategoryPicker"]
-            test.tap()
+            let categoryPicker = app.buttons["TodoFormCategoryPicker"]
+            categoryPicker.tap()
             let categoryButton = app.buttons["CategoryPicker_\(categoryName)_Button"]
             XCTAssertTrue(categoryButton.waitForExistence(timeout: 2), "Kategorie '\(categoryName)' sollte in Form  verfügbar sein")
             categoryButton.tap()
