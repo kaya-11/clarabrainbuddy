@@ -11,6 +11,7 @@ import Foundation
 struct TodoTodayFormView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var todoViewModel: TodoViewModel
+    @ObservedObject var categoriesViewModel: CategoryViewModel
 
     @State private var title: String
     @State private var details: String
@@ -22,6 +23,7 @@ struct TodoTodayFormView: View {
     
     init(todoViewModel: TodoViewModel) {
         self.todoViewModel = todoViewModel
+        self.categoriesViewModel = CategoryViewModel.shared
         
         _title = State(initialValue: "" )
         _details = State(initialValue: "")
@@ -49,11 +51,13 @@ struct TodoTodayFormView: View {
                 }
                 .sectionSytle()
                 
-                Section(header: Text(Localization.labels.category)) {
-                    CategoryPickerView(selectedCategory: $category)
-                        .accessibilityIdentifier("TodayTodoFormCategoryPicker")
+                if (categoriesViewModel.hasCategories()) {
+                    Section(header: Text(Localization.labels.category)) {
+                        CategoryPickerView(selectedCategory: $category)
+                            .accessibilityIdentifier("TodayTodoFormCategoryPicker")
+                    }
+                    .sectionSytle()
                 }
-                .sectionSytle()
                 
                 Section(header: Text(Localization.labels.estimatedTimeForm)) {
                     TextField(Localization.labels.estimatedTimeTooltip, value: $estimatedTime, formatter: NumberFormatter())

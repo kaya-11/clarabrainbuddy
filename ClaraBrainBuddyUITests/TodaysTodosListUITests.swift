@@ -195,5 +195,15 @@ final class TodaysTodosListUITests: XCTestCase {
         let addButton = todayTab.buttons["AddTodayTodoButton"]
         XCTAssertTrue(addButton.waitForExistence(timeout: 2))
     }
+    
+    func testCheckCategoryPickerNotExistWithoutCategory() {
+        
+        let allTodosTab = app.otherElements["TodayTab"]
+        let addButton = allTodosTab.buttons["AddTodayTodoButton"]
+        addButton.tap()
+        
+        let category = app.buttons["TodayTodoFormCategoryPicker"]
+        XCTAssertFalse(category.waitForExistence(timeout: 2))
+    }
 
 }
