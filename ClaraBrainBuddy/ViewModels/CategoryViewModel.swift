@@ -73,8 +73,14 @@ class CategoryViewModel: ObservableObject {
         saveContext()
     }
 
-    func categoryExists(name: String) -> Bool {
+    func categoryExists(name: String?) -> Bool {
+        guard let name = name else { return false }
         return allCategories.contains { $0.name.lowercased() == name.lowercased() }
+    }
+
+    func getCategoryByName(name: String?) -> Category? {
+        guard let name = name else { return nil }
+        return allCategories.filter { $0.name.lowercased() == name.lowercased() }.first
     }
     
     func deleteCategory(_ category: Category) {

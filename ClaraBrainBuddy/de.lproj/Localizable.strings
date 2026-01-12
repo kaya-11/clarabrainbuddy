@@ -183,6 +183,7 @@
 "app.intent.createtodo.param.description" = "Beschreibung";
 "app.intent.createtodo.param.duedate" = "Zu erledigen bis";
 "app.intent.createtodo.param.estimatedtime" = "Geschätzte Zeit (in Minuten)";
+"app.intent.createtodo.param.category" = "Kategorie";
 "priority.urgent" = "Dringend";
 "priority.important" = "Wichtig";
 "priority.important.and.urgent" = "Dringend & Wichtig";

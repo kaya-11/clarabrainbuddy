@@ -181,6 +181,7 @@
 "app.intent.createtodo.param.description" = "Description";
 "app.intent.createtodo.param.duedate" = "Due by";
 "app.intent.createtodo.param.estimatedtime" = "Estimated time (minutes)";
+"app.intent.createtodo.param.category" = "Category";
 "priority.urgent" = "Urgent";
 "priority.important" = "Important";
 "priority.important.and.urgent" = "Urgent & Important";
