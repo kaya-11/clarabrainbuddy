@@ -12,6 +12,7 @@ struct RecurringTaskFormView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @ObservedObject var taskViewModel: TaskViewModel
+    @ObservedObject var categoriesViewModel: CategoryViewModel
     
     // If nil → Add Mode | If non-nil → Edit Mode
     var existingTask: RecurringTask?
@@ -22,10 +23,13 @@ struct RecurringTaskFormView: View {
     @State private var selectedWeekday: Int = 1 // Default to Sunday
     @State private var selectedDay: Int = 1
     @State private var estimatedTime: Int64?
+    @State private var category: Category?
     
     init(taskViewModel: TaskViewModel, defaultEstimatedTime: Int64?, existingTask: RecurringTask? = nil) {
         
         self.taskViewModel = taskViewModel
+        self.categoriesViewModel = CategoryViewModel.shared
+        
         self.existingTask = existingTask
         
         // Initialize state variables
@@ -33,6 +37,7 @@ struct RecurringTaskFormView: View {
             _title = State(initialValue: task.title)
             _details = State(initialValue: task.details ?? "")
             _estimatedTime = State(initialValue: task.estimatedTime)
+            _category = State(initialValue: task.category)
             if case let .weekly(weekday) = task.recurrenceRule, (1...7).contains(weekday) {
                 _recurrenceRule = State(initialValue: RecurrenceRule.weekly(weekday: -1))
                 _selectedWeekday = State(initialValue: weekday)
@@ -56,6 +61,7 @@ struct RecurringTaskFormView: View {
                 Section(header: Text(Localization.labels.titleForm)) {
                     TextField(Localization.labels.titleFormTooltip, text: $title)
                 }
+                .accessibilityIdentifier("RecurrTaskFormTitle")
                 .sectionSytle()
                 
                 Section(header: Text(Localization.labels.details)) {
@@ -90,6 +96,14 @@ struct RecurringTaskFormView: View {
                     }
                 }
                 .sectionSytle()
+                
+                if (categoriesViewModel.hasCategories()) {
+                    Section(header: Text(Localization.labels.category)) {
+                        CategoryPickerView(selectedCategory: $category)
+                            .accessibilityIdentifier("RecurringTaskFormCategoryPicker")
+                    }
+                    .sectionSytle()
+                }
                 
                 Section(header: Text(Localization.labels.estimatedTimeForm)) {
                     TextField(Localization.labels.estimatedTimeTooltip, value: $estimatedTime, formatter: NumberFormatter())
@@ -130,9 +144,10 @@ struct RecurringTaskFormView: View {
             updatedTask.details = details
             updatedTask.recurrenceRuleAsString = newRecurrenceRule.encoded()
             updatedTask.estimatedTime = estimatedTime
+            updatedTask.category = category
             taskViewModel.updateRecurringTask(updatedTask)
         } else {
-            taskViewModel.addRecurringTask(title: title, details: details, estimatedTime: estimatedTime, recurrenceRule: newRecurrenceRule)
+            taskViewModel.addRecurringTask(title: title, details: details, estimatedTime: estimatedTime, recurrenceRule: newRecurrenceRule, category: category)
         }
             
     }

@@ -15,12 +15,13 @@ extension RecurringTask {
         return NSFetchRequest<RecurringTask>(entityName: "RecurringTask")
     }
     
-    @NSManaged public var createdAt: Date
     @NSManaged public var details: String?
     @NSManaged public var estimatedTime_: Int64
     @NSManaged public var recurrenceRuleAsString: String
     @NSManaged public var sortOrder: Int64
     @NSManaged public var title: String
+    @NSManaged public var category: Category?
+    @NSManaged public var createdAt: Date
     @NSManaged public var updatedAt: Date?
 }
 

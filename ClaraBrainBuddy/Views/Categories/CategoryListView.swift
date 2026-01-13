@@ -59,17 +59,20 @@ struct CategoryListView: View {
                             }
                         }
                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            Button(role: .destructive) {
-                                if (category.todos.isEmpty) {
-                                    categoryViewModel.deleteCategory(category)
-                                } else {
-                                    alertItem = .deletionFailed
+                            if categoryViewModel.isCategoryUnused(category: category) {
+                                Button(role: .destructive) {
+                                    do {
+                                        try categoryViewModel.deleteCategory(category)
+                                    } catch {
+                                        print("Error deletung category: \(error.localizedDescription)")
+                                        alertItem = .deletionFailed
+                                    }
+                                } label: {
+                                    Label(Localization.labels.delete, systemImage: "trash")
                                 }
-                            } label: {
-                                Label(Localization.labels.delete, systemImage: "trash")
+                                .tint(.red)
+                                .accessibilityIdentifier("DeleteCategory")
                             }
-                            .tint(.red)
-                            .accessibilityIdentifier("DeleteCategory")
                         }
                         .swipeActions(edge: .leading, allowsFullSwipe: true) {
                             Button {
