@@ -44,9 +44,18 @@ class CategoryUITests: XCTestCase {
     func testCategoryAsDefaultAndTodayTodoFlow() throws {
         addCategory()
         editCategory()
-        addTodayTodo(useDefault: true)
+        addTodayTodo()
         deleteCategory(deletionOk: false)
         deleteTodo()
+        deleteCategory()
+    }
+    
+    func testCategoryAsDefaultAndRecurringTaskFlow() throws {
+        addCategory()
+        editCategory()
+        addRecurringTask()
+        deleteCategory(deletionOk: false)
+        deleteTask()
         deleteCategory()
     }
     
@@ -185,7 +194,7 @@ class CategoryUITests: XCTestCase {
         saveTodoButton.tap()
     }
     
-    func addTodayTodo(title: String = "Neues Todo", categoryName: String = "Arbeit", useDefault: Bool = false) {
+    func addTodayTodo(title: String = "Neues Todo", categoryName: String = "Arbeit") {
         
         app.tabBars.buttons[UITestUtils.TabNames.today].tap()
         
@@ -199,6 +208,23 @@ class CategoryUITests: XCTestCase {
         titleTextField.typeText(title)
         
         let saveTodoButton = app.buttons["TodaysTodoFormSaveButton"]
+        saveTodoButton.tap()
+    }
+    
+    func addRecurringTask(title: String = "Neuer Task") {
+        
+        app.tabBars.buttons[UITestUtils.TabNames.recurring].tap()
+        
+        let todayTab = app.otherElements["RecurringTaskTab"]
+        let addButton = todayTab.buttons["AddRecurringTaskButton"]
+        XCTAssertTrue(addButton.waitForExistence(timeout: 2))
+        addButton.tap()
+        
+        let titleTextField = app.textFields["RecurrTaskFormTitle"]
+        titleTextField.tap()
+        titleTextField.typeText(title)
+        
+        let saveTodoButton = app.buttons["TaskFormSaveButton"]
         saveTodoButton.tap()
     }
     
@@ -232,13 +258,14 @@ class CategoryUITests: XCTestCase {
         
         categoryRow.swipeLeft(velocity: .slow)
         
-        app.buttons["DeleteCategory"].tap()
+        let deleteButton = app.buttons["DeleteCategory"]
 
         if deletionOk {
+            XCTAssertTrue(deleteButton.waitForExistence(timeout: 2), "Löschbutton sollte angezeigt werden")
+            deleteButton.tap()
             XCTAssertFalse(app.staticTexts[categoryName].exists, "Kategorie sollte gelöscht sein")
         } else {
-            app.buttons["Ok"].tap()
-            XCTAssertTrue(app.staticTexts[categoryName].exists)
+            XCTAssertFalse(deleteButton.waitForExistence(timeout: 2), "Löschbutton sollte nicht angezeigt werden")
         }
         
         app.buttons["CategoryListBackButton"].tap()
@@ -251,6 +278,15 @@ class CategoryUITests: XCTestCase {
         app.staticTexts[title].swipeLeft(velocity: .slow)
         sleep(2)
         app.buttons["TodoListDeleteTodo"].tap()
+    }
+    
+    func deleteTask(title: String = "Neuer Task") {
+        
+        app.tabBars.buttons[UITestUtils.TabNames.recurring].tap()
+        
+        app.staticTexts[title].swipeLeft(velocity: .slow)
+        sleep(2)
+        app.buttons["RecurringTaskListDeleteTask"].tap()
     }
     
     func dragTodo(title: String = "Neues Todo", categoryName: String = "Privat") {

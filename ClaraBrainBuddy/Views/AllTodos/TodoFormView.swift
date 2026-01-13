@@ -31,7 +31,6 @@ struct TodoFormView: View {
         
         self.existingTodo = existingTodo
         
-
         // Initialize the state variables
         if let todo = existingTodo {
             _title = State(initialValue: todo.title)

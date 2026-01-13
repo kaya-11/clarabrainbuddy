@@ -83,9 +83,13 @@ class CategoryViewModel: ObservableObject {
         return allCategories.filter { $0.name.lowercased() == name.lowercased() }.first
     }
     
-    func deleteCategory(_ category: Category) {
-        context.delete(category)
-        saveContext()
+    func deleteCategory(_ category: Category)  throws {
+        if (isCategoryUnused(category: category)) {
+            context.delete(category)
+            saveContext()
+        } else {
+            throw CategoryModelError.deletion
+        }
     }
 
     func moveCategory(from source: IndexSet, to destination: Int) {
@@ -113,11 +117,25 @@ class CategoryViewModel: ObservableObject {
         return !allCategories.isEmpty
     }
     
+    func isCategoryUnused(category: Category) -> Bool {
+        return category.todos.isEmpty && category.recurringTasks.isEmpty
+    }
+    
     private func saveContext() {
         do {
             try context.save()
         } catch {
             print("Failed to save context: \(error)")
+        }
+    }
+}
+
+enum CategoryModelError: Error, LocalizedError {
+    case deletion
+    var errorDescription: String? {
+        switch self {
+        case .deletion:
+            return NSLocalizedString(Localization.errors.deletionErrorTitle, comment: "Deletion Not Possible")
         }
     }
 }

@@ -285,14 +285,13 @@ final class RecurringTaskListAndFormUITests: XCTestCase {
         XCTAssertTrue(taskCellFound.waitForExistence(timeout: 2))
         XCTAssertTrue(taskCellNotFound.waitForExistence(timeout: 2))
         
-        var start = taskCellFound.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5))
-        var end = taskCellFound.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5))
-        start.press(forDuration: 0.1, thenDragTo: end)
+        taskCellFound.swipeLeft(velocity: .slow)
+        sleep(2)
+        app.buttons["RecurringTaskListDeleteTask"].tap()
         
-        start = taskCellNotFound.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5))
-        end = taskCellNotFound.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5))
-        start.press(forDuration: 0.1, thenDragTo: end)
-        
+        taskCellNotFound.swipeLeft(velocity: .slow)
+        sleep(2)
+        app.buttons["RecurringTaskListDeleteTask"].tap()        
     }
 
 }

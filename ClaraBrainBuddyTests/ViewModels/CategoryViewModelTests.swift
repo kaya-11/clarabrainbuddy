@@ -87,8 +87,38 @@ final class CategoryViewModelTests: XCTestCase {
         let category = createCategory(name: "Test Category")
 
         XCTAssertEqual(viewModel.allCategories.count, 1)
-        viewModel.deleteCategory(category)
+        do {
+            try viewModel.deleteCategory(category)
+        } catch {
+            XCTFail()
+        }
         XCTAssertEqual(viewModel.allCategories.count, 0)
+    }
+    
+    func testDeleteCategoryFailedUsedInTodo() {
+        let category = createCategory(name: "Test Category")
+        _ = createTodo(title: "Test", category: category)
+
+        XCTAssertEqual(viewModel.allCategories.count, 1)
+        do {
+            try viewModel.deleteCategory(category)
+        } catch {
+            // do nothing
+        }
+        XCTAssertEqual(viewModel.allCategories.count, 1)
+    }
+    
+    func testDeleteCategoryFailedUsedInRecurringTask() {
+        let category = createCategory(name: "Test Category")
+        _ = createRecurringTask(title: "Test", category: category)
+
+        XCTAssertEqual(viewModel.allCategories.count, 1)
+        do {
+            try viewModel.deleteCategory(category)
+        } catch {
+            // do nothing
+        }
+        XCTAssertEqual(viewModel.allCategories.count, 1)
     }
 
     func testMoveCategory() {
@@ -150,5 +180,50 @@ final class CategoryViewModelTests: XCTestCase {
         category.createdAt = Date()
         try? context.save()
         return category
+    }
+    
+    
+    private func createTodo(
+        title: String,
+        category: ClaraBrainBuddy.Category,
+        estimatedTime: Int64? = nil,
+        details: String = "",
+        dueDate: Date = Date(),
+        selectedForToday: Bool = false,
+        isDone: Bool = false,
+        sortOrder: Int64 = 0
+    ) -> Todo {
+        let todo = Todo(context: context)
+        todo.title = title
+        todo.details = details
+        todo.dueDate = dueDate
+        todo.isDone = isDone
+        todo.estimatedTime = estimatedTime
+        todo.selectedForToday = selectedForToday
+        todo.sortOrder = sortOrder
+        todo.resistance = 0
+        todo.category = category
+        todo.createdAt = Date()
+        todo.updatedAt = nil
+        return todo
+    }
+    
+    private func createRecurringTask(
+        title: String,
+        category: ClaraBrainBuddy.Category,
+        details: String = "",
+        estimatedTime: Int64 = 0,
+        recurrenceRuleAsString: String = RecurrenceRule.daily.encoded(),
+        sortOrder: Int64 = 0
+    ) -> RecurringTask {
+        let task = RecurringTask(context: context)
+        task.title = title
+        task.category = category
+        task.details = details
+        task.estimatedTime = estimatedTime
+        task.recurrenceRuleAsString = recurrenceRuleAsString
+        task.sortOrder = sortOrder
+        task.createdAt = Date()
+        return task
     }
 }

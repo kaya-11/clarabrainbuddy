@@ -92,7 +92,7 @@ class TodoViewModel: ObservableObject {
     }
     
     func addRecurringTaskAsTodoForToday(_ recurringTask: RecurringTask) {
-        addNewTodoForToday(title: recurringTask.title, details: recurringTask.details ?? "", estimatedTime: recurringTask.estimatedTime, recurringTask: recurringTask)
+        addNewTodoForToday(title: recurringTask.title, details: recurringTask.details ?? "", estimatedTime: recurringTask.estimatedTime, category: recurringTask.category, recurringTask: recurringTask)
     }
     
     func selectForToday(_ todo: Todo, _ recurringTask: RecurringTask? = nil) {

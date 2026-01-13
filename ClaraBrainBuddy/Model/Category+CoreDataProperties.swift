@@ -23,6 +23,7 @@ extension Category {
     @NSManaged public var isDefault: Bool
     @NSManaged public var color: String
     @NSManaged public var todos: Set<Todo>
+    @NSManaged public var recurringTasks: Set<Todo>
 }
 
 extension Category : Identifiable {
