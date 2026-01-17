@@ -9,10 +9,13 @@ import Foundation
 import CoreData
 
 class TaskViewModel: ObservableObject {
+    
+    static let TITLE_MAX_LENGTH: Int = 100
+    static let DETAILS_MAX_LENGTH: Int = 500
    
-    private let context: NSManagedObjectContext
-
     static let shared = TaskViewModel(context: DataManager.shared.context)
+    
+    private let context: NSManagedObjectContext
     
     init(context: NSManagedObjectContext) {
         self.context = context

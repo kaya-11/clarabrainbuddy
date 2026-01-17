@@ -11,6 +11,9 @@ import CoreData
 
 class TodoViewModel: ObservableObject {
     
+    static let TITLE_MAX_LENGTH: Int = 100
+    static let DETAILS_MAX_LENGTH: Int = 500
+    
     static let shared = TodoViewModel(context: DataManager.shared.context)
     
     private let context: NSManagedObjectContext

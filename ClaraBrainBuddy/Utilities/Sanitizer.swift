@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct Sanitizer {
-    
-    static let TODO_TITLE_MAX_LENGTH: Int = 100
-    
-    static let TODO_DETAILS_MAX_LENGTH: Int = 500
-    
+        
     static func sanitizeTodos(_ todos: [TodoDto]) -> [TodoDto] {
         return todos.compactMap { todo in
             // Basic validation
@@ -23,19 +19,19 @@ struct Sanitizer {
             
             // Sanitize strings
             var truncatedTitle = cleanTitle
-            if truncatedTitle.count > TODO_TITLE_MAX_LENGTH {
-                truncatedTitle = String(truncatedTitle.prefix(TODO_TITLE_MAX_LENGTH))
+            if truncatedTitle.count > TodoViewModel.TITLE_MAX_LENGTH {
+                truncatedTitle = String(truncatedTitle.prefix(TodoViewModel.TITLE_MAX_LENGTH))
             }
             
             var cleanDetails: String? = nil
             if let details = todo.details?.trimmingCharacters(in: .whitespacesAndNewlines), !details.isEmpty {
-                cleanDetails = String(details.prefix(TODO_DETAILS_MAX_LENGTH))
+                cleanDetails = String(details.prefix(TodoViewModel.DETAILS_MAX_LENGTH))
             }
             
             var cleanCategory: CategoryDto? = nil
             if let category = todo.category {
                 var cleanCategoryName = category.name.trimmingCharacters(in: .whitespacesAndNewlines)
-                cleanCategoryName = String(cleanCategoryName.prefix(CategoryViewModel.MAX_LENGTH_CATEGORY_NAME))
+                cleanCategoryName = String(cleanCategoryName.prefix(CategoryViewModel.MAX_LENGTH_NAME))
                 cleanCategory = CategoryDto(name: cleanCategoryName)
             }
             

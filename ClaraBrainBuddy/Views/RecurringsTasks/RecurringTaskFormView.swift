@@ -25,6 +25,11 @@ struct RecurringTaskFormView: View {
     @State private var estimatedTime: Int64?
     @State private var category: Category?
     
+    @State private var showErrorTitle: Bool = false
+    @State private var errorMessageTitle: String = ""
+    @State private var showErrorDetails: Bool = false
+    @State private var errorMessageDetails: String = ""
+    
     init(taskViewModel: TaskViewModel, defaultEstimatedTime: Int64?, existingTask: RecurringTask? = nil) {
         
         self.taskViewModel = taskViewModel
@@ -54,20 +59,89 @@ struct RecurringTaskFormView: View {
         }
     }
 
+    func validateTitle(_ name: String) {
+        if name.count > TaskViewModel.TITLE_MAX_LENGTH {
+            showErrorTitle = true
+            errorMessageTitle = Localization.errors.todoTitleLengthError
+        } else {
+            showErrorTitle = false
+            errorMessageTitle = ""
+        }
+    }
+
+    func validateDetails(_ name: String) {
+        if name.count > TaskViewModel.DETAILS_MAX_LENGTH {
+            showErrorDetails = true
+            errorMessageDetails = Localization.errors.todoDetailsLengthError
+        } else {
+            showErrorDetails = false
+            errorMessageDetails = ""
+        }
+    }
+    
+    private func saveTask() {
+        let newRecurrenceRule = updateRecurrenceRule()
+        if let task = existingTask {
+            let updatedTask = task
+            updatedTask.title = title
+            updatedTask.details = details
+            updatedTask.recurrenceRuleAsString = newRecurrenceRule.encoded()
+            updatedTask.estimatedTime = estimatedTime
+            updatedTask.category = category
+            taskViewModel.updateRecurringTask(updatedTask)
+        } else {
+            taskViewModel.addRecurringTask(title: title, details: details, estimatedTime: estimatedTime, recurrenceRule: newRecurrenceRule, category: category)
+        }
+            
+    }
+
+    private func updateRecurrenceRule() -> RecurrenceRule {
+        switch recurrenceRule {
+        case .weekly:
+            return RecurrenceRule.weekly(weekday: selectedWeekday)
+        case .monthly:
+            return RecurrenceRule.monthly(day: selectedDay)
+        case .evenDays:
+            return RecurrenceRule.evenDays
+        case .oddDays:
+            return RecurrenceRule.oddDays
+        default:
+            return .daily
+        }
+    }
     
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text(Localization.labels.titleForm)) {
                     TextField(Localization.labels.titleFormTooltip, text: $title)
+                        .onChange(of: title) {
+                            validateTitle(title)
+                        }
+                        .background(showErrorTitle ? Color.red.opacity(0.2) : nil)
+                    if showErrorTitle {
+                        Text(errorMessageTitle)
+                            .foregroundColor(Color.theme.red)
+                            .font(Font.app.small)
+                    }
                 }
                 .accessibilityIdentifier("RecurrTaskFormTitle")
                 .sectionSytle()
+
                 
                 Section(header: Text(Localization.labels.details)) {
                     TextEditor(text: $details)
+                        .onChange(of: details) {
+                            validateDetails(details)
+                        }
                         .frame(height: 120)
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray.opacity(0.3)))
+                        .background(showErrorDetails ? Color.red.opacity(0.2) : nil)
+                    if showErrorDetails {
+                        Text(errorMessageDetails)
+                            .foregroundColor(Color.theme.red)
+                            .font(Font.app.small)
+                    }
                 }
                 .sectionSytle()
                 
@@ -135,36 +209,4 @@ struct RecurringTaskFormView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
     }
-
-    private func saveTask() {
-        let newRecurrenceRule = updateRecurrenceRule()
-        if let task = existingTask {
-            let updatedTask = task
-            updatedTask.title = title
-            updatedTask.details = details
-            updatedTask.recurrenceRuleAsString = newRecurrenceRule.encoded()
-            updatedTask.estimatedTime = estimatedTime
-            updatedTask.category = category
-            taskViewModel.updateRecurringTask(updatedTask)
-        } else {
-            taskViewModel.addRecurringTask(title: title, details: details, estimatedTime: estimatedTime, recurrenceRule: newRecurrenceRule, category: category)
-        }
-            
-    }
-
-    private func updateRecurrenceRule() -> RecurrenceRule {
-        switch recurrenceRule {
-        case .weekly:
-            return RecurrenceRule.weekly(weekday: selectedWeekday)
-        case .monthly:
-            return RecurrenceRule.monthly(day: selectedDay)
-        case .evenDays:
-            return RecurrenceRule.evenDays
-        case .oddDays:
-            return RecurrenceRule.oddDays
-        default:
-            return .daily
-        }
-    }
-
 }
