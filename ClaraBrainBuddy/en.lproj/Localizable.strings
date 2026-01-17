@@ -35,6 +35,8 @@
 "add.todo.for.today.label" = "Add New Task For Today";
 "edit.todo.save.label" = "Add Task";
 "add.todo.save.label" = "Save Changes";
+"error.todo.title.length" = "The title must not be longer than {0} characters.";
+"error.todo.details.length" = "Details must not be longer than {0} characters.";
 "edit.category.label" = "Edit category:";
 "add.category.label" = "Add new category:";
 "edit.category.name.label" = "Name";

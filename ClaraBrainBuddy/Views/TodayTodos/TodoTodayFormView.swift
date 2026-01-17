@@ -1,12 +1,4 @@
-//
-//  Views/TodayTodos/TodoTodayFormView.swift
-//  Clara - Your Buddy for your Brain Chaos
-//
-//  Created by Karen on 17.03.25.
-//
-
 import SwiftUI
-import Foundation
 
 struct TodoTodayFormView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -20,7 +12,12 @@ struct TodoTodayFormView: View {
     @State private var energyImpact: Int64?
     @State private var isDone: Bool
     @State private var category: Category?
-    
+
+    @State private var showErrorTitle: Bool = false
+    @State private var errorMessageTitle: String = ""
+    @State private var showErrorDetails: Bool = false
+    @State private var errorMessageDetails: String = ""
+
     init(todoViewModel: TodoViewModel) {
         self.todoViewModel = todoViewModel
         self.categoriesViewModel = CategoryViewModel.shared
@@ -33,13 +30,42 @@ struct TodoTodayFormView: View {
         _isDone = State(initialValue: false)
         _category = State(initialValue: nil)
     }
-    
+
+    func validateTitle(_ name: String) {
+        if name.count > TodoViewModel.TITLE_MAX_LENGTH {
+            showErrorTitle = true
+            errorMessageTitle = Localization.errors.todoTitleLengthError
+        } else {
+            showErrorTitle = false
+            errorMessageTitle = ""
+        }
+    }
+
+    func validateDetails(_ name: String) {
+        if name.count > TodoViewModel.DETAILS_MAX_LENGTH {
+            showErrorDetails = true
+            errorMessageDetails = Localization.errors.todoDetailsLengthError
+        } else {
+            showErrorDetails = false
+            errorMessageDetails = ""
+        }
+    }
+
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text(Localization.labels.titleForm)) {
                     TextField(Localization.labels.titleFormTooltip, text: $title)
                         .foregroundColor(Color.theme.primary)
+                        .background(showErrorTitle ? Color.red.opacity(0.2) : nil)
+                        .onChange(of: title) {
+                            validateTitle(title)
+                        }
+                    if showErrorTitle {
+                        Text(errorMessageTitle)
+                            .foregroundColor(.red)
+                            .font(Font.app.small)
+                    }
                 }
                 .accessibilityIdentifier("TodayTodoFormTitleTextField")
                 .sectionSytle()
@@ -48,6 +74,15 @@ struct TodoTodayFormView: View {
                     TextEditor(text: $details)
                         .frame(height: 120)
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray.opacity(0.3)))
+                        .background(showErrorDetails ? Color.red.opacity(0.2) : nil)
+                        .onChange(of: details) {
+                            validateDetails(details)
+                        }
+                    if showErrorDetails {
+                        Text(errorMessageDetails)
+                            .foregroundColor(.red)
+                            .font(Font.app.small)
+                    }
                 }
                 .sectionSytle()
                 
@@ -85,9 +120,9 @@ struct TodoTodayFormView: View {
                     Text(Localization.labels.saveAddTodo)
                 }
                 .buttonStyle()
-                .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || showErrorTitle || showErrorDetails)
                 .accessibilityLabel("TodaysTodoFormSaveButton")
-                    
+                
             }
             .backgroundStyle()
             .toolbar {

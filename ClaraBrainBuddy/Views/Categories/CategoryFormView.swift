@@ -33,7 +33,7 @@ struct CategoryFormView: View {
             _color = State(initialValue: category.color)
             _isDefault = State(initialValue: category.isDefault)
         } else {
-            _color = State(initialValue: "616161")
+            _color = State(initialValue: CategoryColor.darkGray.hex)
             _isDefault = State(initialValue: false)
         }
     }
@@ -44,6 +44,7 @@ struct CategoryFormView: View {
                 Section(header: Text(Localization.labels.categoryName)) {
                     TextField(Localization.labels.categoryNameTooltip, text: $name)
                         .foregroundColor(Color.theme.primary)
+                        .background(showError ? Color.red.opacity(0.2) : nil)
                         .accessibilityIdentifier("CategoryFormNameTextField")
                         .onChange(of: name) {
                             validateName(name)
@@ -110,7 +111,7 @@ struct CategoryFormView: View {
     }
     
     func validateName(_ name: String) {
-        if name.count > CategoryViewModel.MAX_LENGTH_CATEGORY_NAME {
+        if name.count > CategoryViewModel.MAX_LENGTH_NAME {
             showError = true
             errorMessage = Localization.errors.categoryNameLengthError
         } else if existingCategory == nil && categoryViewModel.categoryExists(name: name) {

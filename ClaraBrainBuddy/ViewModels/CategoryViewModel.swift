@@ -11,13 +11,12 @@ import CoreData
 class CategoryViewModel: ObservableObject {
     
     static let MAX_NUMBER_OF_CATEGORIES = 12
+    static let MAX_LENGTH_NAME: Int = 30
    
     private let context: NSManagedObjectContext
 
     static let shared = CategoryViewModel(context: DataManager.shared.context)
-    
-    static let MAX_LENGTH_CATEGORY_NAME: Int = 30
-    
+        
     init(context: NSManagedObjectContext) {
         self.context = context
     }

@@ -201,12 +201,18 @@ struct Localization {
         let deletionErrorTitle = NSLocalizedString("error.category.deletion.title", comment: "Deletion Not Possible")
         let deletionErrorCategoryMessage = NSLocalizedString("error.category.deletion.message", comment: "There are still tasks linked to this category.")
         
+        let todoTitleLengthError = NSLocalizedString("error.todo.title.length", comment: "Error message for title length")
+            .replacingOccurrences(of: "{0}", with: "\(TodoViewModel.TITLE_MAX_LENGTH)")
+        
+        let todoDetailsLengthError = NSLocalizedString("error.todo.details.length", comment: "Error message for details length")
+            .replacingOccurrences(of: "{0}", with: "\(TodoViewModel.DETAILS_MAX_LENGTH)")
+        
         let addMaxNumberOfCategoriesErrorTitle = NSLocalizedString("error.category.maxnumber.title", comment: "Max number of categories reached.")
         let addMaxNumberOfCategoriesMessage = NSLocalizedString("error.category.maxnumber.message", comment: "Only add max number of categories")
             .replacingOccurrences(of: "{0}", with: "\(CategoryViewModel.MAX_NUMBER_OF_CATEGORIES)")
         
         let categoryNameLengthError = NSLocalizedString("error.category.name.length", comment: "Error message for category name length")
-            .replacingOccurrences(of: "{0}", with: "\(CategoryViewModel.MAX_LENGTH_CATEGORY_NAME)")
+            .replacingOccurrences(of: "{0}", with: "\(CategoryViewModel.MAX_LENGTH_NAME)")
         let categoryNameAlreadyExistsError = NSLocalizedString("error.category.name.alreadyexists", comment: "Error message for duplicate category name")
     }
     

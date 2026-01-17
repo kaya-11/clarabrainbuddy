@@ -25,6 +25,11 @@ struct TodoFormView: View {
     @State private var isDone: Bool = false
     @State private var category: Category?
     
+    @State private var showErrorTitle: Bool = false
+    @State private var errorMessageTitle: String = ""
+    @State private var showErrorDetails: Bool = false
+    @State private var errorMessageDetails: String = ""
+    
     init(todoViewModel: TodoViewModel, addDays: Int?, existingTodo: Todo?, category: Category? = nil) {
         self.todoViewModel = todoViewModel
         self.categoriesViewModel = CategoryViewModel.shared
@@ -46,22 +51,78 @@ struct TodoFormView: View {
             _category = State(initialValue: category) 
         }
     }
+    
+    func validateTitle(_ name: String) {
+        if name.count > TodoViewModel.TITLE_MAX_LENGTH   {
+            showErrorTitle = true
+            errorMessageTitle = Localization.errors.todoTitleLengthError
+        } else {
+            showErrorTitle = false
+            errorMessageTitle = ""
+        }
+    }
+    
+    func validateDetails(_ name: String) {
+        if name.count > TodoViewModel.DETAILS_MAX_LENGTH   {
+            showErrorDetails = true
+            errorMessageDetails = Localization.errors.todoDetailsLengthError
+        } else {
+            showErrorDetails = false
+            errorMessageDetails = ""
+        }
+    }
+    
+    func updateTodo(_ todo: Todo) {
+        let updatedTodo = todo
+        updatedTodo.title = title
+        updatedTodo.details = details
+        updatedTodo.dueDate = dueDate
+        updatedTodo.estimatedTime = estimatedTime
+        updatedTodo.energyImpact = energyImpact ?? 0
+        updatedTodo.updatedAt = Date()
+        let vibrate = isDone && !todo.isDone
+        updatedTodo.isDone = isDone
+        updatedTodo.category = category
+        todoViewModel.updateTodo(updatedTodo)
+        if vibrate {
+            DeviceFeedback.vibrateTwice()
+        }
+    }
 
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text(Localization.labels.titleForm)) {
                     TextField(Localization.labels.titleFormTooltip, text: $title)
+                        .onChange(of: title) {
+                            validateTitle(title)
+                        }
+                        .background(showErrorTitle ? Color.red.opacity(0.2) : nil)
                         .foregroundColor(Color.theme.primary)
                         .accessibilityIdentifier("TodoFormTitleTextField")
+                    if showErrorTitle {
+                        Text(errorMessageTitle)
+                            .foregroundColor(Color.theme.red)
+                            .font(Font.app.small)
+                    }
                 }
+
                 .sectionSytle()
                 
                 Section(header: Text(Localization.labels.details)) {
                     TextEditor(text: $details)
+                        .onChange(of: details) {
+                            validateDetails(details)
+                        }
                         .frame(height: 120)
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray.opacity(0.3)))
+                        .background(showErrorDetails ? Color.red.opacity(0.2) : nil)
                         .accessibilityIdentifier("TodoFormDetailsTextField")
+                    if showErrorDetails {
+                        Text(errorMessageDetails)
+                            .foregroundColor(Color.theme.red)
+                            .font(Font.app.small)
+                    }
                 }
                 .sectionSytle()
                 
@@ -120,7 +181,7 @@ struct TodoFormView: View {
                     Text(existingTodo == nil ? Localization.labels.saveAddTodo : Localization.labels.saveEditTodo).accessibilityLabel("TodoFormSaveButton")
                 }
                 .buttonStyle()
-                .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || showErrorTitle || showErrorDetails )
                     
             }
             .backgroundStyle()
@@ -132,23 +193,6 @@ struct TodoFormView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-        }
-    }
-    
-    func updateTodo(_ todo: Todo) {
-        let updatedTodo = todo
-        updatedTodo.title = title
-        updatedTodo.details = details
-        updatedTodo.dueDate = dueDate
-        updatedTodo.estimatedTime = estimatedTime
-        updatedTodo.energyImpact = energyImpact ?? 0
-        updatedTodo.updatedAt = Date()
-        let vibrate = isDone && !todo.isDone
-        updatedTodo.isDone = isDone
-        updatedTodo.category = category
-        todoViewModel.updateTodo(updatedTodo)
-        if vibrate {
-            DeviceFeedback.vibrateTwice()
         }
     }
 }
