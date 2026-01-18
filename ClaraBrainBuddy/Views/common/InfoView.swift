@@ -18,7 +18,7 @@ struct InfoView: View {
     let buttonAction: (() -> Void)?
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 VStack {
                     VStack {
@@ -52,8 +52,10 @@ struct InfoView: View {
                         .padding()
                     }
                 }
+                .sectionSytle()
+                .foregroundColor(Color.theme.primary)
             }
-            .backgroundStyle()
+            .appTheme()
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button(action: {

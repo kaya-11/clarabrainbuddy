@@ -86,7 +86,7 @@ struct TodaysListView: View {
                     
                     Text("\(Localization.labels.todosPickedForToday):")
                             .foregroundColor(Color.theme.primary)
-                            .font(Font.app.listHeader)
+                            .font(Font.app.header)
                             .textCase(.none)
                             .padding(.top, 28)
                     
@@ -153,12 +153,6 @@ struct TodaysListView: View {
                                 }
                                 .tint(.mint)
                                 
-                                Button {
-                                    sharedTodoDetails = SharedTodoDetailsWrapper(todo: todo)
-                                } label: {
-                                    Label(Localization.labels.copy, systemImage: "doc.on.doc")
-                                }
-                                .tint(.cyan)
                                 
                                 Button {
                                     todoViewModel.cloneTodo(todo: todo)
@@ -167,21 +161,28 @@ struct TodaysListView: View {
                                 }
                                 .tint(.gray)
                                 
+                                Button {
+                                    sharedTodoDetails = SharedTodoDetailsWrapper(todo: todo)
+                                } label: {
+                                    Label(Localization.labels.copy, systemImage: "doc.on.doc")
+                                }
+                                .tint(.cyan)
+                                
                             }
                             .foregroundColor(StyleUtils.getTextColorForToday(todo: todo, isSelectedForToday: false))
-                            .listRowBackground(Color.theme.listBackground)
+                            .listRowBackground(Color.clear)
                             .font(Font.app.listItem)
                         }
                         .onMove(perform: move)
                     }
                     .accessibilityIdentifier("TodaysListContainer")
-                    .background(Color.theme.background)
+                    .background(Color.clear)
                     .frame(width: 400, height: recurringTasks.isEmpty ? 450 : 300)
                     
                     if (!recurringTasks.isEmpty) {
                         Text("\(Localization.labels.recurringTasksToday):")
                             .foregroundColor(Color.theme.primary)
-                            .font(Font.app.listHeader)
+                            .font(Font.app.header)
                             .textCase(.none)
                             .padding(.top, 28)
                         
@@ -191,7 +192,7 @@ struct TodaysListView: View {
                                 Text(title)
                                     .foregroundColor(Color.theme.listText)
                                     .font(Font.app.listItem)
-                                    .listRowBackground(Color.theme.listBackground)
+                                    .listRowBackground(Color.clear)
                                     .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                         Button {
                                             let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
@@ -208,7 +209,7 @@ struct TodaysListView: View {
                                     }
                             }
                         }
-                        .background(Color.background)
+                        .background(Color.clear)
                     }
                     
                     Spacer()
@@ -221,26 +222,27 @@ struct TodaysListView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .backgroundStyle()
+            .appTheme()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    ClaraMenuView(settingsViewModel: settingsViewModel, todoViewModel: todoViewModel)
-                }
-                ToolbarItem(placement: .navigation ) {
-                    let defaultEstimatedTime : Int = settingsViewModel.settings.defaultTimeForEnergyLevelCalculation
-                    let (count, totalTime) = todoViewModel.calculateCompletedTodaysTodos(defaultEstimatedTime: defaultEstimatedTime)
-
-                    CompletedTodosBadge(
-                        todoViewModel: todoViewModel,
-                        count: count,
-                        totalTime: totalTime
-                    )
+                    HStack {
+                        ClaraMenuView(settingsViewModel: settingsViewModel, todoViewModel: todoViewModel)
+                        
+                        let defaultEstimatedTime : Int = settingsViewModel.settings.defaultTimeForEnergyLevelCalculation
+                        let (count, totalTime) = todoViewModel.calculateCompletedTodaysTodos(defaultEstimatedTime: defaultEstimatedTime)
+                        
+                        CompletedTodosBadge(
+                            todoViewModel: todoViewModel,
+                            count: count,
+                            totalTime: totalTime
+                        )
+                    }
                 }
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.titleToday)
                         .foregroundColor(Color.theme.primary)
-                        .font(Font.app.title)
+                        .font(Font.app.header)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack {

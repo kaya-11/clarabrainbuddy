@@ -104,7 +104,6 @@ struct ClaraMenuView: View {
             
         } label: {
             Label("Menu", systemImage: "line.horizontal.3")
-                .foregroundColor(Color.theme.accent)
                 .accessibilityIdentifier("ClaraMenu")
         }
         .sheet(isPresented: $isPriorityMatrixPresented) {

@@ -56,6 +56,10 @@ struct ContentView: View {
                     }.tag(ClaraTab.recurringtasks.intValue)
                     .accessibility(identifier: "RecurringTaskTab")
             }
+            .tabViewStyle(.tabBarOnly)
+            .toolbarBackground(Color.theme.background, for: .tabBar)
+            .toolbarBackground(.hidden, for: .tabBar)
+            
             
             if showRandomTodoView {
                 RandomTodoView(isPresented: $showRandomTodoView)

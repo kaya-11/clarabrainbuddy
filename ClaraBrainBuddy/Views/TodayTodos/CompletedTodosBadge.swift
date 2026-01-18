@@ -25,11 +25,9 @@ struct CompletedTodosBadge: View {
                     Button(action: {
                         showingInfoView = true
                     }) {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(Color.theme.accent)
+                        Image(systemName: "checkmark.circle")
                     }
-                    .foregroundColor(Color.theme.accent)
-                    .accessibilityIdentifier("CompletedTodosBadgeCheckmarkCircleFill")
+                    .accessibilityIdentifier("CompletedTodosBadgeCheckmarkCircle")
                     .sheet(isPresented: $showingInfoView) {
                         InfoView(
                             isPresented: $showingInfoView,
@@ -42,10 +40,6 @@ struct CompletedTodosBadge: View {
                         )
                     }
                 }
-            } else {
-                Image(systemName: "checkmark.circle")
-                    .foregroundColor(Color.theme.accent)
-                    .accessibilityIdentifier("CompletedTodosBadgeCheckmarkCircle")
             }
         }
     }

@@ -17,7 +17,7 @@ struct RandomTodoView: View {
         VStack {
             if let randomTodo = todoViewModel.randomTodo() {
                 Text(Localization.labels.titleRandomTodoPopup)
-                    .font(Font.app.title)
+                    .font(Font.app.header)
                     .foregroundColor(Color.theme.gray)
                     .padding(.top)
                 
@@ -60,7 +60,7 @@ struct RandomTodoView: View {
                 
                 Text(randomTodo.title)
                     .frame(maxWidth: .infinity)
-                    .font(Font.app.title)
+                    .font(Font.app.header)
                     .padding()
                     .foregroundColor(Color.theme.gray)
                     .background(Color.theme.white)

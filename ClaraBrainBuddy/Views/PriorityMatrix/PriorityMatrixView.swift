@@ -39,32 +39,9 @@ struct PriorityMatrixView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: 0) {
                 VStack(alignment: .leading, spacing: 16) {
-                    HStack {
-                        Text(Localization.labels.reprioritizeTasks)
-                            .font(Font.app.listHeader)
-                        Button(action: {
-                            self.showingInfo.toggle()
-                        }) {
-                            Image(systemName: "info.circle")
-                                .font(Font.app.tiny)
-                        }
-                        .accessibilityIdentifier("infoButton")
-                        .sheet(isPresented: $showingInfo) {
-                            InfoView(
-                                isPresented: $showingInfo,
-                                title: Localization.info.infoPriorityMatrixTitle,
-                                explanationText: Localization.info.infoPriorityMatrixText, 
-                                buttonText: nil,
-                                buttonAction: nil
-                            )
-                        }
-                    }
-                    .foregroundColor(Color.theme.primary)
-                    .padding(.leading, 24)
-                    
                     if !todayTasks.isEmpty {
                         VStack {
                             List {
@@ -121,6 +98,29 @@ struct PriorityMatrixView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(Localization.labels.cancel, action: onCancel)
+                }
+                ToolbarItem(placement: .principal) {
+                    HStack {
+                        Text(Localization.labels.reprioritizeTasks)
+                            .font(Font.app.header)
+                        Button(action: {
+                            self.showingInfo.toggle()
+                        }) {
+                            Image(systemName: "info.circle")
+                                .font(Font.app.tiny)
+                        }
+                        .accessibilityIdentifier("infoButtonPriority")
+                        .sheet(isPresented: $showingInfo) {
+                            InfoView(
+                                isPresented: $showingInfo,
+                                title: Localization.info.infoPriorityMatrixTitle,
+                                explanationText: Localization.info.infoPriorityMatrixText,
+                                buttonText: nil,
+                                buttonAction: nil
+                            )
+                        }
+                    }
+                    .foregroundColor(Color.theme.primary)
                 }
             }
             .onAppear {

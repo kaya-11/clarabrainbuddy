@@ -23,7 +23,7 @@ struct SettingsView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text(Localization.labels.maxTodosForToday)) {
                     Stepper(value: $settingsViewModel.settings.maxTodosForToday, in: 1...100) {
@@ -148,7 +148,7 @@ struct SettingsView: View {
                 .buttonStyle()
                 .accessibilityIdentifier("SaveSettingsButton")
             }
-            .backgroundStyle()
+            .appTheme()
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button(action: {
@@ -162,7 +162,7 @@ struct SettingsView: View {
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.properties)
                         .foregroundColor(Color.theme.primary)
-                        .font(Font.app.title)
+                        .font(Font.app.header)
                 }
             }
             .alert(isPresented: $showTimeValidationAlert) {

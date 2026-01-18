@@ -32,7 +32,7 @@ final class TodaysTodosListUITests: XCTestCase {
     
     func testBadgeWithZeroTodos() {
         let image = app.images["CompletedTodosBadgeCheckmarkCircle"]
-        XCTAssertTrue(image.exists, "Das Fragezeichen Image (ungefüllt) sollte angezeigt werden, wenn count = 0")
+        XCTAssertFalse(image.exists, "Das Fragezeichen Image (ungefüllt) sollte angezeigt werden, wenn count = 0")
     }
     
     func testBadgeWithOneDoneTodos() {
@@ -41,10 +41,10 @@ final class TodaysTodosListUITests: XCTestCase {
         
         sleep(2)
         
-        let imageFilled = app.buttons["CompletedTodosBadgeCheckmarkCircleFill"]
-        XCTAssertTrue(imageFilled.exists, "Das Badge sollte angezeigt werden, wenn count = 0")
+        let imageCircle = app.buttons["CompletedTodosBadgeCheckmarkCircle"]
+        XCTAssertTrue(imageCircle.exists, "Das Badge sollte NICHT angezeigt werden, wenn count = 0")
         
-        imageFilled.press(forDuration: 1.0)
+        imageCircle.press(forDuration: 1.0)
         
         let deleteButton = app.buttons["Alle erledigte Aufgaben löschen"]
         XCTAssertTrue(deleteButton.waitForExistence(timeout: 2.0), "Der Infoview sollte angezeigt werden")
@@ -61,14 +61,13 @@ final class TodaysTodosListUITests: XCTestCase {
         
         backButton.tap()
         
-        imageFilled.press(forDuration: 1.0)
+        imageCircle.press(forDuration: 1.0)
         
         XCTAssertTrue(deleteButton.waitForExistence(timeout: 2.0), "Der Infoview sollte angezeigt werden")
         
         deleteButton.tap()
         
-        let imageNotFilled = app.images["CompletedTodosBadgeCheckmarkCircle"]
-        XCTAssertTrue(imageNotFilled.exists, "Das Fragezeichen Image (ungefüllt) sollte angezeigt werden, wenn count = 0")
+        XCTAssertFalse(imageCircle.exists, "Das Fragezeichen Image sollte nicht angezeigt werden, wenn count = 0")
     }
     
     func testTimeBudgetSlider() {

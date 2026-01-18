@@ -90,7 +90,7 @@ struct TodoFormView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text(Localization.labels.titleForm)) {
                     TextField(Localization.labels.titleFormTooltip, text: $title)
@@ -184,12 +184,12 @@ struct TodoFormView: View {
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || showErrorTitle || showErrorDetails )
                     
             }
-            .backgroundStyle()
+            .appTheme()
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(existingTodo == nil ? Localization.labels.addTodo : Localization.labels.editTodo)
                         .foregroundColor(Color.theme.primary)
-                        .font(Font.app.title)
+                        .font(Font.app.header)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)

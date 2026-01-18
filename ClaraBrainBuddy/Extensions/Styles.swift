@@ -7,16 +7,6 @@
 
 import SwiftUI
 
-struct BackgroundStyle: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .scrollContentBackground(.hidden)
-            .foregroundColor(Color.theme.primary)
-            .accentColor(Color.theme.accent)
-            .background(Color.theme.background)
-    }
-}
-
 struct InputFieldStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
@@ -31,8 +21,8 @@ struct ButtonStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
             .listRowBackground(Color.theme.listBackground)
-            .foregroundColor(Color.theme.listText)
-            .accentColor(Color.theme.accent)
+            .foregroundStyle(Color.theme.listText)
+            .tint(Color.theme.accent)
             .font(Font.app.button)
     }
 }
@@ -72,8 +62,14 @@ struct Battery100Icon: View {
 }
 
 extension View {
-    func backgroundStyle() -> some View {
-        self.modifier(BackgroundStyle())
+    
+    func appTheme() -> some View {
+        self
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .scrollContentBackground(.hidden)
+            //.foregroundColor(Color.theme.primary)
+            //.accentColor(Color.theme.accent)
+            //.background(Color.theme.background)
     }
     
     func sectionSytle() -> some View {

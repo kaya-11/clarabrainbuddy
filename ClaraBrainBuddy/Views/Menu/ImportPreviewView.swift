@@ -32,7 +32,7 @@ struct ImportPreviewView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Group {
                 if importedTodos.isEmpty {
                     VStack {
@@ -63,14 +63,14 @@ struct ImportPreviewView: View {
                         .font(Font.app.listItem)
                         .padding(.vertical, 4)
                     }
-                    .backgroundStyle()
+                    .appTheme()
                 }
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.previewImport)
                         .foregroundColor(Color.theme.primary)
-                        .font(Font.app.title)
+                        .font(Font.app.header)
                 }
                 ToolbarItem(placement: .cancellationAction) {
                     Button(Localization.labels.cancel, action: onCancel)

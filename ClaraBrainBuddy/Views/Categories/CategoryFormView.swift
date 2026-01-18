@@ -39,7 +39,7 @@ struct CategoryFormView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text(Localization.labels.categoryName)) {
                     TextField(Localization.labels.categoryNameTooltip, text: $name)
@@ -98,12 +98,12 @@ struct CategoryFormView: View {
                 .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || showError)
                     
             }
-            .backgroundStyle()
+            .appTheme()
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(existingCategory == nil ? Localization.labels.addCategory : Localization.labels.editCategory)
                         .foregroundColor(Color.theme.primary)
-                        .font(Font.app.title)
+                        .font(Font.app.header)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
