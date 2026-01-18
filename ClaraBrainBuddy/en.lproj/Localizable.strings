@@ -165,6 +165,7 @@
 "about.feature.aiSupport.title" = "🤖 AI Support";
 "about.feature.aiSupport.description" = "Use AI to break down complex tasks into smaller, more manageable packages.";
 "about.planned.note" = "These features will be available in future updates.";
+"about.help" = "Got questions? Check out the [help](http://neurobuddies.de/clara/index.html) page.";
 "app.intent.createtodo.title" = "Create a task";
 "app.intent.createtodo.description" = "Creates a task in Clara BrainBuddy.";
 "app.intent.createtodo.today.title" = "Task for today";
