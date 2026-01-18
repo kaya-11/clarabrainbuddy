@@ -111,7 +111,7 @@ struct RecurringTaskFormView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text(Localization.labels.titleForm)) {
                     TextField(Localization.labels.titleFormTooltip, text: $title)
@@ -198,12 +198,12 @@ struct RecurringTaskFormView: View {
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 .accessibilityIdentifier("TaskFormSaveButton")
             }
-            .backgroundStyle()
+            .appTheme()
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(existingTask == nil ? Localization.labels.addTask : Localization.labels.editTask)
                         .foregroundColor(Color.theme.primary)
-                        .font(Font.app.title)
+                        .font(Font.app.header)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)

@@ -42,29 +42,30 @@ struct TodoListView: View {
                     showingAddTodo: $showingAddTodo
                 )
                 
-                Spacer(minLength: 1)
+                Spacer(minLength: 20)
             }
             .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .backgroundStyle()
+            .appTheme()
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    ClaraMenuView(settingsViewModel: settingsViewModel, todoViewModel: todoViewModel)
-                }
-                ToolbarItem(placement: .navigation ) {
-                    let defaultEstimatedTime : Int = settingsViewModel.settings.defaultTimeForEnergyLevelCalculation
-                    let (count, totalTime) = todoViewModel.calculateCompletedTodaysTodos(defaultEstimatedTime: defaultEstimatedTime)
-
-                    CompletedTodosBadge(
-                        todoViewModel: todoViewModel,
-                        count: count,
-                        totalTime: totalTime
-                    )
+                    HStack {
+                        ClaraMenuView(settingsViewModel: settingsViewModel, todoViewModel: todoViewModel)
+                        
+                        let defaultEstimatedTime : Int = settingsViewModel.settings.defaultTimeForEnergyLevelCalculation
+                        let (count, totalTime) = todoViewModel.calculateCompletedTodaysTodos(defaultEstimatedTime: defaultEstimatedTime)
+                        
+                        CompletedTodosBadge(
+                            todoViewModel: todoViewModel,
+                            count: count,
+                            totalTime: totalTime
+                        )
+                    }
                 }
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.titleAllTodos)
                         .foregroundColor(Color.theme.primary)
-                        .font(Font.app.title)
+                        .font(Font.app.header)
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -82,10 +83,8 @@ struct TodoListView: View {
                     }
                 }
             }
-            .accessibilityIdentifier("AllTodosListContainer")
-            .toolbarBackground(Color.theme.background, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
             .navigationBarTitleDisplayMode(.inline)
+            .accessibilityIdentifier("AllTodosListContainer")
         }
     }  
 }

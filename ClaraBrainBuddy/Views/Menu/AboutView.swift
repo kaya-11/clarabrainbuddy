@@ -13,7 +13,7 @@ struct AboutView: View {
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 VStack(alignment: .leading, spacing: 16) {
                     Text(Localization.about.claraBrainBuddyTitle)
@@ -105,7 +105,7 @@ struct AboutView: View {
                 .sectionSytle()
                 .foregroundColor(Color.theme.primary)
             }
-            .backgroundStyle()
+            .appTheme()
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button(action: {

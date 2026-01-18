@@ -49,7 +49,6 @@ struct TodoListCoreView: View {
         )
     }
 
-
     var body: some View {
         List {
             ForEach(filteredTodos, id: \.objectID) { todo in
@@ -72,7 +71,7 @@ struct TodoListCoreView: View {
                     selectedTodo = todo
                 }
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-
+                    
                     Button(role: .destructive) {
                         todoViewModel.deleteTodo(todo)
                     } label: {
@@ -104,7 +103,7 @@ struct TodoListCoreView: View {
                     }
                     .tint(.green)
                     .accessibilityIdentifier("TodoListViewEditTodo")
-
+                    
                     Button {
                         sharedTodos = SharedTodosWrapper(todos: [todo])
                     } label: {
@@ -113,26 +112,28 @@ struct TodoListCoreView: View {
                     .tint(.mint)
                     
                     Button {
-                        sharedTodoDetails = SharedTodoDetailsWrapper(todo: todo)
-                    } label: {
-                        Label(Localization.labels.copy, systemImage: "doc.on.doc")
-                    }
-                    .tint(.cyan)
-                    
-                    Button {
                         todoViewModel.cloneTodo(todo: todo)
                     } label: {
                         Label(Localization.labels.clone, systemImage: "plus.square.on.square")
                     }
                     .tint(.gray)
                     
+                    Button {
+                        sharedTodoDetails = SharedTodoDetailsWrapper(todo: todo)
+                    } label: {
+                        Label(Localization.labels.copy, systemImage: "doc.on.doc")
+                    }
+                    .tint(.cyan)
+                    
                 }
                 .foregroundColor(StyleUtils.getTextColor(todo: todo, isSelectedForToday: todo.selectedForToday))
-                .listRowBackground(Color.theme.listBackground)
+                .listRowBackground(Color.clear)
                 .font(Font.app.listItem)
             }
             .onMove(perform: move)
         }
+        .padding(.horizontal, 4)
+        .padding(.vertical, 0)        
         .sheet(isPresented: $showingAddTodo) {
             TodoFormView(todoViewModel: todoViewModel, addDays: settingsViewModel.settings.daysAddedForDefaultDueDate, existingTodo: nil, category: category)
         }

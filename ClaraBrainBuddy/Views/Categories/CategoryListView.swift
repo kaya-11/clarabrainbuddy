@@ -42,7 +42,7 @@ struct CategoryListView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 List {
                     ForEach(filteredCategories, id: \.id) { category in
@@ -94,7 +94,7 @@ struct CategoryListView: View {
                 .sheet(isPresented: $showingAddCategory) {
                     CategoryFormView(categoryViewModel: categoryViewModel, existingCategory: nil)
                 }
-                .backgroundStyle()
+                .appTheme()
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Button(action: {
@@ -108,7 +108,7 @@ struct CategoryListView: View {
                     ToolbarItem(placement: .principal) {
                         Text(Localization.labels.categories)
                             .foregroundColor(Color.theme.primary)
-                            .font(Font.app.title)
+                            .font(Font.app.header)
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
@@ -139,6 +139,8 @@ struct CategoryListView: View {
                         )
                     }
                 }
+                .toolbarBackground(Color.clear, for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
                 .navigationBarTitleDisplayMode(.inline)
             }
             .accessibilityIdentifier("CategoryListContainer")

@@ -52,7 +52,7 @@ struct TodoTodayFormView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text(Localization.labels.titleForm)) {
                     TextField(Localization.labels.titleFormTooltip, text: $title)
@@ -124,12 +124,12 @@ struct TodoTodayFormView: View {
                 .accessibilityLabel("TodaysTodoFormSaveButton")
                 
             }
-            .backgroundStyle()
+            .appTheme()
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.addTodoToday)
                         .foregroundColor(Color.theme.primary)
-                        .font(Font.app.title)
+                        .font(Font.app.header)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)

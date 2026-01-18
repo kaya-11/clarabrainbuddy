@@ -48,7 +48,7 @@
 "category.none" = "None";
 "error.category.name.length" = "The name must not be longer than {0} characters.";
 "error.category.name.alreadyexists" = "This name is already taken.";
-"random.todo.popup.title" = "What would you like to do?";
+"random.todo.popup.title" = "What would you like to do with this task?";
 "random.todo.popup.explanation.swipe.left" = "Swipe left to delete.";
 "random.todo.popup.explanation.swipe.right.1" = "Swipe right to keep,";
 "random.todo.popup.explanation.swipe.right.2" = "but prioritize lower.";

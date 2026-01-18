@@ -71,7 +71,7 @@ struct RecurringTaskListView: View {
                                 .accessibilityIdentifier("RecurringTaskListViewEditTask")
                             }
                             .foregroundColor(Color.theme.listText)
-                            .listRowBackground(Color.theme.listBackground)
+                            .listRowBackground(Color.clear)
                             .font(Font.app.listItem)
                     }
                     .onMove(perform: move)
@@ -88,10 +88,10 @@ struct RecurringTaskListView: View {
                         )
                 }
                 
-                Spacer(minLength: 1)
+                Spacer(minLength: 20)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .backgroundStyle()
+            .appTheme()
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     ClaraMenuView(settingsViewModel: settingsViewModel, todoViewModel: todoViewModel)
@@ -99,7 +99,7 @@ struct RecurringTaskListView: View {
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.titleRecurringTasks)
                         .foregroundColor(Color.theme.primary)
-                        .font(Font.app.title)
+                        .font(Font.app.header)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -110,8 +110,6 @@ struct RecurringTaskListView: View {
                     .accessibilityIdentifier("AddRecurringTaskButton")
                 }
             }
-            .toolbarBackground(Color.theme.background, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
             .navigationBarTitleDisplayMode(.inline)
         }
     }

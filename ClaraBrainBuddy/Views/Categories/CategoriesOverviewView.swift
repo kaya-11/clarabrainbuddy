@@ -72,9 +72,11 @@ struct CategoriesOverviewView: View {
                     sharedTodos: $sharedTodos,
                     showingAddTodo: $showingAddTodo
                 )
+                
+                Spacer(minLength: 20)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .backgroundStyle()
+            .appTheme()
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     ClaraMenuView(settingsViewModel: settingsViewModel, todoViewModel: todoViewModel)
@@ -82,7 +84,7 @@ struct CategoriesOverviewView: View {
                 ToolbarItem(placement: .principal) {
                     Text("Übersicht Kategorien")
                         .foregroundColor(Color.theme.primary)
-                        .font(Font.app.title)
+                        .font(Font.app.header)
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -94,10 +96,8 @@ struct CategoriesOverviewView: View {
                     
                 }
             }
-            .accessibilityIdentifier("CategoriesOverviewContainer")
-            .toolbarBackground(Color.theme.background, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
             .navigationBarTitleDisplayMode(.inline)
+            .accessibilityIdentifier("CategoriesOverviewContainer")
         }
     }
     

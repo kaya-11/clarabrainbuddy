@@ -29,7 +29,7 @@ struct CalendarView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 List {
                     ForEach(events, id: \.self) { event in
@@ -73,7 +73,7 @@ struct CalendarView: View {
                 
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .backgroundStyle()
+            .appTheme()
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button(action: {
@@ -88,7 +88,7 @@ struct CalendarView: View {
                     let label : String = onlyToday ? Localization.labels.todaysEvents : Localization.labels.upcomingEvents;
                     Text(label)
                         .foregroundColor(Color.theme.primary)
-                        .font(Font.app.title)
+                        .font(Font.app.header)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)

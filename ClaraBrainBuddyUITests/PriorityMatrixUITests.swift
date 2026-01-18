@@ -32,7 +32,7 @@ final class PriorityMatrixUITests: XCTestCase {
         
         openPriorityMatrixView()
         
-        let infoButton = app.buttons["infoButton"]
+        let infoButton = app.buttons["infoButtonPriority"]
         XCTAssertTrue(infoButton.waitForExistence(timeout: 2))
         infoButton.tap()
 
