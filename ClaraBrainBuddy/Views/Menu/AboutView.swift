@@ -6,6 +6,7 @@
 //
 
 
+
 import SwiftUI
 
 struct AboutView: View {
@@ -93,6 +94,12 @@ struct AboutView: View {
                     Text(Localization.about.plannedNote)
                         .font(Font.app.tiny)
                         .italic()
+                        .padding(.top, 4)
+                    
+                    // Hilfeseite
+                    Text(.init("\(Localization.about.help)"))
+                        .font(Font.app.tiny)
+                        .bold()
                         .padding(.top, 4)
                 }
                 .sectionSytle()

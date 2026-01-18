@@ -17,7 +17,6 @@ struct Localization {
     static let info = Info()
     static let about = About()
     static let filename = Filenames()
-
     
     struct Labels {
         
@@ -263,7 +262,9 @@ struct Localization {
         let plannedExtensionsTitle = NSLocalizedString("about.plannedExtensions.title", comment: "Note about planned extensions")
 
         let plannedNote = NSLocalizedString("about.planned.note", comment: "Note about planned extensions")
-
+        
+        let help = NSLocalizedString("about.help", comment: "Help page")
+        
         let featureSearchTitle = NSLocalizedString("about.feature.search.title", comment: "Title for Search extension")
         let featureSearchDescription = NSLocalizedString("about.feature.search.description", comment: "Description for Search extension")
 
