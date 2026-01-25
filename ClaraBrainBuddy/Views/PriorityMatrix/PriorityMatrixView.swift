@@ -57,11 +57,11 @@ struct PriorityMatrixView: View {
                             .listStyle(.plain)
                             .scrollContentBackground(.hidden)
                             .background(Color.clear)
-                            .frame(width: 260, height: 260, alignment: .center)
+                            .frame(width: 260, height: 260, alignment: .top)
                         }
                         .accessibilityIdentifier("PriorityTodoContainer")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.leading, 16)
+                        .frame(maxHeight: 260, alignment: .center)
+                        .padding(.leading, 30)
                     } else {
                         VStack {
                             Button(action: {
@@ -77,12 +77,12 @@ struct PriorityMatrixView: View {
                                     .padding(.horizontal, 24)
                             }
                         }
-                        .frame(maxWidth: .infinity, maxHeight: 260, alignment: .leading)
+                        .frame(maxWidth: .infinity, maxHeight: 260, alignment: .center)
                     }
                 }
-                .frame(height: 300)
+                .frame(height: 260, alignment: .top)
                 
-                Spacer(minLength: 16)
+                Spacer(minLength: 30)
                     
                 PriorityBox(
                     todayTasks: $todayTasks,
@@ -93,7 +93,7 @@ struct PriorityMatrixView: View {
                 )
                 .frame(height: 300)
                 
-                Spacer()
+                Spacer(minLength: 30)
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -123,6 +123,7 @@ struct PriorityMatrixView: View {
                     .foregroundColor(Color.theme.primary)
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 urgentTasks.removeAll()
                 importantAndUrgentTasks.removeAll()
