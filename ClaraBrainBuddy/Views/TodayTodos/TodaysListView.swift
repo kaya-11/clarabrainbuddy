@@ -257,7 +257,7 @@ struct TodaysListView: View {
                         Button(action: {
                             todoViewModel.reorderTodayTodos(defaultEstimatedTime: settingsViewModel.settings.defaultTimeForEnergyLevelCalculation)
                         }) {
-                            CombinedImageView(imageMain: "list.bullet.clipboard", imageSmall: "arrow.up.arrow.down")
+                            CombinedImageView(imageMain: "chart.bar.horizontal.page", imageSmall: "arrow.up.arrow.down")
                         }
                         .accessibilityIdentifier("ReorderTodaysTodosButton")
                         Button(action: {
