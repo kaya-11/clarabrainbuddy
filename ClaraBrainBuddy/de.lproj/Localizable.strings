@@ -63,7 +63,7 @@
 "done.label" = "Erledigt";
 "copy.label" = "Kopieren";
 "remove.label" = "Entfernen";
-"reprioritize.tasks.label" = "Aufgaben neu priorisieren";
+"reprioritize.tasks.label" = "Neu Priorisieren";
 "rearrange.label" = "Neuordnen";
 "message.energy.level" = "Zeitbudget";
 "message.energy.level.low" = "niedrig";
