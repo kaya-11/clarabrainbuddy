@@ -48,20 +48,60 @@
         max-width: 50%;
         height: auto;
     }
+    nav[aria-label="Inhaltsverzeichnis"] {
+      border: 1px solid var(--border-color);
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin: 16px 0 24px 0;
+    }
+    nav[aria-label="Inhaltsverzeichnis"] ul { margin: 0; }
+    nav[aria-label="Inhaltsverzeichnis"] li { margin: 4px 0; }
 </style>
 </head>
 <body>
   <h1>Hilfeseite für Clara BrainBuddy</h1>
   
+<nav aria-label="Inhaltsverzeichnis">
+  <h2 id="toc">Inhaltsverzeichnis</h2>
+  <ul>
+    <li><a href="#einfuhrung">Einführung</a></li>
+    <li><a href="#tipps-tagesplanung">Tipps zur Tagesplanung</a>
+      <ul>
+        <li><a href="#tagesplanung">1. Tagesplanung</a></li>
+        <li><a href="#reihenfolge-aufgaben">2. Reihenfolge der Aufgaben</a></li>
+        <li><a href="#geschatze-zeit">3. Geschätzte Zeit</a></li>
+        <li><a href="#energy-impact">4. Energy Impact</a></li>
+      </ul>
+    </li>
+    <li><a href="#aufgabenplanung">Aufgabenplanung</a>
+      <ul>
+        <li><a href="#erstellen-aufgaben">Erstellen von Aufgaben</a></li>
+        <li><a href="#priorisieren-aufgaben">Priorisieren von Aufgaben</a></li>
+        <li><a href="#aufgaben-neu-sortieren">Aufgaben neu sortieren</a></li>
+        <li><a href="#markieren-als-erledigt">Markieren von Aufgaben als erledigt</a></li>
+        <li><a href="#entfernen-aufgaben">Entfernen von Aufgaben</a></li>
+        <li><a href="#kalenderintegration">Kalenderintegration - Benachrichtigung bei Terminen</a></li>
+        <li><a href="#zeitbudgetregler">Zeitbudgetregler</a></li>
+        <li><a href="#erledigte-aufgaben">Erledigte Aufgaben</a></li>
+      </ul>
+    </li>
+    <li><a href="#apple-kurzbefehle">Apple Kurzbefehle Integration</a></li>
+    <li><a href="#regelmassige-aufgaben">Regelmäßige wiederkehrende Aufgaben</a></li>
+    <li><a href="#langzeitplanung">Langzeitplanung</a></li>
+    <li><a href="#menue">Menü</a></li>
+    <li><a href="#benachrichtigungen">Benachrichtigungen</a></li>
+  </ul>
+</nav>
+
     <p>Willkommen bei Clara BrainBuddy.</p>
     
-    <h2>Einführung</h2>
+    <h2 id="einfuhrung">Einführung</h2>
     <p>Clara BrainBuddy ist eine App, die speziell für neurodivergente Personen entwickelt wurde, um diese bei der Planung und Organisation ihres Tages zu unterstützen. Die App bietet verschiedene Funktionen, die Dir helfen, Deine Aufgaben zu erledigen.</p>
 
-    <h2>Tipps zur Tagesplanung</h2>
+    <h2 id="tipps-tagesplanung">Tipps zur Tagesplanung</h2>
     <p>Um das Beste aus deiner Tagesplanung herauszuholen, beachte folgende Hinweise:</p>
         
-    <h3>1. Tagesplanung</h3>
+    <h3 id="tagesplanung">1. Tagesplanung</h3>
     <ul>
         <li>Packe nur die Aufgaben in deine Tagesplanung, die du wirklich an diesem Tag erledigen möchtest.</li>
         <li>Alles, was du später machen möchtest oder erledigen musst, sollte in die Langzeitplanung (alle Aufgaben) verschoben werden.</li>
@@ -69,14 +109,14 @@
     </ul>
     <img src="screenshots/limit.png" alt="limit.png">
 
-    <h3>2. Reihenfolge der Aufgaben</h3>
+    <h3 id="reihenfolge-aufgaben">2. Reihenfolge der Aufgaben</h3>
     <ul>
         <li>Die Reihenfolge der Aufgaben in der Liste gibt die Reihenfolge der Bearbeitung an.</li>
         <li>Die Aufgabe, die an oberster Stelle steht, hat die höchste Priorität.</li>
     </ul>
     <img src="screenshots/sequence.png" alt="sequence.png">
 
-    <h3>3. Geschätzte Zeit</h3>
+    <h3 id="geschatze-zeit">3. Geschätzte Zeit</h3>
     <ul>
         <li>Gib bei Bedarf eine geschätzte Zeit für die Bearbeitung einer Aufgabe an, um zu wissen, ob du dir zu viel vorgenommen hast.</li>
         <li>Wenn du keine Zeit angibst, wird eine Standardzeit von 15 Minuten berechnet. Du kannst diese Zeit über die Einstellungen anpassen.</li>
@@ -84,7 +124,7 @@
     </ul>
     <img src="screenshots/estimatedTime.png" alt="estimatedTime.png">
 
-    <h3>4. Energy Impact</h3>
+    <h3 id="energy-impact">4. Energy Impact</h3>
     <ul>
         <li>Nutze den "Energy Impact", um zu steuern, ob eine Aufgabe dir tendenziell mehr Energie gibt oder ob du viel Energie für die Erledigung aufwenden musst.</li>
         <li>Die App zeigt dann an der Aufgabe ein passendes Batteriesymbol an.</li>
@@ -92,22 +132,22 @@
     </ul>
     <img src="screenshots/energyImpact.png" alt="energyImpact.png">
 
-    <h2>Aufgabenplanung</h2>
+    <h2 id="aufgabenplanung">Aufgabenplanung</h2>
 
-    <h3>Erstellen von Aufgaben</h3>
+    <h3 id="erstellen-aufgaben">Erstellen von Aufgaben</h3>
     <ul>
         <li>Du kannst neue Aufgaben durch den Plus-Button erstellen.</li>
     </ul>
     <img src="screenshots/addTodo.png" alt="addTodo.png">
 
-    <h3>Priorisieren von Aufgaben</h3>
+    <h3 id="priorisieren-aufgaben">Priorisieren von Aufgaben</h3>
     <ul>
         <li>Mit der Drag-and-Drop-Funktion kannst Du die Bearbeitungsreihenfolge Deiner Aufgaben festlegen.</li>
         <li>Die höchste Priorität hat - ganz einfach - die Aufgabe, die ganz oben steht.</li>
     </ul>
     <img src="screenshots/priorize.png" alt="priorize.png">
 
-    <h3>Aufgaben neu sortieren</h3>
+    <h3 id="aufgaben-neu-sortieren">Aufgaben neu sortieren</h3>
     <p>Diese Funktion sortiert deine Aufgaben neu. Wenn Du Probleme mit Deinen Exekutivfunktionen hast, dann hilft es mit den einfachsten Aufgaben zu erst anzufangen. Diese Funktion unterstützt Dich dabei.</p>
     <ul>
         <li>Erledigte Aufgaben werden nach unten sortiert.</li>
@@ -117,7 +157,7 @@
     </ul>
     <img src="screenshots/reorder.png" alt="reorder.png">
 
-    <h3>Markieren von Aufgaben als erledigt</h3>
+    <h3 id="markieren-als-erledigt">Markieren von Aufgaben als erledigt</h3>
     <ul>
         <li>Wenn Du eine Aufgabe erledigt hast, kannst Du sie durch Swipen nach rechts als erledigt markieren.</li>
         <li>Die Aufgabe wird durchgestrichen und Du erhältst ein haptisches Feedback durch zweimaliges Vibrieren.</li>
@@ -125,7 +165,7 @@
     <img src="screenshots/setToDone.png" alt="setToDone.png">
     <img src="screenshots/completed.png" alt="completed.png">
 
-    <h3>Entfernen von Aufgaben</h3>
+    <h3 id="entfernen-aufgaben">Entfernen von Aufgaben</h3>
     <ul>
         <li>Um eine Aufgabe aus dem Tagesplan zu entfernen, aber nicht komplett zu löschen, swipe die Aufgabe einfach nach links.</li>
         <li>Es öffnet sich ein Kontextmenü.</li>
@@ -133,7 +173,7 @@
     </ul>
     <img src="screenshots/delete.png" alt="delete.png">
 
-    <h3>Kalenderintegration - Benachrichtigung bei Terminen</h3>
+    <h3 id="kalenderintegration">Kalenderintegration - Benachrichtigung bei Terminen</h3>
     <ul>
         <li>Wenn Du Termine in Deinem Kalender für den aktuellen oder den nächsten Tag hast, wird eine Glocke in der Navigationsleiste des Tagesplans angezeigt.</li>
         <li>Durch Klicken auf die Glocke kannst Du die Termine ansehen.</li>
@@ -141,7 +181,7 @@
     </ul>
     <img src="screenshots/event.png" alt="event.png">
 
-    <h3>Zeitbudgetregler</h3>
+    <h3 id="zeitbudgetregler">Zeitbudgetregler</h3>
     <ul>
         <li>Der Zeitbudgetregler hilft dir, deine Arbeitsbelastung zu verwalten.</li>
         <li>Wenn du wenig Zeit hast, d.h. deine exekutive Kapazität gering ist, kannst du nur eine begrenzte Anzahl von Aufgaben erledigen.</li>
@@ -150,7 +190,7 @@
     </ul>
     <img src="screenshots/timebudget.png" alt="timebudget.png">
 
-    <h3>Erledigte Aufgaben</h3>
+    <h3 id="erledigte-aufgaben">Erledigte Aufgaben</h3>
     <ul>
         <li>Wenn Du die erste Aufgabe aus der Tagesplanung erledigt hast, erscheint ein gelber Haken in der Navigationsleiste.</li>
     </ul>
@@ -162,11 +202,11 @@
 
   	<p>Zusätzlich gibt es einen Button, mit dem Du alle erledigten Aufgaben aus der Tagesplanung auf einmal löschen kannst.</p>
   
-    <h2>Apple Kurzbefehle Integration</h2>
+    <h2 id="apple-kurzbefehle">Apple Kurzbefehle Integration</h2>
     
   <p>Clara BrainBuddy unterstützt die Integration mit Apples Shortcuts (Kurzbefehle), um Dir noch mehr Flexibilität und Kontrolle über Deine Aufgaben zu geben.</p>
 
-    <h3>Vordefinierte Shortcuts</h3>
+    <h3 id="vordefinierte-shortcuts">Vordefinierte Shortcuts</h3>
   
   	<p>Diese Kurzbefehle sind vordefiniert und können auch mit Siri verwendet werden.</p>
   
@@ -181,7 +221,7 @@
   
   	<img src="screenshots/predefinedShortcuts.png" alt="predefinedShortcuts.png">
 
-    <h3>Weitere Funktionen zum Verwenden in selbstdefinierten Kurzbefehlen</h3>
+    <h3 id="weitere-funktionen">Weitere Funktionen zum Verwenden in selbstdefinierten Kurzbefehlen</h3>
     <ol>
         <li><strong>Anzahl erledigter Aufgaben:</strong> Dieser Shortcut gibt Dir einen Überblick über die Anzahl der erledigten Aufgaben.</li>
         <li><strong>Aufgabe mit allen Parametern erstellen:</strong> Dieser Shortcut erlaubt es Dir, eine Aufgabe mit allen verfügbaren Parametern zu erstellen. Wenn Du das Datum <em>zu erledigen bis</em> leer lässt, wird die Aufgabe für heute eingeplant.</li>
@@ -192,9 +232,9 @@
   
     <img src="screenshots/appIntents.png" alt="appIntents.png">
 
-    <h3>Selbstdefinierte Kurzbefehle</h3>
+    <h3 id="selbstdefinierte-kurzbefehle">Selbstdefinierte Kurzbefehle</h3>
   
-    <h4>Check Todos</h4>
+    <h4 id="check-todos">Check Todos</h4>
     <ul>
         <li>Dieser Shortcut prüft, ob Du mehr als X Aufgaben erledigt hast. Im Moment ist X mit 5 voreingestellt. Du kannst es aber auch auf einen von Dir favorisierten Wert umändern.</li>
         <li>Wenn Du nicht die erforderliche Anzahl an Todos erledigt hast, fragt der Shortcut die oberste Aufgaben aus der Tagesplanung ab und fügt diese in einen Hinweistext ein. Wenn es keine zu erledigenden Aufgaben gibt, wird leer zurückgegeben und der Kurzbefehl beendet sich.</li>
@@ -212,7 +252,7 @@ Maybe there is one thing left to be done 🫶
 
     <p>Du kannst Dir den Hinweistext individuell gestalten, in dem Du den Kurzbefehl nach dem Laden für Dich anpasst.</p>
 
-    <h4>Typische Aufgabensets</h4>
+    <h4 id="typische-aufgabensets">Typische Aufgabensets</h4>
   
     <p>Mit diesem Shortcut kannst Du eine Liste von typischen Aufgaben erstellen, die immer wieder, aber nicht ganz regelmäßig ausgeführt werden.</p>
     <p>Beispiele für Aufgaben in so einem Set wären:</p>
@@ -245,7 +285,7 @@ Maybe there is one thing left to be done 🫶
   	<br>
   	<img src="screenshots/shortcutsOffice.png" alt="shortcutsOffice.png">
 
-    <h4>Aufgabenliste</h4>
+    <h4 id="aufgabenliste">Aufgabenliste</h4>
     
     <p>Mit diesem Kurzbefehl kannst Du eine Aufgabenliste erstellen, aus der Du eine einzelne Aufgabe auswählen kannst, um sie in Deine Tagesplanung zu übernehmen.</p>
     
@@ -279,7 +319,7 @@ Maybe there is one thing left to be done 🫶
     
     <p>Du kannst den Shortcut jederzeit anpassen, indem Du neue Einträge in der Liste hinzufügst oder bestehende bearbeitest.</p>
  
-    <h3>App-Automation</h3>
+    <h3 id="app-automation">App-Automation</h3>
   
     <p>Mit Apples Automation kannst Du den "Check Todos"-Kurzbefehl verwenden, um eine Sperre für Social-Media-Apps einzurichten.</p>
 
@@ -327,15 +367,15 @@ Maybe there is one thing left to be done 🫶
 
     <img src="screenshots/automation.png" alt="automation.png">
 
-    <h2>Regelmäßige wiederkehrende Aufgaben</h2>
+    <h2 id="regelmassige-aufgaben">Regelmäßige wiederkehrende Aufgaben</h2>
   
-    <h3>Erstellen und Verwalten von regelmäßigen Aufgaben</h3>
+    <h3 id="erstellen-verwalten-regelmassige-aufgaben">Erstellen und Verwalten von regelmäßigen Aufgaben</h3>
     
     <p>Du kannst regelmäßige Aufgaben definieren, die automatisch in Deinem Tagesplan auftauchen.</p>
     
     <img src="screenshots/recurringTasks.png" alt="recurringTasks.png">
     
-    <h3>Verschiedene Arten von wiederkehrenden Aufgaben</h3>
+    <h3 id="arten-wiederkehrender-aufgaben">Verschiedene Arten von wiederkehrenden Aufgaben</h3>
   
     <ul>
         <li>Täglich</li>
@@ -345,15 +385,15 @@ Maybe there is one thing left to be done 🫶
         <li>Ungerade Wochentage (Wochenende ausgenommen)</li>
     </ul>
     
-    <h3>Integration in den Tagesplan</h3>
+    <h3 id="integration-in-den-tagesplan">Integration in den Tagesplan</h3>
 
     <p>Durch einfaches Swipen nach rechts kannst Du diese regelmäßige Aufgaben in Deinen Tagesplan übernehmen.</p>
     
     <img src="screenshots/addRecurringTask.png" alt="addRecurringTask.png">
 
-    <h2>Langzeitplanung (Stapel aller zu erledigenden Aufgaben)</h2>
+    <h2 id="langzeitplanung">Langzeitplanung (Stapel aller zu erledigenden Aufgaben)</h2>
   
-  	<h3>Übernehmen von Aufgaben in die Tagesplanung</h3>
+  	<h3 id="ubernehmen-in-tagesplanung">Übernehmen von Aufgaben in die Tagesplanung</h3>
     
     <p>Die Ansicht "Alle Aufgaben" gibt Dir eine Übersicht mit allen von Dir erstellten Aufgaben. Aus dieser kannst Du Aufgaben in Deine Tagesplanung übernehmen. Wähle die Aufgabe in der Übersicht aller Aufgaben aus und swipe nach rechts und tippe auf das Kalendersymbol. Damit verschiebst Du die Aufgabe in den Tagesplan.</p>
 
@@ -361,7 +401,7 @@ Maybe there is one thing left to be done 🫶
   
     <p>Wenn Du eine Aufgabe in die Tagesplanung übernommen hast, wird diese Aufgabe blau markiert. Aufgaben, die bald erledigt sein müssen, werden orange dargestellt. Eine überfällige Aufgabe wird rot markiert. Die zusätzlich angezeigten Emojis kannst Du über die Einstellunge ausblenden, wenn Sie Dich stören.</p>
     
-    <h3>Weitere mögliche Aktionen</h3>
+    <h3 id="weitere-aktion">Weitere mögliche Aktionen</h3>
 
     <p>In der Ansicht "Alle Aufgaben" hast Du verschiedene Optionen, um mit Deinen Aufgaben zu interagieren:</p>
 
@@ -381,11 +421,11 @@ Maybe there is one thing left to be done 🫶
       
     <img src="screenshots/deleteTask.png" alt="deleteTask.png">
 
-    <h3>Prokastination / Widerstand gegen Aufgaben</h3>
+    <h3 id="prokrastination-widerstand">Prokastination / Widerstand gegen Aufgaben</h3>
     
     <p>Mit Clara BrainBuddy kannst du erkennen, wenn du eine Aufgabe immer wieder aufschiebst. Das hilft dir, Aufgaben zu identifizieren, die dir besonders schwerfallen oder die du vielleicht neu planen solltest.</p>
     
-    <h4>Wie funktioniert der Widerstands-Balken?</h4>
+    <h4 id="widerstands-balken">Wie funktioniert der Widerstands-Balken?</h4>
 
     <ul>
     <li><b>Wiederholtes Aufschieben:</b> Wenn du eine Aufgabe mehrmals in deine Tagesplanung übernimmst, aber nicht erledigst und dann wieder in die Langzeitplanung zurückschiebst, zeigt die App einen Widerstands-Balken an.</li>
@@ -404,13 +444,13 @@ Maybe there is one thing left to be done 🫶
         <li><b>Automatische Erhöhung:</b> Zukünftig wird der Widerstand auch erhöht, wenn eine Aufgabe länger als einen Tag in der Tagesplanung bleibt, ohne erledigt zu werden.</li>
     </ul>  
   
-    <h4>Widerstands-Balken anpassen</h4>
+    <h4 id="widerstands-balken-anpassen">Widerstands-Balken anpassen</h4>
     
     <p>Falls du diese Funktion nicht nutzen möchtest, kannst du die Anzeige des Widerstands-Balkens in den Einstellungen ausblenden. In den Einstellungen von Clara BrainBuddy kannst du außerdem viele weitere Funktionen nach deinen Bedürfnissen anpassen.</p>
     
     <img src="screenshots/resistanceSettings.png" alt="resistanceSettings.png">
     
-    <h3>Aufgaben nicht aus dem Fokus verlieren</h3>
+    <h3 id="aufgaben-im-fokus">Aufgaben nicht aus dem Fokus verlieren</h3>
 
     <p>Wenn Du die App startest, zeigt Clara BrainBuddy Dir zufällig eine Aufgabe aus der "Alle Aufgaben" Liste an, die noch nicht erledigt wurde und nicht in der Tagesplanung enthalten ist. Diese Funktion hilft Dir, Aufgaben zu entdecken, die Du vielleicht vergessen hast oder die nicht dringend sind, aber trotzdem erledigt werden sollten.</p>
 
@@ -426,7 +466,7 @@ Maybe there is one thing left to be done 🫶
       <li><b>Oder antippen, um für heute auszuwählen:</b> Wenn Du die Aufgabe heute erledigen möchtest, tippe einfach auf die Aufgabe, um sie in Deine Tagesplanung zu übernehmen.</li>
     </ul>
 
-    <h2>Menü</h2>
+    <h2 id="menue">Menü</h2>
   
     <p>Im Menü von Clara BrainBuddy findest Du verschiedene Optionen, um die App zu steuern und zu konfigurieren.</p>
 
@@ -442,7 +482,7 @@ Maybe there is one thing left to be done 🫶
         <tr><td><strong>Über</strong></td><td>Informationen über die App.</td></tr>
     </table>
 
-    <h2>Benachrichtigungen</h2>
+    <h2 id="benachrichtigungen">Benachrichtigungen</h2>
     
     <p>Clara BrainBuddy erinnert dich automatisch morgens und abends an deine Aufgaben:</p>
     
