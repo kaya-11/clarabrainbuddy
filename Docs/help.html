@@ -48,20 +48,60 @@
         max-width: 50%;
         height: auto;
     }
+
+    nav[aria-label="Table of Contents"] {
+      border: 1px solid var(--border-color);
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin: 16px 0 24px 0;
+    }
+    nav[aria-label="Table of Contents"] ul { margin: 0; }
+    nav[aria-label="Table of Contents"] li { margin: 4px 0; }
 </style>
 </head>
 <body>
   <h1>Help Page for Clara BrainBuddy</h1>
+<nav aria-label="Table of Contents">
+  <h2 id="toc">Table of Contents</h2>
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#daily-planning-tips">Daily Planning Tips</a>
+      <ul>
+        <li><a href="#daily-planning">1. Daily Planning</a></li>
+        <li><a href="#task-order">2. Task Order</a></li>
+        <li><a href="#estimated-time">3. Estimated Time</a></li>
+        <li><a href="#energy-impact">4. Energy Impact</a></li>
+      </ul>
+    </li>
+    <li><a href="#task-planning">Task Planning</a>
+      <ul>
+        <li><a href="#creating-tasks">Creating Tasks</a></li>
+        <li><a href="#prioritizing-tasks">Prioritizing Tasks</a></li>
+        <li><a href="#reordering-tasks">Reordering Tasks</a></li>
+        <li><a href="#marking-tasks-as-completed">Marking Tasks as Completed</a></li>
+        <li><a href="#removing-tasks">Removing Tasks</a></li>
+        <li><a href="#calendar-integration">Calendar Integration – Notifications for Appointments</a></li>
+        <li><a href="#time-budget-controller">Time Budget Controller</a></li>
+        <li><a href="#completed-tasks">Completed Tasks</a></li>
+      </ul>
+    </li>
+    <li><a href="#apple-shortcuts-integration">Apple Shortcuts Integration</a></li>
+    <li><a href="#regular-recurring-tasks">Regular Recurring Tasks</a></li>
+    <li><a href="#long-term-planning">Long-Term Planning</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#notifications">Notifications</a></li>
+  </ul>
+</nav>
 
     <p>Welcome to Clara BrainBuddy.</p>
 
-    <h2>Introduction</h2>
+    <h2 id="introduction">Introduction</h2>
     <p>Clara BrainBuddy is an app specifically designed for neurodivergent individuals to help them plan and organize their day. The app offers various features to help you complete your tasks.</p>
 
-    <h2>Daily Planning Tips</h2>
+    <h2 id="daily-planning-tips">Daily Planning Tips</h2>
     <p>To get the most out of your daily planning, consider the following tips:</p>
 
-    <h3>1. Daily Planning</h3>
+    <h3 id="daily-planning">1. Daily Planning</h3>
     <ul>
         <li>Only include tasks in your daily plan that you actually want to complete on that day.</li>
         <li>Everything you want to do or need to complete later should be moved to long-term planning (all tasks).</li>
@@ -69,14 +109,14 @@
     </ul>
     <img src="screenshots/limit.png" alt="limit.png">
 
-    <h3>2. Task Order</h3>
+    <h3 id="task-order">2. Task Order</h3>
     <ul>
         <li>The order of tasks in the list indicates the order in which they should be completed.</li>
         <li>The task at the top has the highest priority.</li>
     </ul>
     <img src="screenshots/sequence.png" alt="sequence.png">
 
-    <h3>3. Estimated Time</h3>
+    <h3 id="estimated-time">3. Estimated Time</h3>
     <ul>
         <li>If needed, specify an estimated time for completing a task to see if you've taken on too much.</li>
         <li>If you don't specify a time, a default time of 15 minutes is calculated. You can adjust this time in the settings.</li>
@@ -84,7 +124,7 @@
     </ul>
     <img src="screenshots/estimatedTime.png" alt="estimatedTime.png">
 
-    <h3>4. Energy Impact</h3>
+    <h3 id="energy-impact">4. Energy Impact</h3>
     <ul>
         <li>Use the "Energy Impact" to control whether a task tends to give you more energy or if you need to expend a lot of energy to complete it.</li>
         <li>The app then displays a suitable battery symbol for the task.</li>
@@ -92,22 +132,22 @@
     </ul>
     <img src="screenshots/energyImpact.png" alt="energyImpact.png">
 
-    <h2>Task Planning</h2>
+    <h2 id="task-planning">Task Planning</h2>
 
-    <h3>Creating Tasks</h3>
+    <h3 id="creating-tasks">Creating Tasks</h3>
     <ul>
         <li>You can create new tasks using the plus button.</li>
     </ul>
     <img src="screenshots/addTodo.png" alt="addTodo.png">
 
-    <h3>Prioritizing Tasks</h3>
+    <h3 id="prioritizing-tasks">Prioritizing Tasks</h3>
     <ul>
         <li>Use the drag-and-drop function to set the processing order of your tasks.</li>
         <li>The highest priority is simply the task at the top.</li>
     </ul>
     <img src="screenshots/priorize.png" alt="priorize.png">
 
-    <h3>Reordering Tasks</h3>
+    <h3 id="reordering-tasks">Reordering Tasks</h3>
     <p>This function reorders your tasks. If you have problems with your executive functions, it helps to start with the simplest tasks. This function supports you in doing so.</p>
     <ul>
         <li>Completed tasks are sorted to the bottom.</li>
@@ -117,7 +157,7 @@
     </ul>
     <img src="screenshots/reorder.png" alt="reorder.png">
 
-    <h3>Marking Tasks as Completed</h3>
+    <h3 id="marking-tasks-as-completed">Marking Tasks as Completed</h3>
     <ul>
         <li>If you have completed a task, you can mark it as completed by swiping it to the right.</li>
         <li>The task is crossed out, and you receive haptic feedback through double vibration.</li>
@@ -125,7 +165,7 @@
     <img src="screenshots/setToDone.png" alt="setToDone.png">
     <img src="screenshots/completed.png" alt="completed.png">
 
-    <h3>Removing Tasks</h3>
+    <h3 id="removing-tasks">Removing Tasks</h3>
     <ul>
         <li>To remove a task from the daily plan without deleting it completely, simply swipe the task to the left.</li>
         <li>A context menu opens.</li>
@@ -133,7 +173,7 @@
     </ul>
     <img src="screenshots/delete.png" alt="delete.png">
 
-    <h3>Calendar Integration – Notifications for Appointments</h3>
+    <h3 id="calendar-integration">Calendar Integration – Notifications for Appointments</h3>
     <ul>
         <li>If you have appointments in your calendar for today or tomorrow, a bell will appear in the navigation bar of the daily plan.</li>
         <li>By clicking on the bell, you can view the appointments.</li>
@@ -141,7 +181,7 @@
     </ul>
     <img src="screenshots/event.png" alt="event.png">
 
-    <h3>Time Budget Controller</h3>
+    <h3 id="time-budget-controller">Time Budget Controller</h3>
     <ul>
         <li>The time budget controller helps you manage your workload.</li>
         <li>If you have little time, i.e., your executive capacity is low, you can only complete a limited number of tasks.</li>
@@ -150,7 +190,7 @@
     </ul>
     <img src="screenshots/timebudget.png" alt="timebudget.png">
 
-    <h3>Completed Tasks</h3>
+    <h3 id="completed-tasks">Completed Tasks</h3>
     <ul>
         <li>When you have completed the first task from the daily plan, a yellow checkmark appears in the navigation bar.</li>
     </ul>
@@ -162,11 +202,11 @@
 
     <p>Additionally, there is a button that allows you to delete all completed tasks from the daily plan at once.</p>
 
-    <h2>Apple Shortcuts Integration</h2>
+    <h2 id="apple-shortcuts-integration">Apple Shortcuts Integration</h2>
 
     <p>Clara BrainBuddy supports integration with Apple's Shortcuts to give you even more flexibility and control over your tasks.</p>
 
-    <h3>Predefined Shortcuts</h3>
+    <h3 id="predefined-shortcuts">Predefined Shortcuts</h3>
 
     <p>These shortcuts are predefined and can also be used with Siri.</p>
 
@@ -181,7 +221,7 @@
 
     <img src="screenshots/predefinedShortcuts.png" alt="predefinedShortcuts.png">
 
-    <h3>Additional Functions for Use in Custom Shortcuts</h3>
+    <h3 id="additional-functions">Additional Functions for Use in Custom Shortcuts</h3>
     <ol>
         <li><strong>Number of Completed Tasks:</strong> This shortcut gives you an overview of the number of completed tasks.</li>
         <li><strong>Create Task with All Parameters:</strong> This shortcut allows you to create a task with all available parameters. If you leave the <em>complete by</em> date empty, the task will be scheduled for today.</li>
@@ -192,9 +232,9 @@
 
     <img src="screenshots/appIntents.png" alt="appIntents.png">
 
-    <h3>Custom Shortcuts</h3>
+    <h3 id="custom-shortcuts">Custom Shortcuts</h3>
 
-    <h4>Check Todos</h4>
+    <h4 id="check-todos">Check Todos</h4>
     <ul>
         <li>This shortcut checks if you have completed more than X tasks. Currently, X is preset to 5, but you can change it to a value you prefer.</li>
         <li>If you haven't completed the required number of todos, the shortcut retrieves the top task from the daily plan and includes it in a reminder text. If there are no tasks to complete, it returns empty and the shortcut ends.</li>
@@ -212,7 +252,7 @@ Maybe there is one thing left to be done 🫶
 
     <p>You can customize the reminder text by adjusting the shortcut after downloading it.</p>
 
-    <h4>Typical Task Sets</h4>
+    <h4 id="typical-task-sets">Typical Task Sets</h4>
 
     <p>With this shortcut, you can create a list of typical tasks that are performed repeatedly but not quite regularly.</p>
     <p>Examples of tasks in such a set might be:</p>
@@ -245,7 +285,7 @@ Maybe there is one thing left to be done 🫶
     <br>
     <img src="screenshots/shortcutsOffice.png" alt="shortcutsOffice.png">
 
-    <h4>Task List</h4>
+    <h4 id="task-list">Task List</h4>
 
     <p>With this shortcut, you can create a task list from which you can select a single task to include in your daily plan.</p>
 
@@ -279,7 +319,7 @@ Maybe there is one thing left to be done 🫶
 
     <p>You can adjust the shortcut at any time by adding new entries to the list or editing existing ones.</p>
 
-    <h3>App Automation</h3>
+    <h3 id="app-automation">App Automation</h3>
 
     <p>With Apple's Automation, you can use the "Check Todos" shortcut to set up a lock for social media apps.</p>
 
@@ -327,15 +367,15 @@ Maybe there is one thing left to be done 🫶
 
     <img src="screenshots/automation.png" alt="automation.png">
 
-    <h2>Regular Recurring Tasks</h2>
+    <h2 id="regular-recurring-tasks">Regular Recurring Tasks</h2>
 
-    <h3>Creating and Managing Regular Tasks</h3>
+    <h3 id="creating-and-managing-regular-tasks">Creating and Managing Regular Tasks</h3>
 
     <p>You can define regular tasks that automatically appear in your daily plan.</p>
 
     <img src="screenshots/recurringTasks.png" alt="recurringTasks.png">
 
-    <h3>Different Types of Recurring Tasks</h3>
+    <h3 id="different-types-of-recurring-tasks">Different Types of Recurring Tasks</h3>
 
     <ul>
         <li>Daily</li>
@@ -345,15 +385,15 @@ Maybe there is one thing left to be done 🫶
         <li>Odd weekdays (excluding weekends)</li>
     </ul>
 
-    <h3>Integration into the Daily Plan</h3>
+    <h3 id="integration-into-the-daily-plan">Integration into the Daily Plan</h3>
 
     <p>By simply swiping to the right, you can include these regular tasks in your daily plan.</p>
 
     <img src="screenshots/addRecurringTask.png" alt="addRecurringTask.png">
 
-    <h2>Long-Term Planning (Stack of All Tasks to Complete)</h2>
+    <h2 id="long-term-planning">Long-Term Planning (Stack of All Tasks to Complete)</h2>
 
-    <h3>Taking Over Tasks into the Daily Plan</h3>
+    <h3 id="taking-over-tasks-into-the-daily-plan">Taking Over Tasks into the Daily Plan</h3>
 
     <p>The "All Tasks" view gives you an overview of all the tasks you have created. From this, you can take over tasks into your daily plan. Select the task in the overview of all tasks and swipe to the right, then tap the calendar icon. This moves the task to the daily plan.</p>
 
@@ -361,7 +401,7 @@ Maybe there is one thing left to be done 🫶
 
     <p>Once you have included a task in the daily plan, it will be marked in blue. Tasks that need to be completed soon are displayed in orange. An overdue task is marked in red. The additionally displayed emojis can be hidden in the settings if they bother you.</p>
 
-    <h3>Other Possible Actions</h3>
+    <h3 id="other-possible-actions">Other Possible Actions</h3>
 
     <p>In the "All Tasks" view, you have various options to interact with your tasks:</p>
 
@@ -381,11 +421,11 @@ Maybe there is one thing left to be done 🫶
 
     <img src="screenshots/deleteTask.png" alt="deleteTask.png">
         
-    <h3>Procrastination / Resistance to Tasks</h3>
+    <h3 id="procrastination-resistance">Procrastination / Resistance to Tasks</h3>
 
     <p>With Clara BrainBuddy, you can recognize when you repeatedly postpone a task. This helps you identify tasks that are particularly difficult for you or that you might need to replan.</p>
 
-    <h4>How Does the Resistance Bar Work?</h4>
+    <h4 id="resistance-bar">How Does the Resistance Bar Work?</h4>
 
     <ul>
         <li><b>Repeated Postponement:</b> If you repeatedly include a task in your daily plan but do not complete it and then move it back to long-term planning, the app displays a resistance bar.</li>
@@ -404,13 +444,13 @@ Maybe there is one thing left to be done 🫶
         <li><b>Automatic Increase:</b> In the future, the resistance will also increase if a task remains in the daily plan for more than one day without being completed.</li>
     </ul>
 
-    <h4>Adjusting the Resistance Bar</h4>
+    <h4 id="adjusting-resistance-bar">Adjusting the Resistance Bar</h4>
 
     <p>If you do not want to use this feature, you can hide the display of the resistance bar in the settings. In the settings of Clara BrainBuddy, you can also customize many other functions according to your needs.</p>
 
     <img src="screenshots/resistanceSettings.png" alt="resistanceSettings.png">
 
-    <h3>Keeping Tasks in Focus</h3>
+    <h3 id="keeping-tasks-in-focus">Keeping Tasks in Focus</h3>
 
     <p>When you start the app, Clara BrainBuddy randomly shows you a task from the "All Tasks" list that has not yet been completed and is not included in the daily plan. This feature helps you discover tasks that you may have forgotten or that are not urgent but should still be completed.</p>
 
@@ -426,7 +466,7 @@ Maybe there is one thing left to be done 🫶
         <li><b>Or tap to select for today:</b> If you want to complete the task today, simply tap on the task to include it in your daily plan.</li>
     </ul>
 
-    <h2>Menu</h2>
+    <h2 id="menu">Menu</h2>
 
     <p>In the Clara BrainBuddy menu, you will find various options to control and configure the app.</p>
 
@@ -442,7 +482,7 @@ Maybe there is one thing left to be done 🫶
         <tr><td><strong>About</strong></td><td>Information about the app.</td></tr>
     </table>
 
-    <h2>Notifications</h2>
+    <h2 id="notifications">Notifications</h2>
 
     <p>Clara BrainBuddy automatically reminds you in the morning and evening about your tasks:</p>
 
