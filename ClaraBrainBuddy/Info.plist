@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-        <key>CFBundleDocumentTypes</key>
+	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeName</key>
@@ -13,35 +13,31 @@
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-			    <string>de.neurobuddies.clara</string>
+				<string>de.neurobuddies.clara</string>
 			</array>
 		</dict>
 	</array>
-        <key>UTExportedTypeDeclarations</key>
-        <array>
-            <dict>
-            <key>UTTypeIdentifier</key>
-                <string>de.neurobuddies.clara</string>
-                <key>UTTypeDescription</key>
-                <string>Clara File</string>
-                <key>UTTypeConformsTo</key>
-                <array>
-                    <string>public.data</string>
-                </array>
-                <key>UTTypeTagSpecification</key>
-                <dict>
-                    <key>public.filename-extension</key>
-                    <array>
-                        <string>clara</string>
-                    </array>
-                    <key>public.mime-type</key>
-                    <string>application/x-clara</string>
-                </dict>
-            </dict>
-        </array>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
-	<key>NSCalendarsFullAccessUsageDescription</key>
-	<string>this app needs access to your calendar to display your events.</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Clara File</string>
+			<key>UTTypeIdentifier</key>
+			<string>de.neurobuddies.clara</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>clara</string>
+				</array>
+				<key>public.mime-type</key>
+				<string>application/x-clara</string>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>
