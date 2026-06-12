@@ -3,25 +3,40 @@
 ### About Clara Brain Buddy
 Clara Brain Buddy helps to organize daily brain chaos.
 
-✅ **Todos**
+**Todos**
 Plan your daily todos with simple swipe gestures.
 
-📅 **Recurring Tasks**
+**Recurring Tasks**
 Create recurring tasks and quickly integrate them into your daily plan.
 
-📱 **Haptic Feedback**
+**Haptic Feedback**
 Receive haptic feedback when completing todos to create a sense of achievement.
 
-🔄 **Sort Function**
+**Sort Function**
 Reprioritize your daily todos with ease.
 
-💗 **Feedback**
+**Feedback**
 Get feedback on whether your daily plan is too packed.
 
-🔗 **Sharing**
+**Sharing**
 Share todos with others.
 
-💡 **Developed for Neurodivergent People**
+**Search in Todos**
+Search through your existing todos for specific tasks or keywords.
+
+**Task Sets**
+Create sets of typical but irregular tasks that you can quickly access via Siri.
+
+**Categories**
+Organize your todos into categories for a better overview.
+
+**Priority Matrix**
+Use a priority matrix to simplify your daily planning and avoid overwhelm.
+
+**Siri Integration**
+Add tasks effortlessly using Siri—perfect for quick input on the go.
+
+**Developed for Neurodivergent People**
 Clara Brain Buddy is designed to help neurodivergent individuals manage their daily todos more effectively.
 
 Developed by Karen Bens
@@ -29,16 +44,7 @@ Developed by Karen Bens
 
 ### Planned Extensions
 
-🔍 **Search in Todos**
-Search through your existing todos for specific tasks or keywords.
-
-📦 **Task Sets**
-Create sets of typical but irregular tasks that you can quickly access.
-
-📁 **Categories**
-Organize your todos into categories for a better overview.
-
-🤖 **AI Support**
+**AI Support**
 Use AI to break down complex tasks into smaller, more manageable packages.
 
 These features will be available in future updates.
