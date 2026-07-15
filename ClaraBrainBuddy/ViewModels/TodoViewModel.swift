@@ -132,7 +132,7 @@ class TodoViewModel: ObservableObject {
         }
         todo.selectedForToday = false
         todo.updatedAt = Date()
-        todo.resistance = increaseResistance(resistance: todo.resistance)
+        todo.resistance = ResistanceUtils.increaseResistance(resistance: todo.resistance)
         
         saveContext()
     }
@@ -265,6 +265,36 @@ class TodoViewModel: ObservableObject {
         saveContext()
     }
     
+    func updateTodo(_ todo: Todo, form: TodoFormData) -> Bool {
+        let today = Calendar.current.startOfDay(for: Date())
+        
+        let ogIsDone = todo.isDone
+        let newIsDone = form.isDone
+        
+        todo.title = form.title
+        todo.details = form.details
+
+        let ogDueDate = todo.dueDate
+        let newDueDate = Calendar.current.startOfDay(for: form.dueDate)
+        
+        if (form.isDone != true && newDueDate > ogDueDate) {
+            todo.resistance = ResistanceUtils.increaseResistance(resistance: todo.resistance)
+        } else if (form.isDone != true && newDueDate < ogDueDate && newDueDate >= today) {
+            todo.resistance = ResistanceUtils.decreaseResistance(resistance: todo.resistance)
+        }
+
+        todo.dueDate = form.dueDate
+        todo.estimatedTime = form.estimatedTime
+        todo.energyImpact = form.energyImpact ?? 0
+        todo.updatedAt = Date()
+        todo.isDone = form.isDone
+        todo.category = form.category
+        self.updateTodo(todo)
+        
+        return newIsDone && !ogIsDone // return true, if task is changed to done
+    }
+    
+    
     func updateTodo(_ updatedTodo: Todo) {
         updatedTodo.updatedAt = Date()
         let fetchRequest: NSFetchRequest<TodayTodo> = TodayTodo.fetchRequest()
@@ -279,6 +309,7 @@ class TodoViewModel: ObservableObject {
         }
         saveContext()
     }
+    
     
     func cloneTodo(todo: Todo) {
         var reorderedTodos = allTodos
@@ -340,7 +371,7 @@ class TodoViewModel: ObservableObject {
         guard let currentIndex = reorderedTodos.firstIndex(of: todo) else { return }
 
         // Increase resistance
-        todo.resistance = increaseResistance(resistance: todo.resistance)
+        todo.resistance = ResistanceUtils.increaseResistance(resistance: todo.resistance)
         todo.updatedAt = Date()
 
         let newIndex = currentIndex + 1
@@ -529,13 +560,7 @@ class TodoViewModel: ObservableObject {
         }
         return totalTime
     }
-    
-    private func increaseResistance(resistance: Int64) -> Int64 {
-        var r = resistance
-        if r <= 11 { r += 1 }
-        return r
-    }
-    
+        
     private func saveContext() {
         do {
             try context.save()

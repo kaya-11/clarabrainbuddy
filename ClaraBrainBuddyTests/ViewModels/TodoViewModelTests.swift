@@ -286,6 +286,88 @@ final class TodoViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.allTodos[0].isDone)
     }
     
+    func testUpdateTodoWithFormData() {
+        let todo: Todo = createTodo(title: "Original Title", details: "Details")
+        viewModel.addTodos([todo])
+        
+        var dueDateUpdated = Date().addingTimeInterval(24*3600)
+        var todoFormData = createTodoFormData(dueDate: dueDateUpdated, isDone: false)
+        
+        _ = viewModel.updateTodo(todo, form: todoFormData)
+        
+        XCTAssertEqual(1, viewModel.allTodos.count)
+        XCTAssertEqual("Title Updated", viewModel.allTodos[0].title, )
+        XCTAssertEqual("Details Updated", viewModel.allTodos[0].details,)
+        XCTAssertEqual(dueDateUpdated, viewModel.allTodos[0].dueDate)
+        XCTAssertEqual(42, viewModel.allTodos[0].estimatedTime)
+        XCTAssertEqual(1, viewModel.allTodos[0].energyImpact)
+        XCTAssertFalse(viewModel.allTodos[0].isDone)
+        
+        // Resistance is one more, cause dueDate was changed into future
+        XCTAssertEqual(1, viewModel.allTodos[0].resistance)
+        
+        dueDateUpdated = Date().addingTimeInterval(-24*3600)
+        todoFormData = createTodoFormData(dueDate: dueDateUpdated, isDone: false)
+        _ = viewModel.updateTodo(todo, form: todoFormData)
+        
+        // No change for resistance, cause dueDare was changed into past before today
+        XCTAssertEqual(1, viewModel.allTodos[0].resistance)
+        
+        dueDateUpdated = Date().addingTimeInterval(2*24*3600)
+        todoFormData = createTodoFormData(dueDate: dueDateUpdated, isDone: false)
+        _ = viewModel.updateTodo(todo, form: todoFormData)
+        
+        // Resistance is one more, cause dueDate was changed again into future
+        XCTAssertEqual(2, viewModel.allTodos[0].resistance)
+        
+        dueDateUpdated = Date().addingTimeInterval(24*3600)
+        todoFormData = createTodoFormData(dueDate: dueDateUpdated, isDone: false)
+        _ = viewModel.updateTodo(todo, form: todoFormData)
+        
+        // Resistance is one more, cause dueDate was changed again into future
+        XCTAssertEqual(1, viewModel.allTodos[0].resistance)
+        
+        dueDateUpdated = Date()
+        todoFormData = createTodoFormData(dueDate: dueDateUpdated, isDone: false)
+        _ = viewModel.updateTodo(todo, form: todoFormData)
+        
+        // Resistance is one more, cause dueDate was changed again into future
+        XCTAssertEqual(0, viewModel.allTodos[0].resistance)
+        
+        dueDateUpdated = Date().addingTimeInterval(2*24*3600)
+        todoFormData = createTodoFormData(dueDate: dueDateUpdated, isDone: false)
+        var vibrate = viewModel.updateTodo(todo, form: todoFormData)
+        
+        // App should not vibrate, cause isDone is false
+        XCTAssertFalse(vibrate)
+        
+        // Resistance is one more, cause dueDate was changed again into future
+        XCTAssertEqual(1, viewModel.allTodos[0].resistance)
+        
+        dueDateUpdated = Date().addingTimeInterval(4*24*3600)
+        todoFormData = createTodoFormData(dueDate: dueDateUpdated, isDone: true)
+        
+        vibrate = viewModel.updateTodo(todo, form: todoFormData)
+        
+        // App should  vibrate, cause isDone is false
+        XCTAssertTrue(vibrate)
+        
+        // Resistance has not changed, cause dueDate was changed again into future, but isDone is true
+        XCTAssertEqual(1, viewModel.allTodos[0].resistance)
+        
+        dueDateUpdated = Date()
+        todoFormData = createTodoFormData(dueDate: dueDateUpdated, isDone: true)
+        
+        vibrate = viewModel.updateTodo(todo, form: todoFormData)
+        
+        // App should  vibrate, cause isDone war alreay true
+        XCTAssertFalse(vibrate)
+        
+        // Resistance has not changed, cause dueDate was changed to today, but isDone is true
+        XCTAssertEqual(1, viewModel.allTodos[0].resistance)
+        
+    }
+    
     func testMoveTodoToTheTop() {
         
         let todo1 = createTodo(title: "Todo1", details: "...", sortOrder: 0)
@@ -632,4 +714,19 @@ final class TodoViewModelTests: XCTestCase {
         return todo
     }
     
+    private func createTodoFormData(
+        dueDate: Date = Date(),
+        isDone: Bool = false
+    ) -> TodoFormData {
+        let todoFormData = TodoFormData(
+            title: "Title Updated",
+            details: "Details Updated",
+            dueDate: dueDate,
+            estimatedTime: 42,
+            energyImpact: 1,
+            isDone: isDone,
+            category: nil)
+        return todoFormData
+    }
+        
 }
