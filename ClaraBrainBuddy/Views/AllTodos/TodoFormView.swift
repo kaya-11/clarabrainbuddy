@@ -25,6 +25,8 @@ struct TodoFormView: View {
     @State private var isDone: Bool = false
     @State private var category: Category?
     
+    @State private var ogDueDate: Date = Date()
+    
     @State private var showErrorTitle: Bool = false
     @State private var errorMessageTitle: String = ""
     @State private var showErrorDetails: Bool = false
@@ -45,6 +47,7 @@ struct TodoFormView: View {
             _energyImpact = State(initialValue: todo.energyImpact)
             _category = State(initialValue: todo.category)
             _isDone = State(initialValue: todo.isDone)
+            _ogDueDate = State(initialValue: todo.dueDate)
         } else {
             let addDays = addDays ?? 14
             _dueDate = State(initialValue: Calendar.current.date(byAdding: .day, value: addDays, to: Date()) ?? Date())
@@ -73,22 +76,23 @@ struct TodoFormView: View {
     }
     
     func updateTodo(_ todo: Todo) {
-        let updatedTodo = todo
-        updatedTodo.title = title
-        updatedTodo.details = details
-        updatedTodo.dueDate = dueDate
-        updatedTodo.estimatedTime = estimatedTime
-        updatedTodo.energyImpact = energyImpact ?? 0
-        updatedTodo.updatedAt = Date()
-        let vibrate = isDone && !todo.isDone
-        updatedTodo.isDone = isDone
-        updatedTodo.category = category
-        todoViewModel.updateTodo(updatedTodo)
+        
+        let todoFormData = TodoFormData(
+            title: title,
+            details: details,
+            dueDate: dueDate,
+            estimatedTime: estimatedTime,
+            energyImpact: energyImpact ?? 0,
+            isDone: isDone,
+            category: category)
+            
+        let vibrate = todoViewModel.updateTodo(todo, form: todoFormData)
+        
         if vibrate {
             DeviceFeedback.vibrateTwice()
         }
     }
-
+        
     var body: some View {
         NavigationStack {
             Form {
