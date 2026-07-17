@@ -132,8 +132,9 @@ class TodoViewModel: ObservableObject {
         }
         todo.selectedForToday = false
         todo.updatedAt = Date()
-        todo.resistance = ResistanceUtils.increaseResistance(resistance: todo.resistance)
-        
+        if (!todo.isDone) {
+            todo.resistance = ResistanceUtils.increaseResistance(resistance: todo.resistance)
+        }
         saveContext()
     }
     
