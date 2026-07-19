@@ -16,17 +16,9 @@ struct TodoFormView: View {
     
     // If nil → Add Mode | If non-nil → Edit Mode
     var existingTodo: Todo?
-
-    @State private var title: String = ""
-    @State private var details: String = ""
-    @State private var dueDate: Date = Date()
-    @State private var estimatedTime: Int64?
-    @State private var energyImpact: Int64?
-    @State private var isDone: Bool = false
-    @State private var category: Category?
     
-    @State private var ogDueDate: Date = Date()
-    
+    @State private var todoFormData: TodoFormData
+        
     @State private var showErrorTitle: Bool = false
     @State private var errorMessageTitle: String = ""
     @State private var showErrorDetails: Bool = false
@@ -40,18 +32,32 @@ struct TodoFormView: View {
         
         // Initialize the state variables
         if let todo = existingTodo {
-            _title = State(initialValue: todo.title)
-            _details = State(initialValue: todo.details ?? "")
-            _dueDate = State(initialValue: todo.dueDate)
-            _estimatedTime = State(initialValue: todo.estimatedTime)
-            _energyImpact = State(initialValue: todo.energyImpact)
-            _category = State(initialValue: todo.category)
-            _isDone = State(initialValue: todo.isDone)
-            _ogDueDate = State(initialValue: todo.dueDate)
+            _todoFormData = State(
+                initialValue: TodoFormData(
+                    title: todo.title,
+                    details: todo.details ?? "",
+                    dueDate: todo.dueDate,
+                    estimatedTime: todo.estimatedTime,
+                    energyImpact: todo.energyImpact,
+                    isDone: todo.isDone,
+                    category: todo.category
+                )
+            )
         } else {
             let addDays = addDays ?? 14
-            _dueDate = State(initialValue: Calendar.current.date(byAdding: .day, value: addDays, to: Date()) ?? Date())
-            _category = State(initialValue: category) 
+            let dueDate: Date = Calendar.current.date(byAdding: .day, value: addDays, to: Date()) ?? Date()
+            _todoFormData = State(
+                initialValue: TodoFormData(
+                    title: "",
+                    details: "",
+                    dueDate: dueDate,
+                    estimatedTime: nil,
+                    energyImpact: 0,
+                    isDone: false,
+                    category: category
+                )
+            )
+
         }
     }
     
@@ -76,16 +82,7 @@ struct TodoFormView: View {
     }
     
     func updateTodo(_ todo: Todo) {
-        
-        let todoFormData = TodoFormData(
-            title: title,
-            details: details,
-            dueDate: dueDate,
-            estimatedTime: estimatedTime,
-            energyImpact: energyImpact ?? 0,
-            isDone: isDone,
-            category: category)
-            
+                    
         let vibrate = todoViewModel.updateTodo(todo, form: todoFormData)
         
         if vibrate {
@@ -97,9 +94,9 @@ struct TodoFormView: View {
         NavigationStack {
             Form {
                 Section(header: Text(Localization.labels.titleForm)) {
-                    TextField(Localization.labels.titleFormTooltip, text: $title)
-                        .onChange(of: title) {
-                            validateTitle(title)
+                    TextField(Localization.labels.titleFormTooltip, text: $todoFormData.title)
+                        .onChange(of: todoFormData.title) {
+                            validateTitle(todoFormData.title)
                         }
                         .background(showErrorTitle ? Color.red.opacity(0.2) : nil)
                         .foregroundColor(Color.theme.primary)
@@ -114,9 +111,9 @@ struct TodoFormView: View {
                 .sectionSytle()
                 
                 Section(header: Text(Localization.labels.details)) {
-                    TextEditor(text: $details)
-                        .onChange(of: details) {
-                            validateDetails(details)
+                    TextEditor(text: $todoFormData.details)
+                        .onChange(of: todoFormData.details) {
+                            validateDetails(todoFormData.details)
                         }
                         .frame(height: 120)
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.gray.opacity(0.3)))
@@ -132,21 +129,21 @@ struct TodoFormView: View {
                 
                 if (categoriesViewModel.hasCategories()) {
                     Section(header: Text(Localization.labels.category)) {
-                        CategoryPickerView(selectedCategory: $category)
+                        CategoryPickerView(selectedCategory: $todoFormData.category)
                             .accessibilityIdentifier("TodoFormCategoryPicker")
                     }
                     .sectionSytle()
                 }
                 
                 Section(header: Text(Localization.labels.dueDate)) {
-                    DatePicker(Localization.labels.dueDateTooltip, selection: $dueDate, displayedComponents: .date)
+                    DatePicker(Localization.labels.dueDateTooltip, selection: $todoFormData.dueDate, displayedComponents: .date)
                         .foregroundColor(Color.theme.primary)
                         .accessibilityIdentifier("TodoFormDueDateField")
                 }
                 .sectionSytle()
                 
                 Section(header: Text(Localization.labels.estimatedTimeForm)) {
-                    TextField(Localization.labels.estimatedTimeTooltip, value: $estimatedTime, formatter: NumberFormatter())
+                    TextField(Localization.labels.estimatedTimeTooltip, value: $todoFormData.estimatedTime, formatter: NumberFormatter())
                         .keyboardType(.numberPad)
                         .foregroundColor(Color.theme.primary)
                         .accessibilityIdentifier("TodoFormEstimatedTimeField")
@@ -157,8 +154,8 @@ struct TodoFormView: View {
                     HStack {
                         Battery50Icon()
                         Slider(value: Binding(
-                            get: { Double(energyImpact ?? 0) },
-                            set: { energyImpact = Int64($0) }
+                            get: { Double(todoFormData.energyImpact ?? 0) },
+                            set: { todoFormData.energyImpact = Int64($0) }
                         ), in: -1...1, step: 1)
                             .accessibilityIdentifier("TodoFormEnergyImpactField")
                         Battery100Icon()
@@ -168,7 +165,7 @@ struct TodoFormView: View {
                 
                 if existingTodo != nil {
                     Section(header: Text(Localization.labels.isDone)) {
-                        Toggle(Localization.labels.isDone, isOn: $isDone)
+                        Toggle(Localization.labels.isDone, isOn: $todoFormData.isDone)
                             .accessibilityIdentifier("TodoFormIsDoneToggle")
                     }
                     .sectionSytle()
@@ -178,14 +175,20 @@ struct TodoFormView: View {
                     if let todo = existingTodo {
                         updateTodo(todo)
                     } else {
-                        todoViewModel.addTodo(title: title, details: details, dueDate: dueDate, estimatedTime: estimatedTime, energyImpact: energyImpact ?? 0, category: category)
+                        todoViewModel.addTodo(
+                            title: todoFormData.title,
+                            details: todoFormData.details,
+                            dueDate: todoFormData.dueDate,
+                            estimatedTime: todoFormData.estimatedTime,
+                            energyImpact: todoFormData.energyImpact ?? 0,
+                            category: todoFormData.category)
                     }
                     presentationMode.wrappedValue.dismiss()
                 }) {
                     Text(existingTodo == nil ? Localization.labels.saveAddTodo : Localization.labels.saveEditTodo).accessibilityLabel("TodoFormSaveButton")
                 }
                 .buttonStyle()
-                .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || showErrorTitle || showErrorDetails )
+                .disabled(todoFormData.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || showErrorTitle || showErrorDetails )
                     
             }
             .appTheme()
