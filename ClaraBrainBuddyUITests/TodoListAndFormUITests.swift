@@ -26,7 +26,7 @@ final class TodoListAndFormUITests: XCTestCase {
         editTodo()
         deleteTodoAndCheck()
     }
-
+    
     func addTodo() {
         
         let allTodosTab = app.otherElements["AllTodosTab"]
@@ -101,6 +101,50 @@ final class TodoListAndFormUITests: XCTestCase {
     
     func deleteTodoAndCheck() {
         let todoCell = app.staticTexts["Updated Todo Title"]
+        XCTAssertTrue(todoCell.waitForExistence(timeout: 2))
+        
+        todoCell.swipeLeft()
+        app.buttons["TodoListDeleteTodo"].tap()
+        
+        XCTAssertFalse(todoCell.waitForExistence(timeout: 2))
+
+        XCTAssertTrue(app.buttons["AddTodoButton"].waitForExistence(timeout: 2))
+    }
+    
+    func testRescheduleTodo() {
+        addTodo()
+        let todoCell = app.staticTexts["Test Todo"]
+        XCTAssertTrue(todoCell.waitForExistence(timeout: 2))
+        
+        todoCell.swipeLeft()
+        app.buttons["TodoListRescheduleTodo"].tap()
+                
+        // Suche nach Datum aktuelles Datum plus 14 Tage (Default) + 28 Tage
+        
+        let currentDate = Date()
+        let calendar = Calendar.current
+
+        let expectedDueDate = calendar.date(byAdding: .day, value: 14 + 28, to: currentDate)!
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        let expectedDueDateString = dateFormatter.string(from: expectedDueDate)
+
+        let allStaticTexts = app.staticTexts.allElementsBoundByIndex
+        var foundDueDate = false
+
+        for staticText in allStaticTexts {
+            if staticText.label.contains(expectedDueDateString) {
+                XCTAssertTrue(staticText.waitForExistence(timeout: 2))
+                foundDueDate = true
+                break
+            }
+        }
+
+        XCTAssertTrue(foundDueDate, "Das erwartete Datum (\(expectedDueDateString)) wurde nicht in der UI gefunden.")
+        
+        // Die Aufgabe wieder löschen
+
         XCTAssertTrue(todoCell.waitForExistence(timeout: 2))
         
         todoCell.swipeLeft()

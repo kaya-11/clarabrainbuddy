@@ -457,6 +457,14 @@ class TodoViewModel: ObservableObject {
         saveContext()
     }
     
+    func rescheduleTodo(todo: Todo) {
+        let dueDate = todo.dueDate
+        todo.dueDate = dueDate.addingTimeInterval(28*24*3600) // add 4 Weeks to due date
+        todo.resistance = ResistanceUtils.increaseResistance(resistance: todo.resistance)
+        todo.updatedAt = Date()
+        saveContext()
+    }
+    
     func reprioritizeTodos(importantAndUrgentTasks: [Todo], urgentTasks: [Todo], importantTasks: [Todo], nothingOfBothTasks: [Todo]) {
         // 1. Remove all tasks from todayTodos that are in any of the provided lists
         let allTodayTodos = todayTodos
