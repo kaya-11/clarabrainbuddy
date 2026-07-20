@@ -101,6 +101,7 @@
 "due.label" = "Until";
 "clone.label" = "Clone";
 "share.details.label" = "Share task";
+"reschedule.label" = "Postpone";
 "properties.max.todos.for.today" = "Max Tasks for Today";
 "properties.default.estimated.time" = "Default Estimated Time for Recurring Tasks (minutes)";
 "properties.default.energylevel.calculation" = "Default Time for Time Budget Calculation (minutes)";

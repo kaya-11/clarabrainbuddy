@@ -80,6 +80,14 @@ struct TodoListCoreView: View {
                     .tint(.red)
                     .accessibilityIdentifier("TodoListDeleteTodo")
                     
+                    Button(action: {
+                        todoViewModel.rescheduleTodo(todo: todo)
+                    }) {
+                        Label(Localization.labels.reschedule, systemImage: "30.arrow.trianglehead.clockwise")
+                    }
+                    .tint(.purple)
+                    .accessibilityIdentifier("TodoListRescheduleTodo")
+                    
                 }
                 .swipeActions(edge: .leading, allowsFullSwipe: true) {
                     

@@ -466,6 +466,25 @@ final class TodoViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.todayTodos[3].todo, todo2)
         XCTAssertEqual(viewModel.todayTodos[4].todo, todo1)
     }
+
+    func testReScheduleTodo() {
+        
+        let calendar = Calendar.current
+        let ogDueDate: Date = calendar.startOfDay(for: Date())
+        
+        let todo: Todo = createTodo(title: "Todo1", dueDate: ogDueDate)
+        
+        viewModel.addTodos([todo])
+        
+        viewModel.rescheduleTodo(todo: todo)
+        
+        let newDueDate: Date = ogDueDate.addingTimeInterval(28*24*3600)
+        
+        XCTAssertEqual(newDueDate, todo.dueDate)
+        XCTAssertEqual(1, todo.resistance)
+        
+    }
+
     
     func testReorderTodos() {
         let todo1: Todo = createTodoWithDueDateAndCreatedAt(title: "Todo2", dueDate: Date()+1, createdAt: Date()+1, sortOrder: 1)

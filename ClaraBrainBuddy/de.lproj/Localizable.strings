@@ -103,6 +103,7 @@
 "due.label" = "Bis";
 "clone.label" = "Duplikat";
 "share.details.label" = "Teile Aufgabe";
+"reschedule.label" = "Verschieben";
 "properties.max.todos.for.today" = "Maximale Anzahl Aufgaben für Heute";
 "properties.default.estimated.time" = "Standardzeit für wiederkehrende Aufgaben (in Minuten)";
 "properties.default.energylevel.calculation" = "Standardzeit für die Berechnung des Zeitbuudgets (in Minuten)";
