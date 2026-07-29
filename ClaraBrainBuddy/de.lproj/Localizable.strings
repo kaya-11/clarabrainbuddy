@@ -104,6 +104,14 @@
 "clone.label" = "Duplikat";
 "share.details.label" = "Teile Aufgabe";
 "reschedule.label" = "Verschieben";
+"task.slitter.label" = "Zerlege Aufgaben";
+"splitting.tasks.label" = "Aufgabe zerlegen";
+"splitting.label" = "Zerlegen";
+"takeover.label" = "Übernehmen";
+"message.splitting.tasks.example" = "Z. B. Küche renovieren…";
+"message.splitting.tasks.norecommendations" = "Noch keine Vorschläge";
+"message.splitting.tasks.help" = "Gib oben eine Aufgabe ein und tippe auf „Zerlegen“.";
+"error.task.splitting" = "Das hat leider nicht geklappt: {0}";
 "properties.max.todos.for.today" = "Maximale Anzahl Aufgaben für Heute";
 "properties.default.estimated.time" = "Standardzeit für wiederkehrende Aufgaben (in Minuten)";
 "properties.default.energylevel.calculation" = "Standardzeit für die Berechnung des Zeitbuudgets (in Minuten)";
@@ -138,6 +146,8 @@
 "info.timebudget.explanation.text" = "Der Zeitbudget-Schieberegler hilft dir, deine Aufgabenlast zu verwalten. \n\nWenn du wenig Zeit hast, also deine exekutive Kapazität klein ist, kannst du nur eine begrenzte Anzahl an Aufgaben erledigen.\n\nDie geschätzte Zeit wird fett und rot dargestellt, wenn du je nach Zeitbudget einen bestimmten Grenzwert überschreitest. Die mittlere Einstellung bedeutet, dass du 1,5 bis 3 Stunden verfügbar hast. Die hohe Einstellung bedeutet, dass du an diesem Tag viel schaffen kannst.\n\nAber Achtung: Es gibt auch hier einen Grenzwert, damit du siehst, wenn du deinen Tagesplan zu voll gepackt hast.\n\nAufgaben, bei denen du zum Prokrastinieren neigst, erhalten einen kleinen Aufschlag bei der Berechnung der geschätzten Zeit, denn das Anfangen der Aufgabe oder die Aufgabe selbst scheint Dir mehr Mühe zu bereiten.";
 "info.prioritymatrix.explanation.title" = "Zu viele Aufgaben in Deiner Tagesplanung?";
 "info.prioritymatrix.explanation.text" = "Nutze diese Matrix, um Deine Aufgaben neu zu priorisieren.\n\nZiehe die Aufgaben einfach in eine der vier Boxen:\n\n- Dringend & Wichtig\n- Dringend\n- Wichtig\n- Weder noch\n\nNach dem Klick auf 'Neuordnen' werden die Aufgaben automatisch neu sortiert:\n\nAlles aus 'Dringend & Wichtig' landet ganz oben in Deiner Tagesplanung.\n\nAufgaben, die nur 'Dringend' sind, bleiben in der Tagesplanung, werden aber weiter nach unten verschoben.\n\nDie nur als 'Wichtig' geflaggten Aufgaben werden aus der Tagesplanung entfernt und oben in der 'Übersicht aller Aufgaben' platziert.\n\nAlle anderen Aufgaben werden ebenfalls aus der Tagesplanung entfernt und in der 'Übersicht aller Aufgaben' unterhalb der 'wichtigen' Aufgaben einsortiert.";
+"info.tasksplitter.explanation.title" = "Aufgaben intelligent aufteilen";
+"info.tasksplitter.explanation.text" = "Dieser AI-basierte Task Splitter nutzt das Apple-eigene KI-Modell, um komplexe Aufgaben in kleinere, überschaubare Arbeitspakete zu zerlegen – ganz automatisch.\n\nTipp für beste Ergebnisse:\n\nBeschreibe die Aufgabe ausführlich und präzise. Je detaillierter deine Eingabe, desto besser die Aufteilung.\n\nFalls dir bereits Unteraufgaben im Kopf herumschweben, gib sie direkt mit an. Das verbessert die Qualität der Vorschläge.";
 "about.label" = "Über";
 "about.claraBrainBuddy.title" = "Über Clara BrainBuddy";
 "about.claraBrainBuddy.description" = "Clara BrainBuddy hilft, dein tägliches Gehirn-Chaos zu organisieren.";

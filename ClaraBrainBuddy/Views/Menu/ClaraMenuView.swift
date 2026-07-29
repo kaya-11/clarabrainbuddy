@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UniformTypeIdentifiers
+import FoundationModels
 
 struct ClaraMenuView: View {
     
@@ -26,10 +27,13 @@ struct ClaraMenuView: View {
     @State private var showingShareSheet = false
     @State private var urlToShare: URL?
     
+    @State private var isTaskSplitterViewPresented = false
+    
     @State private var isImporting = false
     @State private var importedFileURL: URL?
     
     @State private var isAboutViewPresented = false
+    
     
     init(settingsViewModel: SettingsViewModel,todoViewModel: TodoViewModel) {
         self.settingsViewModel = settingsViewModel
@@ -96,6 +100,16 @@ struct ClaraMenuView: View {
                     .foregroundColor(Color.theme.primary)
             }
             
+            if #available(iOS 26.0, *), SystemLanguageModel.default.availability == .available {
+                Button (action: {
+                    isTaskSplitterViewPresented = true
+                }) {
+                    Label(Localization.labels.taskSplitter, systemImage: "sparkles")
+                        .foregroundColor(Color.theme.primary)
+                }
+                .accessibilityIdentifier("TaskSplitterButton")
+            }
+                 
             Button(action: {
                 isImporting = true
             }) {
@@ -167,6 +181,20 @@ struct ClaraMenuView: View {
                     isImporting = false
                 }
             )
+        }
+        .sheet(isPresented: $isTaskSplitterViewPresented) {
+            if #available(iOS 26.0, *) {
+                TaskSplitterView(
+                    onAccept: { selectedTodos in
+                        let todos = selectedTodos.map { dto in
+                            let todo = Todo(context: context)
+                            todo.populate(from: dto, context: context)
+                            return todo
+                        }
+                        todoViewModel.addTodos(todos)
+                    }
+                )
+            }
         }
         .sheet(isPresented: $isAboutViewPresented) {
             AboutView()
