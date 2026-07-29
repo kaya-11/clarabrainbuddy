@@ -152,6 +152,11 @@ struct Localization {
         
         let reschedule = NSLocalizedString("reschedule.label", comment: "Postpone")
         
+        // Task Splitter
+        let taskSplitter = NSLocalizedString("task.slitter.label", comment: "Task Splitter")
+        let splittingTasks = NSLocalizedString("splitting.tasks.label", comment: "Splitting tasks")
+        let splitting = NSLocalizedString("splitting.label", comment: "Splitting")
+        let takeOver = NSLocalizedString("takeover.label", comment: "Take over")
     }
     
     struct Weekdays {
@@ -190,6 +195,12 @@ struct Localization {
         let eveningNotificationTitle = NSLocalizedString("message.evening.notification.title", comment: "Evening notification message title in the app")
         let eveningNotificationBody = NSLocalizedString("message.evening.notification.body", comment: "Evening notification message body in the app")
         let enableNotifications = NSLocalizedString("message.enable.notifications", comment: "Enable notification")
+        
+        
+        // Task Splitter
+        let splittingTasksExample = NSLocalizedString("message.splitting.tasks.example", comment: "e.g. Renovate kitchen…")
+        let splittingTasksNoRecommendations = NSLocalizedString("message.splitting.tasks.norecommendations", comment: "No recommendations yet")
+        let splittingTasksHelp = NSLocalizedString("message.splitting.tasks.help", comment: "Enter a task description and tap on „Zerlegen“.")
     }
     
     struct Errors {
@@ -216,6 +227,8 @@ struct Localization {
         let categoryNameLengthError = NSLocalizedString("error.category.name.length", comment: "Error message for category name length")
             .replacingOccurrences(of: "{0}", with: "\(CategoryViewModel.MAX_LENGTH_NAME)")
         let categoryNameAlreadyExistsError = NSLocalizedString("error.category.name.alreadyexists", comment: "Error message for duplicate category name")
+        
+        let taskSplittingError = NSLocalizedString("error.task.splitting", comment: "Error message for task splitting")
     }
     
     struct AppIntents {
@@ -230,6 +243,8 @@ struct Localization {
         let infoTimebudgetText = NSLocalizedString("info.timebudget.explanation.text", comment: "Text for the timebudget explanation section")
         let infoPriorityMatrixTitle = NSLocalizedString("info.prioritymatrix.explanation.title", comment: "Title for the prioritymatrix explanation section")
         let infoPriorityMatrixText = NSLocalizedString("info.prioritymatrix.explanation.text", comment: "Text for the prioritymatrix explanation section")
+        let infoTaskSplitterTitle = NSLocalizedString("info.tasksplitter.explanation.title", comment: "Title for the task spplitter explanation section")
+        let infoTaskSplitterText = NSLocalizedString("info.tasksplitter.explanation.text", comment: "Text for the task splitter explanation section")
     }
     
     struct About {
