@@ -187,14 +187,16 @@ struct RecurringTaskFormView: View {
                 }
                 .sectionSytle()
                 
-                Button(action: {
+                Button {
                     saveTask()
                     presentationMode.wrappedValue.dismiss()
                     
-                }) {
-                    Text(existingTask == nil ? Localization.labels.saveAddTodo : Localization.labels.saveEditTodo)
+                } label: {
+                    Label(existingTask == nil ? Localization.labels.saveAddTodo : Localization.labels.saveEditTodo, systemImage: "none")
+                        .frame(maxWidth: .infinity)
+                        .bold()
                 }
-                .buttonStyle()
+                .buttonStyle(.borderedProminent)
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 .accessibilityIdentifier("TaskFormSaveButton")
             }

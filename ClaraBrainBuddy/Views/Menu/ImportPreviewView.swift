@@ -37,7 +37,7 @@ struct ImportPreviewView: View {
                 if importedTodos.isEmpty {
                     VStack {
                         Text(Localization.messages.selectFileToImport)
-                            .foregroundColor(Color.theme.listText)
+                            .foregroundColor(Color.theme.surfaceGlassTextColor)
                             .padding()
                         ProgressView()
                     }
@@ -51,15 +51,15 @@ struct ImportPreviewView: View {
                             }
                             Text("\(Localization.labels.dueDate): \(todo.dueDate, formatter: StyleUtils.dateFormatter)")
                                 .font(Font.app.tiny)
-                                .foregroundColor(Color.theme.listText)
+                                .foregroundColor(Color.theme.surfaceGlassTextColor)
                             if let estimatedTime = todo.estimatedTime {
                                 Text("\(Localization.labels.estimatedTime): \(estimatedTime) \(Localization.labels.estimatedTimeUnit)")
                                     .font(Font.app.tiny)
-                                    .foregroundColor(Color.theme.listText)
+                                    .foregroundColor(Color.theme.surfaceGlassTextColor)
                             }
                         }
-                        .foregroundColor(Color.theme.listText)
-                        .listRowBackground(Color.theme.listBackground)
+                        .foregroundColor(Color.theme.surfaceGlassTextColor)
+                        .listRowBackground(Color.theme.surfaceGlassColor)
                         .font(Font.app.listItem)
                         .padding(.vertical, 4)
                     }
@@ -79,7 +79,7 @@ struct ImportPreviewView: View {
                     if !importedTodos.isEmpty {
                         Button(Localization.labels.importing, action: {
                             onConfirm(importedTodos)
-                        })
+                        }).buttonStyle(.borderedProminent)
                     }
                 }
             }

@@ -36,19 +36,15 @@ struct InfoView: View {
                     .sectionSytle()
                     
                     if let buttonText = buttonText, let buttonAction = buttonAction {
-                        Button(action: {
+                        Button {
                             buttonAction()
                             isPresented = false
-                        }) {
-                            Text(buttonText)
-                                .font(Font.app.button)
+                        } label: {
+                            Label(buttonText, systemImage: "none")
                                 .frame(maxWidth: .infinity)
-                                .padding()
-                                .listRowBackground(Color.theme.listBackground)
-                                .foregroundColor(Color.theme.accent)
-                                .cornerRadius(8)
+                                .bold()
                         }
-                        .buttonStyle()
+                        .buttonStyle(.borderedProminent)
                         .padding()
                     }
                 }

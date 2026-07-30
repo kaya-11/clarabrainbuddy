@@ -58,7 +58,7 @@ struct RecurringTaskListView: View {
                                 } label: {
                                     Label(Localization.labels.delete, systemImage: "trash")
                                 }
-                                .tint(.red)
+                                .tint(Color.theme.red)
                                 .accessibilityIdentifier("RecurringTaskListDeleteTask")
                             }
                             .swipeActions(edge: .leading, allowsFullSwipe: true) {
@@ -67,10 +67,10 @@ struct RecurringTaskListView: View {
                                 } label: {
                                     Label(Localization.labels.edit, systemImage: "pencil")
                                 }
-                                .tint(.green)
+                                .tint(Color.theme.brown)
                                 .accessibilityIdentifier("RecurringTaskListViewEditTask")
                             }
-                            .foregroundColor(Color.theme.listText)
+                            .foregroundColor(Color.theme.surfaceGlassTextColor)
                             .listRowBackground(Color.clear)
                             .font(Font.app.listItem)
                     }
@@ -95,6 +95,7 @@ struct RecurringTaskListView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     ClaraMenuView(settingsViewModel: settingsViewModel, todoViewModel: todoViewModel)
+                        .foregroundColor(Color.theme.primary)
                 }
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.titleRecurringTasks)
@@ -106,6 +107,7 @@ struct RecurringTaskListView: View {
                         showingAddTask = true
                     }) {
                         Image(systemName: "plus.circle")
+                            .foregroundColor(Color.theme.primary)
                     }
                     .accessibilityIdentifier("AddRecurringTaskButton")
                 }

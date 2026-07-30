@@ -38,7 +38,7 @@ struct TodoListEntryView: View {
                 if let cat = category {
                     ColorCircleView(hex: cat.color, size: 6)
                     Text("\(cat.name): ")
-                        .foregroundColor(Color.theme.listText)
+                        .foregroundColor(Color.theme.surfaceGlassTextColor)
                     }
                 
                 if isDone {

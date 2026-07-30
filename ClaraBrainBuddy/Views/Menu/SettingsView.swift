@@ -102,29 +102,33 @@ struct SettingsView: View {
                 
                 Section(header: Text(Localization.labels.displayOptions)) {
                     Toggle(Localization.labels.showSymbols, isOn: $settingsViewModel.settings.showSymbols)
+                        .tint(Color.theme.green)
                         .accessibilityIdentifier("ShowSymbolsToggle")
                 }
                 .sectionSytle()
 
                 Section() {
                     Toggle(Localization.labels.showDueDate, isOn: $settingsViewModel.settings.showDueDateInSchedule)
+                        .tint(Color.theme.green)
                         .accessibilityIdentifier("ShowDueDateInListToggle")
                 }
                 .sectionSytle()
                 
                 Section() {
                     Toggle(Localization.labels.showResistanceInTodaysView, isOn: $settingsViewModel.settings.showResistanceInTodayView)
+                        .tint(Color.theme.green)
                         .accessibilityIdentifier("ShowResistanceInTodayViewToggle")
                 }
                 .sectionSytle()
 
                 Section() {
                     Toggle(Localization.labels.showResistanceInAllTodosView, isOn: $settingsViewModel.settings.showResistanceInAllTodosView)
+                        .tint(Color.theme.green)
                         .accessibilityIdentifier("ShowResistanceInAllTodosViewToggle")
                 }
                 .sectionSytle()
                 
-                Button(action: {
+                Button {
                     if !isMorningBeforeEvening() {
                         showTimeValidationAlert = true
                         return
@@ -141,11 +145,13 @@ struct SettingsView: View {
                         }
                     }
                     presentationMode.wrappedValue.dismiss()
-                }) {
-                    Text(Localization.labels.save)
+                } label:  {
+                    Label(Localization.labels.save, systemImage: "none")
+                        .frame(maxWidth: .infinity)
+                        .bold()
                         .foregroundColor(Color.theme.primary)
                 }
-                .buttonStyle()
+                .buttonStyle(.borderedProminent)
                 .accessibilityIdentifier("SaveSettingsButton")
             }
             .appTheme()

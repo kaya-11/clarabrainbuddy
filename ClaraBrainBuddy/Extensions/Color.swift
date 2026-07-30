@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 extension Color {
+    
     static let theme = ColorTheme()
     
     init(hex: String) {
@@ -50,15 +51,14 @@ struct ColorTheme {
     let accent: Color = Color("AccentColor")
     let background: Color = Color("BackgroundColor")
     
-    let listBackground: Color = Color("ListBackgroundColor")
-    let listText: Color = Color("ListTextColor")
-
-    let buttonBackground: Color = Color("ListBackgroundColor")
-    let buttonText: Color = Color("ListTextColor")
+    let surfaceGlassColor: Color = Color("SurfaceGlassColor")
+    let surfaceGlassTextColor: Color = Color("SurfaceGlassTextColor")
+    
+    let buttonBackground: Color = Color("SurfaceGlassColor")
+    let buttonText: Color = Color("SurfaceGlassTextColor")
     
     let green: Color = Color("AppGreenColor")
     let red: Color = Color("AppRedColor")
-    let brightred: Color = Color("AppBrightRedColor")
     let blue: Color = Color("AppBlueColor")
     let yellow: Color = Color("AppYellowColor")
     let orange: Color = Color("AppOrangeColor")
@@ -70,4 +70,8 @@ struct ColorTheme {
     let resistanceLevel3 : Color = Color("resistanceLevel3")
     let resistanceLevel4 : Color = Color("resistanceLevel4")
     let resistanceLevel5 : Color = Color("resistanceLevel5")
+
+    let brown : Color = Color("AppBrownColor")
+    let darkerBrown : Color = Color("AppDarkerBrownColor")
+    let graybrown : Color = Color("AppGrayBrownColor")
 }

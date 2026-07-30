@@ -64,20 +64,19 @@ struct PriorityMatrixView: View {
                         .padding(.leading, 30)
                     } else {
                         VStack {
-                            Button(action: {
+                            Button {
                                     onConfirm(urgentTasks, importantAndUrgentTasks, nothingOfBothTasks, importantTasks)
-                            }) {
-                                Text(Localization.labels.rearrange)
-                                    .accessibilityIdentifier("RearrangeButton")
+                            } label: {
+                                Label(Localization.labels.rearrange, systemImage: "none")
                                     .frame(maxWidth: .infinity)
-                                    .padding()
-                                    .background(Color.theme.listBackground)
-                                    .foregroundColor(Color.theme.accent)
-                                    .cornerRadius(10)
-                                    .padding(.horizontal, 24)
+                                    .bold()
+                                    .accessibilityIdentifier("RearrangeButton")
                             }
+                            .padding(.horizontal, 24)
+                            .buttonStyle(.borderedProminent)
                         }
                         .frame(maxWidth: .infinity, maxHeight: 260, alignment: .center)
+                        
                     }
                 }
                 .frame(height: 260, alignment: .top)
@@ -95,6 +94,7 @@ struct PriorityMatrixView: View {
                 
                 Spacer(minLength: 30)
             }
+            .appTheme()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(Localization.labels.cancel, action: onCancel)

@@ -80,6 +80,7 @@ struct CategoriesOverviewView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     ClaraMenuView(settingsViewModel: settingsViewModel, todoViewModel: todoViewModel)
+                        .foregroundColor(Color.theme.primary)
                 }
                 ToolbarItem(placement: .principal) {
                     Text("Übersicht Kategorien")
@@ -92,6 +93,7 @@ struct CategoriesOverviewView: View {
                         showingAddTodo = true
                     }) {
                         Image(systemName: "plus.circle")
+                            .foregroundColor(Color.theme.primary)
                     }.accessibilityIdentifier("AddTodoButtonInCategoryView")
                     
                 }

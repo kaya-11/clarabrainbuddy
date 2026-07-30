@@ -113,13 +113,15 @@ struct TodoTodayFormView: View {
                 }
                 .sectionSytle()
                 
-                Button(action: {
+                Button {
                     todoViewModel.addNewTodoForToday(title: title, details: details, estimatedTime: estimatedTime, energyImpact: energyImpact ?? 0, category: category)
                     presentationMode.wrappedValue.dismiss()
-                }) {
-                    Text(Localization.labels.saveAddTodo)
+                } label: {
+                    Label(Localization.labels.saveAddTodo, systemImage: "none")
+                        .frame(maxWidth: .infinity)
+                        .bold()
                 }
-                .buttonStyle()
+                .buttonStyle(.borderedProminent)
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || showErrorTitle || showErrorDetails)
                 .accessibilityLabel("TodaysTodoFormSaveButton")
                 

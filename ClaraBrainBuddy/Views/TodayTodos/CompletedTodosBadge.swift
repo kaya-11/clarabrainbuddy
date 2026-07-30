@@ -26,6 +26,7 @@ struct CompletedTodosBadge: View {
                         showingInfoView = true
                     }) {
                         Image(systemName: "checkmark.circle")
+                            .foregroundColor(Color.theme.primary)
                     }
                     .accessibilityIdentifier("CompletedTodosBadgeCheckmarkCircle")
                     .sheet(isPresented: $showingInfoView) {

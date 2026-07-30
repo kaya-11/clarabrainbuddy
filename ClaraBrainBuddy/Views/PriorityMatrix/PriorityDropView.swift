@@ -43,7 +43,7 @@ struct PriorityDropView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .padding(8)
         .frame(minWidth: 170, maxWidth: .infinity, minHeight: 180, maxHeight: 180)
-        .background(Color.theme.listBackground)
+        .background(Color.theme.surfaceGlassColor)
         .cornerRadius(12)
         .overlay(
             RoundedRectangle(cornerRadius: 12)

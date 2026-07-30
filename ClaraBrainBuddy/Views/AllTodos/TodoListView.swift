@@ -61,6 +61,7 @@ struct TodoListView: View {
                             totalTime: totalTime
                         )
                     }
+                    .foregroundColor(Color.theme.primary)
                 }
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.titleAllTodos)
@@ -70,16 +71,22 @@ struct TodoListView: View {
 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack {
+                        
                         Button(action: {
                             todoViewModel.reorderTodos()
                         }) {
                             CombinedImageView(imageMain: "calendar", imageSmall: "arrow.down")
-                        }.accessibilityIdentifier("ReorderTodos")
+                                .foregroundColor(Color.theme.primary)
+                        }
+                        .accessibilityIdentifier("ReorderTodos")
+                        
                         Button(action: {
                             showingAddTodo = true
                         }) {
                             Image(systemName: "plus.circle")
-                        }.accessibilityIdentifier("AddTodoButton")
+                                .foregroundColor(Color.theme.primary)
+                        }
+                        .accessibilityIdentifier("AddTodoButton")
                     }
                 }
             }
