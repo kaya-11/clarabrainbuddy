@@ -9,59 +9,24 @@ import SwiftUI
 
 struct TaskResistanceView: View {
     
-    let resistance: Int // Widerstandswert zwischen 1 und 11
-
+    let resistance: Int // Widerstandswert zwischen 1 und 19
+    
     var body: some View {
         
         GeometryReader { geometry in
-            let resistanceLevel = CGFloat(min(11,resistance)) / 11.0 // Skalierung von 2-10 auf 0-1
-            let yellowEnd: CGFloat = 1.0 / 11.0
-            let orangeEnd: CGFloat = 3.0 / 11.0
-            let redEnd: CGFloat = 6.0 / 11.0
+            let resistanceLevel = CGFloat(min(19,resistance)) / 19.0 // Skalierung von 0-19 auf 0-1
             
             ZStack(alignment: .leading) {
                 // backgroun of the bar
-                Rectangle()
+                Capsule()
                     .frame(width: geometry.size.width, height: geometry.size.height)
                     .opacity(0.2)
                     .foregroundColor(Color.gray)
-
-                // Gelbes Segment (Widerstand 1)
+                
                 resistanceSegment(
                     in: geometry,
-                    level: resistanceLevel,
-                    segmentStart: 0.0,
-                    segmentEnd: yellowEnd,
-                    color: Color.theme.yellow
-                )
-
-                // Oranges Segment (Widerstand 2-3)
-                resistanceSegment(
-                    in: geometry,
-                    level: resistanceLevel,
-                    segmentStart: yellowEnd,
-                    segmentEnd: orangeEnd,
-                    color: Color.theme.orange
-                )
-
-                // Rotes Segment (Widerstand 3-6)
-                resistanceSegment(
-                    in: geometry,
-                    level: resistanceLevel,
-                    segmentStart: orangeEnd,
-                    segmentEnd: redEnd,
-                    color: Color.theme.red
-                    
-                )
-
-                // Dunkelrotes Segment (Widerstand 6-11)
-                resistanceSegment(
-                    in: geometry,
-                    level: resistanceLevel,
-                    segmentStart: redEnd,
-                    segmentEnd: 1.0,
-                    color: Color.theme.brightred,
-                    opacity: 0.7
+                    resistance: resistance,
+                    segmentEnd: resistanceLevel
                 )
             }
         }
@@ -69,29 +34,58 @@ struct TaskResistanceView: View {
         .cornerRadius(2)
     }
     
-    
+    private func getResistanceColors(resistance: Int) -> [Color] {
+        switch resistance {
+            case 1:
+                return [
+                    Color.theme.resistanceLevel1
+                ]
+            case 2...3:
+                return [
+                    Color.theme.resistanceLevel1,
+                    Color.theme.resistanceLevel2
+                ]
+            case 4...6:
+                return [
+                    Color.theme.resistanceLevel1,
+                    Color.theme.resistanceLevel2,
+                    Color.theme.resistanceLevel3
+                ]
+            case 7...11:
+                return  [
+                    Color.theme.resistanceLevel1,
+                    Color.theme.resistanceLevel2,
+                    Color.theme.resistanceLevel3,
+                    Color.theme.resistanceLevel4
+                ]
+            case 11...19:
+                return  [
+                    Color.theme.resistanceLevel1,
+                    Color.theme.resistanceLevel2,
+                    Color.theme.resistanceLevel3,
+                    Color.theme.resistanceLevel4,
+                    Color.theme.resistanceLevel5
+                ]
+            default:
+                return  []
+        }
+    }
+        
     @ViewBuilder
     private func resistanceSegment(
         in geometry: GeometryProxy,
-        level: CGFloat,
-        segmentStart: CGFloat,
-        segmentEnd: CGFloat,
-        color: Color,
-        opacity: Double = 1.0
-        
+        resistance: Int,
+        segmentEnd: CGFloat
     ) -> some View {
-        if level > segmentStart {
-            Rectangle()
+        if resistance > 0 {
+            let gradientColors: [Color] = getResistanceColors(resistance: resistance)
+            Capsule()
+                .fill(LinearGradient(colors: gradientColors, startPoint: .leading, endPoint: .trailing))
                 .frame(
-                    width: min(
-                        geometry.size.width * (level - segmentStart),
-                        geometry.size.width * (segmentEnd - segmentStart)
-                    ),
+                    width: geometry.size.width * (segmentEnd),
                     height: geometry.size.height
                 )
-                .opacity(opacity)
-                .foregroundColor(color)
-                .offset(x: geometry.size.width * segmentStart, y: 0)
+
         }
     }
 }

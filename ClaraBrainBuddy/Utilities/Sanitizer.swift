@@ -43,7 +43,7 @@ struct Sanitizer {
                 energyImpact: todo.energyImpact.map { Int64($0.clamped(to: -1...1)) } ?? 0,
                 selectedForToday: false,
                 isDone: todo.isDone,
-                resistance: Int64(todo.resistance.clamped(to: 0...11)),
+                resistance: Int64(todo.resistance.clamped(to: 0...19)),
                 createdAt: todo.createdAt,
                 updatedAt: todo.updatedAt,
                 category: cleanCategory

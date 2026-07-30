@@ -65,4 +65,9 @@ struct ColorTheme {
     let white: Color = Color("AppWhiteColor")
     let gray : Color = Color("AppGrayColor")
     
+    let resistanceLevel1 : Color = Color("resistanceLevel1")
+    let resistanceLevel2 : Color = Color("resistanceLevel2")
+    let resistanceLevel3 : Color = Color("resistanceLevel3")
+    let resistanceLevel4 : Color = Color("resistanceLevel4")
+    let resistanceLevel5 : Color = Color("resistanceLevel5")
 }
