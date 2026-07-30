@@ -11,7 +11,7 @@ struct ResistanceUtils {
     
     static func increaseResistance(resistance: Int64) -> Int64 {
         var r = resistance
-        if r <= 11 { r += 1 }
+        if r < 19 { r += 1 }
         return r
     }
     

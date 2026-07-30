@@ -24,14 +24,14 @@ final class ResistanceUtilsTests: XCTestCase {
         super.tearDown()
     }
     
-    func testIncreaseResistance_returnsMaxEleven() {
-        let resistance = ResistanceUtils.increaseResistance(resistance: 12)
-        XCTAssertEqual(12, resistance)
+    func testIncreaseResistance_returnsMaxNineteen() {
+        let resistance = ResistanceUtils.increaseResistance(resistance: 19)
+        XCTAssertEqual(19, resistance)
     }
     
     func testIncreaseResistance_returnsOneMore() {
-        let resistance = ResistanceUtils.increaseResistance(resistance: 10)
-        XCTAssertEqual(11, resistance)
+        let resistance = ResistanceUtils.increaseResistance(resistance: 18)
+        XCTAssertEqual(19, resistance)
     }
     
     func testDecreaseResistance_returnsMinZero() {

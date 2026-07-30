@@ -79,7 +79,7 @@ extension Todo : Identifiable {
         energyImpact = dto.energyImpact.map { Int64($0.clamped(to: -1...1)) } ?? 0
         selectedForToday = dto.selectedForToday
         isDone = dto.isDone
-        resistance = dto.resistance.clamped(to: 0...10)
+        resistance = dto.resistance.clamped(to: 0...19)
         createdAt = dto.createdAt
         updatedAt = dto.updatedAt
         
