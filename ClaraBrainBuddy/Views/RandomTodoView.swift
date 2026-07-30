@@ -14,11 +14,13 @@ struct RandomTodoView: View {
     @Binding var isPresented: Bool
     
     var body: some View {
+        
+    
         VStack {
             if let randomTodo = todoViewModel.randomTodo() {
                 Text(Localization.labels.titleRandomTodoPopup)
                     .font(Font.app.header)
-                    .foregroundColor(Color.theme.gray)
+                    .foregroundColor(Color.theme.surfaceGlassTextColor)
                     .padding(.top)
                 
                 VStack (spacing: 16) {
@@ -54,16 +56,16 @@ struct RandomTodoView: View {
                     
                 }
                 .font(Font.app.normal)
-                .foregroundColor(Color.theme.gray)
+                .foregroundColor(Color.theme.surfaceGlassTextColor)
                 .padding(.top)
                 .padding(.bottom)
                 
                 Text(randomTodo.title)
                     .frame(maxWidth: .infinity)
-                    .font(Font.app.header)
                     .padding()
-                    .foregroundColor(Color.theme.gray)
-                    .background(Color.theme.white)
+                    .foregroundColor(Color.theme.surfaceGlassTextColor)
+                    .background(Color.theme.surfaceGlassColor)
+                    .bold()
                     .cornerRadius(15)
                     .shadow(radius: 10)
                     .padding()
@@ -87,7 +89,7 @@ struct RandomTodoView: View {
             } else {
                 Text(Localization.labels.noTodosRandomTodo)
                     .font(Font.app.normal)
-                    .foregroundColor(Color.theme.gray)
+                    .foregroundColor(Color.theme.surfaceGlassTextColor)
                     .onTapGesture {
                         isPresented = false
                     }
@@ -95,7 +97,7 @@ struct RandomTodoView: View {
             }
         }
         .frame(maxWidth: 400, maxHeight: 500)
-        .background(Color.theme.white)
+        .background(Color.theme.surfaceGlassColor)
         .cornerRadius(20)
         .padding()
     }

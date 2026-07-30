@@ -70,7 +70,7 @@ struct CategoryListView: View {
                                 } label: {
                                     Label(Localization.labels.delete, systemImage: "trash")
                                 }
-                                .tint(.red)
+                                .tint(Color.theme.red)
                                 .accessibilityIdentifier("DeleteCategory")
                             }
                         }
@@ -80,10 +80,10 @@ struct CategoryListView: View {
                             } label: {
                                 Label(Localization.labels.edit, systemImage: "pencil")
                             }
-                            .tint(.green)
+                            .tint(Color.theme.brown)
                             .accessibilityIdentifier("EditCategory")
                         }
-                        .listRowBackground(Color.theme.listBackground)
+                        .listRowBackground(Color.theme.surfaceGlassColor)
                     }
                     .onMove(perform: move)
                 }
@@ -100,7 +100,8 @@ struct CategoryListView: View {
                         Button(action: {
                             presentationMode.wrappedValue.dismiss()
                         }) {
-                            Text(Localization.labels.back) 
+                            Text(Localization.labels.back)
+                                .foregroundColor(Color.theme.primary)
                                 .font(Font.app.button)
                         }
                         .accessibilityIdentifier("CategoryListBackButton")
@@ -119,6 +120,7 @@ struct CategoryListView: View {
                             }
                         }) {
                             Image(systemName: "plus.circle")
+                                .foregroundColor(Color.theme.primary)
                         }
                         .accessibilityIdentifier("CategoryAddButton")
                     }

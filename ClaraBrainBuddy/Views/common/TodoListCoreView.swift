@@ -72,21 +72,23 @@ struct TodoListCoreView: View {
                 }
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                     
-                    Button(role: .destructive) {
-                        todoViewModel.deleteTodo(todo)
-                    } label: {
-                        Label(Localization.labels.delete, systemImage: "trash")
-                    }
-                    .tint(.red)
-                    .accessibilityIdentifier("TodoListDeleteTodo")
-                    
                     Button(action: {
                         todoViewModel.rescheduleTodo(todo: todo)
                     }) {
                         Label(Localization.labels.reschedule, systemImage: "30.arrow.trianglehead.clockwise")
                     }
-                    .tint(.purple)
+                    .tint(Color.theme.yellow)
                     .accessibilityIdentifier("TodoListRescheduleTodo")
+                    
+                    Button(role: .destructive) {
+                        todoViewModel.deleteTodo(todo)
+                    } label: {
+                        Label(Localization.labels.delete, systemImage: "trash")
+                    }
+                    .tint(Color.theme.red)
+                    .accessibilityIdentifier("TodoListDeleteTodo")
+                    
+
                     
                 }
                 .swipeActions(edge: .leading, allowsFullSwipe: true) {
@@ -101,7 +103,7 @@ struct TodoListCoreView: View {
                     } label: {
                         Label(Localization.labels.today, systemImage: "calendar")
                     }
-                    .tint(.blue)
+                    .tint(Color.theme.green)
                     .accessibilityIdentifier("MarkForToday")
                     
                     Button {
@@ -109,7 +111,7 @@ struct TodoListCoreView: View {
                     } label: {
                         Label(Localization.labels.edit, systemImage: "pencil")
                     }
-                    .tint(.green)
+                    .tint(Color.theme.brown)
                     .accessibilityIdentifier("TodoListViewEditTodo")
                     
                     Button {
@@ -117,21 +119,21 @@ struct TodoListCoreView: View {
                     } label: {
                         Label(Localization.labels.shareDetails, systemImage: "square.and.arrow.up")
                     }
-                    .tint(.mint)
+                    .tint(Color.theme.blue)
                     
                     Button {
                         todoViewModel.cloneTodo(todo: todo)
                     } label: {
                         Label(Localization.labels.clone, systemImage: "plus.square.on.square")
                     }
-                    .tint(.gray)
+                    .tint(Color.theme.darkerBrown)
                     
                     Button {
                         sharedTodoDetails = SharedTodoDetailsWrapper(todo: todo)
                     } label: {
                         Label(Localization.labels.copy, systemImage: "doc.on.doc")
                     }
-                    .tint(.cyan)
+                    .tint(Color.theme.graybrown)
                     
                 }
                 .foregroundColor(StyleUtils.getTextColor(todo: todo, isSelectedForToday: todo.selectedForToday))

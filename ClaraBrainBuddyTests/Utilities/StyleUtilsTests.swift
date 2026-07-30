@@ -47,7 +47,7 @@ final class StyleUtilsTests: XCTestCase {
         todo.title = "Due Soon Todo"
         todo.dueDate = soonDate
         let color = StyleUtils.getTextColor(todo: todo, isSelectedForToday: false)
-        XCTAssertEqual(color, Color.theme.orange)
+        XCTAssertEqual(color, Color.theme.yellow)
     }
 
     func testGetTextColorDefault_returnsListText() {
@@ -56,7 +56,7 @@ final class StyleUtilsTests: XCTestCase {
         todo.title = "Future Todo"
         todo.dueDate = futureDate
         let color = StyleUtils.getTextColor(todo: todo, isSelectedForToday: false)
-        XCTAssertEqual(color, Color.theme.listText)
+        XCTAssertEqual(color, Color.theme.surfaceGlassTextColor)
     }
     
     func testGetTextColorForTodayIsDone_returnsGreen() {
@@ -89,7 +89,7 @@ final class StyleUtilsTests: XCTestCase {
         todo.title = "Due Soon Todo"
         todo.dueDate = soonDate
         let color = StyleUtils.getTextColorForToday(todo: todo, isSelectedForToday: false)
-        XCTAssertEqual(color, Color.theme.listText)
+        XCTAssertEqual(color, Color.theme.surfaceGlassTextColor)
     }
 
     func testGetTextColorForTodayDefault_returnsListText() {
@@ -98,7 +98,7 @@ final class StyleUtilsTests: XCTestCase {
         todo.title = "Future Todo"
         todo.dueDate = futureDate
         let color = StyleUtils.getTextColorForToday(todo: todo, isSelectedForToday: false)
-        XCTAssertEqual(color, Color.theme.listText)
+        XCTAssertEqual(color, Color.theme.surfaceGlassTextColor)
     }
     
     func testDateFormatter() {

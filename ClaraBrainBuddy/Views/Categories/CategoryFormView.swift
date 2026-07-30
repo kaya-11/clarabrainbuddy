@@ -80,21 +80,25 @@ struct CategoryFormView: View {
                 
                 Section(header: Text(Localization.labels.categoryDefault)) {
                     Toggle(Localization.labels.categoryDefault, isOn: $isDefault)
+                        .tint(Color.theme.green)
                         .accessibilityIdentifier("CategoryFormIsDefaultToggle")
                 }
                 .sectionSytle()
                 
-                Button(action: {
+                Button{
                     if let category = existingCategory {
                         updateCategory(category)
                     } else {
                         categoryViewModel.addCategory(name: name, color: color, isDefault: isDefault)
                     }
                     presentationMode.wrappedValue.dismiss()
-                }) {
-                    Text(existingCategory == nil ? Localization.labels.saveAddCategory :  Localization.labels.saveEditCategory).accessibilityLabel("CategoryFormSaveButton")
+                } label: {
+                    Label(existingCategory == nil ? Localization.labels.saveAddCategory :  Localization.labels.saveEditCategory, systemImage: "none")
+                        .frame(maxWidth: .infinity)
+                        .bold()
+                        .accessibilityLabel("CategoryFormSaveButton")
                 }
-                .buttonStyle()
+                .buttonStyle(.borderedProminent)
                 .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || showError)
                     
             }

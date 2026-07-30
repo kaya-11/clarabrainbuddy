@@ -116,7 +116,7 @@ struct TodaysListView: View {
                                 } label: {
                                     Label(Localization.labels.remove, systemImage: "minus.square")
                                 }
-                                .tint(.orange)
+                                .tint(Color.theme.graybrown)
                                 .accessibilityIdentifier("RemoveFromTodaysTodos")
                                 
                                 Button(role: .destructive) {
@@ -124,7 +124,7 @@ struct TodaysListView: View {
                                 } label: {
                                     Label(Localization.labels.delete, systemImage: "trash")
                                 }
-                                .tint(.red)
+                                .tint(Color.theme.red)
                                 .accessibilityIdentifier("TodaysTodosDeleteTodo")
                                 
                             }
@@ -136,7 +136,7 @@ struct TodaysListView: View {
                                 } label: {
                                     Label(Localization.labels.done, systemImage: "checkmark.square")
                                 }
-                                .tint(.blue)
+                                .tint(Color.theme.green)
                                 .accessibilityIdentifier("MarkAsDoneButton")
                                 
                                 Button {
@@ -144,14 +144,14 @@ struct TodaysListView: View {
                                 } label: {
                                     Label(Localization.labels.edit, systemImage: "pencil")
                                 }
-                                .tint(.green)
+                                .tint(Color.theme.brown)
                                 
                                 Button {
                                     sharedTodos = SharedTodosWrapper(todos: [todo])
                                 } label: {
                                     Label(Localization.labels.shareDetails, systemImage: "square.and.arrow.up")
                                 }
-                                .tint(.mint)
+                                .tint(Color.theme.blue)
                                 
                                 
                                 Button {
@@ -159,14 +159,14 @@ struct TodaysListView: View {
                                 } label: {
                                     Label(Localization.labels.clone, systemImage: "plus.square.on.square")
                                 }
-                                .tint(.gray)
+                                .tint(Color.theme.darkerBrown)
                                 
                                 Button {
                                     sharedTodoDetails = SharedTodoDetailsWrapper(todo: todo)
                                 } label: {
                                     Label(Localization.labels.copy, systemImage: "doc.on.doc")
                                 }
-                                .tint(.cyan)
+                                .tint(Color.theme.graybrown)
                                 
                             }
                             .foregroundColor(StyleUtils.getTextColorForToday(todo: todo, isSelectedForToday: false))
@@ -190,7 +190,7 @@ struct TodaysListView: View {
                             ForEach(recurringTasks, id: \.objectID) { (todaysTask: RecurringTask) in
                                 let title = todaysTask.title
                                 Text(title)
-                                    .foregroundColor(Color.theme.listText)
+                                    .foregroundColor(Color.theme.surfaceGlassTextColor)
                                     .font(Font.app.listItem)
                                     .listRowBackground(Color.clear)
                                     .swipeActions(edge: .leading, allowsFullSwipe: true) {
@@ -204,7 +204,7 @@ struct TodaysListView: View {
                                         } label: {
                                             Label("Add to Today", systemImage: "plus.square")
                                         } 
-                                        .tint(.green)
+                                        .tint(Color.theme.green)
                                         .accessibilityIdentifier("AddRecurringTaskAsTodayTodoButton")
                                     }
                             }
@@ -238,6 +238,7 @@ struct TodaysListView: View {
                             totalTime: totalTime
                         )
                     }
+                    .foregroundColor(Color.theme.primary)
                 }
                 ToolbarItem(placement: .principal) {
                     Text(Localization.labels.titleToday)
@@ -251,6 +252,7 @@ struct TodaysListView: View {
                                 showingCalenderView = true
                             }) {
                                 Image(systemName: "bell.fill")
+                                    .foregroundColor(Color.theme.primary)
                             }
                             .accessibilityIdentifier("TodayEventsBellButton")
                         }
@@ -258,8 +260,10 @@ struct TodaysListView: View {
                             todoViewModel.reorderTodayTodos(defaultEstimatedTime: settingsViewModel.settings.defaultTimeForEnergyLevelCalculation)
                         }) {
                             CombinedImageView(imageMain: "chart.bar.horizontal.page", imageSmall: "arrow.up.arrow.down")
+                                .foregroundColor(Color.theme.primary)
                         }
                         .accessibilityIdentifier("ReorderTodaysTodosButton")
+    
                         Button(action: {
                             let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
                             if todoViewModel.getTotalTodaysTodosCountNotDone() >= maxCountOfTodosForToday {
@@ -269,6 +273,7 @@ struct TodaysListView: View {
                             }
                         }) {
                             Image(systemName: "plus.circle")
+                                .foregroundColor(Color.theme.primary)
                         }
                         .accessibilityIdentifier("AddTodayTodoButton")
                     }

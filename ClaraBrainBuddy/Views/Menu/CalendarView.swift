@@ -61,12 +61,12 @@ struct CalendarView: View {
                             } label: {
                                 Label(Localization.labels.addTodoToday, systemImage: "calendar")
                             }
-                            .tint(.blue)
+                            .tint(Color.theme.green)
                             .accessibilityIdentifier("AddEventAsTodayTodoButton")
                             
                         }
-                        .foregroundColor(Color.theme.listText)
-                        .listRowBackground(Color.theme.listBackground)
+                        .foregroundColor(Color.theme.surfaceGlassTextColor)
+                        .listRowBackground(Color.theme.surfaceGlassColor)
                         .font(Font.app.listItem)
                     }
                 }

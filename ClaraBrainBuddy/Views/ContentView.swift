@@ -26,17 +26,17 @@ struct ContentView: View {
         if ProcessInfo.processInfo.arguments.contains("--UITestMode") {
             return 5
         }
-        return 3
+        return 8
     }()
 
     var body: some View {
         ZStack {
-            
             TabView(selection: $selectedTab) {
                 TodoListView()
                     .tabItem {
                         Label(Localization.labels.allTodosNav, systemImage: "list.bullet")
-                    }.tag(ClaraTab.all.intValue)
+                    }
+                    .tag(ClaraTab.all.intValue)
                     .accessibility(identifier: "AllTodosTab")
                 TodaysListView()
                     .tabItem {

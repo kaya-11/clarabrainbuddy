@@ -98,8 +98,7 @@ struct TodoFormView: View {
                         .onChange(of: todoFormData.title) {
                             validateTitle(todoFormData.title)
                         }
-                        .background(showErrorTitle ? Color.red.opacity(0.2) : nil)
-                        .foregroundColor(Color.theme.primary)
+                        .background(showErrorTitle ? Color.theme.red.opacity(0.2) : nil)
                         .accessibilityIdentifier("TodoFormTitleTextField")
                     if showErrorTitle {
                         Text(errorMessageTitle)
@@ -107,7 +106,6 @@ struct TodoFormView: View {
                             .font(Font.app.small)
                     }
                 }
-
                 .sectionSytle()
                 
                 Section(header: Text(Localization.labels.details)) {
@@ -157,7 +155,7 @@ struct TodoFormView: View {
                             get: { Double(todoFormData.energyImpact ?? 0) },
                             set: { todoFormData.energyImpact = Int64($0) }
                         ), in: -1...1, step: 1)
-                            .accessibilityIdentifier("TodoFormEnergyImpactField")
+                        .accessibilityIdentifier("TodoFormEnergyImpactField")
                         Battery100Icon()
                     }
                 }
@@ -166,12 +164,13 @@ struct TodoFormView: View {
                 if existingTodo != nil {
                     Section(header: Text(Localization.labels.isDone)) {
                         Toggle(Localization.labels.isDone, isOn: $todoFormData.isDone)
+                            .tint(Color.theme.green)
                             .accessibilityIdentifier("TodoFormIsDoneToggle")
                     }
                     .sectionSytle()
                 }
                 
-                Button(action: {
+                Button {
                     if let todo = existingTodo {
                         updateTodo(todo)
                     } else {
@@ -184,10 +183,13 @@ struct TodoFormView: View {
                             category: todoFormData.category)
                     }
                     presentationMode.wrappedValue.dismiss()
-                }) {
-                    Text(existingTodo == nil ? Localization.labels.saveAddTodo : Localization.labels.saveEditTodo).accessibilityLabel("TodoFormSaveButton")
+                } label: {
+                    Label(existingTodo == nil ? Localization.labels.saveAddTodo : Localization.labels.saveEditTodo, systemImage: "none")
+                        .frame(maxWidth: .infinity)
+                        .bold()
+                        .accessibilityLabel("TodoFormSaveButton")
                 }
-                .buttonStyle()
+                .buttonStyle(.borderedProminent)
                 .disabled(todoFormData.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || showErrorTitle || showErrorDetails )
                     
             }

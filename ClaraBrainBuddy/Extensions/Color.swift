@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 extension Color {
+    
     static let theme = ColorTheme()
     
     init(hex: String) {
@@ -50,24 +51,27 @@ struct ColorTheme {
     let accent: Color = Color("AccentColor")
     let background: Color = Color("BackgroundColor")
     
-    let listBackground: Color = Color("ListBackgroundColor")
-    let listText: Color = Color("ListTextColor")
-
-    let buttonBackground: Color = Color("ListBackgroundColor")
-    let buttonText: Color = Color("ListTextColor")
+    let surfaceGlassColor: Color = Color("SurfaceGlassColor")
+    let surfaceGlassTextColor: Color = Color("SurfaceGlassTextColor")
+    
+    let buttonBackground: Color = Color("SurfaceGlassColor")
+    let buttonText: Color = Color("SurfaceGlassTextColor")
     
     let green: Color = Color("AppGreenColor")
     let red: Color = Color("AppRedColor")
-    let brightred: Color = Color("AppBrightRedColor")
     let blue: Color = Color("AppBlueColor")
     let yellow: Color = Color("AppYellowColor")
     let orange: Color = Color("AppOrangeColor")
     let white: Color = Color("AppWhiteColor")
     let gray : Color = Color("AppGrayColor")
     
-    let resistanceLevel1 : Color = Color("resistanceLevel1")
-    let resistanceLevel2 : Color = Color("resistanceLevel2")
-    let resistanceLevel3 : Color = Color("resistanceLevel3")
-    let resistanceLevel4 : Color = Color("resistanceLevel4")
-    let resistanceLevel5 : Color = Color("resistanceLevel5")
+    let resistanceLevel1 : Color = Color("ResistanceLevel1")
+    let resistanceLevel2 : Color = Color("ResistanceLevel2")
+    let resistanceLevel3 : Color = Color("ResistanceLevel3")
+    let resistanceLevel4 : Color = Color("ResistanceLevel4")
+    let resistanceLevel5 : Color = Color("ResistanceLevel5")
+
+    let brown : Color = Color("AppBrownColor")
+    let darkerBrown : Color = Color("AppDarkerBrownColor")
+    let graybrown : Color = Color("AppGrayBrownColor")
 }

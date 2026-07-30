@@ -7,23 +7,20 @@
 
 import SwiftUI
 
-struct InputFieldStyle: ViewModifier {
+struct SectionStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .listRowBackground(Color.theme.listBackground)
-            .foregroundColor(Color.theme.listText)
+            .listRowBackground(Color.theme.surfaceGlassColor.opacity(0.8))
+            .foregroundColor(Color.theme.surfaceGlassTextColor)
             .accentColor(Color.theme.accent)
             .font(Font.app.section)
     }
 }
 
-struct ButtonStyle: ViewModifier {
+struct ClaraBackground: ViewModifier {
     func body(content: Content) -> some View {
-        content
-            .listRowBackground(Color.theme.listBackground)
-            .foregroundStyle(Color.theme.listText)
-            .tint(Color.theme.accent)
-            .font(Font.app.button)
+       content
+            .background(Color.theme.background.ignoresSafeArea())
     }
 }
 
@@ -67,18 +64,13 @@ extension View {
         self
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .scrollContentBackground(.hidden)
-            //.foregroundColor(Color.theme.primary)
-            //.accentColor(Color.theme.accent)
-            //.background(Color.theme.background)
+            .modifier(ClaraBackground())
     }
     
     func sectionSytle() -> some View {
-        self.modifier(InputFieldStyle())
+        self.modifier(SectionStyle())
     }
     
-    func buttonStyle() -> some View {
-        self.modifier(ButtonStyle())
-    }
 }
 
 

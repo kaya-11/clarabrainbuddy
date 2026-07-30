@@ -17,9 +17,9 @@ struct StyleUtils {
         } else if todo.isOverdue {
             return Color.theme.red
         } else if todo.isDueSoon {
-            return Color.theme.orange
+            return Color.theme.yellow
         }
-        return Color.theme.listText
+        return Color.theme.surfaceGlassTextColor
     }
 
     static func getTextColorForToday(todo: Todo, isSelectedForToday: Bool) -> Color {
@@ -30,7 +30,7 @@ struct StyleUtils {
         } else if todo.isOverdue {
             return Color.theme.red
         }
-        return Color.theme.listText
+        return Color.theme.surfaceGlassTextColor
     }
     
     static let dateFormatter: DateFormatter = {

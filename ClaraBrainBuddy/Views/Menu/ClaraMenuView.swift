@@ -43,6 +43,7 @@ struct ClaraMenuView: View {
                 isTodaysEventsPresented = true
             }) {
                 Label(Localization.labels.upcomingEvents, systemImage: "clock")
+                    .foregroundColor(Color.theme.primary)
             }
             .accessibilityIdentifier("CalenderViewButton")
             
@@ -52,12 +53,14 @@ struct ClaraMenuView: View {
                 }
             }) {
                 Label(Localization.labels.openCalendar, systemImage: "calendar")
+                    .foregroundColor(Color.theme.primary)
             }
             
             Button(action: {
                 isPriorityMatrixPresented = true
             }) {
                 Label(Localization.labels.priorityMatrix, systemImage: "arrow.clockwise")
+                    .foregroundColor(Color.theme.primary)
             }
             .accessibilityIdentifier("PriorityMatrixButton")
             
@@ -65,6 +68,7 @@ struct ClaraMenuView: View {
                 isSettingsPresented = true
             }) {
                 Label(Localization.labels.properties, systemImage: "gearshape")
+                    .foregroundColor(Color.theme.primary)
             }
             .accessibilityIdentifier("SettingsButton")
             
@@ -89,12 +93,14 @@ struct ClaraMenuView: View {
                 
             }) {
                 Label(Localization.labels.exportAll, systemImage: "square.and.arrow.up")
+                    .foregroundColor(Color.theme.primary)
             }
             
             Button(action: {
                 isImporting = true
             }) {
                 Label(Localization.labels.importTodo, systemImage: "square.and.arrow.down")
+                    .foregroundColor(Color.theme.primary)
             }
             
             Button (action: {
@@ -105,6 +111,7 @@ struct ClaraMenuView: View {
             
         } label: {
             Label("Menu", systemImage: "line.horizontal.3")
+                .foregroundColor(Color.theme.primary)
                 .accessibilityIdentifier("ClaraMenu")
         }
         .sheet(isPresented: $isPriorityMatrixPresented) {
@@ -164,5 +171,6 @@ struct ClaraMenuView: View {
         .sheet(isPresented: $isAboutViewPresented) {
             AboutView()
         }
+        .foregroundColor(Color.theme.primary)
     }
 }
