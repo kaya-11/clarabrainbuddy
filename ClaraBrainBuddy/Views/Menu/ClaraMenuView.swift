@@ -71,7 +71,8 @@ struct ClaraMenuView: View {
             Button(action: {
                 isCategoriesListPresented = true
             }) {
-                Label(Localization.labels.categories, systemImage: "tag")
+                Label(Localization.labels.categories, systemImage: "line.3.horizontal.decrease")
+                    .foregroundColor(Color.theme.primary)
             }
             .accessibilityIdentifier("CategoriesListButton")
             
