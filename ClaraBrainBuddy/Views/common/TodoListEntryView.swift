@@ -46,11 +46,11 @@ struct TodoListEntryView: View {
                         .foregroundColor(Color.theme.green)
                 } else if !isInTodayView && showSymbols {
                     if showAsSelectedForToday {
-                        Image(systemName: "wind")
+                        Image(systemName: "play.circle.fill")
                     } else if isOverdue {
-                        Image(systemName: "cloud.drizzle.fill")
+                        Image(systemName: "exclamationmark.circle.fill")
                     } else if isDueSoon {
-                        Image(systemName: "leaf")
+                        Image(systemName: "exclamationmark.circle.fill")
                     }
                 }
 
