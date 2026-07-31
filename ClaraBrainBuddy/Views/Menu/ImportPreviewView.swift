@@ -79,7 +79,8 @@ struct ImportPreviewView: View {
                     if !importedTodos.isEmpty {
                         Button(Localization.labels.importing, action: {
                             onConfirm(importedTodos)
-                        }).buttonStyle(.borderedProminent)
+                        })
+                        .buttonStyle()
                     }
                 }
             }

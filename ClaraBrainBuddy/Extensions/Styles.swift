@@ -24,6 +24,16 @@ struct ClaraBackground: ViewModifier {
     }
 }
 
+struct ButtonStyle: ViewModifier {
+    func body(content: Content) -> some View {
+       content
+            .buttonStyle(.borderedProminent)
+            .listRowBackground(Color.clear)
+            .listRowInsets(EdgeInsets())
+    }
+}
+
+
 struct Battery50Icon: View {
     
     var size : CGFloat = 24.0
@@ -69,6 +79,10 @@ extension View {
     
     func sectionSytle() -> some View {
         self.modifier(SectionStyle())
+    }
+    
+    func buttonStyle() -> some View {
+        self.modifier(ButtonStyle())
     }
     
 }

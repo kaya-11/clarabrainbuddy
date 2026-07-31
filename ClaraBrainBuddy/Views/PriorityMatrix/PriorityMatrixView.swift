@@ -73,7 +73,7 @@ struct PriorityMatrixView: View {
                                     .accessibilityIdentifier("RearrangeButton")
                             }
                             .padding(.horizontal, 24)
-                            .buttonStyle(.borderedProminent)
+                            .buttonStyle()
                         }
                         .frame(maxWidth: .infinity, maxHeight: 260, alignment: .center)
                         

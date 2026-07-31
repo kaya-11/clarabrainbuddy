@@ -151,7 +151,7 @@ struct SettingsView: View {
                         .bold()
                         .foregroundColor(Color.theme.primary)
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle()
                 .accessibilityIdentifier("SaveSettingsButton")
             }
             .appTheme()

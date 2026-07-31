@@ -196,7 +196,7 @@ struct RecurringTaskFormView: View {
                         .frame(maxWidth: .infinity)
                         .bold()
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle()
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 .accessibilityIdentifier("TaskFormSaveButton")
             }

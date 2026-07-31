@@ -44,7 +44,7 @@ struct InfoView: View {
                                 .frame(maxWidth: .infinity)
                                 .bold()
                         }
-                        .buttonStyle(.borderedProminent)
+                        .buttonStyle()
                         .padding()
                     }
                 }

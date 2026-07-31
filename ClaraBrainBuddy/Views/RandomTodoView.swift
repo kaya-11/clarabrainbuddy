@@ -96,7 +96,7 @@ struct RandomTodoView: View {
                     .accessibilityIdentifier("NoTodosText")
             }
         }
-        .frame(maxWidth: 400, maxHeight: 500)
+        .frame(maxWidth: 400, maxHeight: 505)
         .background(Color.theme.surfaceGlassColor)
         .cornerRadius(20)
         .padding()
