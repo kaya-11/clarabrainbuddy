@@ -46,7 +46,7 @@ struct ContentView: View {
                 if categotyViewModel.hasCategories() {
                     CategoriesOverviewView()
                         .tabItem {
-                            Label(Localization.labels.categoriesNav, systemImage: "tag")
+                            Label(Localization.labels.categoriesNav, systemImage: "line.3.horizontal.decrease")
                         }.tag(ClaraTab.categories.intValue)
                         .accessibility(identifier: "CategoriesTab")
                 }
