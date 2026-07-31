@@ -98,7 +98,7 @@ struct CategoryFormView: View {
                         .bold()
                         .accessibilityLabel("CategoryFormSaveButton")
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle()
                 .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || showError)
                     
             }

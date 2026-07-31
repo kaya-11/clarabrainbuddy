@@ -121,7 +121,7 @@ struct TodoTodayFormView: View {
                         .frame(maxWidth: .infinity)
                         .bold()
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle()
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || showErrorTitle || showErrorDetails)
                 .accessibilityLabel("TodaysTodoFormSaveButton")
                 

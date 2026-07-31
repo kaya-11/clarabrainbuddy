@@ -189,7 +189,7 @@ struct TodoFormView: View {
                         .bold()
                         .accessibilityLabel("TodoFormSaveButton")
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle()
                 .disabled(todoFormData.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || showErrorTitle || showErrorDetails )
                     
             }
