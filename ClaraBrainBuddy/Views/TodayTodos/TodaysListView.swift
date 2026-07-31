@@ -151,7 +151,7 @@ struct TodaysListView: View {
                                 } label: {
                                     Label(Localization.labels.shareDetails, systemImage: "square.and.arrow.up")
                                 }
-                                .tint(Color.theme.blue)
+                                .tint(Color.theme.mauve)
                                 
                                 
                                 Button {

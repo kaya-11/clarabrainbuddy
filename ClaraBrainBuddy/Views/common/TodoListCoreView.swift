@@ -103,7 +103,7 @@ struct TodoListCoreView: View {
                     } label: {
                         Label(Localization.labels.today, systemImage: "calendar")
                     }
-                    .tint(Color.theme.green)
+                    .tint(Color.theme.blue)
                     .accessibilityIdentifier("MarkForToday")
                     
                     Button {
@@ -119,7 +119,7 @@ struct TodoListCoreView: View {
                     } label: {
                         Label(Localization.labels.shareDetails, systemImage: "square.and.arrow.up")
                     }
-                    .tint(Color.theme.blue)
+                    .tint(Color.theme.mauve)
                     
                     Button {
                         todoViewModel.cloneTodo(todo: todo)
