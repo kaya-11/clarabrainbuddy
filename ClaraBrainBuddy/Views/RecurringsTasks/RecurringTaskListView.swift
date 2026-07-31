@@ -87,8 +87,6 @@ struct RecurringTaskListView: View {
                             existingTask: task
                         )
                 }
-                
-                Spacer(minLength: 20)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .appTheme()
