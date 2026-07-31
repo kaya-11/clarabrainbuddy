@@ -57,10 +57,7 @@ struct ContentView: View {
                     .accessibility(identifier: "RecurringTaskTab")
             }
             .tabViewStyle(.tabBarOnly)
-            .toolbarBackground(Color.theme.background, for: .tabBar)
-            .toolbarBackground(.hidden, for: .tabBar)
-            
-            
+                        
             if showRandomTodoView {
                 RandomTodoView(isPresented: $showRandomTodoView)
                     .transition(.opacity)

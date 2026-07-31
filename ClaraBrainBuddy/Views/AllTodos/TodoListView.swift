@@ -41,8 +41,6 @@ struct TodoListView: View {
                     sharedTodos: $sharedTodos,
                     showingAddTodo: $showingAddTodo
                 )
-                
-                Spacer(minLength: 20)
             }
             .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
             .frame(maxWidth: .infinity, maxHeight: .infinity)

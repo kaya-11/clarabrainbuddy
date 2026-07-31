@@ -72,8 +72,6 @@ struct CategoriesOverviewView: View {
                     sharedTodos: $sharedTodos,
                     showingAddTodo: $showingAddTodo
                 )
-                
-                Spacer(minLength: 20)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .appTheme()
