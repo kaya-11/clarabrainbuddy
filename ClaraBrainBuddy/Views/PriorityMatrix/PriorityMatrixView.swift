@@ -39,50 +39,56 @@ struct PriorityMatrixView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            VStack(spacing: 0) {
-                VStack(alignment: .leading, spacing: 16) {
-                    if !todayTasks.isEmpty {
-                        VStack {
-                            List {
-                                ForEach(todayTasks) { task in
-                                    TodoListEntrySimpleView(todo: task)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .contentShape(Rectangle())
-                                        .onDrag {
-                                            NSItemProvider(object: String(task.objectID.uriRepresentation().absoluteString) as NSString)
-                                        }
-                                }
-                            }
-                            .listStyle(.plain)
-                            .scrollContentBackground(.hidden)
-                            .background(Color.clear)
-                            .frame(width: 260, height: 260, alignment: .top)
-                        }
-                        .accessibilityIdentifier("PriorityTodoContainer")
-                        .frame(maxHeight: 260, alignment: .center)
-                        .padding(.leading, 30)
-                    } else {
-                        VStack {
-                            Button {
-                                    onConfirm(urgentTasks, importantAndUrgentTasks, nothingOfBothTasks, importantTasks)
-                            } label: {
-                                Label(Localization.labels.rearrange, systemImage: "none")
-                                    .frame(maxWidth: .infinity)
-                                    .bold()
-                                    .accessibilityIdentifier("RearrangeButton")
-                            }
-                            .padding(.horizontal, 24)
-                            .buttonStyle()
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: 260, alignment: .center)
-                        
-                    }
-                }
-                .frame(height: 260, alignment: .top)
-                
-                Spacer(minLength: 30)
+        NavigationView {
+            VStack(spacing: 16) {
+                if !todayTasks.isEmpty {
                     
+                    ScrollView {
+                        LazyVStack(alignment: .leading, spacing: 8) {
+                            ForEach(todayTasks) { task in
+                                TodoListEntrySimpleView(todo: task)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .contentShape(Rectangle())
+                                    .onDrag {
+                                        NSItemProvider(object: task.objectID.uriRepresentation().absoluteString as NSString)
+                                    } preview: {
+                                        Text(task.title.count > 10 ? String(task.title.prefix(10) + "...") : task.title)
+                                            .font(Font.app.tiny)
+                                            .lineLimit(1)
+                                            .padding(.horizontal, 12)
+                                            .padding(.vertical, 6)
+                                    }
+                            }
+                        }
+                        .padding(.horizontal, 16)
+                    }
+                    .accessibilityIdentifier("PriorityTodoContainer")
+                    .frame(maxWidth: 280)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                    .padding(.top, 24 )
+                
+
+                } else {
+                    
+                    VStack {
+                        Button {
+                            onConfirm(urgentTasks, importantAndUrgentTasks, nothingOfBothTasks, importantTasks)
+                        } label: {
+                            Label(Localization.labels.rearrange, systemImage: "none")
+                                .frame(maxWidth: .infinity)
+                                .bold()
+                                .accessibilityIdentifier("RearrangeButton")
+                        }
+                        .padding(.horizontal, 24)
+                        .buttonStyle()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                    .padding(.top, 24 )
+                    
+                    Spacer(minLength: 0)
+                }
+                    
+                
                 PriorityBox(
                     todayTasks: $todayTasks,
                     urgentTasks: $urgentTasks,
@@ -90,9 +96,8 @@ struct PriorityMatrixView: View {
                     nothingOfBothTasks: $nothingOfBothTasks,
                     importantTasks: $importantTasks
                 )
-                .frame(height: 300)
+                .padding(.bottom, 16)
                 
-                Spacer(minLength: 30)
             }
             .appTheme()
             .toolbar {
