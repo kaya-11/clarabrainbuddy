@@ -22,24 +22,21 @@ struct PriorityBox: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack(spacing: 16) {
-                
                 PriorityDropView(
                     priority: .importantAndUrgent,
                     tasks: $importantAndUrgentTasks
-                )
-                .accessibilityIdentifier("ImportantAndUrgentView")
-                .onDrop(of: [UTType.text], isTargeted: nil) { providers in
-                    handleDrop(providers: providers, target: $importantAndUrgentTasks)
+                ) { uri in
+                    moveTodo(withURI: uri, to: $importantAndUrgentTasks)
                 }
+                .accessibilityIdentifier("ImportantAndUrgentView")
                 
                 PriorityDropView(
                     priority: .urgent,
                     tasks: $urgentTasks
-                )
-                .accessibilityIdentifier("UrgentView")
-                .onDrop(of: [UTType.text], isTargeted: nil) { providers in
-                    handleDrop(providers: providers, target: $urgentTasks)
+                ) { uri in
+                    moveTodo(withURI: uri, to: $urgentTasks)
                 }
+                .accessibilityIdentifier("UrgentView")
             }
             .padding(.horizontal, 16)
             
@@ -48,56 +45,45 @@ struct PriorityBox: View {
                 PriorityDropView(
                     priority: .important,
                     tasks: $importantTasks
-                )
-                .accessibilityIdentifier("ImportanttView")
-                .onDrop(of: [UTType.text], isTargeted: nil) { providers in
-                    handleDrop(providers: providers, target: $importantTasks)
+                ) { uri in
+                    moveTodo(withURI: uri, to: $importantTasks)
                 }
+                .accessibilityIdentifier("ImportanttView")
 
                 PriorityDropView(
                     priority: .nothingOfBoth,
                     tasks: $nothingOfBothTasks
-                )
-                .accessibilityIdentifier("NothingOfBoth")
-                .onDrop(of: [UTType.text], isTargeted: nil) { providers in
-                    handleDrop(providers: providers, target: $nothingOfBothTasks)
+                ){ uri in
+                    moveTodo(withURI: uri, to: $nothingOfBothTasks)
                 }
+                .accessibilityIdentifier("NothingOfBoth")
             }
             .padding(.horizontal, 16)
         }
+        .background(Color.clear)
         .padding(.horizontal)
     }
     
-    private func handleDrop(providers: [NSItemProvider], target: Binding<[Todo]>) -> Bool {
-        for provider in providers {
-            provider.loadItem(forTypeIdentifier: UTType.text.identifier) { (item, error) in
-                DispatchQueue.main.async {
-                    if let data = item as? Data {
-                        let uriString = String(decoding: data, as: UTF8.self)
-                        moveTodo(withURI: uriString, to: target)
-                    }
-                }
-            }
-        }
-        return true
-    }
-
     private func moveTodo(withURI uriString: String, to target: Binding<[Todo]>) {
-        // 1. Suche in todayTasks (Ursprungsliste)
-        if let index = todayTasks.firstIndex(where: { $0.objectID.uriRepresentation().absoluteString == uriString }) {
-            target.wrappedValue.append(todayTasks.remove(at: index))
+
+        // Nicht verschieben, wenn das Todo schon in der Ziel-Liste liegt
+        if target.wrappedValue.contains(where: { $0.objectID.uriRepresentation().absoluteString == uriString }) {
             return
         }
 
-        // 2. Suche in den DropViews
-        if let index = urgentTasks.firstIndex(where: { $0.objectID.uriRepresentation().absoluteString == uriString }) {
-            target.wrappedValue.append(urgentTasks.remove(at: index))
-        } else if let index = importantAndUrgentTasks.firstIndex(where: { $0.objectID.uriRepresentation().absoluteString == uriString }) {
-            target.wrappedValue.append(importantAndUrgentTasks.remove(at: index))
-        } else if let index = nothingOfBothTasks.firstIndex(where: { $0.objectID.uriRepresentation().absoluteString == uriString }) {
-            target.wrappedValue.append(nothingOfBothTasks.remove(at: index))
-        } else if let index = importantTasks.firstIndex(where: { $0.objectID.uriRepresentation().absoluteString == uriString }) {
-            target.wrappedValue.append(importantTasks.remove(at: index))
+        let allSources: [Binding<[Todo]>] = [
+            $todayTasks, $urgentTasks, $importantAndUrgentTasks,
+            $nothingOfBothTasks, $importantTasks
+        ]
+
+        for source in allSources {
+            if let index = source.wrappedValue.firstIndex(where: {
+                $0.objectID.uriRepresentation().absoluteString == uriString
+            }) {
+                let todo = source.wrappedValue.remove(at: index)
+                target.wrappedValue.append(todo)
+                return
+            }
         }
     }
 }
