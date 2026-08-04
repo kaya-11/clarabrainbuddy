@@ -64,6 +64,12 @@ struct TodoListCoreView: View {
                 .id(todo.updatedAt)
                 .onDrag {
                     NSItemProvider(object: String(todo.objectID.uriRepresentation().absoluteString) as NSString)
+                } preview: {
+                    Text(TodoUtils.getShortenedTitle(todo, maxLength: 30))
+                        .font(Font.app.tiny)
+                        .lineLimit(1)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
                 }
                 .strikethrough(todo.isDone, color: Color.theme.primary)
                 .bold(todo.selectedForToday)
