@@ -52,7 +52,7 @@ struct PriorityMatrixView: View {
                                     .onDrag {
                                         NSItemProvider(object: task.objectID.uriRepresentation().absoluteString as NSString)
                                     } preview: {
-                                        Text(task.title.count > 10 ? String(task.title.prefix(10) + "...") : task.title)
+                                        Text(TodoUtils.getShortenedTitle(task, maxLength: 10))
                                             .font(Font.app.tiny)
                                             .lineLimit(1)
                                             .padding(.horizontal, 12)

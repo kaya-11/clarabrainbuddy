@@ -45,14 +45,14 @@ struct CategoriesOverviewView: View {
                     spacing: 16
                 ) {
                     ForEach(categories, id: \.self) { category in
-                        CategoryBubbleView(category: category)
-                            .id(category.updatedAt)
-                            .onTapGesture {
-                                selectedCategory = category
-                            }
-                            .onDrop(of: [UTType.text], isTargeted: nil) { providers in
-                                                            handleDrop(providers: providers, category: category)
-                                                        }
+                        CategoryBubbleView(
+                            category: category,
+                            onDrop: handleDrop
+                        )
+                        .id(category.updatedAt)
+                        .onTapGesture {
+                            selectedCategory = category
+                        }
                     }
                 }
                 .accessibilityIdentifier("CategoriesOverviewContainer")
@@ -101,8 +101,7 @@ struct CategoriesOverviewView: View {
         }
     }
     
-    private func handleDrop(providers: [NSItemProvider], category: Category?) -> Bool {
-        guard let category = category else { return false }
+    private func handleDrop(providers: [NSItemProvider], category: Category) -> Bool {
         for provider in providers {
             provider.loadItem(forTypeIdentifier: UTType.text.identifier) { (item, error) in
                 DispatchQueue.main.async {
@@ -114,7 +113,7 @@ struct CategoriesOverviewView: View {
         }
         return true
     }
-    
+        
     private func findAndChangeCategoryForTodo(withURI uriString: String, to targetCategory: Category) {
         for todo in todoViewModel.allTodos {
             if todo.objectID.uriRepresentation().absoluteString == uriString {
