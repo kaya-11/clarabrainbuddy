@@ -76,19 +76,20 @@ final class PriorityMatrixUITests: XCTestCase {
     }
     
     func dragTask(title: String, matrix: String) {
-        let priorityTodoContainer = app.collectionViews["PriorityTodoContainer"]
-        let taskCell = priorityTodoContainer.cells.containing(.staticText, identifier: title).element(boundBy: 0)
-        XCTAssertTrue(taskCell.waitForExistence(timeout: 2), "\(title) sollte in der PriorityMatrixView sichtbar sein")
+        let container = app.scrollViews["PriorityTodoContainer"]
+        XCTAssertTrue(container.waitForExistence(timeout: 3))
 
-        let nothingOfBothView = app.staticTexts[matrix]
-        XCTAssertTrue(nothingOfBothView.waitForExistence(timeout: 2), "'\(matrix)' Box sollte sichtbar sein")
+        let taskCell = container.staticTexts["TodoCell_\(title)"]
+        //print(app.debugDescription)
+        XCTAssertTrue(taskCell.waitForExistence(timeout: 3))
         
-        let taskCellFrame = taskCell.frame
-        let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0)).withOffset(CGVector(dx: taskCellFrame.midX, dy: taskCellFrame.midY))
-
-        let end = nothingOfBothView.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        let target = app.staticTexts[matrix]
+        XCTAssertTrue(target.waitForExistence(timeout: 2), "'\(matrix)' Box sollte sichtbar sein")
+    
+        let start = taskCell.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        let end = target.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
         start.press(forDuration: 0.5, thenDragTo: end)
-        
+
         sleep(1)
     }
     

@@ -19,5 +19,9 @@ struct TodoListEntrySimpleView: View {
                     .foregroundColor(.secondary)
 
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityIdentifier("TodoCell_\(todo.title)")
+        .contentShape(Rectangle())
+        .accessibilityLabel("\(todo.title), \(StyleUtils.dateFormatter.string(from: todo.dueDate))")
     }
 }
