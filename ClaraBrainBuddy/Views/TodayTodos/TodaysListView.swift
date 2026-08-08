@@ -74,160 +74,186 @@ struct TodaysListView: View {
     }
     
     var body: some View {
+        
         NavigationView {
-            VStack {
+            
+            VStack (spacing: 0) {
                 
-                if todayTodos.isEmpty && recurringTasks.isEmpty {
-                    Text(Localization.labels.noTodosToday)
-                        .foregroundColor(Color.theme.primary)
-                        .font(.title)
-                        .padding()
-                } else {
-                    
-                    Text("\(Localization.labels.todosPickedForToday):")
-                            .foregroundColor(Color.theme.primary)
-                            .font(Font.app.header)
-                            .textCase(.none)
-                            .padding(.top, 28)
-                    
-                    List {
+                GeometryReader { geo in
+                
+                    VStack(spacing: 0) {
                         
-                        ForEach(todayTodos, id: \.objectID) { (todayTodo: TodayTodo) in
-                            let todo: Todo = todayTodo.todo
+                        if todayTodos.isEmpty && recurringTasks.isEmpty {
+                            Text(Localization.labels.noTodosToday)
+                                .foregroundColor(Color.theme.primary)
+                                .font(Font.app.header)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding(.top, 60)
+                        } else {
+                            List {
                                 
-                            TodoListEntryView(
-                                todoViewModel: todoViewModel,
-                                todo: todo,
-                                showAsSelectedForToday: true,
-                                isInTodayView: true,
-                                showSymbols: settingsViewModel.settings.showSymbols,
-                                showDueDate: settingsViewModel.settings.showDueDateInSchedule,
-                                showResistance: settingsViewModel.settings.showResistanceInTodayView
-                            )
-                            .onDrag {
-                                NSItemProvider(object: String(todo.objectID.uriRepresentation().absoluteString) as NSString)
-                            } preview: {
-                                Text(TodoUtils.getShortenedTitle(todo, maxLength: 30))
-                                    .font(Font.app.tiny)
-                                    .lineLimit(1)
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 6)
-                            }
-                            .onTapGesture(count: 2) {
-                                selectedTodo = todo
-                            }
-                            .strikethrough(todo.isDone, color: Color.theme.primary)
-                            .italic(todo.isDone)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                
-                                Button(role: .destructive) {
-                                    todoViewModel.deselectForToday(todo)
-                                } label: {
-                                    Label(Localization.labels.remove, systemImage: "minus.square")
-                                }
-                                .tint(Color.theme.graybrown)
-                                .accessibilityIdentifier("RemoveFromTodaysTodos")
-                                
-                                Button(role: .destructive) {
-                                    todoViewModel.deleteTodo(todo)
-                                } label: {
-                                    Label(Localization.labels.delete, systemImage: "trash")
-                                }
-                                .tint(Color.theme.red)
-                                .accessibilityIdentifier("TodaysTodosDeleteTodo")
-                                
-                            }
-                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                                
-                                Button {
-                                    todoViewModel.setToDone(todayTodo)
-                                    DeviceFeedback.vibrateTwice()
-                                } label: {
-                                    Label(Localization.labels.done, systemImage: "checkmark.square")
-                                }
-                                .tint(Color.theme.green)
-                                .accessibilityIdentifier("MarkAsDoneButton")
-                                
-                                Button {
-                                    selectedTodo = todo
-                                } label: {
-                                    Label(Localization.labels.edit, systemImage: "pencil")
-                                }
-                                .tint(Color.theme.brown)
-                                
-                                Button {
-                                    sharedTodos = SharedTodosWrapper(todos: [todo])
-                                } label: {
-                                    Label(Localization.labels.shareDetails, systemImage: "square.and.arrow.up")
-                                }
-                                .tint(Color.theme.mauve)
-                                
-                                
-                                Button {
-                                    todoViewModel.cloneTodo(todo: todo)
-                                } label: {
-                                    Label(Localization.labels.clone, systemImage: "plus.square.on.square")
-                                }
-                                .tint(Color.theme.darkerBrown)
-                                
-                                Button {
-                                    sharedTodoDetails = SharedTodoDetailsWrapper(todo: todo)
-                                } label: {
-                                    Label(Localization.labels.copy, systemImage: "doc.on.doc")
-                                }
-                                .tint(Color.theme.graybrown)
-                                
-                            }
-                            .foregroundColor(StyleUtils.getTextColorForToday(todo: todo, isSelectedForToday: false))
-                            .listRowBackground(Color.clear)
-                            .font(Font.app.listItem)
-                        }
-                        .onMove(perform: move)
-                    }
-                    .accessibilityIdentifier("TodaysListContainer")
-                    .background(Color.clear)
-                    .frame(width: 400, height: recurringTasks.isEmpty ? 450 : 300)
-                    
-                    if (!recurringTasks.isEmpty) {
-                        Text("\(Localization.labels.recurringTasksToday):")
-                            .foregroundColor(Color.theme.primary)
-                            .font(Font.app.header)
-                            .textCase(.none)
-                            .padding(.top, 28)
-                        
-                        List {
-                            ForEach(recurringTasks, id: \.objectID) { (todaysTask: RecurringTask) in
-                                let title = todaysTask.title
-                                Text(title)
-                                    .foregroundColor(Color.theme.surfaceGlassTextColor)
-                                    .font(Font.app.listItem)
+                                Text("\(Localization.labels.todosPickedForToday):")
+                                    .foregroundColor(Color.theme.primary)
+                                    .font(Font.app.header)
+                                    .textCase(.none)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
                                     .listRowBackground(Color.clear)
-                                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                                        Button {
-                                            let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
-                                            if todoViewModel.getTotalTodaysTodosCountNotDone() >= maxCountOfTodosForToday {
-                                                    showErrorMessage = true
-                                            } else {
-                                                todoViewModel.addRecurringTaskAsTodoForToday(todaysTask)
-                                            }
-                                        } label: {
-                                            Label("Add to Today", systemImage: "plus.square")
-                                        } 
-                                        .tint(Color.theme.green)
-                                        .accessibilityIdentifier("AddRecurringTaskAsTodayTodoButton")
+                                    .listRowSeparator(.hidden)
+                                    .moveDisabled(true)
+                                    .deleteDisabled(true)
+                                    .selectionDisabled(true)
+                                
+                                ForEach(todayTodos, id: \.objectID) { (todayTodo: TodayTodo) in
+                                    let todo: Todo = todayTodo.todo
+                                    
+                                    TodoListEntryView(
+                                        todoViewModel: todoViewModel,
+                                        todo: todo,
+                                        showAsSelectedForToday: true,
+                                        isInTodayView: true,
+                                        showSymbols: settingsViewModel.settings.showSymbols,
+                                        showDueDate: settingsViewModel.settings.showDueDateInSchedule,
+                                        showResistance: settingsViewModel.settings.showResistanceInTodayView
+                                    )
+                                    .onDrag {
+                                        NSItemProvider(object: String(todo.objectID.uriRepresentation().absoluteString) as NSString)
+                                    } preview: {
+                                        Text(TodoUtils.getShortenedTitle(todo, maxLength: 30))
+                                            .font(Font.app.tiny)
+                                            .lineLimit(1)
+                                            .padding(.horizontal, 12)
+                                            .padding(.vertical, 6)
                                     }
+                                    .onTapGesture(count: 2) {
+                                        selectedTodo = todo
+                                    }
+                                    .strikethrough(todo.isDone, color: Color.theme.primary)
+                                    .italic(todo.isDone)
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                        
+                                        Button(role: .destructive) {
+                                            todoViewModel.deselectForToday(todo)
+                                        } label: {
+                                            Label(Localization.labels.remove, systemImage: "minus.square")
+                                        }
+                                        .tint(Color.theme.graybrown)
+                                        .accessibilityIdentifier("RemoveFromTodaysTodos")
+                                        
+                                        Button(role: .destructive) {
+                                            todoViewModel.deleteTodo(todo)
+                                        } label: {
+                                            Label(Localization.labels.delete, systemImage: "trash")
+                                        }
+                                        .tint(Color.theme.red)
+                                        .accessibilityIdentifier("TodaysTodosDeleteTodo")
+                                        
+                                    }
+                                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                                        
+                                        Button {
+                                            todoViewModel.setToDone(todayTodo)
+                                            DeviceFeedback.vibrateTwice()
+                                        } label: {
+                                            Label(Localization.labels.done, systemImage: "checkmark.square")
+                                        }
+                                        .tint(Color.theme.green)
+                                        .accessibilityIdentifier("MarkAsDoneButton")
+                                        
+                                        Button {
+                                            selectedTodo = todo
+                                        } label: {
+                                            Label(Localization.labels.edit, systemImage: "pencil")
+                                        }
+                                        .tint(Color.theme.brown)
+                                        
+                                        Button {
+                                            sharedTodos = SharedTodosWrapper(todos: [todo])
+                                        } label: {
+                                            Label(Localization.labels.shareDetails, systemImage: "square.and.arrow.up")
+                                        }
+                                        .tint(Color.theme.mauve)
+                                        
+                                        
+                                        Button {
+                                            todoViewModel.cloneTodo(todo: todo)
+                                        } label: {
+                                            Label(Localization.labels.clone, systemImage: "plus.square.on.square")
+                                        }
+                                        .tint(Color.theme.darkerBrown)
+                                        
+                                        Button {
+                                            sharedTodoDetails = SharedTodoDetailsWrapper(todo: todo)
+                                        } label: {
+                                            Label(Localization.labels.copy, systemImage: "doc.on.doc")
+                                        }
+                                        .tint(Color.theme.graybrown)
+                                        
+                                    }
+                                    .foregroundColor(StyleUtils.getTextColorForToday(todo: todo, isSelectedForToday: false))
+                                    .listRowBackground(Color.clear)
+                                    .font(Font.app.listItem)
+                                }
+                                .onMove(perform: move)
                             }
+                            .accessibilityIdentifier("TodaysListContainer")
+                            .background(Color.clear)
+                            .frame(height: recurringTasks.isEmpty ? geo.size.height - 130 : geo.size.height *  0.618)
+                            
+                            Spacer(minLength: 10)
+                            
+                            VStack (spacing: 0) {
+                                
+                                if (!recurringTasks.isEmpty) {
+                                    
+                                    Text("\(Localization.labels.recurringTasksToday):")
+                                        .foregroundColor(Color.theme.primary)
+                                        .font(Font.app.header)
+                                        .textCase(.none)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.leading, 30)
+                                    
+                                    List {
+                                        
+                                        ForEach(recurringTasks, id: \.objectID) { (todaysTask: RecurringTask) in
+                                            let title = todaysTask.title
+                                            Text(title)
+                                                .foregroundColor(Color.theme.surfaceGlassTextColor)
+                                                .font(Font.app.listItem)
+                                                .listRowBackground(Color.clear)
+                                                .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                                                    Button {
+                                                        let maxCountOfTodosForToday: Int = settingsViewModel.settings.maxTodosForToday
+                                                        if todoViewModel.getTotalTodaysTodosCountNotDone() >= maxCountOfTodosForToday {
+                                                            showErrorMessage = true
+                                                        } else {
+                                                            todoViewModel.addRecurringTaskAsTodoForToday(todaysTask)
+                                                        }
+                                                    } label: {
+                                                        Label("Add to Today", systemImage: "plus.square")
+                                                    }
+                                                    .tint(Color.theme.green)
+                                                    .accessibilityIdentifier("AddRecurringTaskAsTodayTodoButton")
+                                                }
+                                        }
+                                    }
+                                    .contentMargins(.top, 0, for: .scrollContent)
+                                    .padding(.top, 20)
+                                    .background(Color.clear)
+                                    
+                                }
+                            
+                                Spacer(minLength: 10)
+                                
+                                TimeBudgetView(
+                                    todoViewModel: todoViewModel,
+                                    settingsViewModel: settingsViewModel,
+                                    energyLevel: $energyLevel
+                                )
+                            }
+                            .frame(height: recurringTasks.isEmpty ? 130 : geo.size.height * 0.382)
+                            
                         }
-                        .background(Color.clear)
                     }
-                    
-                    Spacer()
-                    
-                    TimeBudgetView(
-                        todoViewModel: todoViewModel,
-                        settingsViewModel: settingsViewModel,
-                        energyLevel: $energyLevel
-                    )
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
