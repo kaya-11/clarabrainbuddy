@@ -66,21 +66,6 @@ struct AboutView: View {
                         description: Localization.about.featureNeurodivergentDescription
                     )
                     
-                    // Entwickler und Copyright
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text(Localization.about.developer)
-                        Text(Localization.about.copyright)
-                    }
-                    .italic()
-                    .font(Font.app.tiny)
-                    
-                    // Geplante Erweiterungen
-                    Text(Localization.about.plannedExtensionsTitle)
-                        .font(Font.app.normal)
-                        .bold()
-                        .padding(.top, 4)
-                    
-                    // Geplante Features
                     featureSection(
                         title: Localization.about.featureCategoriesTitle,
                         description: Localization.about.featureCategoriesDescription
@@ -90,11 +75,31 @@ struct AboutView: View {
                         description: Localization.about.featureAISupportDescription
                     )
                     
+                    // Entwickler und Copyright
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(Localization.about.developer)
+                        Text(Localization.about.copyright)
+                    }
+                    .italic()
+                    .font(Font.app.tiny)
+                    
+                    // Geplante Erweiterungen
+                    /*
+                    Text(Localization.about.plannedExtensionsTitle)
+                        .font(Font.app.normal)
+                        .bold()
+                        .padding(.top, 4)
+                    */
+                    
+                    // Geplante Features
+
                     // Hinweis
+                    /*
                     Text(Localization.about.plannedNote)
                         .font(Font.app.tiny)
                         .italic()
                         .padding(.top, 4)
+                    */
                     
                     // Hilfeseite
                     Text(.init("\(Localization.about.help)"))
