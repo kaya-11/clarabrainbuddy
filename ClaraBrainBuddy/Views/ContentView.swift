@@ -26,7 +26,7 @@ struct ContentView: View {
         if ProcessInfo.processInfo.arguments.contains("--UITestMode") {
             return 5
         }
-        return 8
+        return 4
     }()
 
     var body: some View {
